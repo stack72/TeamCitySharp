@@ -1,0 +1,6 @@
+obj
+bin
+deploy
+*.csproj.user
+*.suo
+*ReSharper*
