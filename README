@@ -1,0 +1,5 @@
+*.NET Library to access TeamCity via their REST API.
+
+For more information on TeamCity visit:
+
+http://www.jetbrains.com/teamcity
