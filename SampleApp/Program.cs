@@ -8,7 +8,7 @@ namespace SampleApp
     {
         static void Main(string[] args)
         {
-            var client = new TeamCityClient("teamcity.paulstack.co.uk:8080/", "stack72", "St1ngers72", false);
+            var client = new TeamCityClient("localhost:81", "admin", "p@ssword", false);
             var projects = client.GetAllProjects();
             
             foreach (var teamCityProject in projects)
