@@ -7,11 +7,11 @@ namespace TeamCitySharpAPI
     {
         IEnumerable<Project> GetAllProjects();
         List<Build> GetAllBuilds();
-        Project GetProjectDetailsByName(string projectLocatorName);
-        Project GetProjectDetailsById(string projectLocatorId);
+        Project GetProjectDetailsByProjectLocatorName(string projectLocatorName);
+        Project GetProjectDetailsByProjectLocatorId(string projectLocatorId);
         Build GetBuildConfigByBuildConfigurationName(string buildConfigName);
         Build GetBuildConfigByBuildConfigurationId(string buildConfigId);
-        List<Build> GetBuildsPerProject(string projectName);
+        List<Build> GetBuildsPerProjectId(string projectId);
         //List<Build> GetSuccessfulBuildDetails(string projectHref);
         //Build GetLastSuccessfulBuildDetail(string projectHref);
         //List<Build> GetCancelledBuildDetails(string projectHref);

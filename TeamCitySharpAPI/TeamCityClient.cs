@@ -40,7 +40,7 @@ namespace TeamCitySharpAPI
             return buildType.Builds;
         }
 
-        public Project GetProjectDetailsByName(string projectLocatorName)
+        public Project GetProjectDetailsByProjectLocatorName(string projectLocatorName)
         {
             var url = _caller.CreateUri(string.Format("httpAuth/app/rest/projects/name:{0}", projectLocatorName));
             var request = _caller.Request(url);
@@ -48,7 +48,7 @@ namespace TeamCitySharpAPI
             return JsonConvert.DeserializeObject<Project>(request);
         }
 
-        public Project GetProjectDetailsById(string projectLocatorId)
+        public Project GetProjectDetailsByProjectLocatorId(string projectLocatorId)
         {
             var url = _caller.CreateUri(string.Format("httpAuth/app/rest/projects/id:{0}", projectLocatorId));
             var request = _caller.Request(url);
@@ -72,9 +72,9 @@ namespace TeamCitySharpAPI
             return JsonConvert.DeserializeObject<Build>(request);
         }
 
-        public List<Build> GetBuildsPerProject(string projectName)
+        public List<Build> GetBuildsPerProjectId(string projectId)
         {
-            var url = _caller.CreateUri(string.Format("/httpAuth/app/rest/projects/id:{0}/buildTypes", projectName));
+            var url = _caller.CreateUri(string.Format("/httpAuth/app/rest/projects/id:{0}/buildTypes", projectId));
             var request = _caller.Request(url);
 
             return JsonConvert.DeserializeObject<BuildConfig>(request).Builds;

@@ -17,13 +17,13 @@ namespace SampleApp
             var projects = client.GetAllProjects();
 
             //gets a project by a specific name
-            var projectByName = client.GetProjectDetailsByName("nPUC");
+            var projectByName = client.GetProjectDetailsByProjectLocatorName("nPUC");
             
             //gets a project by a specific projectId
-            var projectById = client.GetProjectDetailsById("project6");
+            var projectById = client.GetProjectDetailsByProjectLocatorId("project6");
 
             //get buildsPerProject
-            var buildsPerProject = client.GetBuildsPerProject("project6");
+            var buildsPerProject = client.GetBuildsPerProjectId("project6");
 
             //get build config per buildName
             var buildConfigPerName = client.GetBuildConfigByBuildConfigurationName("Local Debug Build");
