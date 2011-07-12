@@ -1,16 +1,16 @@
 ﻿using Newtonsoft.Json;
 
-namespace TeamCitySharpAPI
+namespace TeamCitySharpAPI.DomainEntities
 {
-    public class BuildOverView
+    public class Project
     {
         public override string ToString()
         {
             return Name;
         }
 
-        [JsonProperty(PropertyName = "paused")]
-        public bool Paused { get; set; }
+        [JsonProperty(PropertyName = "archived")]
+        public bool Archived { get; set; }
         [JsonProperty(PropertyName = "description")]
         public string Description { get; set; }
         [JsonProperty(PropertyName = "href")]
@@ -21,5 +21,8 @@ namespace TeamCitySharpAPI
         public string Name { get; set; }
         [JsonProperty(PropertyName = "webUrl")]
         public string WebUrl { get; set; }
+
+        [JsonProperty(PropertyName = "buildTypes")]
+        public BuildType BuildTypes { get; set; }
     }
 }

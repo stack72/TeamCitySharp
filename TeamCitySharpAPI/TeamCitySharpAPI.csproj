@@ -43,18 +43,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuildConfig.cs" />
+    <Compile Include="DomainEntities\BuildWrapper.cs" />
+    <Compile Include="DomainEntities\BuildConfig.cs" />
     <Compile Include="DomainEntities\Build.cs" />
-    <Compile Include="DomainEntities\BuildDetail.cs" />
-    <Compile Include="DomainEntities\BuildOverView.cs" />
     <Compile Include="DomainEntities\BuildType.cs" />
-    <Compile Include="DomainEntities\BuildTypeWrapper.cs" />
     <Compile Include="DomainEntities\Credentials.cs" />
     <Compile Include="DomainEntities\TeamCityProjectWrapper.cs" />
     <Compile Include="Interfaces\ITeamCityCredentials.cs" />
+    <Compile Include="Interfaces\ITeamCityClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TeamCityClient.cs" />
     <Compile Include="TeamCityCaller.cs" />
-    <Compile Include="DomainEntities\TeamCityProject.cs" />
+    <Compile Include="DomainEntities\Project.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

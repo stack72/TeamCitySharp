@@ -9,20 +9,27 @@ namespace SampleApp
         static void Main(string[] args)
         {
             var client = new TeamCityClient("localhost:81", "admin", "qwerty", false);
-            var projects = client.GetAllProjects();
             
-            foreach (var teamCityProject in projects)
-            {
-                var projectDetails = client.GetProjectDetailsById(teamCityProject.Id);
-                foreach (var buildType in projectDetails.BuildTypes.BuildTypes)
-                {
-                    var buildDetails = client.GetBuildDetails(buildType.Href);
+            //gets a list of build configs for the entire system
+            var builds = client.GetAllBuilds();
 
-                    var successfulBuilds = client.GetSuccessfulBuildDetails(buildDetails.Href);
+            //gets a list of projects in the system
+            var projects = client.GetAllProjects();
 
-                    var lastSuccessfulBuild = client.GetLastSuccessfulBuildDetail(buildDetails.Href);
-                }
-            }
+            //gets a project by a specific name
+            var projectByName = client.GetProjectDetailsByName("nPUC");
+            
+            //gets a project by a specific projectId
+            var projectById = client.GetProjectDetailsById("project6");
+
+            //get buildsPerProject
+            var buildsPerProject = client.GetBuildsPerProject("project6");
+
+            //get build config per buildName
+            var buildConfigPerName = client.GetBuildConfigByName("Local Debug Build");
+
+            //get build config per buildId
+            var buildConfigPerBuildId = client.GetBuildConfigById("bt8");
 
             Console.Read();
         }

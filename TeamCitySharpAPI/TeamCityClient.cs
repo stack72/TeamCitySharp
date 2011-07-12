@@ -6,7 +6,7 @@ using TeamCitySharpAPI.DomainEntities;
 
 namespace TeamCitySharpAPI
 {
-    public class TeamCityClient : IProjectClient
+    public class TeamCityClient : ITeamCityClient
     {
         private readonly TeamCityCaller _caller;
 
@@ -21,7 +21,7 @@ namespace TeamCitySharpAPI
                                                     });
         }
 
-        public IEnumerable<TeamCityProject> GetAllProjects()
+        public IEnumerable<Project> GetAllProjects()
         {
             var uri = _caller.CreateUri("/httpAuth/app/rest/projects");
             var request = _caller.Request(uri);
@@ -30,42 +30,91 @@ namespace TeamCitySharpAPI
             return projects;
         }
 
-        public TeamCityProject GetProjectDetailsById(string projectLocator)
+        public List<Build> GetAllBuilds()
         {
-            var url = _caller.CreateUri(string.Format("httpAuth/app/rest/projects/id:{0}", projectLocator));
+            var url = _caller.CreateUri("/httpAuth/app/rest/buildTypes");
             var request = _caller.Request(url);
 
-            return JsonConvert.DeserializeObject<TeamCityProject>(request);
+            var buildType = JsonConvert.DeserializeObject<BuildType>(request);
+
+            return buildType.Builds;
         }
 
-        public BuildOverView GetBuildDetails(string projectHref)
+        public Project GetProjectDetailsByName(string projectLocatorName)
         {
-            var url = _caller.CreateUri(projectHref);
+            var url = _caller.CreateUri(string.Format("httpAuth/app/rest/projects/name:{0}", projectLocatorName));
             var request = _caller.Request(url);
 
-            return JsonConvert.DeserializeObject<BuildOverView>(request);
+            return JsonConvert.DeserializeObject<Project>(request);
         }
 
-        public BuildDetail GetSuccessfulBuildDetails(string projectHref)
+        public Project GetProjectDetailsById(string projectLocatorId)
+        {
+            var url = _caller.CreateUri(string.Format("httpAuth/app/rest/projects/id:{0}", projectLocatorId));
+            var request = _caller.Request(url);
+
+            return JsonConvert.DeserializeObject<Project>(request);
+        }
+
+        public Build GetBuildConfigByName(string buildConfigName)
+        {
+            var url = _caller.CreateUri(string.Format("/httpAuth/app/rest/buildTypes/name:{0}", buildConfigName));
+            var request = _caller.Request(url);
+
+            return JsonConvert.DeserializeObject<Build>(request);
+        }
+
+        public Build GetBuildConfigById(string buildConfigId)
+        {
+            return null;
+        }
+
+
+        public List<Build> GetBuildsPerProject(string projectName)
+        {
+            var url = _caller.CreateUri(string.Format("/httpAuth/app/rest/projects/id:{0}/buildTypes", projectName));
+            var request = _caller.Request(url);
+
+            return JsonConvert.DeserializeObject<BuildConfig>(request).Builds;
+        }
+
+        public List<Build> GetSuccessfulBuildDetails(string projectHref)
         {
             var url = _caller.CreateUri(string.Format("{0}/builds?status=SUCCESS", projectHref));
             var request = _caller.Request(url);
 
-            return JsonConvert.DeserializeObject<BuildDetail>(request);
+            return JsonConvert.DeserializeObject<BuildWrapper>(request).Builds;
         }
+
+
+
 
         public Build GetLastSuccessfulBuildDetail(string projectHref)
         {
-            return GetSuccessfulBuildDetails(projectHref).Build.First();
+            return GetSuccessfulBuildDetails(projectHref).FirstOrDefault();
         }
-    }
+    
+        public List<Build> GetCancelledBuildDetails(string projectHref)
+        {
+            var url = _caller.CreateUri(string.Format("{0}/builds?cancelled=true", projectHref));
+            var request = _caller.Request(url);
 
-    public interface IProjectClient
-    {
-        IEnumerable<TeamCityProject> GetAllProjects();
-        TeamCityProject GetProjectDetailsById(string projectLocator);
-        BuildOverView GetBuildDetails(string projectHref);
-        BuildDetail GetSuccessfulBuildDetails(string projectHref);
-        Build GetLastSuccessfulBuildDetail(string projectHref);
+            return JsonConvert.DeserializeObject<BuildWrapper>(request).Builds;
+        }
+
+        public Build GetLastCancelledBuildDetail(string projectHref)
+        {
+            return GetCancelledBuildDetails(projectHref).FirstOrDefault();
+        }
+    
+        public List<Build> GetFailedBuildDetails(string  projectHref)
+        {
+            var url = _caller.CreateUri(string.Format("{0}/builds?status=FAILED", projectHref));
+            var request = _caller.Request(url);
+
+            return JsonConvert.DeserializeObject<BuildWrapper>(request).Builds;
+        }
+
+        
     }
 }

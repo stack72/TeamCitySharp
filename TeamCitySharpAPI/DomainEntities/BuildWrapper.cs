@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using TeamCitySharpAPI.DomainEntities;
 
-namespace TeamCitySharpAPI
+namespace TeamCitySharpAPI.DomainEntities
 {
-    public class BuildDetail
+    public class BuildWrapper
     {
         [JsonProperty(PropertyName = "count")]
         public string Count { get; set; }
 
         [JsonProperty(PropertyName = "build")]
-        public List<Build> Build { get; set; }
+        public List<Build> Builds { get; set; }
     }
 }
