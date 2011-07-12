@@ -5,7 +5,7 @@ namespace TeamCitySharpAPI
 {
     public interface ITeamCityClient
     {
-        IEnumerable<Project> GetAllProjects();
+        List<Project> GetAllProjects();
         List<Build> GetAllBuilds();
         Project GetProjectDetailsByProjectLocatorName(string projectLocatorName);
         Project GetProjectDetailsByProjectLocatorId(string projectLocatorId);

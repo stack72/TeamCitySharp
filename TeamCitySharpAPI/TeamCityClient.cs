@@ -22,7 +22,7 @@ namespace TeamCitySharpAPI
                                                     });
         }
 
-        public IEnumerable<Project> GetAllProjects()
+        public List<Project> GetAllProjects()
         {
             var uri = _caller.CreateUri("/httpAuth/app/rest/projects");
             var request = _caller.Request(uri);
