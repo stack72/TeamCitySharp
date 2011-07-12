@@ -1,9 +1,8 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace TeamCitySharpAPI
 {
-    public class TeamCityProject
+    public class BuildType
     {
         public override string ToString()
         {
@@ -16,14 +15,11 @@ namespace TeamCitySharpAPI
         public string Description { get; set; }
         [JsonProperty(PropertyName = "href")]
         public string Href { get; set; }
-        [JsonProperty(PropertyName = "id")]
+        [JsonProperty(PropertyName = "projectId")]
         public string Id { get; set; }
-        [JsonProperty(PropertyName = "name")]
+        [JsonProperty(PropertyName = "projectName")]
         public string Name { get; set; }
         [JsonProperty(PropertyName = "webUrl")]
         public string WebUrl { get; set; }
-
-        [JsonProperty(PropertyName = "buildTypes")]
-        public BuildTypeWrapper BuildTypes { get; set; }
     }
 }
