@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using TeamCitySharpAPI.DomainEntities;
+using TeamCitySharpAPI.Utilities;
 
 namespace TeamCitySharpAPI
 {
@@ -26,7 +27,7 @@ namespace TeamCitySharpAPI
             var uri = _caller.CreateUri("/httpAuth/app/rest/projects");
             var request = _caller.Request(uri);
 
-            var projects = JsonConvert.DeserializeObject<TeamCityProjectWrapper>(request).Projects;
+            var projects = Deserialise.DeserializeFromJson<TeamCityProjectWrapper>(request).Projects;
             return projects;
         }
 
@@ -35,7 +36,7 @@ namespace TeamCitySharpAPI
             var url = _caller.CreateUri("/httpAuth/app/rest/buildTypes");
             var request = _caller.Request(url);
 
-            var buildType = JsonConvert.DeserializeObject<BuildType>(request);
+            var buildType = Deserialise.DeserializeFromJson<BuildType>(request);
 
             return buildType.Builds;
         }
@@ -45,7 +46,7 @@ namespace TeamCitySharpAPI
             var url = _caller.CreateUri(string.Format("httpAuth/app/rest/projects/name:{0}", projectLocatorName));
             var request = _caller.Request(url);
 
-            return JsonConvert.DeserializeObject<Project>(request);
+            return Deserialise.DeserializeFromJson<Project>(request);
         }
 
         public Project GetProjectDetailsByProjectLocatorId(string projectLocatorId)
@@ -53,7 +54,7 @@ namespace TeamCitySharpAPI
             var url = _caller.CreateUri(string.Format("httpAuth/app/rest/projects/id:{0}", projectLocatorId));
             var request = _caller.Request(url);
 
-            return JsonConvert.DeserializeObject<Project>(request);
+            return Deserialise.DeserializeFromJson<Project>(request);
         }
 
         public Build GetBuildConfigByBuildConfigurationName(string buildConfigName)
@@ -61,7 +62,7 @@ namespace TeamCitySharpAPI
             var url = _caller.CreateUri(string.Format("/httpAuth/app/rest/buildTypes/name:{0}", buildConfigName));
             var request = _caller.Request(url);
 
-            return JsonConvert.DeserializeObject<Build>(request);
+            return Deserialise.DeserializeFromJson<Build>(request);
         }
 
         public Build GetBuildConfigByBuildConfigurationId(string buildConfigId)
@@ -69,7 +70,7 @@ namespace TeamCitySharpAPI
             var url = _caller.CreateUri(string.Format("/httpAuth/app/rest/buildTypes/id:{0}", buildConfigId));
             var request = _caller.Request(url);
 
-            return JsonConvert.DeserializeObject<Build>(request);
+            return Deserialise.DeserializeFromJson< Build > (request);
         }
 
         public List<Build> GetBuildsPerProjectId(string projectId)
@@ -77,8 +78,9 @@ namespace TeamCitySharpAPI
             var url = _caller.CreateUri(string.Format("/httpAuth/app/rest/projects/id:{0}/buildTypes", projectId));
             var request = _caller.Request(url);
 
-            return JsonConvert.DeserializeObject<BuildConfig>(request).Builds;
+            return Deserialise.DeserializeFromJson<BuildWrapper>(request).Builds;
         }
+
 
         //public List<Build> GetSuccessfulBuildDetails(string projectHref)
         //{
