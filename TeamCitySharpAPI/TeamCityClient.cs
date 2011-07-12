@@ -56,7 +56,7 @@ namespace TeamCitySharpAPI
             return JsonConvert.DeserializeObject<Project>(request);
         }
 
-        public Build GetBuildConfigByName(string buildConfigName)
+        public Build GetBuildConfigByBuildConfigurationName(string buildConfigName)
         {
             var url = _caller.CreateUri(string.Format("/httpAuth/app/rest/buildTypes/name:{0}", buildConfigName));
             var request = _caller.Request(url);
@@ -64,11 +64,13 @@ namespace TeamCitySharpAPI
             return JsonConvert.DeserializeObject<Build>(request);
         }
 
-        public Build GetBuildConfigById(string buildConfigId)
+        public Build GetBuildConfigByBuildConfigurationId(string buildConfigId)
         {
-            return null;
-        }
+            var url = _caller.CreateUri(string.Format("/httpAuth/app/rest/buildTypes/id:{0}", buildConfigId));
+            var request = _caller.Request(url);
 
+            return JsonConvert.DeserializeObject<Build>(request);
+        }
 
         public List<Build> GetBuildsPerProject(string projectName)
         {
@@ -78,42 +80,42 @@ namespace TeamCitySharpAPI
             return JsonConvert.DeserializeObject<BuildConfig>(request).Builds;
         }
 
-        public List<Build> GetSuccessfulBuildDetails(string projectHref)
-        {
-            var url = _caller.CreateUri(string.Format("{0}/builds?status=SUCCESS", projectHref));
-            var request = _caller.Request(url);
+        //public List<Build> GetSuccessfulBuildDetails(string projectHref)
+        //{
+        //    var url = _caller.CreateUri(string.Format("{0}/builds?status=SUCCESS", projectHref));
+        //    var request = _caller.Request(url);
 
-            return JsonConvert.DeserializeObject<BuildWrapper>(request).Builds;
-        }
-
-
+        //    return JsonConvert.DeserializeObject<BuildWrapper>(request).Builds;
+        //}
 
 
-        public Build GetLastSuccessfulBuildDetail(string projectHref)
-        {
-            return GetSuccessfulBuildDetails(projectHref).FirstOrDefault();
-        }
+
+
+        //public Build GetLastSuccessfulBuildDetail(string projectHref)
+        //{
+        //    return GetSuccessfulBuildDetails(projectHref).FirstOrDefault();
+        //}
     
-        public List<Build> GetCancelledBuildDetails(string projectHref)
-        {
-            var url = _caller.CreateUri(string.Format("{0}/builds?cancelled=true", projectHref));
-            var request = _caller.Request(url);
+        //public List<Build> GetCancelledBuildDetails(string projectHref)
+        //{
+        //    var url = _caller.CreateUri(string.Format("{0}/builds?cancelled=true", projectHref));
+        //    var request = _caller.Request(url);
 
-            return JsonConvert.DeserializeObject<BuildWrapper>(request).Builds;
-        }
+        //    return JsonConvert.DeserializeObject<BuildWrapper>(request).Builds;
+        //}
 
-        public Build GetLastCancelledBuildDetail(string projectHref)
-        {
-            return GetCancelledBuildDetails(projectHref).FirstOrDefault();
-        }
+        //public Build GetLastCancelledBuildDetail(string projectHref)
+        //{
+        //    return GetCancelledBuildDetails(projectHref).FirstOrDefault();
+        //}
     
-        public List<Build> GetFailedBuildDetails(string  projectHref)
-        {
-            var url = _caller.CreateUri(string.Format("{0}/builds?status=FAILED", projectHref));
-            var request = _caller.Request(url);
+        //public List<Build> GetFailedBuildDetails(string  projectHref)
+        //{
+        //    var url = _caller.CreateUri(string.Format("{0}/builds?status=FAILED", projectHref));
+        //    var request = _caller.Request(url);
 
-            return JsonConvert.DeserializeObject<BuildWrapper>(request).Builds;
-        }
+        //    return JsonConvert.DeserializeObject<BuildWrapper>(request).Builds;
+        //}
 
         
     }

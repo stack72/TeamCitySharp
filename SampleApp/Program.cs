@@ -26,10 +26,10 @@ namespace SampleApp
             var buildsPerProject = client.GetBuildsPerProject("project6");
 
             //get build config per buildName
-            var buildConfigPerName = client.GetBuildConfigByName("Local Debug Build");
+            var buildConfigPerName = client.GetBuildConfigByBuildConfigurationName("Local Debug Build");
 
             //get build config per buildId
-            var buildConfigPerBuildId = client.GetBuildConfigById("bt8");
+            var buildConfigPerBuildId = client.GetBuildConfigByBuildConfigurationId("bt8");
 
             Console.Read();
         }
