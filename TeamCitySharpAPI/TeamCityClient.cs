@@ -11,10 +11,14 @@ namespace TeamCitySharpAPI
     {
         private readonly TeamCityCaller _caller;
 
-        public TeamCityClient(string hostName, string userName, string password, bool useSsl = false, bool actAsGuest = false)
+        public TeamCityClient(string hostName)
         {
             _caller = new TeamCityCaller(hostName);
-            _caller.Credentials(userName, password, useSsl, actAsGuest);
+        }
+
+        public void Connect(string userName, string password, bool useSsl = false, bool actAsGuest = false)
+        {
+            _caller.Connect(userName, password, useSsl, actAsGuest);
         }
 
         public List<Project> GetAllProjects()
@@ -114,6 +118,6 @@ namespace TeamCitySharpAPI
         //    return JsonConvert.DeserializeObject<BuildWrapper>(request).Builds;
         //}
 
-        
+
     }
 }

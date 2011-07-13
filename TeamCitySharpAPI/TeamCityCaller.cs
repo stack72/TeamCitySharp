@@ -19,7 +19,7 @@ namespace TeamCitySharpAPI
             _configuration.HostName = hostName;
         }
 
-        public void Credentials(string userName, string password, bool useSsl, bool actAsGuest)
+        public void Connect(string userName, string password, bool useSsl, bool actAsGuest)
         {
             _configuration.Password = password;
             _configuration.UserName = userName;

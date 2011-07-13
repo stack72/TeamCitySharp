@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuildConfig.cs" />
+    <Compile Include="ClientConnection.cs" />
     <Compile Include="DomainEntities\BuildWrapper.cs" />
     <Compile Include="DomainEntities\BuildConfig.cs" />
     <Compile Include="DomainEntities\Build.cs" />
