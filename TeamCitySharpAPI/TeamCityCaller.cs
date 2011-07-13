@@ -3,20 +3,29 @@ using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Text;
+using TeamCitySharpAPI.DomainEntities;
 
 namespace TeamCitySharpAPI
 {
     public class TeamCityCaller
     {
-        private readonly ITeamCityCredentials _configuration;
+        private Credentials _configuration = new Credentials();
 
-        public TeamCityCaller(ITeamCityCredentials configuration)
+        public TeamCityCaller(string hostName)
         {
-            if (configuration == null)
-                throw new ArgumentNullException("configuration");
-            _configuration = configuration;
+            if (string.IsNullOrWhiteSpace(hostName))
+                throw new ArgumentNullException("hostName");
+
+            _configuration.HostName = hostName;
         }
 
+        public void Authenticate(string userName, string password, bool useSsl, bool actAsGuest)
+        {
+            _configuration.Password = password;
+            _configuration.UserName = userName;
+            _configuration.UseSSL = useSsl;
+            _configuration.ActAsGuest = actAsGuest;
+        }
 
         public Uri CreateUri(string relativeUrl)
         {

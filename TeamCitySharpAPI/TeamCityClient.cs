@@ -7,19 +7,14 @@ using TeamCitySharpAPI.Utilities;
 
 namespace TeamCitySharpAPI
 {
-    public class TeamCityClient : ITeamCityClient
+    public class TeamCityClient : ITeamCityProjects, ITeamCityBuilds
     {
         private readonly TeamCityCaller _caller;
 
-        public TeamCityClient(string hostName, string userName, string password, bool useSsl)
+        public TeamCityClient(string hostName, string userName, string password, bool useSsl = false, bool actAsGuest = false)
         {
-            _caller = new TeamCityCaller(new Credentials
-                                                    {
-                                                        HostName = hostName,
-                                                        Password = password,
-                                                        UserName = userName,
-                                                        UseSSL = useSsl
-                                                    });
+            _caller = new TeamCityCaller(hostName);
+            _caller.Authenticate(userName, password, useSsl, actAsGuest);
         }
 
         public List<Project> GetAllProjects()
@@ -41,7 +36,7 @@ namespace TeamCitySharpAPI
             return buildType.Builds;
         }
 
-        public Project GetProjectDetailsByProjectLocatorName(string projectLocatorName)
+        public Project GetProjectDetailsByProjectName(string projectLocatorName)
         {
             var url = _caller.CreateUri(string.Format("httpAuth/app/rest/projects/name:{0}", projectLocatorName));
             var request = _caller.Request(url);
@@ -49,7 +44,7 @@ namespace TeamCitySharpAPI
             return Deserialise.DeserializeFromJson<Project>(request);
         }
 
-        public Project GetProjectDetailsByProjectLocatorId(string projectLocatorId)
+        public Project GetProjectDetailsByProjectId(string projectLocatorId)
         {
             var url = _caller.CreateUri(string.Format("httpAuth/app/rest/projects/id:{0}", projectLocatorId));
             var request = _caller.Request(url);

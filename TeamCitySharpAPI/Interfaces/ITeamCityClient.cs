@@ -3,14 +3,19 @@ using TeamCitySharpAPI.DomainEntities;
 
 namespace TeamCitySharpAPI
 {
-    public interface ITeamCityClient
+    public interface ITeamCityProjects
     {
         List<Project> GetAllProjects();
+        Project GetProjectDetailsByProjectName(string projectLocatorName);
+        Project GetProjectDetailsByProjectId(string projectLocatorId);
+    }
+
+    public interface ITeamCityBuilds
+    {
         List<Build> GetAllBuilds();
-        Project GetProjectDetailsByProjectLocatorName(string projectLocatorName);
-        Project GetProjectDetailsByProjectLocatorId(string projectLocatorId);
         Build GetBuildConfigByBuildConfigurationName(string buildConfigName);
         Build GetBuildConfigByBuildConfigurationId(string buildConfigId);
         List<Build> GetBuildsPerProjectId(string projectId);
     }
+
 }
