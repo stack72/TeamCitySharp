@@ -51,7 +51,8 @@
     <Compile Include="DomainEntities\Credentials.cs" />
     <Compile Include="DomainEntities\TeamCityProjectWrapper.cs" />
     <Compile Include="Interfaces\ITeamCityCredentials.cs" />
-    <Compile Include="Interfaces\ITeamCityClient.cs" />
+    <Compile Include="Interfaces\ITeamCityBuilds.cs" />
+    <Compile Include="Interfaces\ITeamCityProjects.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TeamCityClient.cs" />
     <Compile Include="TeamCityCaller.cs" />

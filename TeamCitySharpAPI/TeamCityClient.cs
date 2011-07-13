@@ -14,7 +14,7 @@ namespace TeamCitySharpAPI
         public TeamCityClient(string hostName, string userName, string password, bool useSsl = false, bool actAsGuest = false)
         {
             _caller = new TeamCityCaller(hostName);
-            _caller.Authenticate(userName, password, useSsl, actAsGuest);
+            _caller.Credentials(userName, password, useSsl, actAsGuest);
         }
 
         public List<Project> GetAllProjects()
