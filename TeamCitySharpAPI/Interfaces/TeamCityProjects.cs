@@ -3,7 +3,7 @@ using TeamCitySharpAPI.DomainEntities;
 
 namespace TeamCitySharpAPI
 {
-    public interface ITeamCityProjects
+    public interface TeamCityProjects
     {
         List<Project> GetAllProjects();
         Project GetProjectDetailsByProjectName(string projectLocatorName);

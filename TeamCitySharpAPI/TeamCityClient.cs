@@ -7,7 +7,7 @@ using TeamCitySharpAPI.Utilities;
 
 namespace TeamCitySharpAPI
 {
-    public class TeamCityClient : ITeamCityProjects, ITeamCityBuilds
+    public class TeamCityClient : TeamCityProjects, TeamCityBuilds
     {
         private readonly TeamCityCaller _caller;
 

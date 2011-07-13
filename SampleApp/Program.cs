@@ -16,7 +16,7 @@ namespace SampleApp
 
         private static void CallBuildMethods()
         {
-            ITeamCityBuilds buildClient = new TeamCityClient("localhost:81", "admin", "qwerty");
+            TeamCityBuilds buildClient = new TeamCityClient("localhost:81", "admin", "qwerty");
             
             //gets a list of build configs for the entire system
             var builds = buildClient.GetAllBuilds();
@@ -33,7 +33,7 @@ namespace SampleApp
 
         private static void CallProjectMethods()
         {
-            ITeamCityProjects projectClient = new TeamCityClient("localhost:81", "admin", "qwerty");
+            TeamCityProjects projectClient = new TeamCityClient("localhost:81", "admin", "qwerty");
            
             //gets a list of projects in the system
             var projects = projectClient.GetAllProjects();

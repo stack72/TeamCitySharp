@@ -3,7 +3,7 @@ using TeamCitySharpAPI.DomainEntities;
 
 namespace TeamCitySharpAPI
 {
-    public interface ITeamCityBuilds
+    public interface TeamCityBuilds
     {
         List<Build> GetAllBuilds();
         Build GetBuildConfigByBuildConfigurationName(string buildConfigName);
