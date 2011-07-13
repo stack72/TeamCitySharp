@@ -47,7 +47,6 @@ namespace TeamCitySharpAPI
             }
         }
 
-
         public HttpWebRequest CreateWebRequest(Uri uri)
         {
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(uri);
@@ -56,7 +55,6 @@ namespace TeamCitySharpAPI
             webRequest.Proxy = null;
             return (webRequest);
         }
-
 
         public string Request(Uri uri)
         {
@@ -91,6 +89,5 @@ namespace TeamCitySharpAPI
             }
             return output;
         }
-
     }
 }

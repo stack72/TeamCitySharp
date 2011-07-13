@@ -6,7 +6,7 @@ namespace SampleApp
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             CallBuildMethods();
             CallProjectMethods();
@@ -16,25 +16,25 @@ namespace SampleApp
 
         private static void CallBuildMethods()
         {
-            TeamCityBuilds buildClient = new TeamCityClient("localhost:81");
-            buildClient.Connect("admin", "qwerty");
+            TeamCityBuilds teamCityBuildClient = new Client("localhost:81");
+            teamCityBuildClient.Connect("admin", "qwerty");
             
             //gets a list of build configs for the entire system
-            var builds = buildClient.GetAllBuilds();
+            var builds = teamCityBuildClient.GetAllBuilds();
 
             //get buildsPerProject
-            var buildsPerProject = buildClient.GetBuildsPerProjectId("project6");
+            var buildsPerProject = teamCityBuildClient.GetBuildsPerProjectId("project6");
 
             //get build config per buildName
-            var buildConfigPerName = buildClient.GetBuildConfigByBuildConfigurationName("Local Debug Build");
+            var buildConfigPerName = teamCityBuildClient.GetBuildConfigByBuildConfigurationName("Local Debug Build");
 
             //get build config per buildId
-            var buildConfigPerBuildId = buildClient.GetBuildConfigByBuildConfigurationId("bt8");
+            var buildConfigPerBuildId = teamCityBuildClient.GetBuildConfigByBuildConfigurationId("bt8");
         }
 
         private static void CallProjectMethods()
         {
-            TeamCityProjects projectClient = new TeamCityClient("localhost:81");
+            TeamCityProjects projectClient = new Client("localhost:81");
             projectClient.Connect("admin", "qwerty");
            
             //gets a list of projects in the system
@@ -45,6 +45,19 @@ namespace SampleApp
 
             //gets a project by a specific projectId
             var projectById = projectClient.GetProjectDetailsByProjectId("project6");
+        }
+    
+        private static void GetBuildStatusMethods()
+        {
+            var client = new Client("localhost:81");
+            client.Connect("admin", "qwerty");
+
+            var successfulBuilds = client.GetSuccessfulBuildsByProjectName("nPUC");
+            var lastSuccessfulBuild = client.GetLastSuccessfulBuildByProjectName("nPUC");
+
+            //TODO
+            var cancelledBuilds = client.GetCancelledBuildsByProjectName("nPUC");
+            var lastCancelled = client.GetLastCancelledBuildByProjectName("nPUC");
         }
     }
 }

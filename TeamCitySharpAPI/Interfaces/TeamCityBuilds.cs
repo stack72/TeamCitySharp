@@ -9,6 +9,7 @@ namespace TeamCitySharpAPI
         Build GetBuildConfigByBuildConfigurationName(string buildConfigName);
         Build GetBuildConfigByBuildConfigurationId(string buildConfigId);
         List<Build> GetBuildsPerProjectId(string projectId);
+        List<Build> GetBuildsPerProjectName(string projectName);
     }
 
 }

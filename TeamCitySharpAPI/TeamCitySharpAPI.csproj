@@ -55,7 +55,8 @@
     <Compile Include="Interfaces\TeamCityBuilds.cs" />
     <Compile Include="Interfaces\TeamCityProjects.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TeamCityClient.cs" />
+    <Compile Include="Client.cs" />
+    <Compile Include="TeamCityBuildStatus.cs" />
     <Compile Include="TeamCityCaller.cs" />
     <Compile Include="DomainEntities\Project.cs" />
     <Compile Include="Utilities\Deserialise.cs" />
