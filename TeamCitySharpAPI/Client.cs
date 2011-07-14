@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using TeamCitySharpAPI.DomainEntities;
+using TeamCitySharpAPI.Interfaces;
 using TeamCitySharpAPI.Utilities;
 
 namespace TeamCitySharpAPI
 {
-    public class Client : TeamCityProjects, TeamCityBuilds, TeamCityBuildStatus, TeamCityUsers
+    public class Client : TeamCityProjects, TeamCityBuilds, TeamCityBuildStatus, TeamCityUsers, TeamCityAgents
     {
         private readonly TeamCityCaller _caller;
 
@@ -21,7 +22,7 @@ namespace TeamCitySharpAPI
 
         public List<Project> GetAllProjects()
         {
-            var projectWrapper = _caller.Get<TeamCityProjectWrapper>("/httpAuth/app/rest/projects");
+            var projectWrapper = _caller.Get<ProjectWrapper>("/httpAuth/app/rest/projects");
 
             return projectWrapper.Project;
         }
@@ -50,7 +51,7 @@ namespace TeamCitySharpAPI
         public BuildType GetBuildTypeByBuildConfigurationName(string buildConfigName)
         {
             var build = _caller.Get<BuildType>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}", buildConfigName));
-            
+
             return build;
         }
 
@@ -74,7 +75,7 @@ namespace TeamCitySharpAPI
 
             return buildWrapper.BuildType;
         }
-   
+
         public List<Build> GetSuccessfulBuildsByBuildConfigName(string buildConfigName)
         {
             var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}/builds?status=SUCCESS", buildConfigName));
@@ -137,6 +138,13 @@ namespace TeamCitySharpAPI
             var userWrapper = _caller.Get<UserWrapper>("/httpAuth/app/rest/users");
 
             return userWrapper.User;
+        }
+
+        public List<Agent> GetAllAgents()
+        {
+            var agentWrapper = _caller.Get<AgentWrapper>("/httpAuth/app/rest/agents");
+
+            return agentWrapper.Agent;
         }
     }
 }

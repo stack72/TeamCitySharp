@@ -1,4 +1,4 @@
-﻿namespace TeamCitySharpAPI
+﻿namespace TeamCitySharpAPI.DomainEntities
 {
     public class User
     {

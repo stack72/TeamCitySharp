@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using TeamCitySharpAPI;
+using TeamCitySharpAPI.Interfaces;
 
 namespace SampleApp
 {
@@ -11,8 +12,8 @@ namespace SampleApp
             //CallBuildMethods();
             //CallProjectMethods();
             //CallBuildStatusMethods();
-
-            CallUserMethods();
+            //CallUserMethods();
+            CallAgentMethods();
 
             Console.Read();
         }
@@ -77,6 +78,14 @@ namespace SampleApp
 
             var users = client.GetAllUsers();
 
+        }
+
+        private static void CallAgentMethods()
+        {
+            TeamCityAgents client = new Client("localhost:81");
+            client.Connect("admin", "qwerty");
+
+            var agents = client.GetAllAgents();
         }
     }
 }

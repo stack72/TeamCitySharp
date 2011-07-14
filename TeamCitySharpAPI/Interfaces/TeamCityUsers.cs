@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using TeamCitySharpAPI.DomainEntities;
 
-namespace TeamCitySharpAPI
+namespace TeamCitySharpAPI.Interfaces
 {
     public interface TeamCityUsers: ClientConnection
     {

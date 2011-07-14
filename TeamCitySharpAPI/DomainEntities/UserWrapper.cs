@@ -2,8 +2,8 @@
 
 namespace TeamCitySharpAPI.DomainEntities
 {
-    public class TeamCityProjectWrapper
+    public class UserWrapper
     {
-        public List<Project> Project { get; set; }
+        public List<User> User { get; set; }
     }
 }

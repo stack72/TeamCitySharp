@@ -35,10 +35,10 @@ namespace IntegrationTests
         //}
 
         //[Test]
-        //public void TeamCityProjectWrapper()
+        //public void ProjectWrapper()
         //{
         //    var json = "{\"project\":[{\"name\":\"nPUC\",\"id\":\"project6\",\"href\":\"/httpAuth/app/rest/projects/id:project6\"}]}";
-        //    var deserialisedObject = Deserialise.DeserializeFromJson<TeamCityProjectWrapper>(json);
+        //    var deserialisedObject = Deserialise.DeserializeFromJson<ProjectWrapper>(json);
 
         //    Assert.That(deserialisedObject.Project.Count == 1);
         //}
