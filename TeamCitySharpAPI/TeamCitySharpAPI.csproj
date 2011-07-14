@@ -64,8 +64,10 @@
     <Compile Include="DomainEntities\ProjectWrapper.cs" />
     <Compile Include="DomainEntities\VcsRoot.cs" />
     <Compile Include="DomainEntities\VcsRootWrapper.cs" />
+    <Compile Include="DomainEntities\Server.cs" />
     <Compile Include="Interfaces\TeamCityBuilds.cs" />
     <Compile Include="Interfaces\TeamCityProjects.cs" />
+    <Compile Include="Interfaces\TeamCityServer.cs" />
     <Compile Include="Interfaces\TeamCityVcsRoots.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Client.cs" />

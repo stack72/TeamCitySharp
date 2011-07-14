@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TeamCitySharpAPI.DomainEntities;
 using TeamCitySharpAPI.Interfaces;
@@ -6,7 +7,7 @@ using TeamCitySharpAPI.Interfaces;
 namespace TeamCitySharpAPI
 {
     public class Client : TeamCityProjects, TeamCityBuilds, TeamCityBuildStatus, TeamCityUsers, 
-        TeamCityAgents, TeamCityVcsRoots
+        TeamCityAgents, TeamCityVcsRoots, TeamCityServer
     {
         private readonly TeamCityCaller _caller;
 
@@ -18,6 +19,12 @@ namespace TeamCitySharpAPI
         public void Connect(string userName, string password, bool actAsGuest = false)
         {
             _caller.Connect(userName, password, actAsGuest);
+        }
+
+        public Server GetServerInfo()
+        {
+            var server = _caller.Get<Server>("/httpAuth/app/rest/server");
+            return server;
         }
 
         public List<Project> GetAllProjects()

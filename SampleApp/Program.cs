@@ -13,9 +13,18 @@ namespace SampleApp
             //CallBuildStatusMethods();
             //CallUserMethods();
             //CallAgentMethods();
-            CallVcsRootMethods();
+            //CallVcsRootMethods();
+            CallServerInformation();
 
             Console.Read();
+        }
+
+        private static void CallServerInformation()
+        {
+            TeamCityServer client = new Client("localhost:81");
+            client.Connect("admin", "qwerty");
+
+            var serverInfo = client.GetServerInfo();
         }
 
         private static void CallBuildMethods()
