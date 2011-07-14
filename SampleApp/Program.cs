@@ -13,7 +13,8 @@ namespace SampleApp
             //CallProjectMethods();
             //CallBuildStatusMethods();
             //CallUserMethods();
-            CallAgentMethods();
+            //CallAgentMethods();
+            CallVcsRootMethods();
 
             Console.Read();
         }
@@ -86,6 +87,14 @@ namespace SampleApp
             client.Connect("admin", "qwerty");
 
             var agents = client.GetAllAgents();
+        }
+    
+        private static void CallVcsRootMethods()
+        {
+            TeamCityVcsRoots client = new Client("localhost:81");
+            client.Connect("admin", "qwerty");
+
+            var vcsRoots = client.GetAllVcsRoots();
         }
     }
 }

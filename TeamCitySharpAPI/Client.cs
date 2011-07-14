@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TeamCitySharpAPI.DomainEntities;
 using TeamCitySharpAPI.Interfaces;
-using TeamCitySharpAPI.Utilities;
 
 namespace TeamCitySharpAPI
 {
-    public class Client : TeamCityProjects, TeamCityBuilds, TeamCityBuildStatus, TeamCityUsers, TeamCityAgents
+    public class Client : TeamCityProjects, TeamCityBuilds, TeamCityBuildStatus, TeamCityUsers, 
+        TeamCityAgents, TeamCityVcsRoots
     {
         private readonly TeamCityCaller _caller;
 
@@ -145,6 +146,13 @@ namespace TeamCitySharpAPI
             var agentWrapper = _caller.Get<AgentWrapper>("/httpAuth/app/rest/agents");
 
             return agentWrapper.Agent;
+        }
+
+        public List<VcsRoot> GetAllVcsRoots()
+        {
+            var vcsRootWrapper = _caller.Get<VcsRootWrapper>("/httpAuth/app/rest/vcs-roots");
+
+            return vcsRootWrapper.VcsRoot;
         }
     }
 }
