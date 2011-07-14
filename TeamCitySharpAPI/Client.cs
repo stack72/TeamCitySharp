@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 using TeamCitySharpAPI.DomainEntities;
 using TeamCitySharpAPI.Utilities;
 
@@ -11,81 +9,70 @@ namespace TeamCitySharpAPI
     {
         private readonly TeamCityCaller _caller;
 
-        public Client(string hostName)
+        public Client(string hostName, bool useSsl = false)
         {
-            _caller = new TeamCityCaller(hostName);
+            _caller = new TeamCityCaller(hostName, useSsl);
         }
 
-        public void Connect(string userName, string password, bool useSsl = false, bool actAsGuest = false)
+        public void Connect(string userName, string password, bool actAsGuest = false)
         {
-            _caller.Connect(userName, password, useSsl, actAsGuest);
+            _caller.Connect(userName, password, actAsGuest);
         }
 
         public List<Project> GetAllProjects()
         {
-            var uri = _caller.CreateUri("/httpAuth/app/rest/projects");
-            var request = _caller.Request(uri);
+            var projectWrapper = _caller.Get<TeamCityProjectWrapper>("/httpAuth/app/rest/projects");
 
-            var projects = Deserialise.DeserializeFromJson<TeamCityProjectWrapper>(request).Projects;
-            return projects;
+            return projectWrapper.Project;
         }
 
         public List<Build> GetAllBuilds()
         {
-            var url = _caller.CreateUri("/httpAuth/app/rest/buildTypes");
-            var request = _caller.Request(url);
+            var buildType = _caller.Get<BuildTypeWrapper>("/httpAuth/app/rest/buildTypes");
 
-            var buildType = Deserialise.DeserializeFromJson<BuildType>(request);
-
-            return buildType.Builds;
+            return buildType.BuildType;
         }
 
         public Project GetProjectDetailsByProjectName(string projectLocatorName)
         {
-            var url = _caller.CreateUri(string.Format("httpAuth/app/rest/projects/name:{0}", projectLocatorName));
-            var request = _caller.Request(url);
+            var project = _caller.Get<Project>(string.Format("/httpAuth/app/rest/projects/name:{0}", projectLocatorName));
 
-            return Deserialise.DeserializeFromJson<Project>(request);
+            return project;
         }
 
         public Project GetProjectDetailsByProjectId(string projectLocatorId)
         {
-            var url = _caller.CreateUri(string.Format("httpAuth/app/rest/projects/id:{0}", projectLocatorId));
-            var request = _caller.Request(url);
+            var project = _caller.Get<Project>(string.Format("/httpAuth/app/rest/projects/id:{0}", projectLocatorId));
 
-            return Deserialise.DeserializeFromJson<Project>(request);
+            return project;
         }
 
         public Build GetBuildConfigByBuildConfigurationName(string buildConfigName)
         {
-            var url = _caller.CreateUri(string.Format("/httpAuth/app/rest/buildTypes/name:{0}", buildConfigName));
-            var request = _caller.Request(url);
-
-            return Deserialise.DeserializeFromJson<Build>(request);
+            var build = _caller.Get<Build>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}", buildConfigName));
+            
+            return build;
         }
 
         public Build GetBuildConfigByBuildConfigurationId(string buildConfigId)
         {
-            var url = _caller.CreateUri(string.Format("/httpAuth/app/rest/buildTypes/id:{0}", buildConfigId));
-            var request = _caller.Request(url);
+            var build = _caller.Get<Build>(string.Format("/httpAuth/app/rest/buildTypes/id:{0}", buildConfigId));
 
-            return Deserialise.DeserializeFromJson< Build > (request);
+            return build;
         }
 
         public List<Build> GetBuildsPerProjectId(string projectId)
         {
-            var url = _caller.CreateUri(string.Format("/httpAuth/app/rest/projects/id:{0}/buildTypes", projectId));
-            var request = _caller.Request(url);
+            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/projects/id:{0}/buildTypes", projectId));
 
-            return Deserialise.DeserializeFromJson<BuildWrapper>(request).Builds;
+            return buildWrapper.BuildType;
         }
 
         public List<Build> GetBuildsPerProjectName(string projectName)
         {
-            var url = _caller.CreateUri(string.Format("/httpAuth/app/rest/projects/name:{0}/buildTypes", projectName));
-            var request = _caller.Request(url);
+            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/projects/name:{0}/buildTypes", projectName));
 
-            return Deserialise.DeserializeFromJson<BuildWrapper>(request).Builds;
+            return buildWrapper.BuildType;
         }
    
         //public List<Build> GetCancelledBuildDetails(string projectHref)
@@ -111,10 +98,9 @@ namespace TeamCitySharpAPI
 
         public List<Build> GetSuccessfulBuildsByProjectName(string projectName)
         {
-            var url = _caller.CreateUri(string.Format("/httpAuth/app/rest/buildTypes/name:{0}/builds?status=SUCCESS", projectName));
-            var request = _caller.Request(url);
+            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}/builds?status=SUCCESS", projectName));
 
-            return Deserialise.DeserializeFromJson<BuildWrapper>(request).Builds;
+            return buildWrapper.BuildType;
         }
 
         public Build GetLastSuccessfulBuildByProjectName(string projectName)

@@ -2,9 +2,8 @@
 
 namespace TeamCitySharpAPI.DomainEntities
 {
-    public class BuildWrapper
+    public class BuildTypeWrapper
     {
-        public string Count { get; set; }
         public List<Build> BuildType { get; set; }
     }
 }

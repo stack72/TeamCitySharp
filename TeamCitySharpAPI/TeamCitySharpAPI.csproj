@@ -31,8 +31,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EasyHttp">
+      <HintPath>..\packages\EasyHttp.1.0.6\lib\EasyHttp.dll</HintPath>
+    </Reference>
+    <Reference Include="JsonFx">
+      <HintPath>..\packages\JsonFx.2.0.1106.2610\lib\net40\JsonFx.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap">
+      <HintPath>..\packages\structuremap.2.6.2\lib\StructureMap.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -48,7 +57,7 @@
     <Compile Include="DomainEntities\BuildWrapper.cs" />
     <Compile Include="DomainEntities\BuildConfig.cs" />
     <Compile Include="DomainEntities\Build.cs" />
-    <Compile Include="DomainEntities\BuildType.cs" />
+    <Compile Include="DomainEntities\BuildTypeWrapper.cs" />
     <Compile Include="DomainEntities\Credentials.cs" />
     <Compile Include="DomainEntities\TeamCityProjectWrapper.cs" />
     <Compile Include="Interfaces\ITeamCityCredentials.cs" />
@@ -61,7 +70,9 @@
     <Compile Include="DomainEntities\Project.cs" />
     <Compile Include="Utilities\Deserialise.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

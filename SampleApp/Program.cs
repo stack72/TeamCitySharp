@@ -58,6 +58,8 @@ namespace SampleApp
             //TODO
             var cancelledBuilds = client.GetCancelledBuildsByProjectName("nPUC");
             var lastCancelled = client.GetLastCancelledBuildByProjectName("nPUC");
+
+            
         }
     }
 }

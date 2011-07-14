@@ -2,6 +2,6 @@
 {
     public interface ClientConnection
     {
-        void Connect(string userName, string password, bool useSsl = false, bool actAsGuest = false);
+        void Connect(string userName, string password, bool actAsGuest = false);
     }
 }

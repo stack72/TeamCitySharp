@@ -3,6 +3,8 @@ using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Text;
+using EasyHttp.Http;
+using EasyHttp.Infrastructure;
 using TeamCitySharpAPI.DomainEntities;
 
 namespace TeamCitySharpAPI
@@ -11,83 +13,55 @@ namespace TeamCitySharpAPI
     {
         private Credentials _configuration = new Credentials();
 
-        public TeamCityCaller(string hostName)
+        public TeamCityCaller(string hostName, bool useSsl)
         {
             if (string.IsNullOrWhiteSpace(hostName))
                 throw new ArgumentNullException("hostName");
 
+            _configuration.UseSSL = useSsl;
             _configuration.HostName = hostName;
         }
 
-        public void Connect(string userName, string password, bool useSsl, bool actAsGuest)
+        public void Connect(string userName, string password, bool actAsGuest)
         {
             _configuration.Password = password;
             _configuration.UserName = userName;
-            _configuration.UseSSL = useSsl;
             _configuration.ActAsGuest = actAsGuest;
         }
 
-        public Uri CreateUri(string relativeUrl)
+        public T Get<T>(string urlPart)
         {
-            if (_configuration.UseSSL)
-            {
-                return new Uri(new Uri(string.Format(CultureInfo.InvariantCulture,
-                                                     "https://{0}",
-                                                     _configuration.HostName)),
-                               relativeUrl);
+            var request = CreateHttpRequest(_configuration.UserName, _configuration.Password);
 
-            }
-            else
-            {
-                return new Uri(new Uri(string.Format(CultureInfo.InvariantCulture,
-                                                     "http://{0}",
-                                                     _configuration.HostName)),
-                               relativeUrl);
+            string url = CreateUrl(urlPart);
 
-            }
-        }
-
-        public HttpWebRequest CreateWebRequest(Uri uri)
-        {
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(uri);
-            webRequest.Credentials = new NetworkCredential(_configuration.UserName,
-                                                           _configuration.Password);
-            webRequest.Proxy = null;
-            return (webRequest);
-        }
-
-        public string Request(Uri uri)
-        {
-            HttpWebRequest webRequest = CreateWebRequest(uri);
-            webRequest.Accept = "application/json";
-            string output = string.Empty;
             try
             {
-
-
-                using (var response = webRequest.GetResponse())
-                {
-                    using (var stream = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding(1252)))
-                    {
-                        output = stream.ReadToEnd();
-                    }
-                }
+                var staticBody = request.Get(url).StaticBody<T>();
+                return staticBody;
             }
-            catch (WebException ex)
+            catch (HttpException ex)
             {
-                if (ex.Status == WebExceptionStatus.ProtocolError)
-                {
-                    using (var stream = new StreamReader(ex.Response.GetResponseStream()))
-                    {
-                        output = stream.ReadToEnd();
-                    }
-                }
-                else if (ex.Status == WebExceptionStatus.Timeout)
-                {
-                    output = "Request timeout is expired.";
-                }
+                //do something here for an outut
+                throw;
             }
-            return output;
         }
+
+        private string CreateUrl(string urlPart)
+        {
+            var protocol = _configuration.UseSSL ? "https://" : "http://";
+            
+            return string.Format("{0}{1}{2}", protocol, _configuration.HostName, urlPart);
+        }
+
+        HttpClient CreateHttpRequest(string userName, string password)
+        {
+            var httpClient = new HttpClient();
+            httpClient.Request.Accept = HttpContentTypes.ApplicationJson;
+            httpClient.Request.SetBasicAuthentication(userName, password);
+
+            return httpClient;
+        }
+    
     }
 }
