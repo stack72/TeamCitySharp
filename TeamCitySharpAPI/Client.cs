@@ -26,7 +26,7 @@ namespace TeamCitySharpAPI
             return projectWrapper.Project;
         }
 
-        public List<Build> GetAllBuilds()
+        public List<BuildType> GetAllBuildTypes()
         {
             var buildType = _caller.Get<BuildTypeWrapper>("/httpAuth/app/rest/buildTypes");
 
@@ -47,75 +47,89 @@ namespace TeamCitySharpAPI
             return project;
         }
 
-        public Build GetBuildConfigByBuildConfigurationName(string buildConfigName)
+        public BuildType GetBuildTypeByBuildConfigurationName(string buildConfigName)
         {
-            var build = _caller.Get<Build>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}", buildConfigName));
+            var build = _caller.Get<BuildType>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}", buildConfigName));
             
             return build;
         }
 
-        public Build GetBuildConfigByBuildConfigurationId(string buildConfigId)
+        public BuildType GetBuildTypeByBuildConfigurationId(string buildConfigId)
         {
-            var build = _caller.Get<Build>(string.Format("/httpAuth/app/rest/buildTypes/id:{0}", buildConfigId));
+            var build = _caller.Get<BuildType>(string.Format("/httpAuth/app/rest/buildTypes/id:{0}", buildConfigId));
 
             return build;
         }
 
-        public List<Build> GetBuildsPerProjectId(string projectId)
+        public List<BuildType> GetBuildTypesPerProjectId(string projectId)
         {
-            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/projects/id:{0}/buildTypes", projectId));
+            var buildWrapper = _caller.Get<BuildTypeWrapper>(string.Format("/httpAuth/app/rest/projects/id:{0}/buildTypes", projectId));
 
             return buildWrapper.BuildType;
         }
 
-        public List<Build> GetBuildsPerProjectName(string projectName)
+        public List<BuildType> GetBuildTypesPerProjectName(string projectName)
         {
-            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/projects/name:{0}/buildTypes", projectName));
+            var buildWrapper = _caller.Get<BuildTypeWrapper>(string.Format("/httpAuth/app/rest/projects/name:{0}/buildTypes", projectName));
 
             return buildWrapper.BuildType;
         }
    
-        //public List<Build> GetCancelledBuildDetails(string projectHref)
-        //{
-        //    var url = _caller.CreateUri(string.Format("{0}/builds?cancelled=true", projectHref));
-        //    var request = _caller.Request(url);
-
-        //    return JsonConvert.DeserializeObject<BuildWrapper>(request).TeamCityBuilds;
-        //}
-
-        //public Build GetLastCancelledBuildDetail(string projectHref)
-        //{
-        //    return GetCancelledBuildDetails(projectHref).FirstOrDefault();
-        //}
-    
-        //public List<Build> GetFailedBuildDetails(string  projectHref)
-        //{
-        //    var url = _caller.CreateUri(string.Format("{0}/builds?status=FAILED", projectHref));
-        //    var request = _caller.Request(url);
-
-        //    return JsonConvert.DeserializeObject<BuildWrapper>(request).TeamCityBuilds;
-        //}
-
-        public List<Build> GetSuccessfulBuildsByProjectName(string projectName)
+        public List<Build> GetSuccessfulBuildsByBuildConfigName(string buildConfigName)
         {
-            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}/builds?status=SUCCESS", projectName));
+            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}/builds?status=SUCCESS", buildConfigName));
 
-            return buildWrapper.BuildType;
+            return buildWrapper.Build;
         }
 
-        public Build GetLastSuccessfulBuildByProjectName(string projectName)
+        public Build GetLastSuccessfulBuildByBuildConfigName(string buildConfigName)
         {
-            return GetSuccessfulBuildsByProjectName(projectName).FirstOrDefault();
+            return GetSuccessfulBuildsByBuildConfigName(buildConfigName).FirstOrDefault();
         }
 
-        public List<Build> GetCancelledBuildsByProjectName(string projectName)
+        public List<Build> GetCancelledBuildsByBuildConfigName(string buildConfigName)
         {
+            //var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}/builds?canceled=true", buildConfigName));
+
+            //return buildWrapper.Build;
             return null;
         }
 
-        public Build GetLastCancelledBuildByProjectName(string projectName)
+        public Build GetLastCancelledBuildByBuildConfigName(string buildConfigName)
         {
+            //return GetCancelledBuildsByBuildConfigName(buildConfigName).FirstOrDefault();
             return null;
+        }
+
+        public List<Build> GetFailedBuildsByBuildConfigName(string buildConfigName)
+        {
+            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}/builds?status=FAILURE", buildConfigName));
+
+            return buildWrapper.Build;
+        }
+
+        public Build GetLastFailedBuildByBuildConfigName(string buildConfigName)
+        {
+            return GetFailedBuildsByBuildConfigName(buildConfigName).FirstOrDefault();
+        }
+
+        public Build GetLastBuildStatusByBuildConfigName(string buildConfigName)
+        {
+            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}/builds", buildConfigName));
+
+            return buildWrapper.Build.FirstOrDefault();
+        }
+
+        public List<Build> GetErrorBuildsByBuildConfigName(string buildConfigName)
+        {
+            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}/builds?status=ERROR", buildConfigName));
+
+            return buildWrapper.Build;
+        }
+
+        public Build GetLastErrorBuildByBuildConfigName(string buildConfigName)
+        {
+            return GetErrorBuildsByBuildConfigName(buildConfigName).FirstOrDefault();
         }
     }
 }

@@ -5,11 +5,11 @@ namespace TeamCitySharpAPI
 {
     public interface TeamCityBuilds: ClientConnection
     {
-        List<Build> GetAllBuilds();
-        Build GetBuildConfigByBuildConfigurationName(string buildConfigName);
-        Build GetBuildConfigByBuildConfigurationId(string buildConfigId);
-        List<Build> GetBuildsPerProjectId(string projectId);
-        List<Build> GetBuildsPerProjectName(string projectName);
+        List<BuildType> GetAllBuildTypes();
+        BuildType GetBuildTypeByBuildConfigurationName(string buildConfigName);
+        BuildType GetBuildTypeByBuildConfigurationId(string buildConfigId);
+        List<BuildType> GetBuildTypesPerProjectId(string projectId);
+        List<BuildType> GetBuildTypesPerProjectName(string projectName);
     }
 
 }

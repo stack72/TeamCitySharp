@@ -5,10 +5,18 @@ namespace TeamCitySharpAPI
 {
     public interface TeamCityBuildStatus: ClientConnection
     {
-        List<Build> GetSuccessfulBuildsByProjectName(string projectName);
-        Build GetLastSuccessfulBuildByProjectName(string projectName);
+        List<Build> GetSuccessfulBuildsByBuildConfigName(string buildConfigName);
+        Build GetLastSuccessfulBuildByBuildConfigName(string buildConfigName);
 
-        List<Build> GetCancelledBuildsByProjectName(string projectName);
-        Build GetLastCancelledBuildByProjectName(string projectName);
+        List<Build> GetCancelledBuildsByBuildConfigName(string buildConfigName);
+        Build GetLastCancelledBuildByBuildConfigName(string buildConfigName);
+
+        List<Build> GetFailedBuildsByBuildConfigName(string buildConfigName);
+        Build GetLastFailedBuildByBuildConfigName(string buildConfigName);
+
+        Build GetLastBuildStatusByBuildConfigName(string buildConfigName);
+
+        List<Build> GetErrorBuildsByBuildConfigName(string buildConfigName);
+        Build GetLastErrorBuildByBuildConfigName(string buildConfigName);
     }
 }

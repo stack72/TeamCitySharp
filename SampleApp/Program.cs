@@ -8,8 +8,9 @@ namespace SampleApp
     {
         static void Main()
         {
-            CallBuildMethods();
-            CallProjectMethods();
+            //CallBuildMethods();
+            //CallProjectMethods();
+            CallBuildStatusMethods();
 
             Console.Read();
         }
@@ -20,16 +21,16 @@ namespace SampleApp
             teamCityBuildClient.Connect("admin", "qwerty");
             
             //gets a list of build configs for the entire system
-            var builds = teamCityBuildClient.GetAllBuilds();
+            var builds = teamCityBuildClient.GetAllBuildTypes();
 
             //get buildsPerProject
-            var buildsPerProject = teamCityBuildClient.GetBuildsPerProjectId("project6");
+            var buildsPerProject = teamCityBuildClient.GetBuildTypesPerProjectId("project6");
 
             //get build config per buildName
-            var buildConfigPerName = teamCityBuildClient.GetBuildConfigByBuildConfigurationName("Local Debug Build");
+            var buildConfigPerName = teamCityBuildClient.GetBuildTypeByBuildConfigurationName("Local Debug Build");
 
             //get build config per buildId
-            var buildConfigPerBuildId = teamCityBuildClient.GetBuildConfigByBuildConfigurationId("bt8");
+            var buildConfigPerBuildId = teamCityBuildClient.GetBuildTypeByBuildConfigurationId("bt8");
         }
 
         private static void CallProjectMethods()
@@ -46,20 +47,25 @@ namespace SampleApp
             //gets a project by a specific projectId
             var projectById = projectClient.GetProjectDetailsByProjectId("project6");
         }
-    
-        private static void GetBuildStatusMethods()
+
+        private static void CallBuildStatusMethods()
         {
-            var client = new Client("localhost:81");
+            TeamCityBuildStatus client = new Client("localhost:81");
             client.Connect("admin", "qwerty");
 
-            var successfulBuilds = client.GetSuccessfulBuildsByProjectName("nPUC");
-            var lastSuccessfulBuild = client.GetLastSuccessfulBuildByProjectName("nPUC");
+            var successfulBuilds = client.GetSuccessfulBuildsByBuildConfigName("Local Debug Build");
+            var lastSuccessfulBuild = client.GetLastSuccessfulBuildByBuildConfigName("Local Debug Build");
 
-            //TODO
-            var cancelledBuilds = client.GetCancelledBuildsByProjectName("nPUC");
-            var lastCancelled = client.GetLastCancelledBuildByProjectName("nPUC");
+            var cancelledBuilds = client.GetCancelledBuildsByBuildConfigName("Local Debug Build");
+            var lastCancelled = client.GetLastCancelledBuildByBuildConfigName("Local Debug Build");
 
-            
+            var failedBuilds = client.GetFailedBuildsByBuildConfigName("Local Debug Build");
+            var lastFailed = client.GetLastFailedBuildByBuildConfigName("Local Debug Build");
+
+            var errorBuilds = client.GetErrorBuildsByBuildConfigName("Local Debug Build");
+            var lastError = client.GetLastErrorBuildByBuildConfigName("Local Debug Build");
+
+            var lastBuildStatus = client.GetLastBuildStatusByBuildConfigName("Local Debug Build");
         }
     }
 }
