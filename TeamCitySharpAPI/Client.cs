@@ -5,7 +5,7 @@ using TeamCitySharpAPI.Utilities;
 
 namespace TeamCitySharpAPI
 {
-    public class Client : TeamCityProjects, TeamCityBuilds, TeamCityBuildStatus
+    public class Client : TeamCityProjects, TeamCityBuilds, TeamCityBuildStatus, TeamCityUsers
     {
         private readonly TeamCityCaller _caller;
 
@@ -130,6 +130,13 @@ namespace TeamCitySharpAPI
         public Build GetLastErrorBuildByBuildConfigName(string buildConfigName)
         {
             return GetErrorBuildsByBuildConfigName(buildConfigName).FirstOrDefault();
+        }
+
+        public List<User> GetAllUsers()
+        {
+            var userWrapper = _caller.Get<UserWrapper>("/httpAuth/app/rest/users");
+
+            return userWrapper.User;
         }
     }
 }

@@ -10,7 +10,9 @@ namespace SampleApp
         {
             //CallBuildMethods();
             //CallProjectMethods();
-            CallBuildStatusMethods();
+            //CallBuildStatusMethods();
+
+            CallUserMethods();
 
             Console.Read();
         }
@@ -66,6 +68,15 @@ namespace SampleApp
             var lastError = client.GetLastErrorBuildByBuildConfigName("Local Debug Build");
 
             var lastBuildStatus = client.GetLastBuildStatusByBuildConfigName("Local Debug Build");
+        }
+    
+        private static void CallUserMethods()
+        {
+            TeamCityUsers client = new Client("localhost:81");
+            client.Connect("admin", "qwerty");
+
+            var users = client.GetAllUsers();
+
         }
     }
 }
