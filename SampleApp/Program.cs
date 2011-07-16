@@ -97,6 +97,8 @@ namespace SampleApp
 
             var userGroups = client.GetAllUserGroups();
             var usersInRole = client.GetAllUsersByUserGroup("ALL_USERS_GROUP");
+
+            var roles = client.GetAllUserRolesByUserGroup("ALL_USERS_GROUP");
         }
 
         private static void CallAgentMethods()

@@ -7,5 +7,6 @@ namespace TeamCitySharpAPI.Interfaces
     {
         List<Group> GetAllUserGroups();
         List<User> GetAllUsersByUserGroup(string userGroupName);
+        List<Role> GetAllUserRolesByUserGroup(string userGroupName);
     }
 }

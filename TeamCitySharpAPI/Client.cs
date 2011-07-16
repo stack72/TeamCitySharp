@@ -159,6 +159,13 @@ namespace TeamCitySharpAPI
             return group.Users.User;
         }
 
+        public List<Role> GetAllUserRolesByUserGroup(string userGroupName)
+        {
+            var group = _caller.Get<Group>(string.Format("/httpAuth/app/rest/userGroups/key:{0}", userGroupName));
+
+            return group.Roles.Role;
+        }
+
         public List<Agent> GetAllAgents()
         {
             var agentWrapper = _caller.Get<AgentWrapper>("/httpAuth/app/rest/agents");
