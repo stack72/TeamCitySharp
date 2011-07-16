@@ -11,11 +11,11 @@ namespace SampleApp
             //CallBuildMethods();
             //CallProjectMethods();
             //CallBuildStatusMethods();
-            //CallUserMethods();
+            CallUserMethods();
             //CallAgentMethods();
             //CallVcsRootMethods();
             //CallServerInformation();
-            CallUserGroupMethods();
+            //CallUserGroupMethods();
 
             Console.Read();
         }
@@ -87,7 +87,8 @@ namespace SampleApp
             client.Connect("admin", "qwerty");
 
             var users = client.GetAllUsers();
-
+            var roles = client.GetAllRolesForUserName("admin");
+            var groupsByUser = client.GetAllGroupsByUserName("admin");
         }
 
         private static void CallUserGroupMethods()

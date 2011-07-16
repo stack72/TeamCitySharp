@@ -83,7 +83,6 @@
     <Compile Include="DomainEntities\User.cs" />
     <Compile Include="DomainEntities\UserWrapper.cs" />
     <Compile Include="DomainEntities\UserGroupWrapper.cs" />
-    <Compile Include="Utilities\Deserialise.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
