@@ -14,7 +14,8 @@ namespace SampleApp
             //CallUserMethods();
             //CallAgentMethods();
             //CallVcsRootMethods();
-            CallServerInformation();
+            //CallServerInformation();
+            CallUserGroupMethods();
 
             Console.Read();
         }
@@ -87,6 +88,15 @@ namespace SampleApp
 
             var users = client.GetAllUsers();
 
+        }
+
+        private static void CallUserGroupMethods()
+        {
+            TeamCityUserGroups client = new Client("localhost:81");
+            client.Connect("admin", "qwerty");
+
+            var userGroups = client.GetAllUserGroups();
+            var usersInRole = client.GetAllUsersByUserGroup("ALL_USERS_GROUP");
         }
 
         private static void CallAgentMethods()

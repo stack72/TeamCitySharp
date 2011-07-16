@@ -39,7 +39,7 @@ namespace TeamCitySharpAPI
             catch (HttpException ex)
             {
                 //do something here for an outut
-                throw;
+                throw ex;
             }
         }
 

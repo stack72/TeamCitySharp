@@ -6,8 +6,8 @@ using TeamCitySharpAPI.Interfaces;
 
 namespace TeamCitySharpAPI
 {
-    public class Client : TeamCityProjects, TeamCityBuilds, TeamCityBuildStatus, TeamCityUsers, 
-        TeamCityAgents, TeamCityVcsRoots, TeamCityServer
+    public class Client : TeamCityProjects, TeamCityBuilds, TeamCityBuildStatus, TeamCityUsers,
+        TeamCityUserGroups, TeamCityAgents, TeamCityVcsRoots, TeamCityServer
     {
         private readonly TeamCityCaller _caller;
 
@@ -97,16 +97,14 @@ namespace TeamCitySharpAPI
 
         public List<Build> GetCancelledBuildsByBuildConfigName(string buildConfigName)
         {
-            //var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}/builds?canceled=true", buildConfigName));
+            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}/builds?includeCanceled=true", buildConfigName));
 
-            //return buildWrapper.Build;
-            return null;
+            return buildWrapper.Build;
         }
 
         public Build GetLastCancelledBuildByBuildConfigName(string buildConfigName)
         {
-            //return GetCancelledBuildsByBuildConfigName(buildConfigName).FirstOrDefault();
-            return null;
+            return GetCancelledBuildsByBuildConfigName(buildConfigName).FirstOrDefault();
         }
 
         public List<Build> GetFailedBuildsByBuildConfigName(string buildConfigName)
@@ -145,6 +143,20 @@ namespace TeamCitySharpAPI
             var userWrapper = _caller.Get<UserWrapper>("/httpAuth/app/rest/users");
 
             return userWrapper.User;
+        }
+
+        public List<Group> GetAllUserGroups()
+        {
+            var userGroupWrapper = _caller.Get<UserGroupWrapper>("/httpAuth/app/rest/userGroups");
+
+            return userGroupWrapper.Group;
+        }
+        
+        public List<User> GetAllUsersByUserGroup(string userGroupName)
+        {
+            var group = _caller.Get<Group>(string.Format("/httpAuth/app/rest/userGroups/key:{0}", userGroupName));
+
+            return group.Users.User;
         }
 
         public List<Agent> GetAllAgents()
