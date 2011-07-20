@@ -6,5 +6,6 @@ namespace TeamCitySharpAPI.Interfaces
     public interface TeamCityAgents : ClientConnection
     {
         List<Agent> GetAllAgents();
+        Build GetLastBuildBySpecificAgentName(string agentName);
     }
 }

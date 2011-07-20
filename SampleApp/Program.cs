@@ -12,11 +12,11 @@ namespace SampleApp
             //CallProjectMethods();
             //CallBuildStatusMethods();
             //CallUserMethods();
-            //CallAgentMethods();
+            CallAgentMethods();
             //CallVcsRootMethods();
             //CallServerInformation();
             //CallUserGroupMethods();
-            GetChangeMethods();
+            //GetChangeMethods();
 
             Console.Read();
         }
@@ -118,6 +118,7 @@ namespace SampleApp
             client.Connect("admin", "qwerty");
 
             var agents = client.GetAllAgents();
+            var lastBuildByAgentName = client.GetLastBuildBySpecificAgentName("stack-LP");
         }
     
         private static void CallVcsRootMethods()

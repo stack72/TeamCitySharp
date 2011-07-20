@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainEntities\ChangeWrapper.cs" />
     <Compile Include="DomainEntities\Change.cs" />
     <Compile Include="DomainEntities\Agent.cs" />
     <Compile Include="DomainEntities\AgentWrapper.cs" />
@@ -86,7 +87,7 @@
     <Compile Include="DomainEntities\User.cs" />
     <Compile Include="DomainEntities\UserWrapper.cs" />
     <Compile Include="DomainEntities\UserGroupWrapper.cs" />
-    <Compile Include="TeamCityChanges.cs" />
+    <Compile Include="Interfaces\TeamCityChanges.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

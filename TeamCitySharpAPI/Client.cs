@@ -204,6 +204,13 @@ namespace TeamCitySharpAPI
             return agentWrapper.Agent;
         }
 
+        public Build GetLastBuildBySpecificAgentName(string agentName)
+        {
+            var build = _caller.Get<Build>(string.Format("/httpAuth/app/rest/builds/agentName:{0}", agentName));
+
+            return build;
+        }
+
         public List<VcsRoot> GetAllVcsRoots()
         {
             var vcsRootWrapper = _caller.Get<VcsRootWrapper>("/httpAuth/app/rest/vcs-roots");
