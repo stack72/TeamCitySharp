@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainEntities\Change.cs" />
     <Compile Include="DomainEntities\Agent.cs" />
     <Compile Include="DomainEntities\AgentWrapper.cs" />
     <Compile Include="ClientConnection.cs" />
@@ -68,6 +69,8 @@
     <Compile Include="DomainEntities\VcsRootWrapper.cs" />
     <Compile Include="DomainEntities\Server.cs" />
     <Compile Include="DomainEntities\Group.cs" />
+    <Compile Include="DomainEntities\File.cs" />
+    <Compile Include="DomainEntities\FileWrapper.cs" />
     <Compile Include="Interfaces\TeamCityBuilds.cs" />
     <Compile Include="Interfaces\TeamCityProjects.cs" />
     <Compile Include="Interfaces\TeamCityServer.cs" />
@@ -83,6 +86,7 @@
     <Compile Include="DomainEntities\User.cs" />
     <Compile Include="DomainEntities\UserWrapper.cs" />
     <Compile Include="DomainEntities\UserGroupWrapper.cs" />
+    <Compile Include="TeamCityChanges.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

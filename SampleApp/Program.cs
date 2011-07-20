@@ -10,12 +10,13 @@ namespace SampleApp
         {
             //CallBuildMethods();
             //CallProjectMethods();
-            CallBuildStatusMethods();
+            //CallBuildStatusMethods();
             //CallUserMethods();
             //CallAgentMethods();
             //CallVcsRootMethods();
             //CallServerInformation();
             //CallUserGroupMethods();
+            GetChangeMethods();
 
             Console.Read();
         }
@@ -85,7 +86,9 @@ namespace SampleApp
 
             var buildsByUserName = client.GetBuildsByUserName("admin");
 
-            var failedBuildCount = client.GetNonSuccessfulBuildsForUser("admin");
+            var nonSuccessfulBuildsForUserName = client.GetNonSuccessfulBuildsForUser("admin");
+            var nonSuccessfulBuildCountByUser = client.GetNonSuccessfulBuildsForUser("admin").Count;
+
         }
     
         private static void CallUserMethods()
@@ -123,6 +126,16 @@ namespace SampleApp
             client.Connect("admin", "qwerty");
 
             var vcsRoots = client.GetAllVcsRoots();
+        }
+    
+        private static void GetChangeMethods()
+        {
+            TeamCityChanges client = new Client("localhost:81");
+            client.Connect("admin", "qwerty");
+
+            var changeList = client.GetAllChanges();
+
+            var changeDetailsByChangeId = client.GetChangeDetailsByChangeId("102");
         }
     }
 }

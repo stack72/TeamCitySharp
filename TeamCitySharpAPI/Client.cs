@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TeamCitySharpAPI.DomainEntities;
 using TeamCitySharpAPI.Interfaces;
@@ -6,7 +7,7 @@ using TeamCitySharpAPI.Interfaces;
 namespace TeamCitySharpAPI
 {
     public class Client : TeamCityProjects, TeamCityBuilds, TeamCityBuildStatus, TeamCityUsers,
-        TeamCityUserGroups, TeamCityAgents, TeamCityVcsRoots, TeamCityServer
+        TeamCityUserGroups, TeamCityAgents, TeamCityVcsRoots, TeamCityServer, TeamCityChanges
     {
         private readonly TeamCityCaller _caller;
 
@@ -208,6 +209,20 @@ namespace TeamCitySharpAPI
             var vcsRootWrapper = _caller.Get<VcsRootWrapper>("/httpAuth/app/rest/vcs-roots");
 
             return vcsRootWrapper.VcsRoot;
+        }
+
+        public List<Change> GetAllChanges()
+        {
+            var changeWrapper = _caller.Get<ChangeWrapper>("/httpAuth/app/rest/changes");
+
+            return changeWrapper.Change;
+        }
+
+        public Change GetChangeDetailsByChangeId(string id)
+        {
+            var change = _caller.Get<Change>(string.Format("/httpAuth/app/rest/changes/id:{0}", id));
+
+            return change;
         }
     }
 }
