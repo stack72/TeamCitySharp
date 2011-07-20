@@ -18,5 +18,8 @@ namespace TeamCitySharpAPI.Interfaces
 
         List<Build> GetErrorBuildsByBuildConfigName(string buildConfigName);
         Build GetLastErrorBuildByBuildConfigName(string buildConfigName);
+        
+        List<Build> GetBuildsByUserName(string userName);
+        List<Build> GetNonSuccessfulBuildsForUser(string userName);
     }
 }

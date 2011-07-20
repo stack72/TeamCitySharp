@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using TeamCitySharpAPI.DomainEntities;
 using TeamCitySharpAPI.Interfaces;
@@ -136,6 +135,21 @@ namespace TeamCitySharpAPI
         public Build GetLastErrorBuildByBuildConfigName(string buildConfigName)
         {
             return GetErrorBuildsByBuildConfigName(buildConfigName).FirstOrDefault();
+        }
+
+        public List<Build> GetBuildsByUserName(string userName)
+        {
+            var buildWrapper =
+                _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/builds?locator=user:{0}", userName));
+
+            return buildWrapper.Build;
+        }
+
+        public List<Build> GetNonSuccessfulBuildsForUser(string userName)
+        {
+            var builds = GetBuildsByUserName(userName);
+
+            return builds.Where(b => b.Status != "SUCCESS").ToList();
         }
 
         public List<User> GetAllUsers()

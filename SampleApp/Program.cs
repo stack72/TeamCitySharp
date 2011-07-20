@@ -10,8 +10,8 @@ namespace SampleApp
         {
             //CallBuildMethods();
             //CallProjectMethods();
-            //CallBuildStatusMethods();
-            CallUserMethods();
+            CallBuildStatusMethods();
+            //CallUserMethods();
             //CallAgentMethods();
             //CallVcsRootMethods();
             //CallServerInformation();
@@ -44,6 +44,9 @@ namespace SampleApp
 
             //get build config per buildId
             var buildConfigPerBuildId = teamCityBuildClient.GetBuildTypeByBuildConfigurationId("bt8");
+        
+            
+        
         }
 
         private static void CallProjectMethods()
@@ -79,6 +82,10 @@ namespace SampleApp
             var lastError = client.GetLastErrorBuildByBuildConfigName("Local Debug Build");
 
             var lastBuildStatus = client.GetLastBuildStatusByBuildConfigName("Local Debug Build");
+
+            var buildsByUserName = client.GetBuildsByUserName("admin");
+
+            var failedBuildCount = client.GetNonSuccessfulBuildsForUser("admin");
         }
     
         private static void CallUserMethods()
