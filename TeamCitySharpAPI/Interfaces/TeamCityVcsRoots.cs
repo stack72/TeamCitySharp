@@ -6,5 +6,6 @@ namespace TeamCitySharpAPI.Interfaces
     public interface TeamCityVcsRoots: ClientConnection
     {
         List<VcsRoot> GetAllVcsRoots();
+        VcsRoot GetVcsRootById(string vcsRootId);
     }
 }

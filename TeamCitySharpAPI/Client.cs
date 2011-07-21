@@ -218,6 +218,13 @@ namespace TeamCitySharpAPI
             return vcsRootWrapper.VcsRoot;
         }
 
+        public VcsRoot GetVcsRootById(string vcsRootId)
+        {
+            var vcsRoot = _caller.Get<VcsRoot>(string.Format("/httpAuth/app/rest/vcs-roots/id:{0}", vcsRootId));
+
+            return vcsRoot;
+        }
+
         public List<Change> GetAllChanges()
         {
             var changeWrapper = _caller.Get<ChangeWrapper>("/httpAuth/app/rest/changes");

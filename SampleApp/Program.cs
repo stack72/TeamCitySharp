@@ -12,8 +12,8 @@ namespace SampleApp
             //CallProjectMethods();
             //CallBuildStatusMethods();
             //CallUserMethods();
-            CallAgentMethods();
-            //CallVcsRootMethods();
+            //CallAgentMethods();
+            CallVcsRootMethods();
             //CallServerInformation();
             //CallUserGroupMethods();
             //GetChangeMethods();
@@ -127,6 +127,7 @@ namespace SampleApp
             client.Connect("admin", "qwerty");
 
             var vcsRoots = client.GetAllVcsRoots();
+            var individualVcsRoot = client.GetVcsRootById("1");
         }
     
         private static void GetChangeMethods()
