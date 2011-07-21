@@ -8,6 +8,8 @@ namespace SampleApp
     {
         static void Main()
         {
+            Console.WriteLine("Starting samples");
+
             CallBuildMethods();
             CallProjectMethods();
             CallBuildStatusMethods();
@@ -18,6 +20,7 @@ namespace SampleApp
             CallUserGroupMethods();
             GetChangeMethods();
 
+            Console.WriteLine("Samples Finished");
             Console.Read();
         }
 
