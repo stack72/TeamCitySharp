@@ -13,8 +13,8 @@ namespace SampleApp
             //CallBuildStatusMethods();
             //CallUserMethods();
             //CallAgentMethods();
-            CallVcsRootMethods();
-            //CallServerInformation();
+            //CallVcsRootMethods();
+            CallServerInformation();
             //CallUserGroupMethods();
             //GetChangeMethods();
 
@@ -27,6 +27,7 @@ namespace SampleApp
             client.Connect("admin", "qwerty");
 
             var serverInfo = client.GetServerInfo();
+            var plugins = client.GetAllServerPlugins();
         }
 
         private static void CallBuildMethods()

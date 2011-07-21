@@ -27,6 +27,13 @@ namespace TeamCitySharpAPI
             return server;
         }
 
+        public List<Plugin> GetAllServerPlugins()
+        {
+            var pluginWrapper = _caller.Get<PluginWrapper>("/httpAuth/app/rest/server/plugins");
+
+            return pluginWrapper.Plugin;
+        }
+
         public List<Project> GetAllProjects()
         {
             var projectWrapper = _caller.Get<ProjectWrapper>("/httpAuth/app/rest/projects");

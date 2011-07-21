@@ -63,6 +63,8 @@
     <Compile Include="DomainEntities\BuildType.cs" />
     <Compile Include="DomainEntities\BuildTypeWrapper.cs" />
     <Compile Include="DomainEntities\Credentials.cs" />
+    <Compile Include="DomainEntities\Plugin.cs" />
+    <Compile Include="DomainEntities\PluginWrapper.cs" />
     <Compile Include="DomainEntities\ProjectWrapper.cs" />
     <Compile Include="DomainEntities\Role.cs" />
     <Compile Include="DomainEntities\RoleWrapper.cs" />
