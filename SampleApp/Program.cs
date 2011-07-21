@@ -14,8 +14,6 @@ namespace SampleApp
             CallProjectMethods();
             CallBuildStatusMethods();
             CallUserMethods();
-            CallUserGroupMethods();
-            GetChangeMethods();
 
             Console.WriteLine("Samples Finished");
             Console.Read();
@@ -91,27 +89,6 @@ namespace SampleApp
             var users = client.GetAllUsers();
             var roles = client.GetAllRolesForUserName("admin");
             var groupsByUser = client.GetAllGroupsByUserName("admin");
-        }
-
-        private static void CallUserGroupMethods()
-        {
-            TeamCityUserGroups client = new Client("localhost:81");
-            client.Connect("admin", "qwerty");
-
-            var userGroups = client.GetAllUserGroups();
-            var usersInRole = client.GetAllUsersByUserGroup("ALL_USERS_GROUP");
-
-            var roles = client.GetAllUserRolesByUserGroup("ALL_USERS_GROUP");
-        }
-    
-        private static void GetChangeMethods()
-        {
-            TeamCityChanges client = new Client("localhost:81");
-            client.Connect("admin", "qwerty");
-
-            var changeList = client.GetAllChanges();
-
-            var changeDetailsByChangeId = client.GetChangeDetailsByChangeId("102");
         }
     }
 }
