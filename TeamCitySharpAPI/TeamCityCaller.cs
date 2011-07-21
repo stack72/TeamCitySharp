@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using EasyHttp.Http;
 using EasyHttp.Infrastructure;
 using TeamCitySharpAPI.DomainEntities;
@@ -42,9 +43,8 @@ namespace TeamCitySharpAPI
                 var staticBody = request.Get(url).StaticBody<T>();
                 return staticBody;
             }
-            catch (HttpException ex)
+            catch (WebException ex)
             {
-                //do something here for an outut
                 throw ex;
             }
         }

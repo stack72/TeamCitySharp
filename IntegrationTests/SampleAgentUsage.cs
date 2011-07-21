@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using NUnit.Framework;
 using TeamCitySharpAPI;
 using TeamCitySharpAPI.DomainEntities;
@@ -25,6 +26,18 @@ namespace IntegrationTests
         public void Instantiating_A_Client_Without_Host_Throws_Exception()
         {
             TeamCityAgents client = new Client(null);
+
+            //Assert: Exception
+        }
+
+        [Test]
+        [ExpectedException(typeof(WebException))]
+        public void Instantiating_A_Client_With_A_Host_That_Doesnt_Exist_Throws_Exception()
+        {
+            TeamCityAgents client = new Client("test:81");
+            client.Connect("admin", "qwerty");
+
+            var agents = client.GetAllAgents();
 
             //Assert: Exception
         }

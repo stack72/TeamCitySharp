@@ -10,32 +10,10 @@ namespace SampleApp
         {
             Console.WriteLine("Starting samples");
 
-            CallBuildMethods();
             CallBuildStatusMethods();
 
             Console.WriteLine("Samples Finished");
             Console.Read();
-        }
-
-        private static void CallBuildMethods()
-        {
-            TeamCityBuilds teamCityBuildClient = new Client("localhost:81");
-            teamCityBuildClient.Connect("admin", "qwerty");
-            
-            //gets a list of build configs for the entire system
-            var builds = teamCityBuildClient.GetAllBuildTypes();
-
-            //get buildsPerProject
-            var buildsPerProject = teamCityBuildClient.GetBuildTypesPerProjectId("project6");
-
-            //get build config per buildName
-            var buildConfigPerName = teamCityBuildClient.GetBuildTypeByBuildConfigurationName("Local Debug Build");
-
-            //get build config per buildId
-            var buildConfigPerBuildId = teamCityBuildClient.GetBuildTypeByBuildConfigurationId("bt8");
-        
-            
-        
         }
 
         private static void CallBuildStatusMethods()
