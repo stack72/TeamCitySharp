@@ -49,9 +49,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GetProject.Tests.cs" />
-    <Compile Include="JsonDeserialiser.Tests.cs" />
+    <Compile Include="Agents.Tests.cs" />
+    <Compile Include="Change.Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server.Tests.cs" />
+    <Compile Include="Vcs.Tests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TeamCitySharpAPI\TeamCitySharpAPI.csproj">

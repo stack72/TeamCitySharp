@@ -14,23 +14,11 @@ namespace SampleApp
             CallProjectMethods();
             CallBuildStatusMethods();
             CallUserMethods();
-            CallAgentMethods();
-            CallVcsRootMethods();
-            CallServerInformation();
             CallUserGroupMethods();
             GetChangeMethods();
 
             Console.WriteLine("Samples Finished");
             Console.Read();
-        }
-
-        private static void CallServerInformation()
-        {
-            TeamCityServer client = new Client("localhost:81");
-            client.Connect("admin", "qwerty");
-
-            var serverInfo = client.GetServerInfo();
-            var plugins = client.GetAllServerPlugins();
         }
 
         private static void CallBuildMethods()
@@ -114,24 +102,6 @@ namespace SampleApp
             var usersInRole = client.GetAllUsersByUserGroup("ALL_USERS_GROUP");
 
             var roles = client.GetAllUserRolesByUserGroup("ALL_USERS_GROUP");
-        }
-
-        private static void CallAgentMethods()
-        {
-            TeamCityAgents client = new Client("localhost:81");
-            client.Connect("admin", "qwerty");
-
-            var agents = client.GetAllAgents();
-            var lastBuildByAgentName = client.GetLastBuildBySpecificAgentName("stack-LP");
-        }
-    
-        private static void CallVcsRootMethods()
-        {
-            TeamCityVcsRoots client = new Client("localhost:81");
-            client.Connect("admin", "qwerty");
-
-            var vcsRoots = client.GetAllVcsRoots();
-            var individualVcsRoot = client.GetVcsRootById("1");
         }
     
         private static void GetChangeMethods()
