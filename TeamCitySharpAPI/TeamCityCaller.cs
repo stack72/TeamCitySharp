@@ -27,6 +27,12 @@ namespace TeamCitySharpAPI
 
         public T Get<T>(string urlPart)
         {
+            if (!_configuration.ActAsGuest && string.IsNullOrWhiteSpace(_configuration.UserName) && string.IsNullOrWhiteSpace(_configuration.Password))
+                throw new ArgumentException("If you are not acting as a guest you must supply userName and password");
+
+            if (string.IsNullOrWhiteSpace(urlPart))
+                throw new ArgumentException("UrlPart must be specfied");
+
             var request = CreateHttpRequest(_configuration.UserName, _configuration.Password);
 
             string url = CreateUrl(urlPart);

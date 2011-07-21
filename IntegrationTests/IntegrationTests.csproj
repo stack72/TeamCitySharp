@@ -52,6 +52,7 @@
     <Compile Include="SampleAgentUsage.cs" />
     <Compile Include="SampleChangeUsage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SampleProjectUsage.cs" />
     <Compile Include="SampleServerUsage.cs" />
     <Compile Include="SampleUserGroupUsage.cs" />
     <Compile Include="SampleUserUsage.cs" />

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using TeamCitySharpAPI;
@@ -17,6 +18,26 @@ namespace IntegrationTests
         {
             _client = new Client("localhost:81");
             _client.Connect("admin", "qwerty");
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Instantiating_A_Client_Without_Host_Throws_Exception()
+        {
+            TeamCityUserGroups client = new Client(null);
+
+            //Assert: Exception
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void Trying_To_Get_UserGroups_WithOut_Connecting_Throws_Exception()
+        {
+            TeamCityUserGroups client = new Client("localhost:81");
+
+            var groups = client.GetAllUserGroups();
+
+            //Assert: Exception
         }
 
         [Test]

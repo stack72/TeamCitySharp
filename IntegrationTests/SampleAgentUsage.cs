@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
@@ -17,6 +18,26 @@ namespace IntegrationTests
         {
             _client = new Client("localhost:81");
             _client.Connect("admin", "qwerty");
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Instantiating_A_Client_Without_Host_Throws_Exception()
+        {
+            TeamCityAgents client = new Client(null);
+
+            //Assert: Exception
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void Trying_To_Get_Agents_WithOut_Connecting_Throws_Exception()
+        {
+            TeamCityAgents client = new Client("localhost:81");
+
+            var agents = client.GetAllAgents();
+
+            //Assert: Exception
         }
 
         [Test]

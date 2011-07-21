@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using NUnit.Framework;
 using TeamCitySharpAPI;
@@ -17,6 +18,26 @@ namespace IntegrationTests
         {
             _client = new Client("localhost:81");
             _client.Connect("admin", "qwerty");
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Instantiating_A_Client_Without_Host_Throws_Exception()
+        {
+            TeamCityChanges client = new Client(null);
+
+            //Assert: Exception
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void Trying_To_Get_Changes_WithOut_Connecting_Throws_Exception()
+        {
+            TeamCityChanges client = new Client("localhost:81");
+
+            var changes = client.GetAllChanges();
+
+            //Assert: Exception
         }
 
         [Test]

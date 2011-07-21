@@ -11,9 +11,7 @@ namespace SampleApp
             Console.WriteLine("Starting samples");
 
             CallBuildMethods();
-            CallProjectMethods();
             CallBuildStatusMethods();
-            CallUserMethods();
 
             Console.WriteLine("Samples Finished");
             Console.Read();
@@ -40,21 +38,6 @@ namespace SampleApp
         
         }
 
-        private static void CallProjectMethods()
-        {
-            TeamCityProjects projectClient = new Client("localhost:81");
-            projectClient.Connect("admin", "qwerty");
-           
-            //gets a list of projects in the system
-            var projects = projectClient.GetAllProjects();
-
-            //gets a project by a specific name
-            var projectByName = projectClient.GetProjectDetailsByProjectName("nPUC");
-
-            //gets a project by a specific projectId
-            var projectById = projectClient.GetProjectDetailsByProjectId("project6");
-        }
-
         private static void CallBuildStatusMethods()
         {
             TeamCityBuildStatus client = new Client("localhost:81");
@@ -79,16 +62,6 @@ namespace SampleApp
             var nonSuccessfulBuildsForUserName = client.GetNonSuccessfulBuildsForUser("admin");
             var nonSuccessfulBuildCountByUser = client.GetNonSuccessfulBuildsForUser("admin").Count;
 
-        }
-    
-        private static void CallUserMethods()
-        {
-            TeamCityUsers client = new Client("localhost:81");
-            client.Connect("admin", "qwerty");
-
-            var users = client.GetAllUsers();
-            var roles = client.GetAllRolesForUserName("admin");
-            var groupsByUser = client.GetAllGroupsByUserName("admin");
         }
     }
 }
