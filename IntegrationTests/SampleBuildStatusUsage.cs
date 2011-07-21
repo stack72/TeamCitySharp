@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using NUnit.Framework;
 using TeamCitySharpAPI;
+using TeamCitySharpAPI.DomainEntities;
 using TeamCitySharpAPI.Interfaces;
 
 namespace IntegrationTests
@@ -25,7 +26,7 @@ namespace IntegrationTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Instantiating_A_Client_Without_Host_Throws_Exception()
         {
-            TeamCityBuilds client = new Client(null);
+            TeamCityBuildStatus client = new Client(null);
 
             //Assert: Exception
         }
@@ -53,6 +54,96 @@ namespace IntegrationTests
             var builds = client.GetSuccessfulBuildsByBuildConfigName(buildConfigName);
 
             //Assert: Exception
+        }
+
+        [Test]
+        public void Get_Last_Successful_Build_By_BuildConfigName()
+        {
+            string buildConfigName = "Local Debug Build";
+            Build buildDetails = _client.GetLastSuccessfulBuildByBuildConfigName(buildConfigName);
+
+            Assert.That(buildDetails != null, "No successful builds have been found");
+        }
+
+        [Test]
+        public void Get_Successful_Builds_By_BuildConfigName()
+        {
+            string buildConfigName = "Local Debug Build";
+            List<Build> buildDetails = _client.GetSuccessfulBuildsByBuildConfigName(buildConfigName);
+
+            Assert.That(buildDetails.Any(), "No successful builds have been found");
+        }
+
+        [Test]
+        public void Get_Last_Failed_Build_By_BuildConfigName()
+        {
+            string buildConfigName = "Local Debug Build";
+            Build buildDetails = _client.GetLastFailedBuildByBuildConfigName(buildConfigName);
+
+            Assert.That(buildDetails != null, "No failed builds have been found");
+        }
+
+        [Test]
+        public void Get_Failed_Builds_By_BuildConfigName()
+        {
+            string buildConfigName = "Local Debug Build";
+            List<Build> buildDetails = _client.GetFailedBuildsByBuildConfigName(buildConfigName);
+
+            Assert.That(buildDetails.Any(), "No failed builds have been found");
+        }
+
+        [Test]
+        public void Get_Last_Errored_Build_By_BuildConfigName()
+        {
+            string buildConfigName = "Local Debug Build";
+            Build buildDetails = _client.GetLastErrorBuildByBuildConfigName(buildConfigName);
+
+            Assert.That(buildDetails != null, "No errored builds have been found");
+        }
+
+        [Test]
+        public void Get_Errored_Builds_By_BuildConfigName()
+        {
+            string buildConfigName = "Local Debug Build";
+            List<Build> buildDetails = _client.GetErrorBuildsByBuildConfigName(buildConfigName);
+
+            Assert.That(buildDetails.Any(), "No errored builds have been found");
+        }
+
+        [Test]
+        public void Get_Last_Build_Status_By_BuildConfigName()
+        {
+            string buildConfigName = "Local Debug Build";
+            Build buildDetails = _client.GetLastBuildStatusByBuildConfigName(buildConfigName);
+
+            Assert.That(buildDetails!=null, "No builds for this build config have been found");
+        }
+
+        [Test]
+        public void Get_Builds_By_UserName()
+        {
+            string userName = "admin";
+            List<Build> builds = _client.GetBuildsByUserName(userName);
+
+            Assert.That(builds.Any(), "No builds for this user have been found");
+        }
+
+        [Test]
+        public void Get_NonSuccessful_Builds_By_UserName()
+        {
+            string userName = "admin";
+            List<Build> builds = _client.GetNonSuccessfulBuildsForUser(userName);
+
+            Assert.That(builds.Any(), "No non successful builds found for this user");
+        }
+
+        [Test]
+        public void Get_NonSuccessful_Build_Count_By_UserName()
+        {
+            string userName = "admin";
+            int builds = _client.GetNonSuccessfulBuildsForUser(userName).Count;
+
+            Assert.That(builds > 0, "No non successful builds found for this user");
         }
     }
 }

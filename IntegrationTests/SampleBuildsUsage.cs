@@ -44,7 +44,7 @@ namespace IntegrationTests
 
         [Test]
         [ExpectedException(typeof(ArgumentException))]
-        public void Trying_To_Get_Agents_WithOut_Connecting_Throws_Exception()
+        public void Trying_To_Get_Builds_WithOut_Connecting_Throws_Exception()
         {
             TeamCityBuilds client = new Client("localhost:81");
 
