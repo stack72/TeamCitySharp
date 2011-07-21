@@ -8,15 +8,15 @@ namespace SampleApp
     {
         static void Main()
         {
-            //CallBuildMethods();
-            //CallProjectMethods();
-            //CallBuildStatusMethods();
-            //CallUserMethods();
-            //CallAgentMethods();
-            //CallVcsRootMethods();
+            CallBuildMethods();
+            CallProjectMethods();
+            CallBuildStatusMethods();
+            CallUserMethods();
+            CallAgentMethods();
+            CallVcsRootMethods();
             CallServerInformation();
-            //CallUserGroupMethods();
-            //GetChangeMethods();
+            CallUserGroupMethods();
+            GetChangeMethods();
 
             Console.Read();
         }
