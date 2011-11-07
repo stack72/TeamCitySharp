@@ -1,0 +1,13 @@
+﻿@model List<TeamCitySharp.DomainEntities.User>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>User List</h2>
+<ul>
+    @foreach (var user in Model)
+    {
+        <li>@user.Username</li>
+    }
+</ul>
