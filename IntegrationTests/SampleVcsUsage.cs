@@ -1,72 +1,68 @@
 using System;
 using System.Net;
 using NUnit.Framework;
-using TeamCitySharp;
-using TeamCitySharpAPI;
-using TeamCitySharpAPI.DomainEntities;
-using TeamCitySharpAPI.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using TeamCitySharp.DomainEntities;
 
-namespace IntegrationTests
+namespace TeamCitySharp.IntegrationTests
 {
     [TestFixture]
-    public class SampleVcsUsage
+    public class when_interacting_to_get_vcs_details
     {
-        private TeamCityVcsRoots _client;
+        private TeamCityClient _client;
 
         [SetUp]
         public void SetUp()
         {
-            _client = new Client("localhost:81");
+            _client = new TeamCityClient("localhost:81");
             _client.Connect("admin", "qwerty");
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void Instantiating_A_Client_Without_Host_Throws_Exception()
+        public void it_returns_exception_when_no_host_specified()
         {
-            TeamCityVcsRoots client = new Client(null);
+            var client = new TeamCityClient(null);
 
             //Assert: Exception
         }
 
         [Test]
         [ExpectedException(typeof(WebException))]
-        public void Instantiating_A_Client_With_A_Host_That_Doesnt_Exist_Throws_Exception()
+        public void it_returns_exception_when_host_does_not_exist()
         {
-            TeamCityVcsRoots client = new Client("test:81");
+            var client = new TeamCityClient("test:81");
             client.Connect("admin", "qwerty");
 
-            var vcsroots = client.GetAllVcsRoots();
+            var vcsroots = client.AllVcsRoots();
 
             //Assert: Exception
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentException))]
-        public void Trying_To_Get_VcsRoots_WithOut_Connecting_Throws_Exception()
+        public void it_returns_exception_when_no_connection_formed()
         {
-            TeamCityVcsRoots client = new Client("localhost:81");
+            var client = new TeamCityClient("localhost:81");
 
-            var vcsRoots = client.GetAllVcsRoots();
+            var vcsRoots = client.AllVcsRoots();
 
             //Assert: Exception
         }
         
         [Test]
-        public void Get_All_VCSRoots()
+        public void it_returns_all_vcs_roots()
         {
-            List<VcsRoot> vcsRoots = _client.GetAllVcsRoots();
+            List<VcsRoot> vcsRoots = _client.AllVcsRoots();
 
             Assert.That(vcsRoots.Any(), "No VCS Roots were found for the installation");
         }
 
-        [Test]
-        public void Get_VCSRoot_Details_By_VCSRoot_Id()
+        [TestCase("1")]
+        public void it_returns_vcs_details_when_passing_vcs_root_id(string vcsRootId)
         {
-            var vcsRootID = "1";
-            VcsRoot rootDetails = _client.GetVcsRootById(vcsRootID);
+            VcsRoot rootDetails = _client.VcsRootById(vcsRootId);
 
             Assert.That(rootDetails != null, "Cannot find the specific VCSRoot");
         }

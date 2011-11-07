@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Net;
 using NUnit.Framework;
-using TeamCitySharpAPI.DomainEntities;
+using TeamCitySharp.DomainEntities;
 
 namespace TeamCitySharp.IntegrationTests
 {

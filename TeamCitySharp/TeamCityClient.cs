@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using TeamCitySharp.Connection;
-using TeamCitySharpAPI.DomainEntities;
+using TeamCitySharp.DomainEntities;
 
 namespace TeamCitySharp
 {
@@ -57,7 +57,96 @@ namespace TeamCitySharp
             return pluginWrapper.Plugin;
         }
 
+        public List<Agent> AllAgents()
+        {
+            var agentWrapper = _caller.Get<AgentWrapper>("/httpAuth/app/rest/agents");
 
+            return agentWrapper.Agent;
+        }
+
+        public Build LastBuildByAgent(string agentName)
+        {
+            var build = _caller.Get<Build>(string.Format("/httpAuth/app/rest/builds/agentName:{0}", agentName));
+
+            return build;
+        }
+
+        public List<VcsRoot> AllVcsRoots()
+        {
+            var vcsRootWrapper = _caller.Get<VcsRootWrapper>("/httpAuth/app/rest/vcs-roots");
+
+            return vcsRootWrapper.VcsRoot;
+        }
+
+        public VcsRoot VcsRootById(string vcsRootId)
+        {
+            var vcsRoot = _caller.Get<VcsRoot>(string.Format("/httpAuth/app/rest/vcs-roots/id:{0}", vcsRootId));
+
+            return vcsRoot;
+        }
+
+        public List<User> AllUsers()
+        {
+            var userWrapper = _caller.Get<UserWrapper>("/httpAuth/app/rest/users");
+
+            return userWrapper.User;
+        }
+
+        public List<Role> AllRolesByUserName(string userName)
+        {
+            var user =
+                _caller.Get<User>(string.Format("/httpAuth/app/rest/users/username:{0}", userName));
+
+            return user.Roles.Role;
+        }
+
+        public List<Group> AllGroupsByUserName(string userName)
+        {
+            var user =
+                _caller.Get<User>(string.Format("/httpAuth/app/rest/users/username:{0}", userName));
+
+            return user.Groups.Group;
+        }
+
+        public List<Group> AllUserGroups()
+        {
+            var userGroupWrapper = _caller.Get<UserGroupWrapper>("/httpAuth/app/rest/userGroups");
+
+            return userGroupWrapper.Group;
+        }
+
+        public List<User> AllUsersByUserGroup(string userGroupName)
+        {
+            var group = _caller.Get<Group>(string.Format("/httpAuth/app/rest/userGroups/key:{0}", userGroupName));
+
+            return group.Users.User;
+        }
+
+        public List<Role> AllUserRolesByUserGroup(string userGroupName)
+        {
+            var group = _caller.Get<Group>(string.Format("/httpAuth/app/rest/userGroups/key:{0}", userGroupName));
+
+            return group.Roles.Role;
+        }
+
+        public List<Change> AllChanges()
+        {
+            var changeWrapper = _caller.Get<ChangeWrapper>("/httpAuth/app/rest/changes");
+
+            return changeWrapper.Change;
+        }
+
+        public Change ChangeDetailsByChangeId(string id)
+        {
+            var change = _caller.Get<Change>(string.Format("/httpAuth/app/rest/changes/id:{0}", id));
+
+            return change;
+        }
+
+
+
+
+        
 
         //public List<BuildType> GetAllBuildTypes()
         //{
@@ -65,8 +154,6 @@ namespace TeamCitySharp
 
         //    return buildType.BuildType;
         //}
-
-        
 
         //public BuildType GetBuildTypeByBuildConfigurationName(string buildConfigName)
         //{
@@ -166,91 +253,5 @@ namespace TeamCitySharp
         //    return builds.Where(b => b.Status != "SUCCESS").ToList();
         //}
 
-        //public List<User> GetAllUsers()
-        //{
-        //    var userWrapper = _caller.Get<UserWrapper>("/httpAuth/app/rest/users");
-
-        //    return userWrapper.User;
-        //}
-
-        //public List<Role> GetAllRolesForUserName(string userName)
-        //{
-        //    var user =
-        //        _caller.Get<User>(string.Format("/httpAuth/app/rest/users/username:{0}", userName));
-
-        //    return user.Roles.Role;
-        //}
-
-        //public List<Group> GetAllGroupsByUserName(string userName)
-        //{
-        //    var user =
-        //        _caller.Get<User>(string.Format("/httpAuth/app/rest/users/username:{0}", userName));
-
-        //    return user.Groups.Group;
-        //}
-
-        //public List<Group> GetAllUserGroups()
-        //{
-        //    var userGroupWrapper = _caller.Get<UserGroupWrapper>("/httpAuth/app/rest/userGroups");
-
-        //    return userGroupWrapper.Group;
-        //}
-
-        //public List<User> GetAllUsersByUserGroup(string userGroupName)
-        //{
-        //    var group = _caller.Get<Group>(string.Format("/httpAuth/app/rest/userGroups/key:{0}", userGroupName));
-
-        //    return group.Users.User;
-        //}
-
-        //public List<Role> GetAllUserRolesByUserGroup(string userGroupName)
-        //{
-        //    var group = _caller.Get<Group>(string.Format("/httpAuth/app/rest/userGroups/key:{0}", userGroupName));
-
-        //    return group.Roles.Role;
-        //}
-
-        //public List<Agent> GetAllAgents()
-        //{
-        //    var agentWrapper = _caller.Get<AgentWrapper>("/httpAuth/app/rest/agents");
-
-        //    return agentWrapper.Agent;
-        //}
-
-        //public Build GetLastBuildBySpecificAgentName(string agentName)
-        //{
-        //    var build = _caller.Get<Build>(string.Format("/httpAuth/app/rest/builds/agentName:{0}", agentName));
-
-        //    return build;
-        //}
-
-        //public List<VcsRoot> GetAllVcsRoots()
-        //{
-        //    var vcsRootWrapper = _caller.Get<VcsRootWrapper>("/httpAuth/app/rest/vcs-roots");
-
-        //    return vcsRootWrapper.VcsRoot;
-        //}
-
-        //public VcsRoot GetVcsRootById(string vcsRootId)
-        //{
-        //    var vcsRoot = _caller.Get<VcsRoot>(string.Format("/httpAuth/app/rest/vcs-roots/id:{0}", vcsRootId));
-
-        //    return vcsRoot;
-        //}
-
-        //public List<Change> GetAllChanges()
-        //{
-        //    var changeWrapper = _caller.Get<ChangeWrapper>("/httpAuth/app/rest/changes");
-
-        //    return changeWrapper.Change;
-        //}
-
-        //public Change GetChangeDetailsByChangeId(string id)
-        //{
-        //    var change = _caller.Get<Change>(string.Format("/httpAuth/app/rest/changes/id:{0}", id));
-
-        //    return change;
-        //}
-        
     }
 }

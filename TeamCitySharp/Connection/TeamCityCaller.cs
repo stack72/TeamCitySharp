@@ -1,7 +1,7 @@
 ﻿using System;
 using EasyHttp.Http;
 using EasyHttp.Infrastructure;
-using TeamCitySharpAPI.DomainEntities;
+using TeamCitySharp.DomainEntities;
 
 namespace TeamCitySharp.Connection
 {

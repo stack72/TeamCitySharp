@@ -3,75 +3,68 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using NUnit.Framework;
-using TeamCitySharp;
-using TeamCitySharpAPI;
-using TeamCitySharpAPI.DomainEntities;
-using TeamCitySharpAPI.Interfaces;
+using TeamCitySharp.DomainEntities;
 
-namespace IntegrationTests
+namespace TeamCitySharp.IntegrationTests
 {
     [TestFixture]
-    public class SampleAgentUsage
+    public class when_interacting_to_get_agent_details
     {
-        private TeamCityAgents _client;
-
+        private TeamCityClient _client;
 
         [SetUp]
         public void SetUp()
         {
-            _client = new Client("localhost:81");
+            _client = new TeamCityClient("localhost:81");
             _client.Connect("admin", "qwerty");
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void Instantiating_A_Client_Without_Host_Throws_Exception()
+        public void it_throws_exception_when_no_host()
         {
-            TeamCityAgents client = new Client(null);
+            var client = new TeamCityClient(null);
 
             //Assert: Exception
         }
 
         [Test]
         [ExpectedException(typeof(WebException))]
-        public void Instantiating_A_Client_With_A_Host_That_Doesnt_Exist_Throws_Exception()
+        public void it_throws_exception_when_host_url_invalid()
         {
-            TeamCityAgents client = new Client("test:81");
+            var client = new TeamCityClient("test:81");
             client.Connect("admin", "qwerty");
 
-            var agents = client.GetAllAgents();
+            var agents = client.AllAgents();
 
             //Assert: Exception
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentException))]
-        public void Trying_To_Get_Agents_WithOut_Connecting_Throws_Exception()
+        public void it_throws_exception_when_no_client_connection_made()
         {
-            TeamCityAgents client = new Client("localhost:81");
+            var client = new TeamCityClient("localhost:81");
 
-            var agents = client.GetAllAgents();
+            var agents = client.AllAgents();
 
             //Assert: Exception
         }
 
         [Test]
-        public void Get_All_Agents()
+        public void it_returns_all_agents()
         {
-            List<Agent> agents = _client.GetAllAgents();
+            List<Agent> agents = _client.AllAgents();
 
             Assert.That(agents.Any(), "No agents were found");
         }
 
-        [Test]
-        public void Get_Last_Build_Details_By_Specified_Agent()
+        [TestCase("stack-LP")]
+        public void it_returns_last_build_status_for_agent(string agentName)
         {
-            var agentName = "stack-LP";
-
-            Build lastBuild = _client.GetLastBuildBySpecificAgentName(agentName);
+            Build lastBuild = _client.LastBuildByAgent(agentName);
 
             Assert.That(lastBuild != null, "No build information found for the last build on the specified agent");
         }
-        
     }
 }

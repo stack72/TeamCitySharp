@@ -2,71 +2,67 @@ using System;
 using System.Linq;
 using System.Net;
 using NUnit.Framework;
-using TeamCitySharp;
-using TeamCitySharpAPI;
-using TeamCitySharpAPI.DomainEntities;
-using TeamCitySharpAPI.Interfaces;
 using System.Collections.Generic;
+using TeamCitySharp.DomainEntities;
 
-namespace IntegrationTests
+namespace TeamCitySharp.IntegrationTests
 {
     [TestFixture]
-    public class SampleChangeUsage
+    public class when_interacting_to_get_change_information
     {
-        private TeamCityChanges _client;
+        private TeamCityClient _client;
 
         [SetUp]
         public void SetUp()
         {
-            _client = new Client("localhost:81");
+            _client = new TeamCityClient("localhost:81");
             _client.Connect("admin", "qwerty");
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void Instantiating_A_Client_Without_Host_Throws_Exception()
+        public void it_returns_exception_when_no_host_specified()
         {
-            TeamCityChanges client = new Client(null);
+            var client = new TeamCityClient(null);
 
             //Assert: Exception
         }
 
         [Test]
         [ExpectedException(typeof(WebException))]
-        public void Instantiating_A_Client_With_A_Host_That_Doesnt_Exist_Throws_Exception()
+        public void it_returns_exception_when_host_does_not_exist()
         {
-            TeamCityChanges client = new Client("test:81");
+            var client = new TeamCityClient("test:81");
             client.Connect("admin", "qwerty");
 
-            var changes = client.GetAllChanges();
+            var changes = client.AllChanges();
 
             //Assert: Exception
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentException))]
-        public void Trying_To_Get_Changes_WithOut_Connecting_Throws_Exception()
+        public void it_returns_exception_when_no_connection_made()
         {
-            TeamCityChanges client = new Client("localhost:81");
+            var client = new TeamCityClient("localhost:81");
 
-            var changes = client.GetAllChanges();
+            var changes = client.AllChanges();
 
             //Assert: Exception
         }
 
         [Test]
-        public void Get_All_Changes()
+        public void it_returns_all_changes()
         {
-            List<Change> changes = _client.GetAllChanges();
+            List<Change> changes = _client.AllChanges();
 
             Assert.That(changes.Any(), "Cannot find any changes recorded in any of the projects");
         }
 
-        [Test]
-        public void Get_Change_Details_By_Change_Id()
+        [TestCase("102")]
+        public void it_returns_change_details_by_change_id(string changeId)
         {
-            string changeId = "102";
-            Change changeDetails = _client.GetChangeDetailsByChangeId(changeId);
+            Change changeDetails = _client.ChangeDetailsByChangeId(changeId);
 
             Assert.That(changeDetails != null, "Cannot find details of that specified change");
         }

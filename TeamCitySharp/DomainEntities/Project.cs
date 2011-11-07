@@ -1,4 +1,4 @@
-﻿namespace TeamCitySharpAPI.DomainEntities
+﻿namespace TeamCitySharp.DomainEntities
 {
     public class Project
     {

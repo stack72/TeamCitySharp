@@ -50,8 +50,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SampleAgentUsage.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SampleChangeUsage.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="SampleProjectUsage.cs" />
     <Compile Include="SampleServerUsage.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SampleUserUsage.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SampleVcsUsage.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

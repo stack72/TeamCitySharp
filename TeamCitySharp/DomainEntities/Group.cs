@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace TeamCitySharpAPI.DomainEntities
+﻿namespace TeamCitySharp.DomainEntities
 {
     public class Group
     {
