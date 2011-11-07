@@ -143,45 +143,40 @@ namespace TeamCitySharp
             return change;
         }
 
+        public List<BuildConfig> AllBuildConfigs()
+        {
+            var buildType = _caller.Get<BuildTypeWrapper>("/httpAuth/app/rest/buildTypes");
 
+            return buildType.BuildType;
+        }
 
+        public BuildConfig BuildConfigByConfigurationName(string buildConfigName)
+        {
+            var build = _caller.Get<BuildConfig>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}", buildConfigName));
 
-        
+            return build;
+        }
 
-        //public List<BuildType> GetAllBuildTypes()
-        //{
-        //    var buildType = _caller.Get<BuildTypeWrapper>("/httpAuth/app/rest/buildTypes");
+        public BuildConfig BuildConfigByConfigurationId(string buildConfigId)
+        {
+            var build = _caller.Get<BuildConfig>(string.Format("/httpAuth/app/rest/buildTypes/id:{0}", buildConfigId));
 
-        //    return buildType.BuildType;
-        //}
+            return build;
+        }
 
-        //public BuildType GetBuildTypeByBuildConfigurationName(string buildConfigName)
-        //{
-        //    var build = _caller.Get<BuildType>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}", buildConfigName));
+        public List<BuildConfig> BuildConfigsByProjectId(string projectId)
+        {
+            var buildWrapper = _caller.Get<BuildTypeWrapper>(string.Format("/httpAuth/app/rest/projects/id:{0}/buildTypes", projectId));
 
-        //    return build;
-        //}
+            return buildWrapper.BuildType;
+        }
 
-        //public BuildType GetBuildTypeByBuildConfigurationId(string buildConfigId)
-        //{
-        //    var build = _caller.Get<BuildType>(string.Format("/httpAuth/app/rest/buildTypes/id:{0}", buildConfigId));
+        public List<BuildConfig> BuildTypesPerProjectName(string projectName)
+        {
+            var buildWrapper = _caller.Get<BuildTypeWrapper>(string.Format("/httpAuth/app/rest/projects/name:{0}/buildTypes", projectName));
 
-        //    return build;
-        //}
-
-        //public List<BuildType> GetBuildTypesPerProjectId(string projectId)
-        //{
-        //    var buildWrapper = _caller.Get<BuildTypeWrapper>(string.Format("/httpAuth/app/rest/projects/id:{0}/buildTypes", projectId));
-
-        //    return buildWrapper.BuildType;
-        //}
-
-        //public List<BuildType> GetBuildTypesPerProjectName(string projectName)
-        //{
-        //    var buildWrapper = _caller.Get<BuildTypeWrapper>(string.Format("/httpAuth/app/rest/projects/name:{0}/buildTypes", projectName));
-
-        //    return buildWrapper.BuildType;
-        //}
+            return buildWrapper.BuildType;
+        }
 
         //public List<Build> GetSuccessfulBuildsByBuildConfigName(string buildConfigName)
         //{
@@ -252,6 +247,5 @@ namespace TeamCitySharp
 
         //    return builds.Where(b => b.Status != "SUCCESS").ToList();
         //}
-
     }
 }

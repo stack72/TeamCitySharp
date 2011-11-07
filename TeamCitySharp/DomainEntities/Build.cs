@@ -12,7 +12,7 @@
         public string StartDate { get; set; }
         public string FinishDate { get; set; }
 
-        public BuildType BuildType { get; set; }
+        public BuildConfig BuildConfig { get; set; }
         public Agent Agent { get; set;}
         public ChangeWrapper Changes { get; set; }
 
