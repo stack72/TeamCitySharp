@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Net;
 using EasyHttp.Http;
 using EasyHttp.Infrastructure;
 using TeamCitySharpAPI.DomainEntities;
 
-namespace TeamCitySharpAPI
+namespace TeamCitySharp.Connection
 {
-    public class TeamCityCaller
+    internal class TeamCityCaller
     {
-        private Credentials _configuration = new Credentials();
+        private readonly Credentials _configuration = new Credentials();
 
         public TeamCityCaller(string hostName, bool useSsl)
         {
@@ -43,9 +42,9 @@ namespace TeamCitySharpAPI
                 var staticBody = request.Get(url).StaticBody<T>();
                 return staticBody;
             }
-            catch (WebException ex)
+            catch (HttpException httpException)
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -64,6 +63,5 @@ namespace TeamCitySharpAPI
 
             return httpClient;
         }
-    
     }
 }

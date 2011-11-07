@@ -3,68 +3,66 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Net;
 using NUnit.Framework;
-using TeamCitySharpAPI;
 using TeamCitySharpAPI.DomainEntities;
-using TeamCitySharpAPI.Interfaces;
 
-namespace IntegrationTests
+namespace TeamCitySharp.IntegrationTests
 {
     [TestFixture]
-    public class SampleServerUsage
+    public class when_interacting_to_get_server_info
     {
-        private TeamCityServer _client;
+        private TeamCityClient _client;
         
         [SetUp]
         public void SetUp()
         {
-            _client = new Client("localhost:81");
+            _client = new TeamCityClient("localhost:81");
             _client.Connect("admin", "qwerty");
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void Instantiating_A_Client_Without_Host_Throws_Exception()
+        public void it_throws_exception_when_no_url_passed()
         {
-            TeamCityServer client = new Client(null);
+            var client = new TeamCityClient(null);
 
             //Assert: Exception
         }
 
         [Test]
         [ExpectedException(typeof(WebException))]
-        public void Instantiating_A_Client_With_A_Host_That_Doesnt_Exist_Throws_Exception()
+        public void it_throws_exception_when_host_does_not_exist()
         {
-            TeamCityServer client = new Client("test:81");
+            var client = new TeamCityClient("test:81");
             client.Connect("admin", "qwerty");
 
-            var plugins = client.GetAllServerPlugins();
+            var plugins = client.AllServerPlugins();
 
             //Assert: Exception
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentException))]
-        public void Trying_To_Get_Plugins_WithOut_Connecting_Throws_Exception()
+        public void it_throws_exception_when_no_connection_formed()
         {
-            TeamCityServer client = new Client("localhost:81");
+            var client = new TeamCityClient("localhost:81");
 
-            var plugins = client.GetAllServerPlugins();
+            var plugins = client.AllServerPlugins();
 
             //Assert: Exception
         }
 
         [Test]
-        public void Get_Server_Information()
+        public void it_returns_server_info()
         {
-            Server serverInfo = _client.GetServerInfo();
+            Server serverInfo = _client.ServerInfo();
 
             Assert.That(serverInfo != null, "The server is not returning any information");
         }
 
         [Test]
-        public void Get_List_Plugins()
+        public void it_returns_all_server_plugins()
         {
-            List<Plugin> plugins = _client.GetAllServerPlugins();
+            List<Plugin> plugins = _client.AllServerPlugins();
 
             Assert.That(plugins.Any(), "Server is not returning a plugin list");
         }

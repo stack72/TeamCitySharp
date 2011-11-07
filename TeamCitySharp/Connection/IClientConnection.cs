@@ -1,6 +1,6 @@
-﻿namespace TeamCitySharpAPI
+﻿namespace TeamCitySharp.Connection
 {
-    public interface ClientConnection
+    internal interface IClientConnection
     {
         void Connect(string userName, string password, bool actAsGuest = false);
     }

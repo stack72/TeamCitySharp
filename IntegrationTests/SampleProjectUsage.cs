@@ -2,82 +2,87 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using NUnit.Framework;
-using TeamCitySharpAPI;
 using TeamCitySharpAPI.DomainEntities;
-using TeamCitySharpAPI.Interfaces;
 
-namespace IntegrationTests
+namespace TeamCitySharp.IntegrationTests
 {
     [TestFixture]
-    public class SampleProjectUsage
+    public class when_interacting_to_get_project_details
     {
-        private TeamCityProjects _client;
+        private TeamCityClient _client;
 
         [SetUp]
         public void SetUp()
         {
-            _client = new Client("localhost:81");
+            _client = new TeamCityClient("localhost:81");
             _client.Connect("admin", "qwerty");
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void Instantiating_A_Client_Without_Host_Throws_Exception()
+        public void it_throws_exception_when_not_passing_url()
         {
-            TeamCityProjects client = new Client(null);
+            var client = new TeamCityClient(null);
 
             //Assert: Exception
         }
 
         [Test]
         [ExpectedException(typeof(WebException))]
-        public void Instantiating_A_Client_With_A_Host_That_Doesnt_Exist_Throws_Exception()
+        public void it_throws_exception_when_host_does_not_exist()
         {
-            TeamCityProjects client = new Client("test:81");
+            var client = new TeamCityClient("test:81");
             client.Connect("admin", "qwerty");
 
-            var projects = client.GetAllProjects();
+            var allProjects = client.AllProjects();             
 
             //Assert: Exception
         }
+
 
         [Test]
         [ExpectedException(typeof(ArgumentException))]
-        public void Trying_To_Get_Projects_WithOut_Connecting_Throws_Exception()
+        public void it_throws_exception_when_no_connection_formed()
         {
-            TeamCityProjects client = new Client("localhost:81");
+            var client = new TeamCityClient("localhost:81");
 
-            var projects = client.GetAllProjects();
+            var projects = client.AllProjects();
 
             //Assert: Exception
         }
 
         [Test]
-        public void Get_All_Projects()
+        public void it_returns_all_projects()
         {
-            List<Project> projects = _client.GetAllProjects();
+            List<Project> projects = _client.AllProjects();
 
             Assert.That(projects.Any(), "No projects were found for this server");
         }
 
-        [Test]
-        public void Get_Project_Details_By_ProjectId()
+        [TestCase("project6")]
+        public void it_returns_project_details_when_passing_a_project_id(string projectId)
         {
-            string projectId = "project6";
-            Project projectDetails = _client.GetProjectDetailsByProjectId(projectId);
+            Project projectDetails = _client.ProjectById(projectId);
+
+            Assert.That(projectDetails != null, "No details found for that specific project");
+        }
+
+        [TestCase("nPUC")]
+        public void it_returns_project_details_when_passing_a_project_name(string projectName)
+        {
+            Project projectDetails = _client.ProjectByName(projectName);
 
             Assert.That(projectDetails != null, "No details found for that specific project");
         }
 
         [Test]
-        public void Get_Project_Details_By_ProjectName()
+        public void it_returns_project_details_when_passing_project()
         {
-            string projectName = "nPUC";
-            Project projectDetails = _client.GetProjectDetailsByProjectName(projectName);
+            var project = new Project { Id = "project6" };
+            Project projectDetails = _client.ProjectDetails(project);
 
-            Assert.That(projectDetails!=null, "No details found for that specific project");
+            Assert.That(!string.IsNullOrWhiteSpace(projectDetails.Id));
         }
     }
 }

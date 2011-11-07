@@ -1,6 +1,7 @@
 using System;
 using System.Net;
 using NUnit.Framework;
+using TeamCitySharp;
 using TeamCitySharpAPI;
 using TeamCitySharpAPI.DomainEntities;
 using TeamCitySharpAPI.Interfaces;

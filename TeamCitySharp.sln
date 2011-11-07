@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamCitySharpAPI", "TeamCitySharpAPI\TeamCitySharpAPI.csproj", "{87598714-132F-478E-866E-8C1AF3E83057}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp", "SampleApp\SampleApp.csproj", "{5B7EC521-29BC-49E4-AFE2-3C30D484D2E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamCitySharp", "TeamCitySharp\TeamCitySharp.csproj", "{87598714-132F-478E-866E-8C1AF3E83057}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{263F35DD-20C1-4209-B121-E962C9328C70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "IntegrationTests\IntegrationTests.csproj", "{BA409A09-CC7B-4A71-A3D4-FE27234A721B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamCitySharp.IntegrationTests", "IntegrationTests\TeamCitySharp.IntegrationTests.csproj", "{BA409A09-CC7B-4A71-A3D4-FE27234A721B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,16 +27,6 @@ Global
 		{87598714-132F-478E-866E-8C1AF3E83057}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{87598714-132F-478E-866E-8C1AF3E83057}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{87598714-132F-478E-866E-8C1AF3E83057}.Release|x86.ActiveCfg = Release|Any CPU
-		{5B7EC521-29BC-49E4-AFE2-3C30D484D2E2}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{5B7EC521-29BC-49E4-AFE2-3C30D484D2E2}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{5B7EC521-29BC-49E4-AFE2-3C30D484D2E2}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{5B7EC521-29BC-49E4-AFE2-3C30D484D2E2}.Debug|x86.ActiveCfg = Debug|x86
-		{5B7EC521-29BC-49E4-AFE2-3C30D484D2E2}.Debug|x86.Build.0 = Debug|x86
-		{5B7EC521-29BC-49E4-AFE2-3C30D484D2E2}.Release|Any CPU.ActiveCfg = Release|x86
-		{5B7EC521-29BC-49E4-AFE2-3C30D484D2E2}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{5B7EC521-29BC-49E4-AFE2-3C30D484D2E2}.Release|Mixed Platforms.Build.0 = Release|x86
-		{5B7EC521-29BC-49E4-AFE2-3C30D484D2E2}.Release|x86.ActiveCfg = Release|x86
-		{5B7EC521-29BC-49E4-AFE2-3C30D484D2E2}.Release|x86.Build.0 = Release|x86
 		{BA409A09-CC7B-4A71-A3D4-FE27234A721B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BA409A09-CC7B-4A71-A3D4-FE27234A721B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA409A09-CC7B-4A71-A3D4-FE27234A721B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU

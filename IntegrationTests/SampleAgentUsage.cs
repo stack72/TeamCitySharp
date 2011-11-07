@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using NUnit.Framework;
+using TeamCitySharp;
 using TeamCitySharpAPI;
 using TeamCitySharpAPI.DomainEntities;
 using TeamCitySharpAPI.Interfaces;
@@ -13,6 +14,7 @@ namespace IntegrationTests
     public class SampleAgentUsage
     {
         private TeamCityAgents _client;
+
 
         [SetUp]
         public void SetUp()

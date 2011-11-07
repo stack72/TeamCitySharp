@@ -8,8 +8,8 @@
     <ProjectGuid>{BA409A09-CC7B-4A71-A3D4-FE27234A721B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IntegrationTests</RootNamespace>
-    <AssemblyName>IntegrationTests</AssemblyName>
+    <RootNamespace>TeamCitySharp.IntegrationTests</RootNamespace>
+    <AssemblyName>TeamCitySharp.IntegrationTests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -49,21 +49,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SampleAgentUsage.cs" />
-    <Compile Include="SampleBuildStatusUsage.cs" />
-    <Compile Include="SampleBuildsUsage.cs" />
-    <Compile Include="SampleChangeUsage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleProjectUsage.cs" />
-    <Compile Include="SampleServerUsage.cs" />
-    <Compile Include="SampleUserGroupUsage.cs" />
-    <Compile Include="SampleUserUsage.cs" />
-    <Compile Include="SampleVcsUsage.cs" />
+    <Compile Include="SampleServerUsage.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TeamCitySharpAPI\TeamCitySharpAPI.csproj">
+    <ProjectReference Include="..\TeamCitySharp\TeamCitySharp.csproj">
       <Project>{87598714-132F-478E-866E-8C1AF3E83057}</Project>
-      <Name>TeamCitySharpAPI</Name>
+      <Name>TeamCitySharp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
