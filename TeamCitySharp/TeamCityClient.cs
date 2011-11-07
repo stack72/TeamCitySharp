@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
 
@@ -171,81 +172,76 @@ namespace TeamCitySharp
             return buildWrapper.BuildType;
         }
 
-        public List<BuildConfig> BuildTypesPerProjectName(string projectName)
+        public List<BuildConfig> BuildConfigsByProjectName(string projectName)
         {
             var buildWrapper = _caller.Get<BuildTypeWrapper>(string.Format("/httpAuth/app/rest/projects/name:{0}/buildTypes", projectName));
 
             return buildWrapper.BuildType;
         }
 
-        //public List<Build> GetSuccessfulBuildsByBuildConfigName(string buildConfigName)
-        //{
-        //    var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}/builds?status=SUCCESS", buildConfigName));
+        public List<Build> SuccessfulBuildsByBuildConfigName(string buildConfigName)
+        {
+            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}/builds?status=SUCCESS", buildConfigName));
 
-        //    return buildWrapper.Build;
-        //}
+            return buildWrapper.Build;
+        }
 
-        //public Build GetLastSuccessfulBuildByBuildConfigName(string buildConfigName)
-        //{
-        //    return GetSuccessfulBuildsByBuildConfigName(buildConfigName).FirstOrDefault();
-        //}
+        public Build LastSuccessfulBuildByBuildConfigName(string buildConfigName)
+        {
+            return SuccessfulBuildsByBuildConfigName(buildConfigName).FirstOrDefault();
+        }
 
-        //public List<Build> GetCancelledBuildsByBuildConfigName(string buildConfigName)
-        //{
-        //    var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}/builds?includeCanceled=true", buildConfigName));
+        public List<Build> FailedBuildsByBuildConfigName(string buildConfigName)
+        {
+            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}/builds?status=FAILURE", buildConfigName));
 
-        //    return buildWrapper.Build;
-        //}
+            return buildWrapper.Build;
+        }
 
-        //public Build GetLastCancelledBuildByBuildConfigName(string buildConfigName)
-        //{
-        //    return GetCancelledBuildsByBuildConfigName(buildConfigName).FirstOrDefault();
-        //}
+        public Build LastFailedBuildByBuildConfigName(string buildConfigName)
+        {
+            return FailedBuildsByBuildConfigName(buildConfigName).FirstOrDefault();
+        }
 
-        //public List<Build> GetFailedBuildsByBuildConfigName(string buildConfigName)
-        //{
-        //    var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}/builds?status=FAILURE", buildConfigName));
+        public Build LastBuildByBuildConfigName(string buildConfigName)
+        {
+            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}/builds", buildConfigName));
 
-        //    return buildWrapper.Build;
-        //}
+            return buildWrapper.Build.FirstOrDefault();
+        }
 
-        //public Build GetLastFailedBuildByBuildConfigName(string buildConfigName)
-        //{
-        //    return GetFailedBuildsByBuildConfigName(buildConfigName).FirstOrDefault();
-        //}
+        public List<Build> ErrorBuildsByBuildConfigName(string buildConfigName)
+        {
+            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}/builds?status=ERROR", buildConfigName));
 
-        //public Build GetLastBuildStatusByBuildConfigName(string buildConfigName)
-        //{
-        //    var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}/builds", buildConfigName));
+            return buildWrapper.Build;
+        }
 
-        //    return buildWrapper.Build.FirstOrDefault();
-        //}
+        public Build LastErrorBuildByBuildConfigName(string buildConfigName)
+        {
+            return ErrorBuildsByBuildConfigName(buildConfigName).FirstOrDefault();
+        }
 
-        //public List<Build> GetErrorBuildsByBuildConfigName(string buildConfigName)
-        //{
-        //    var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}/builds?status=ERROR", buildConfigName));
+        public List<Build> BuildConfigsByBuildConfigName(string buildConfigName)
+        {
+            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}/builds", buildConfigName));
 
-        //    return buildWrapper.Build;
-        //}
+            return buildWrapper.Build;
+        }
 
-        //public Build GetLastErrorBuildByBuildConfigName(string buildConfigName)
-        //{
-        //    return GetErrorBuildsByBuildConfigName(buildConfigName).FirstOrDefault();
-        //}
+        public List<Build> BuildsByUserName(string userName)
+        {
+            var buildWrapper =
+                _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/builds?locator=user:{0}", userName));
 
-        //public List<Build> GetBuildsByUserName(string userName)
-        //{
-        //    var buildWrapper =
-        //        _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/builds?locator=user:{0}", userName));
+            return buildWrapper.Build;
+        }
 
-        //    return buildWrapper.Build;
-        //}
+        public List<Build> NonSuccessfulBuildsForUser(string userName)
+        {
+            var builds = BuildsByUserName(userName);
 
-        //public List<Build> GetNonSuccessfulBuildsForUser(string userName)
-        //{
-        //    var builds = GetBuildsByUserName(userName);
-
-        //    return builds.Where(b => b.Status != "SUCCESS").ToList();
-        //}
+            return builds.Where(b => b.Status != "SUCCESS").ToList();
+        }
     }
 }

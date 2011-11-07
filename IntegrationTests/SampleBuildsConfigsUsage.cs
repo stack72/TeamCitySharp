@@ -52,36 +52,45 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_all_build_types()
         {
-            var buildTypes = _client.AllBuildConfigs();
+            var buildConfigs = _client.AllBuildConfigs();
 
-            Assert.That(buildTypes.Any(), "No build types were found in this server");
+            Assert.That(buildConfigs.Any(), "No build types were found in this server");
         }
 
         [Test]
         public void it_returns_build_config_details_by_configuration_id()
         {
             string buildConfigId = "bt8";
-            var buildType = _client.BuildConfigByConfigurationId(buildConfigId);
+            var buildConfig = _client.BuildConfigByConfigurationId(buildConfigId);
 
-            Assert.That(buildType != null, "Cannot find a build type for that buildId");
+            Assert.That(buildConfig != null, "Cannot find a build type for that buildId");
         }
 
         [Test]
         public void it_returns_build_config_details_by_configuration_name()
         {
             string buildConfigName = "Local Debug Build";
-            var buildType = _client.BuildConfigByConfigurationName(buildConfigName);
+            var buildConfig = _client.BuildConfigByConfigurationName(buildConfigName);
 
-            Assert.That(buildType != null, "Cannot find a build type for that buildName");
+            Assert.That(buildConfig != null, "Cannot find a build type for that buildName");
         }
 
         [Test]
         public void it_returns_build_configs_by_project_id()
         {
             string projectId = "project6";
-            var buildTypes = _client.BuildConfigsByProjectId(projectId);
+            var buildConfigs = _client.BuildConfigsByProjectId(projectId);
 
-            Assert.That(buildTypes.Any(), "Cannot find a build type for that projectId");
+            Assert.That(buildConfigs.Any(), "Cannot find a build type for that projectId");
+        }
+
+        [Test]
+        public void it_returns_build_configs_by_project_name()
+        {
+            string projectId = "npuc";
+            var buildConfigs = _client.BuildConfigsByProjectName(projectId);
+
+            Assert.That(buildConfigs.Any(), "Cannot find a build type for that projectId");
         }
     }
 }

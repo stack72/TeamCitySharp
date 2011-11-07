@@ -44,7 +44,7 @@ namespace TeamCitySharp.Connection
             }
             catch (HttpException httpException)
             {
-                throw;
+                throw httpException;
             }
         }
 
