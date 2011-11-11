@@ -179,28 +179,28 @@ namespace TeamCitySharp
             return buildWrapper.BuildType;
         }
 
-        public List<Build> SuccessfulBuildsByBuildConfigName(string buildConfigName)
+        public List<Build> SuccessfulBuildsByBuildConfigId(string buildConfigId)
         {
-            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}/builds?status=SUCCESS", buildConfigName));
+            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/id:{0}/builds?status=SUCCESS", buildConfigId));
 
             return buildWrapper.Build;
         }
 
-        public Build LastSuccessfulBuildByBuildConfigName(string buildConfigName)
+        public Build LastSuccessfulBuildByBuildConfigId(string buildConfigId)
         {
-            return SuccessfulBuildsByBuildConfigName(buildConfigName).FirstOrDefault();
+            return SuccessfulBuildsByBuildConfigId(buildConfigId).FirstOrDefault();
         }
 
-        public List<Build> FailedBuildsByBuildConfigName(string buildConfigName)
+        public List<Build> FailedBuildsByBuildConfigId(string buildConfigId)
         {
-            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}/builds?status=FAILURE", buildConfigName));
+            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/id:{0}/builds?status=FAILURE", buildConfigId));
 
             return buildWrapper.Build;
         }
 
-        public Build LastFailedBuildByBuildConfigName(string buildConfigName)
+        public Build LastFailedBuildByBuildConfigId(string buildConfigId)
         {
-            return FailedBuildsByBuildConfigName(buildConfigName).FirstOrDefault();
+            return FailedBuildsByBuildConfigId(buildConfigId).FirstOrDefault();
         }
 
         public Build LastBuildByBuildConfigId(string buildConfigId)
@@ -210,21 +210,21 @@ namespace TeamCitySharp
             return buildWrapper.Build.FirstOrDefault();
         }
 
-        public List<Build> ErrorBuildsByBuildConfigName(string buildConfigName)
+        public List<Build> ErrorBuildsByBuildConfigId(string buildConfigId)
         {
-            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}/builds?status=ERROR", buildConfigName));
+            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/id:{0}/builds?status=ERROR", buildConfigId));
 
             return buildWrapper.Build;
         }
 
-        public Build LastErrorBuildByBuildConfigName(string buildConfigName)
+        public Build LastErrorBuildByBuildConfigId(string buildConfigId)
         {
-            return ErrorBuildsByBuildConfigName(buildConfigName).FirstOrDefault();
+            return ErrorBuildsByBuildConfigId(buildConfigId).FirstOrDefault();
         }
 
-        public List<Build> BuildConfigsByBuildConfigName(string buildConfigName)
+        public List<Build> BuildConfigsByBuildConfigId(string buildConfigId)
         {
-            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}/builds", buildConfigName));
+            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/id:{0}/builds", buildConfigId));
 
             return buildWrapper.Build;
         }

@@ -33,8 +33,8 @@ namespace TeamCitySharp.IntegrationTests
             var client = new TeamCityClient("test:81");
             client.Connect("admin", "qwerty");
 
-            string buildConfigName = "Local Debug Build";
-            var builds = client.SuccessfulBuildsByBuildConfigName(buildConfigName);
+            string buildConfigId = "Local Debug Build";
+            var builds = client.SuccessfulBuildsByBuildConfigId(buildConfigId);
 
             //Assert: Exception
         }
@@ -45,62 +45,62 @@ namespace TeamCitySharp.IntegrationTests
         {
             var client = new TeamCityClient("localhost:81");
 
-            string buildConfigName = "Local Debug Build";
-            var builds = client.SuccessfulBuildsByBuildConfigName(buildConfigName);
+            string buildConfigId = "Local Debug Build";
+            var builds = client.SuccessfulBuildsByBuildConfigId(buildConfigId);
 
             //Assert: Exception
         }
 
         [Test]
-        public void it_returns_last_successful_build_by_build_config_name()
+        public void it_returns_last_successful_build_by_build_config_id()
         {
-            string buildConfigName = "Local Debug Build";
-            var build = _client.LastSuccessfulBuildByBuildConfigName(buildConfigName);
+            string buildConfigId = "Local Debug Build";
+            var build = _client.LastSuccessfulBuildByBuildConfigId(buildConfigId);
 
             Assert.That(build != null, "No successful builds have been found");
         }
 
         [Test]
-        public void it_returns_last_successful_builds_by_build_config_name()
+        public void it_returns_last_successful_builds_by_build_config_id()
         {
-            string buildConfigName = "Local Debug Build";
-            var buildDetails = _client.SuccessfulBuildsByBuildConfigName(buildConfigName);
+            string buildConfigId = "Local Debug Build";
+            var buildDetails = _client.SuccessfulBuildsByBuildConfigId(buildConfigId);
 
             Assert.That(buildDetails.Any(), "No successful builds have been found");
         }
 
         [Test]
-        public void it_returns_last_failed_build_by_build_configuration_name()
+        public void it_returns_last_failed_build_by_build_config_id()
         {
-            string buildConfigName = "Local Debug Build";
-            var buildDetails = _client.LastFailedBuildByBuildConfigName(buildConfigName);
+            string buildConfigId = "Local Debug Build";
+            var buildDetails = _client.LastFailedBuildByBuildConfigId(buildConfigId);
 
             Assert.That(buildDetails != null, "No failed builds have been found");
         }
 
         [Test]
-        public void it_returns_all_non_successful_builds_by_config_name()
+        public void it_returns_all_non_successful_builds_by_config_id()
         {
-            string buildConfigName = "Local Debug Build";
-            var builds = _client.FailedBuildsByBuildConfigName(buildConfigName);
+            string buildConfigId = "Local Debug Build";
+            var builds = _client.FailedBuildsByBuildConfigId(buildConfigId);
 
             Assert.That(builds.Any(), "No failed builds have been found");
         }
 
         [Test]
-        public void it_returns_last_error_build_by_config_name()
+        public void it_returns_last_error_build_by_config_id()
         {
-            string buildConfigName = "Local Debug Build";
-            var buildDetails = _client.LastErrorBuildByBuildConfigName(buildConfigName);
+            string buildConfigId = "Local Debug Build";
+            var buildDetails = _client.LastErrorBuildByBuildConfigId(buildConfigId);
 
             Assert.That(buildDetails != null, "No errored builds have been found");
         }
 
         [Test]
-        public void it_returns_all_error_builds_by_config_name()
+        public void it_returns_all_error_builds_by_config_id()
         {
-            string buildConfigName = "Local Debug Build";
-            var builds = _client.ErrorBuildsByBuildConfigName(buildConfigName);
+            string buildId = "Local Debug Build";
+            var builds = _client.ErrorBuildsByBuildConfigId(buildId);
 
             Assert.That(builds.Any(), "No errored builds have been found");
         }
@@ -115,10 +115,10 @@ namespace TeamCitySharp.IntegrationTests
         }
 
         [Test]
-        public void it_returns_all_builds_by_build_config_name()
+        public void it_returns_all_builds_by_build_config_id()
         {
-            string buildConfigName = "Local Debug Build";
-            var builds = _client.BuildConfigsByBuildConfigName(buildConfigName);
+            string buildConfigId = "Local Debug Build";
+            var builds = _client.BuildConfigsByBuildConfigId(buildConfigId);
 
             Assert.That(builds.Any(), "No builds for this build configuration have been found");
         }
