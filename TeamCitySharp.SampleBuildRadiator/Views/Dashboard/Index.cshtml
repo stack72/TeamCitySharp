@@ -1,0 +1,16 @@
+﻿@model List<TeamCitySharp.SampleBuildRadiator.Controllers.BuildOverView>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+    @foreach (var build in Model)
+    {
+        <h2>@build.Name</h2>
+        <ul>
+        <li>@build.BuildName</li>
+        <li>@build.LastStatus</li>
+        </ul>
+    }

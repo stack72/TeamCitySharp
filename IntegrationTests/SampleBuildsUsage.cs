@@ -106,10 +106,10 @@ namespace TeamCitySharp.IntegrationTests
         }
 
         [Test]
-        public void it_returns_the_last_build_status_by_build_config_name()
+        public void it_returns_the_last_build_status_by_build_config_id()
         {
-            string buildConfigName = "Local Debug Build";
-            var build = _client.LastBuildByBuildConfigName(buildConfigName);
+            string buildConfigId = "Local Debug Build";
+            var build = _client.LastBuildByBuildConfigId(buildConfigId);
 
             Assert.That(build != null, "No builds for this build config have been found");
         }

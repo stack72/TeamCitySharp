@@ -203,9 +203,9 @@ namespace TeamCitySharp
             return FailedBuildsByBuildConfigName(buildConfigName).FirstOrDefault();
         }
 
-        public Build LastBuildByBuildConfigName(string buildConfigName)
+        public Build LastBuildByBuildConfigId(string buildConfigId)
         {
-            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}/builds", buildConfigName));
+            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/id:{0}/builds", buildConfigId));
 
             return buildWrapper.Build.FirstOrDefault();
         }
