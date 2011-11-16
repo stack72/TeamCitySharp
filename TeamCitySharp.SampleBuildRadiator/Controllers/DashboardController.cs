@@ -11,8 +11,8 @@ namespace TeamCitySharp.SampleBuildRadiator.Controllers
 
         public DashboardController()
         {
-            _client = new TeamCityClient("");
-            _client.Connect("", "");
+            _client = new TeamCityClient("localhost:81");
+            _client.Connect("admin", "qwerty");
         }
 
         public ActionResult Index()
@@ -38,7 +38,7 @@ namespace TeamCitySharp.SampleBuildRadiator.Controllers
         {
             var lastBuild = _client.LastBuildByBuildConfigId(buildType.Id);
             var buildOverView = new BuildOverView();
-            buildOverView.Name = project.Name;
+            buildOverView.ProjectName = project.Name;
             buildOverView.BuildName = buildType.Name;
             //buildOverView.LastBuildDate = DateTime.Parse(lastBuild.StartDate);
             buildOverView.LastStatus = lastBuild.Status;
@@ -49,7 +49,7 @@ namespace TeamCitySharp.SampleBuildRadiator.Controllers
 
     public class BuildOverView  
     {
-        public string Name { get; set; }
+        public string ProjectName { get; set; }
         public string BuildName { get; set; }
         public DateTime LastBuildDate { get; set; }
         public string LastStatus { get; set; }

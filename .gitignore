@@ -4,3 +4,9 @@ deploy
 *.csproj.user
 *.suo
 *ReSharper*
+*.orig
+*.dotCover
+
+
+packages
+!/src/packages/repositories.config

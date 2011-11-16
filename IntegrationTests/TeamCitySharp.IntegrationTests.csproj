@@ -83,9 +83,11 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
+
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="BeforeBuild">
+    <Exec Command="&quot;$(SolutionDir)Tools\NuGet&quot; install &quot;$(ProjectDir)packages.config&quot; -o 			&quot;$(SolutionDir)packages&quot;" />
+  </Target>
 </Project>

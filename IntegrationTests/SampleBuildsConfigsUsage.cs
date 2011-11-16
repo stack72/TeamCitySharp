@@ -60,7 +60,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_build_config_details_by_configuration_id()
         {
-            string buildConfigId = "bt8";
+            string buildConfigId = "bt2";
             var buildConfig = _client.BuildConfigByConfigurationId(buildConfigId);
 
             Assert.That(buildConfig != null, "Cannot find a build type for that buildId");
@@ -69,7 +69,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_build_config_details_by_configuration_name()
         {
-            string buildConfigName = "Local Debug Build";
+            string buildConfigName = "Debug";
             var buildConfig = _client.BuildConfigByConfigurationName(buildConfigName);
 
             Assert.That(buildConfig != null, "Cannot find a build type for that buildName");
@@ -78,7 +78,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_build_configs_by_project_id()
         {
-            string projectId = "project6";
+            string projectId = "project2";
             var buildConfigs = _client.BuildConfigsByProjectId(projectId);
 
             Assert.That(buildConfigs.Any(), "Cannot find a build type for that projectId");
@@ -87,10 +87,10 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_build_configs_by_project_name()
         {
-            string projectId = "npuc";
-            var buildConfigs = _client.BuildConfigsByProjectName(projectId);
+            string projectName = "TeamCitySharp";
+            var buildConfigs = _client.BuildConfigsByProjectName(projectName);
 
-            Assert.That(buildConfigs.Any(), "Cannot find a build type for that projectId");
+            Assert.That(buildConfigs.Any(), "Cannot find a build type for that projectName");
         }
     }
 }

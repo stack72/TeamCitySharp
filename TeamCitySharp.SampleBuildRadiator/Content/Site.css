@@ -73,3 +73,9 @@ textarea
 {
     display: none;
 }
+
+div.SUCCESS 
+{
+    background-color: green;
+    color: white;
+}

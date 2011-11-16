@@ -54,7 +54,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_last_successful_build_by_build_config_id()
         {
-            string buildConfigId = "Local Debug Build";
+            string buildConfigId = "bt2";
             var build = _client.LastSuccessfulBuildByBuildConfigId(buildConfigId);
 
             Assert.That(build != null, "No successful builds have been found");
@@ -63,7 +63,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_last_successful_builds_by_build_config_id()
         {
-            string buildConfigId = "Local Debug Build";
+            string buildConfigId = "bt2";
             var buildDetails = _client.SuccessfulBuildsByBuildConfigId(buildConfigId);
 
             Assert.That(buildDetails.Any(), "No successful builds have been found");
@@ -72,7 +72,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_last_failed_build_by_build_config_id()
         {
-            string buildConfigId = "Local Debug Build";
+            string buildConfigId = "bt2";
             var buildDetails = _client.LastFailedBuildByBuildConfigId(buildConfigId);
 
             Assert.That(buildDetails != null, "No failed builds have been found");
@@ -81,7 +81,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_all_non_successful_builds_by_config_id()
         {
-            string buildConfigId = "Local Debug Build";
+            string buildConfigId = "bt2";
             var builds = _client.FailedBuildsByBuildConfigId(buildConfigId);
 
             Assert.That(builds.Any(), "No failed builds have been found");
@@ -90,7 +90,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_last_error_build_by_config_id()
         {
-            string buildConfigId = "Local Debug Build";
+            string buildConfigId = "bt2";
             var buildDetails = _client.LastErrorBuildByBuildConfigId(buildConfigId);
 
             Assert.That(buildDetails != null, "No errored builds have been found");
@@ -99,7 +99,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_all_error_builds_by_config_id()
         {
-            string buildId = "Local Debug Build";
+            string buildId = "bt2";
             var builds = _client.ErrorBuildsByBuildConfigId(buildId);
 
             Assert.That(builds.Any(), "No errored builds have been found");
@@ -108,7 +108,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_the_last_build_status_by_build_config_id()
         {
-            string buildConfigId = "Local Debug Build";
+            string buildConfigId = "bt2";
             var build = _client.LastBuildByBuildConfigId(buildConfigId);
 
             Assert.That(build != null, "No builds for this build config have been found");
@@ -117,7 +117,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_all_builds_by_build_config_id()
         {
-            string buildConfigId = "Local Debug Build";
+            string buildConfigId = "bt2";
             var builds = _client.BuildConfigsByBuildConfigId(buildConfigId);
 
             Assert.That(builds.Any(), "No builds for this build configuration have been found");

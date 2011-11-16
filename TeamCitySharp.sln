@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamCitySharp.IntegrationTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamCitySharp.SampleBuildRadiator", "TeamCitySharp.SampleBuildRadiator\TeamCitySharp.SampleBuildRadiator.csproj", "{BAC7344F-4860-4423-8CEC-D72AA2C978DF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamCitySharp.Mobile", "TeamCitySharp.Mobile\TeamCitySharp.Mobile.csproj", "{23F0EF12-D74B-44AB-BB6D-457801C8B31D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,16 @@ Global
 		{BAC7344F-4860-4423-8CEC-D72AA2C978DF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{BAC7344F-4860-4423-8CEC-D72AA2C978DF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{BAC7344F-4860-4423-8CEC-D72AA2C978DF}.Release|x86.ActiveCfg = Release|Any CPU
+		{23F0EF12-D74B-44AB-BB6D-457801C8B31D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23F0EF12-D74B-44AB-BB6D-457801C8B31D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23F0EF12-D74B-44AB-BB6D-457801C8B31D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{23F0EF12-D74B-44AB-BB6D-457801C8B31D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{23F0EF12-D74B-44AB-BB6D-457801C8B31D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{23F0EF12-D74B-44AB-BB6D-457801C8B31D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23F0EF12-D74B-44AB-BB6D-457801C8B31D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23F0EF12-D74B-44AB-BB6D-457801C8B31D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{23F0EF12-D74B-44AB-BB6D-457801C8B31D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{23F0EF12-D74B-44AB-BB6D-457801C8B31D}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,9 +8,9 @@
 
     @foreach (var build in Model)
     {
-        <h2>@build.Name</h2>
+        <div class="@build.LastStatus">
+        <h3>@build.ProjectName</h3>
         <ul>
         <li>@build.BuildName</li>
-        <li>@build.LastStatus</li>
-        </ul>
+        </ul></div>
     }
