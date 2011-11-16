@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{23F0EF12-D74B-44AB-BB6D-457801C8B31D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TeamCitySharp.Mobile</RootNamespace>
+    <AssemblyName>TeamCitySharp.Mobile</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile2</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EasyHttp">
+      <HintPath>..\packages\EasyHttp.1.3.18.0\lib\sl40-wp\EasyHttp.dll</HintPath>
+    </Reference>
+    <Reference Include="JsonFx">
+      <HintPath>..\packages\JsonFx.2.0.1106.2610\lib\net40\JsonFx.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Serialization" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Connection\IClientConnection.cs" />
+    <Compile Include="Connection\TeamCityCaller.cs" />
+    <Compile Include="DomainEntities\Agent.cs" />
+    <Compile Include="DomainEntities\AgentWrapper.cs" />
+    <Compile Include="DomainEntities\Build.cs" />
+    <Compile Include="DomainEntities\BuildConfig.cs" />
+    <Compile Include="DomainEntities\BuildTypeWrapper.cs" />
+    <Compile Include="DomainEntities\BuildWrapper.cs" />
+    <Compile Include="DomainEntities\Change.cs" />
+    <Compile Include="DomainEntities\ChangeWrapper.cs" />
+    <Compile Include="DomainEntities\Credentials.cs" />
+    <Compile Include="DomainEntities\File.cs" />
+    <Compile Include="DomainEntities\FileWrapper.cs" />
+    <Compile Include="DomainEntities\Group.cs" />
+    <Compile Include="DomainEntities\Plugin.cs" />
+    <Compile Include="DomainEntities\PluginWrapper.cs" />
+    <Compile Include="DomainEntities\Project.cs" />
+    <Compile Include="DomainEntities\ProjectWrapper.cs" />
+    <Compile Include="DomainEntities\Role.cs" />
+    <Compile Include="DomainEntities\RoleWrapper.cs" />
+    <Compile Include="DomainEntities\Server.cs" />
+    <Compile Include="DomainEntities\User.cs" />
+    <Compile Include="DomainEntities\UserGroupWrapper.cs" />
+    <Compile Include="DomainEntities\UserWrapper.cs" />
+    <Compile Include="DomainEntities\VcsRoot.cs" />
+    <Compile Include="DomainEntities\VcsRootWrapper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TeamCityClient.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <Target Name="BeforeBuild">
+    <Exec Command="&quot;$(SolutionDir)Tools\NuGet&quot; install &quot;$(ProjectDir)packages.config&quot; -o 			&quot;$(SolutionDir)packages&quot;" />
+  </Target>
+  <PropertyGroup>
+    <PostBuildEvent>COPY "$(ProjectDir)bin\$(Configuration)\$(TargetFileName)" "$(SolutionDir)Output\"</PostBuildEvent>
+  </PropertyGroup>
+</Project>

@@ -6,6 +6,7 @@ deploy
 *ReSharper*
 *.orig
 *.dotCover
+output
 
 
 packages
