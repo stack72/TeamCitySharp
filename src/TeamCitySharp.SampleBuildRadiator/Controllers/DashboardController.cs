@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using TeamCitySharp.DomainEntities;
+using TeamCitySharp.SampleBuildRadiator.Models;
 
 namespace TeamCitySharp.SampleBuildRadiator.Controllers
 {
@@ -18,7 +18,7 @@ namespace TeamCitySharp.SampleBuildRadiator.Controllers
         public ActionResult Index()
         {
             var projects = _client.AllProjects();
-            var overviewStatus = new List<BuildOverView>();
+            var overviewStatus = new List<BuildOverViewModel>();
 
             foreach (var project in projects)
             {
@@ -34,10 +34,10 @@ namespace TeamCitySharp.SampleBuildRadiator.Controllers
             return View(overviewStatus);
         }
 
-        private BuildOverView CreateBuildOverview(Project project, BuildConfig buildType)
+        private BuildOverViewModel CreateBuildOverview(Project project, BuildConfig buildType)
         {
             var lastBuild = _client.LastBuildByBuildConfigId(buildType.Id);
-            var buildOverView = new BuildOverView();
+            var buildOverView = new BuildOverViewModel();
             buildOverView.ProjectName = project.Name;
             buildOverView.BuildName = buildType.Name;
             //buildOverView.LastBuildDate = DateTime.Parse(lastBuild.StartDate);
@@ -45,13 +45,5 @@ namespace TeamCitySharp.SampleBuildRadiator.Controllers
 
             return buildOverView;
         }
-    }
-
-    public class BuildOverView  
-    {
-        public string ProjectName { get; set; }
-        public string BuildName { get; set; }
-        public DateTime LastBuildDate { get; set; }
-        public string LastStatus { get; set; }
     }
 }
