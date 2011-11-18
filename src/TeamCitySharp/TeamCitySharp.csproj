@@ -33,11 +33,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EasyHttp">
-      <HintPath>..\packages\EasyHttp.1.3.18.0\lib\net40\EasyHttp.dll</HintPath>
+    <Reference Include="EasyHttp, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EasyHttp.1.4.1.0\lib\net40\EasyHttp.dll</HintPath>
     </Reference>
-    <Reference Include="JsonFx">
-      <HintPath>..\packages\JsonFx.2.0.1106.2610\lib\net40\JsonFx.dll</HintPath>
+    <Reference Include="JsonFx, Version=2.0.1106.2610, Culture=neutral, PublicKeyToken=315052dd637f8a52, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JsonFx.2.0.1106.2610\lib\net40\JsonFx.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -48,93 +49,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\TeamCitySharp.Mobile\Connection\IClientConnection.cs">
-      <Link>Connection\IClientConnection.cs</Link>
-    </Compile>
-    <Compile Include="..\TeamCitySharp.Mobile\Connection\TeamCityCaller.cs">
-      <Link>Connection\TeamCityCaller.cs</Link>
-    </Compile>
-    <Compile Include="..\TeamCitySharp.Mobile\DomainEntities\Agent.cs">
-      <Link>DomainEntities\Agent.cs</Link>
-    </Compile>
-    <Compile Include="..\TeamCitySharp.Mobile\DomainEntities\AgentWrapper.cs">
-      <Link>DomainEntities\AgentWrapper.cs</Link>
-    </Compile>
-    <Compile Include="..\TeamCitySharp.Mobile\DomainEntities\Build.cs">
-      <Link>DomainEntities\Build.cs</Link>
-    </Compile>
-    <Compile Include="..\TeamCitySharp.Mobile\DomainEntities\BuildConfig.cs">
-      <Link>DomainEntities\BuildConfig.cs</Link>
-    </Compile>
-    <Compile Include="..\TeamCitySharp.Mobile\DomainEntities\BuildTypeWrapper.cs">
-      <Link>DomainEntities\BuildTypeWrapper.cs</Link>
-    </Compile>
-    <Compile Include="..\TeamCitySharp.Mobile\DomainEntities\BuildWrapper.cs">
-      <Link>DomainEntities\BuildWrapper.cs</Link>
-    </Compile>
-    <Compile Include="..\TeamCitySharp.Mobile\DomainEntities\Change.cs">
-      <Link>DomainEntities\Change.cs</Link>
-    </Compile>
-    <Compile Include="..\TeamCitySharp.Mobile\DomainEntities\ChangeWrapper.cs">
-      <Link>DomainEntities\ChangeWrapper.cs</Link>
-    </Compile>
-    <Compile Include="..\TeamCitySharp.Mobile\DomainEntities\Credentials.cs">
-      <Link>DomainEntities\Credentials.cs</Link>
-    </Compile>
-    <Compile Include="..\TeamCitySharp.Mobile\DomainEntities\File.cs">
-      <Link>DomainEntities\File.cs</Link>
-    </Compile>
-    <Compile Include="..\TeamCitySharp.Mobile\DomainEntities\FileWrapper.cs">
-      <Link>DomainEntities\FileWrapper.cs</Link>
-    </Compile>
-    <Compile Include="..\TeamCitySharp.Mobile\DomainEntities\Group.cs">
-      <Link>DomainEntities\Group.cs</Link>
-    </Compile>
-    <Compile Include="..\TeamCitySharp.Mobile\DomainEntities\Plugin.cs">
-      <Link>DomainEntities\Plugin.cs</Link>
-    </Compile>
-    <Compile Include="..\TeamCitySharp.Mobile\DomainEntities\PluginWrapper.cs">
-      <Link>DomainEntities\PluginWrapper.cs</Link>
-    </Compile>
-    <Compile Include="..\TeamCitySharp.Mobile\DomainEntities\Project.cs">
-      <Link>DomainEntities\Project.cs</Link>
-    </Compile>
-    <Compile Include="..\TeamCitySharp.Mobile\DomainEntities\ProjectWrapper.cs">
-      <Link>DomainEntities\ProjectWrapper.cs</Link>
-    </Compile>
-    <Compile Include="..\TeamCitySharp.Mobile\DomainEntities\Role.cs">
-      <Link>DomainEntities\Role.cs</Link>
-    </Compile>
-    <Compile Include="..\TeamCitySharp.Mobile\DomainEntities\RoleWrapper.cs">
-      <Link>DomainEntities\RoleWrapper.cs</Link>
-    </Compile>
-    <Compile Include="..\TeamCitySharp.Mobile\DomainEntities\Server.cs">
-      <Link>DomainEntities\Server.cs</Link>
-    </Compile>
-    <Compile Include="..\TeamCitySharp.Mobile\DomainEntities\User.cs">
-      <Link>DomainEntities\User.cs</Link>
-    </Compile>
-    <Compile Include="..\TeamCitySharp.Mobile\DomainEntities\UserGroupWrapper.cs">
-      <Link>DomainEntities\UserGroupWrapper.cs</Link>
-    </Compile>
-    <Compile Include="..\TeamCitySharp.Mobile\DomainEntities\UserWrapper.cs">
-      <Link>DomainEntities\UserWrapper.cs</Link>
-    </Compile>
-    <Compile Include="..\TeamCitySharp.Mobile\DomainEntities\VcsRoot.cs">
-      <Link>DomainEntities\VcsRoot.cs</Link>
-    </Compile>
-    <Compile Include="..\TeamCitySharp.Mobile\DomainEntities\VcsRootWrapper.cs">
-      <Link>DomainEntities\VcsRootWrapper.cs</Link>
-    </Compile>
-    <Compile Include="..\TeamCitySharp.Mobile\TeamCityClient.cs">
-      <Link>TeamCityClient.cs</Link>
-    </Compile>
+    <Compile Include="Connection\IClientConnection.cs" />
+    <Compile Include="Connection\TeamCityCaller.cs" />
+    <Compile Include="DomainEntities\Agent.cs" />
+    <Compile Include="DomainEntities\AgentWrapper.cs" />
+    <Compile Include="DomainEntities\Build.cs" />
+    <Compile Include="DomainEntities\BuildConfig.cs" />
+    <Compile Include="DomainEntities\BuildTypeWrapper.cs" />
+    <Compile Include="DomainEntities\BuildWrapper.cs" />
+    <Compile Include="DomainEntities\Change.cs" />
+    <Compile Include="DomainEntities\ChangeWrapper.cs" />
+    <Compile Include="DomainEntities\Credentials.cs" />
+    <Compile Include="DomainEntities\File.cs" />
+    <Compile Include="DomainEntities\FileWrapper.cs" />
+    <Compile Include="DomainEntities\Group.cs" />
+    <Compile Include="DomainEntities\Plugin.cs" />
+    <Compile Include="DomainEntities\PluginWrapper.cs" />
+    <Compile Include="DomainEntities\Project.cs" />
+    <Compile Include="DomainEntities\ProjectWrapper.cs" />
+    <Compile Include="DomainEntities\Role.cs" />
+    <Compile Include="DomainEntities\RoleWrapper.cs" />
+    <Compile Include="DomainEntities\Server.cs" />
+    <Compile Include="DomainEntities\User.cs" />
+    <Compile Include="DomainEntities\UserGroupWrapper.cs" />
+    <Compile Include="DomainEntities\UserWrapper.cs" />
+    <Compile Include="DomainEntities\VcsRoot.cs" />
+    <Compile Include="DomainEntities\VcsRootWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TeamCityClient.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\TeamCitySharp.Mobile\packages.config">
-      <Link>packages.config</Link>
-    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

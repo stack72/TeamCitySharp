@@ -92,12 +92,6 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TeamCitySharp\TeamCitySharp.csproj">
-      <Project>{87598714-132F-478E-866E-8C1AF3E83057}</Project>
-      <Name>TeamCitySharp</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Projects\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -111,6 +105,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Dashboard\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TeamCitySharp\TeamCitySharp.csproj">
+      <Project>{87598714-132F-478E-866E-8C1AF3E83057}</Project>
+      <Name>TeamCitySharp</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
