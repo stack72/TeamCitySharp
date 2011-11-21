@@ -10,7 +10,7 @@ namespace TeamCitySharp.IntegrationTests
     [TestFixture]
     public class when_interacting_to_get_server_info
     {
-        private TeamCityClient _client;
+        private ITeamCityClient _client;
         
         [SetUp]
         public void SetUp()

@@ -8,7 +8,7 @@ namespace TeamCitySharp.IntegrationTests
     [TestFixture]
     public class when_interations_to_get_build_configuration_details
     {
-        private TeamCityClient _client;
+        private ITeamCityClient _client;
 
         [SetUp]
         public void SetUp()

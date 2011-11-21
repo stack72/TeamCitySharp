@@ -7,7 +7,7 @@ namespace TeamCitySharp.SampleBuildRadiator.Controllers
 {
     public class DashboardController : Controller
     {
-        private readonly TeamCityClient _client;
+        private readonly ITeamCityClient _client;
 
         public DashboardController()
         {
