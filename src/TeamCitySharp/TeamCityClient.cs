@@ -39,6 +39,7 @@ namespace TeamCitySharp
         List<Build> ErrorBuildsByBuildConfigId(string buildConfigId);
         Build LastErrorBuildByBuildConfigId(string buildConfigId);
         List<Build> BuildConfigsByBuildConfigId(string buildConfigId);
+        List<Build> BuildConfigsByConfigIdAndTag(string buildConfigId, string tag);
         List<Build> BuildsByUserName(string userName);
         List<Build> NonSuccessfulBuildsForUser(string userName);
     }
@@ -263,6 +264,13 @@ namespace TeamCitySharp
         public List<Build> BuildConfigsByBuildConfigId(string buildConfigId)
         {
             var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/id:{0}/builds", buildConfigId));
+
+            return buildWrapper.Build;
+        }
+
+        public List<Build> BuildConfigsByConfigIdAndTag(string buildConfigId, string tag)
+        {
+            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/id:{0}/builds?tag={1}", buildConfigId, tag));
 
             return buildWrapper.Build;
         }

@@ -124,6 +124,16 @@ namespace TeamCitySharp.IntegrationTests
         }
 
         [Test]
+        public void it_returns_all_builds_by_build_config_id_and_tag()
+        {
+            string buildConfigId = "bt2";
+            string tag = "test";
+            var builds = _client.BuildConfigsByConfigIdAndTag(buildConfigId, tag);
+
+            Assert.That(builds.Any(), "No builds were found for this build id and Tag");
+        }
+
+        [Test]
         public void it_returns_all_builds_by_username()
         {
             string userName = "admin";
