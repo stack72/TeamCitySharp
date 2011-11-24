@@ -24,7 +24,7 @@ var projects = client.AllProjects();
 
 * To get a list of running builds
 
-```
+```c#
 var client = new TeamCityClient("localhost:81");
 client.Connect("admin", "qwerty");
 var builds = client.BuildsByBuildLocator(BuildLocator.RunningBuilds());
