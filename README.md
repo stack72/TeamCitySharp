@@ -9,9 +9,8 @@ http://www.jetbrains.com/teamcity
 http://stack72.mit-license.org/
 
 ##Installation
-install-package TeamCitysharp
-or
-Download source and compile
+* install-package TeamCitysharp
+*Download source and compile
 
 ##Sample Usage
 ```
