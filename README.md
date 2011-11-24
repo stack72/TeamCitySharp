@@ -15,7 +15,7 @@ http://stack72.mit-license.org/
 ##Sample Usage
 * To get a list of projects
 
-```
+```c#
 var client = new TeamCityClient("localhost:81");
 client.Connect("admin", "qwerty");
 var projects = client.AllProjects();
@@ -32,7 +32,7 @@ var builds = client.BuildsByBuildLocator(BuildLocator.RunningBuilds());
 
 
 ##Methods Available
-```
+```c#
 List<Project> AllProjects();
 Project ProjectByName(string projectLocatorName);
 Project ProjectById(string projectLocatorId);
