@@ -41,6 +41,7 @@ namespace TeamCitySharp
         List<Build> BuildConfigsByBuildConfigId(string buildConfigId);
         List<Build> BuildConfigsByConfigIdAndTag(string buildConfigId, string tag);
         List<Build> BuildsByUserName(string userName);
+        List<Build> BuildsByBuildLocator(BuildLocator locator);
         List<Build> NonSuccessfulBuildsForUser(string userName);
     }
 
@@ -277,8 +278,13 @@ namespace TeamCitySharp
 
         public List<Build> BuildsByUserName(string userName)
         {
+            return this.BuildsByBuildLocator(BuildLocator.WithDimensions(user: UserLocator.WithUserName(userName)));
+        }
+
+        public List<Build> BuildsByBuildLocator(BuildLocator locator)
+        {
             var buildWrapper =
-                _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/builds?locator=user:{0}", userName));
+                _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/builds?locator={0}", locator));
 
             return buildWrapper.Build;
         }
