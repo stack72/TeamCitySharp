@@ -159,5 +159,13 @@ namespace TeamCitySharp.IntegrationTests
 
             Assert.That(builds > 0, "No non successful builds found for this user");
         }
+
+        [Test]
+        public void it_returns_all_running_builds()
+        {
+            var builds = _client.BuildsByBuildLocator(BuildLocator.RunningBuilds());
+
+            Assert.That(builds.Any(), "There are currently no running builds");
+        }
     }
 }

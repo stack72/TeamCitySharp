@@ -20,6 +20,11 @@ namespace TeamCitySharp
             return new BuildLocator {Number = number};
         }
 
+        public static BuildLocator RunningBuilds()
+        {
+            return new BuildLocator {Running = true};
+        }
+
         public static BuildLocator WithDimensions(BuildTypeLocator buildType = null,
                                                     UserLocator user = null,
                                                     string agentName = null,
