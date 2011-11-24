@@ -238,7 +238,7 @@ namespace TeamCitySharp
 
         public List<Build> BuildsByUserName(string userName)
         {
-            return this.BuildsByBuildLocator(BuildLocator.WithDimensions(user: UserLocator.WithUserName(userName)));
+            return BuildsByBuildLocator(BuildLocator.WithDimensions(user: UserLocator.WithUserName(userName)));
         }
 
         public List<Build> BuildsByBuildLocator(BuildLocator locator)
