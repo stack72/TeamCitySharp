@@ -10,7 +10,7 @@ http://stack72.mit-license.org/
 
 ##Installation
 * install-package TeamCitysharp
-*Download source and compile
+* Download source and compile
 
 ##Sample Usage
 ```
