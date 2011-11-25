@@ -28,14 +28,14 @@ namespace TeamCitySharp
 
         public Project ProjectByName(string projectLocatorName)
         {
-            var project = _caller.Get<Project>(string.Format("/httpAuth/app/rest/projects/name:{0}", projectLocatorName));
+            var project = _caller.GetFormat<Project>("/httpAuth/app/rest/projects/name:{0}", projectLocatorName);
 
             return project;
         }
 
         public Project ProjectById(string projectLocatorId)
         {
-            var project = _caller.Get<Project>(string.Format("/httpAuth/app/rest/projects/id:{0}", projectLocatorId));
+            var project = _caller.GetFormat<Project>("/httpAuth/app/rest/projects/id:{0}", projectLocatorId);
 
             return project;
         }
@@ -67,7 +67,7 @@ namespace TeamCitySharp
 
         public Build LastBuildByAgent(string agentName)
         {
-            var build = _caller.Get<Build>(string.Format("/httpAuth/app/rest/builds/agentName:{0}", agentName));
+            var build = _caller.GetFormat<Build>("/httpAuth/app/rest/builds/agentName:{0}", agentName);
 
             return build;
         }
@@ -81,7 +81,7 @@ namespace TeamCitySharp
 
         public VcsRoot VcsRootById(string vcsRootId)
         {
-            var vcsRoot = _caller.Get<VcsRoot>(string.Format("/httpAuth/app/rest/vcs-roots/id:{0}", vcsRootId));
+            var vcsRoot = _caller.GetFormat<VcsRoot>("/httpAuth/app/rest/vcs-roots/id:{0}", vcsRootId);
 
             return vcsRoot;
         }
@@ -96,7 +96,7 @@ namespace TeamCitySharp
         public List<Role> AllRolesByUserName(string userName)
         {
             var user =
-                _caller.Get<User>(string.Format("/httpAuth/app/rest/users/username:{0}", userName));
+                _caller.GetFormat<User>("/httpAuth/app/rest/users/username:{0}", userName);
 
             return user.Roles.Role;
         }
@@ -104,7 +104,7 @@ namespace TeamCitySharp
         public List<Group> AllGroupsByUserName(string userName)
         {
             var user =
-                _caller.Get<User>(string.Format("/httpAuth/app/rest/users/username:{0}", userName));
+                _caller.GetFormat<User>("/httpAuth/app/rest/users/username:{0}", userName);
 
             return user.Groups.Group;
         }
@@ -118,14 +118,14 @@ namespace TeamCitySharp
 
         public List<User> AllUsersByUserGroup(string userGroupName)
         {
-            var group = _caller.Get<Group>(string.Format("/httpAuth/app/rest/userGroups/key:{0}", userGroupName));
+            var group = _caller.GetFormat<Group>("/httpAuth/app/rest/userGroups/key:{0}", userGroupName);
 
             return group.Users.User;
         }
 
         public List<Role> AllUserRolesByUserGroup(string userGroupName)
         {
-            var group = _caller.Get<Group>(string.Format("/httpAuth/app/rest/userGroups/key:{0}", userGroupName));
+            var group = _caller.GetFormat<Group>("/httpAuth/app/rest/userGroups/key:{0}", userGroupName);
 
             return group.Roles.Role;
         }
@@ -139,7 +139,7 @@ namespace TeamCitySharp
 
         public Change ChangeDetailsByChangeId(string id)
         {
-            var change = _caller.Get<Change>(string.Format("/httpAuth/app/rest/changes/id:{0}", id));
+            var change = _caller.GetFormat<Change>("/httpAuth/app/rest/changes/id:{0}", id);
 
             return change;
         }
@@ -153,35 +153,35 @@ namespace TeamCitySharp
 
         public BuildConfig BuildConfigByConfigurationName(string buildConfigName)
         {
-            var build = _caller.Get<BuildConfig>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}", buildConfigName));
+            var build = _caller.GetFormat<BuildConfig>("/httpAuth/app/rest/buildTypes/name:{0}", buildConfigName);
 
             return build;
         }
 
         public BuildConfig BuildConfigByConfigurationId(string buildConfigId)
         {
-            var build = _caller.Get<BuildConfig>(string.Format("/httpAuth/app/rest/buildTypes/id:{0}", buildConfigId));
+            var build = _caller.GetFormat<BuildConfig>("/httpAuth/app/rest/buildTypes/id:{0}", buildConfigId);
 
             return build;
         }
 
         public List<BuildConfig> BuildConfigsByProjectId(string projectId)
         {
-            var buildWrapper = _caller.Get<BuildTypeWrapper>(string.Format("/httpAuth/app/rest/projects/id:{0}/buildTypes", projectId));
+            var buildWrapper = _caller.GetFormat<BuildTypeWrapper>("/httpAuth/app/rest/projects/id:{0}/buildTypes", projectId);
 
             return buildWrapper.BuildType;
         }
 
         public List<BuildConfig> BuildConfigsByProjectName(string projectName)
         {
-            var buildWrapper = _caller.Get<BuildTypeWrapper>(string.Format("/httpAuth/app/rest/projects/name:{0}/buildTypes", projectName));
+            var buildWrapper = _caller.GetFormat<BuildTypeWrapper>("/httpAuth/app/rest/projects/name:{0}/buildTypes", projectName);
 
             return buildWrapper.BuildType;
         }
 
         public List<Build> SuccessfulBuildsByBuildConfigId(string buildConfigId)
         {
-            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/id:{0}/builds?status=SUCCESS", buildConfigId));
+            var buildWrapper = _caller.GetFormat<BuildWrapper>("/httpAuth/app/rest/buildTypes/id:{0}/builds?status=SUCCESS", buildConfigId);
 
             return buildWrapper.Build;
         }
@@ -193,7 +193,7 @@ namespace TeamCitySharp
 
         public List<Build> FailedBuildsByBuildConfigId(string buildConfigId)
         {
-            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/id:{0}/builds?status=FAILURE", buildConfigId));
+            var buildWrapper = _caller.GetFormat<BuildWrapper>("/httpAuth/app/rest/buildTypes/id:{0}/builds?status=FAILURE", buildConfigId);
 
             return buildWrapper.Build;
         }
@@ -205,14 +205,14 @@ namespace TeamCitySharp
 
         public Build LastBuildByBuildConfigId(string buildConfigId)
         {
-            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/id:{0}/builds", buildConfigId));
+            var buildWrapper = _caller.GetFormat<BuildWrapper>("/httpAuth/app/rest/buildTypes/id:{0}/builds", buildConfigId);
 
             return buildWrapper.Build.FirstOrDefault();
         }
 
         public List<Build> ErrorBuildsByBuildConfigId(string buildConfigId)
         {
-            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/id:{0}/builds?status=ERROR", buildConfigId));
+            var buildWrapper = _caller.GetFormat<BuildWrapper>("/httpAuth/app/rest/buildTypes/id:{0}/builds?status=ERROR", buildConfigId);
 
             return buildWrapper.Build;
         }
@@ -224,14 +224,14 @@ namespace TeamCitySharp
 
         public List<Build> BuildConfigsByBuildConfigId(string buildConfigId)
         {
-            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/id:{0}/builds", buildConfigId));
+            var buildWrapper = _caller.GetFormat<BuildWrapper>("/httpAuth/app/rest/buildTypes/id:{0}/builds", buildConfigId);
 
             return buildWrapper.Build;
         }
 
         public List<Build> BuildConfigsByConfigIdAndTag(string buildConfigId, string tag)
         {
-            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/id:{0}/builds?tag={1}", buildConfigId, tag));
+            var buildWrapper = _caller.GetFormat<BuildWrapper>("/httpAuth/app/rest/buildTypes/id:{0}/builds?tag={1}", buildConfigId, tag);
 
             return buildWrapper.Build;
         }
@@ -244,7 +244,7 @@ namespace TeamCitySharp
         public List<Build> BuildsByBuildLocator(BuildLocator locator)
         {
             var buildWrapper =
-                _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/builds?locator={0}", locator));
+                _caller.GetFormat<BuildWrapper>("/httpAuth/app/rest/builds?locator={0}", locator);
 
             return buildWrapper.Build;
         }
