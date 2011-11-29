@@ -13,8 +13,8 @@ namespace TeamCitySharp.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            _client = new TeamCityClient("localhost:81");
-            _client.Connect("admin", "qwerty");
+            _client = new TeamCityClient("teamcity.codebetter.com");
+            _client.Connect("teamcitysharpuser", "qwerty");
         }
 
         [Test]
@@ -33,7 +33,7 @@ namespace TeamCitySharp.IntegrationTests
             var client = new TeamCityClient("test:81");
             client.Connect("admin", "qwerty");
 
-            string buildConfigId = "Local Debug Build";
+            string buildConfigId = "Release Build";
             var builds = client.SuccessfulBuildsByBuildConfigId(buildConfigId);
 
             //Assert: Exception
@@ -43,9 +43,9 @@ namespace TeamCitySharp.IntegrationTests
         [ExpectedException(typeof(ArgumentException))]
         public void it_throws_exception_when_no_connection_formed()
         {
-            var client = new TeamCityClient("localhost:81");
+            var client = new TeamCityClient("teamcity.codebetter.com");
 
-            string buildConfigId = "Local Debug Build";
+            string buildConfigId = "Release Build";
             var builds = client.SuccessfulBuildsByBuildConfigId(buildConfigId);
 
             //Assert: Exception
@@ -54,7 +54,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_last_successful_build_by_build_config_id()
         {
-            string buildConfigId = "bt2";
+            string buildConfigId = "bt437";
             var build = _client.LastSuccessfulBuildByBuildConfigId(buildConfigId);
 
             Assert.That(build != null, "No successful builds have been found");
@@ -63,7 +63,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_last_successful_builds_by_build_config_id()
         {
-            string buildConfigId = "bt2";
+            string buildConfigId = "bt437";
             var buildDetails = _client.SuccessfulBuildsByBuildConfigId(buildConfigId);
 
             Assert.That(buildDetails.Any(), "No successful builds have been found");
@@ -72,7 +72,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_last_failed_build_by_build_config_id()
         {
-            string buildConfigId = "bt2";
+            string buildConfigId = "bt437";
             var buildDetails = _client.LastFailedBuildByBuildConfigId(buildConfigId);
 
             Assert.That(buildDetails != null, "No failed builds have been found");
@@ -81,7 +81,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_all_non_successful_builds_by_config_id()
         {
-            string buildConfigId = "bt2";
+            string buildConfigId = "bt437";
             var builds = _client.FailedBuildsByBuildConfigId(buildConfigId);
 
             Assert.That(builds.Any(), "No failed builds have been found");
@@ -90,7 +90,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_last_error_build_by_config_id()
         {
-            string buildConfigId = "bt2";
+            string buildConfigId = "bt437";
             var buildDetails = _client.LastErrorBuildByBuildConfigId(buildConfigId);
 
             Assert.That(buildDetails != null, "No errored builds have been found");
@@ -99,7 +99,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_all_error_builds_by_config_id()
         {
-            string buildId = "bt2";
+            string buildId = "bt437";
             var builds = _client.ErrorBuildsByBuildConfigId(buildId);
 
             Assert.That(builds.Any(), "No errored builds have been found");
@@ -108,7 +108,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_the_last_build_status_by_build_config_id()
         {
-            string buildConfigId = "bt2";
+            string buildConfigId = "bt437";
             var build = _client.LastBuildByBuildConfigId(buildConfigId);
 
             Assert.That(build != null, "No builds for this build config have been found");
@@ -117,7 +117,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_all_builds_by_build_config_id()
         {
-            string buildConfigId = "bt2";
+            string buildConfigId = "bt437";
             var builds = _client.BuildConfigsByBuildConfigId(buildConfigId);
 
             Assert.That(builds.Any(), "No builds for this build configuration have been found");
@@ -126,38 +126,38 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_all_builds_by_build_config_id_and_tag()
         {
-            string buildConfigId = "bt2";
+            string buildConfigId = "bt437";
             string tag = "test";
             var builds = _client.BuildConfigsByConfigIdAndTag(buildConfigId, tag);
 
-            Assert.That(builds.Any(), "No builds were found for this build id and Tag");
+            Assert.IsNotNull(builds, "No builds were found for this build id and Tag");
         }
 
         [Test]
         public void it_returns_all_builds_by_username()
         {
-            string userName = "admin";
+            string userName = "teamcitysharpuser";
             var builds = _client.BuildsByUserName(userName);
 
-            Assert.That(builds.Any(), "No builds for this user have been found");
+            Assert.IsNotNull(builds, "No builds for this user have been found");
         }
 
         [Test]
         public void it_returns_all_non_successful_builds_by_username()
         {
-            string userName = "admin";
+            string userName = "teamcitysharpuser";
             var builds = _client.NonSuccessfulBuildsForUser(userName);
 
-            Assert.That(builds.Any(), "No non successful builds found for this user");
+            Assert.IsNotNull(builds, "No non successful builds found for this user");
         }
 
         [Test]
         public void it_returns_all_non_successful_build_count_by_username()
         {
-            string userName = "admin";
-            int builds = _client.NonSuccessfulBuildsForUser(userName).Count;
+            string userName = "teamcitysharpuser";
+            var builds = _client.NonSuccessfulBuildsForUser(userName);
 
-            Assert.That(builds > 0, "No non successful builds found for this user");
+            Assert.IsNotNull(builds, "No non successful builds found for this user");
         }
 
         [Test]
@@ -165,7 +165,7 @@ namespace TeamCitySharp.IntegrationTests
         {
             var builds = _client.BuildsByBuildLocator(BuildLocator.RunningBuilds());
 
-            Assert.That(builds.Any(), "There are currently no running builds");
+            Assert.IsNotNull(builds, "There are currently no running builds");
         }
     }
 }

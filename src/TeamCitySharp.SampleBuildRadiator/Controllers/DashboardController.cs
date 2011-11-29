@@ -11,8 +11,8 @@ namespace TeamCitySharp.SampleBuildRadiator.Controllers
 
         public DashboardController()
         {
-            _client = new TeamCityClient("localhost:81");
-            _client.Connect("admin", "qwerty");
+            _client = new TeamCityClient("teamcity.codebetter.com");
+            _client.Connect("teamcitysharpuser", "qwerty");
         }
 
         public ActionResult Index()

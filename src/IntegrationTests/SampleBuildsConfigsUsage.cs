@@ -13,8 +13,8 @@ namespace TeamCitySharp.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            _client = new TeamCityClient("localhost:81");
-            _client.Connect("admin", "qwerty");
+            _client = new TeamCityClient("teamcity.codebetter.com");
+            _client.Connect("teamcitysharpuser", "qwerty");
         }
 
         [Test]
@@ -31,7 +31,7 @@ namespace TeamCitySharp.IntegrationTests
         public void it_throws_exception_when_host_does_not_exist()
         {
             var client = new TeamCityClient("test:81");
-            client.Connect("admin", "qwerty");
+            client.Connect("teamcitysharpuser", "qwerty");
 
             var builds = client.AllBuildConfigs();
 
@@ -42,7 +42,7 @@ namespace TeamCitySharp.IntegrationTests
         [ExpectedException(typeof(ArgumentException))]
         public void it_throws_exception_when_no_connection_formed()
         {
-            var client = new TeamCityClient("localhost:81");
+            var client = new TeamCityClient("teamcity.codebetter.com");
 
             var builds = client.AllBuildConfigs();
 
@@ -60,7 +60,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_build_config_details_by_configuration_id()
         {
-            string buildConfigId = "bt2";
+            string buildConfigId = "bt437";
             var buildConfig = _client.BuildConfigByConfigurationId(buildConfigId);
 
             Assert.That(buildConfig != null, "Cannot find a build type for that buildId");
@@ -69,7 +69,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_build_config_details_by_configuration_name()
         {
-            string buildConfigName = "Debug";
+            string buildConfigName = "Release Build";
             var buildConfig = _client.BuildConfigByConfigurationName(buildConfigName);
 
             Assert.That(buildConfig != null, "Cannot find a build type for that buildName");
@@ -78,7 +78,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_build_configs_by_project_id()
         {
-            string projectId = "project2";
+            string projectId = "project137";
             var buildConfigs = _client.BuildConfigsByProjectId(projectId);
 
             Assert.That(buildConfigs.Any(), "Cannot find a build type for that projectId");
@@ -87,7 +87,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_build_configs_by_project_name()
         {
-            string projectName = "TeamCitySharp";
+            string projectName = "YouTrackSharp";
             var buildConfigs = _client.BuildConfigsByProjectName(projectName);
 
             Assert.That(buildConfigs.Any(), "Cannot find a build type for that projectName");
