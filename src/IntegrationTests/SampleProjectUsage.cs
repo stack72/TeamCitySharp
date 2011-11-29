@@ -15,8 +15,8 @@ namespace TeamCitySharp.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            _client = new TeamCityClient("localhost:81");
-            _client.Connect("admin", "qwerty");
+            _client = new TeamCityClient("teamcity.codebetter.com");
+            _client.Connect("teamcitysharpuser", "qwerty");
         }
 
         [Test]
@@ -45,7 +45,7 @@ namespace TeamCitySharp.IntegrationTests
         [ExpectedException(typeof(ArgumentException))]
         public void it_throws_exception_when_no_connection_formed()
         {
-            var client = new TeamCityClient("localhost:81");
+            var client = new TeamCityClient("teamcity.codebetter.com");
 
             var projects = client.AllProjects();
 
@@ -60,7 +60,7 @@ namespace TeamCitySharp.IntegrationTests
             Assert.That(projects.Any(), "No projects were found for this server");
         }
 
-        [TestCase("project6")]
+        [TestCase("project137")]
         public void it_returns_project_details_when_passing_a_project_id(string projectId)
         {
             Project projectDetails = _client.ProjectById(projectId);
@@ -68,7 +68,7 @@ namespace TeamCitySharp.IntegrationTests
             Assert.That(projectDetails != null, "No details found for that specific project");
         }
 
-        [TestCase("nPUC")]
+        [TestCase("YouTrackSharp")]
         public void it_returns_project_details_when_passing_a_project_name(string projectName)
         {
             Project projectDetails = _client.ProjectByName(projectName);
@@ -79,7 +79,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_project_details_when_passing_project()
         {
-            var project = new Project { Id = "project6" };
+            var project = new Project { Id = "project137" };
             Project projectDetails = _client.ProjectDetails(project);
 
             Assert.That(!string.IsNullOrWhiteSpace(projectDetails.Id));

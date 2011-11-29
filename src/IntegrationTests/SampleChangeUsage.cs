@@ -15,8 +15,8 @@ namespace TeamCitySharp.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            _client = new TeamCityClient("localhost:81");
-            _client.Connect("admin", "qwerty");
+            _client = new TeamCityClient("teamcity.codebetter.com");
+            _client.Connect("teamcitysharpuser", "qwerty");
         }
 
         [Test]
@@ -44,7 +44,7 @@ namespace TeamCitySharp.IntegrationTests
         [ExpectedException(typeof(ArgumentException))]
         public void it_returns_exception_when_no_connection_made()
         {
-            var client = new TeamCityClient("localhost:81");
+            var client = new TeamCityClient("teamcity.codebetter.com");
 
             var changes = client.AllChanges();
 
@@ -59,7 +59,7 @@ namespace TeamCitySharp.IntegrationTests
             Assert.That(changes.Any(), "Cannot find any changes recorded in any of the projects");
         }
 
-        [TestCase("102")]
+        [TestCase("42843")]
         public void it_returns_change_details_by_change_id(string changeId)
         {
             Change changeDetails = _client.ChangeDetailsByChangeId(changeId);

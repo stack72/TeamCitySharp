@@ -252,6 +252,10 @@ namespace TeamCitySharp
         public List<Build> NonSuccessfulBuildsForUser(string userName)
         {
             var builds = BuildsByUserName(userName);
+            if (builds == null )
+            {
+                return null;
+            }
 
             return builds.Where(b => b.Status != "SUCCESS").ToList();
         }

@@ -15,8 +15,8 @@ namespace TeamCitySharp.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            _client = new TeamCityClient("localhost:81");
-            _client.Connect("admin", "qwerty");
+            _client = new TeamCityClient("teamcity.codebetter.com");
+            _client.Connect("teamcitysharpuser", "qwerty");
         }
 
         [Test]
@@ -44,7 +44,7 @@ namespace TeamCitySharp.IntegrationTests
         [ExpectedException(typeof(ArgumentException))]
         public void it_returns_exception_when_no_connection_made()
         {
-            var client = new TeamCityClient("localhost:81");
+            var client = new TeamCityClient("teamcity.codebetter.com");
 
             var users = client.AllUsers();
 
@@ -88,7 +88,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_all_users_by_user_name()
         {
-            string userName = "admin";
+            string userName = "teamcitysharpuser";
             List<Role> roles = _client.AllRolesByUserName(userName);
             
             Assert.That(roles.Any(), "No roles found for this user");
@@ -97,7 +97,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_all_user_groups_by_user_group_name()
         {
-            string userName = "admin";
+            string userName = "teamcitysharpuser";
             List<Group> groups = _client.AllGroupsByUserName(userName);
 
             Assert.That(groups.Any(), "This user is not a member of any groups");

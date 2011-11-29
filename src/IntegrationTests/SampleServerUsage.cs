@@ -15,8 +15,8 @@ namespace TeamCitySharp.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            _client = new TeamCityClient("localhost:81");
-            _client.Connect("admin", "qwerty");
+            _client = new TeamCityClient("teamcity.codebetter.com");
+            _client.Connect("teamcitysharpuser", "qwerty");
         }
 
         [Test]
@@ -44,7 +44,7 @@ namespace TeamCitySharp.IntegrationTests
         [ExpectedException(typeof(ArgumentException))]
         public void it_throws_exception_when_no_connection_formed()
         {
-            var client = new TeamCityClient("localhost:81");
+            var client = new TeamCityClient("teamcity.codebetter.com");
 
             var plugins = client.AllServerPlugins();
 
@@ -64,7 +64,7 @@ namespace TeamCitySharp.IntegrationTests
         {
             List<Plugin> plugins = _client.AllServerPlugins();
 
-            Assert.That(plugins.Any(), "Server is not returning a plugin list");
+            Assert.IsNotNull(plugins, "Server is not returning a plugin list");
         }
     }
 }
