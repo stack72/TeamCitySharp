@@ -28,14 +28,14 @@ namespace TeamCitySharp
 
         public Project ProjectByName(string projectLocatorName)
         {
-            var project = _caller.Get<Project>(string.Format("/httpAuth/app/rest/projects/name:{0}", projectLocatorName));
+            var project = _caller.GetFormat<Project>("/httpAuth/app/rest/projects/name:{0}", projectLocatorName);
 
             return project;
         }
 
         public Project ProjectById(string projectLocatorId)
         {
-            var project = _caller.Get<Project>(string.Format("/httpAuth/app/rest/projects/id:{0}", projectLocatorId));
+            var project = _caller.GetFormat<Project>("/httpAuth/app/rest/projects/id:{0}", projectLocatorId);
 
             return project;
         }
@@ -65,13 +65,6 @@ namespace TeamCitySharp
             return agentWrapper.Agent;
         }
 
-        public Build LastBuildByAgent(string agentName)
-        {
-            var build = _caller.Get<Build>(string.Format("/httpAuth/app/rest/builds/agentName:{0}", agentName));
-
-            return build;
-        }
-
         public List<VcsRoot> AllVcsRoots()
         {
             var vcsRootWrapper = _caller.Get<VcsRootWrapper>("/httpAuth/app/rest/vcs-roots");
@@ -81,7 +74,7 @@ namespace TeamCitySharp
 
         public VcsRoot VcsRootById(string vcsRootId)
         {
-            var vcsRoot = _caller.Get<VcsRoot>(string.Format("/httpAuth/app/rest/vcs-roots/id:{0}", vcsRootId));
+            var vcsRoot = _caller.GetFormat<VcsRoot>("/httpAuth/app/rest/vcs-roots/id:{0}", vcsRootId);
 
             return vcsRoot;
         }
@@ -96,7 +89,7 @@ namespace TeamCitySharp
         public List<Role> AllRolesByUserName(string userName)
         {
             var user =
-                _caller.Get<User>(string.Format("/httpAuth/app/rest/users/username:{0}", userName));
+                _caller.GetFormat<User>("/httpAuth/app/rest/users/username:{0}", userName);
 
             return user.Roles.Role;
         }
@@ -104,7 +97,7 @@ namespace TeamCitySharp
         public List<Group> AllGroupsByUserName(string userName)
         {
             var user =
-                _caller.Get<User>(string.Format("/httpAuth/app/rest/users/username:{0}", userName));
+                _caller.GetFormat<User>("/httpAuth/app/rest/users/username:{0}", userName);
 
             return user.Groups.Group;
         }
@@ -118,14 +111,14 @@ namespace TeamCitySharp
 
         public List<User> AllUsersByUserGroup(string userGroupName)
         {
-            var group = _caller.Get<Group>(string.Format("/httpAuth/app/rest/userGroups/key:{0}", userGroupName));
+            var group = _caller.GetFormat<Group>("/httpAuth/app/rest/userGroups/key:{0}", userGroupName);
 
             return group.Users.User;
         }
 
         public List<Role> AllUserRolesByUserGroup(string userGroupName)
         {
-            var group = _caller.Get<Group>(string.Format("/httpAuth/app/rest/userGroups/key:{0}", userGroupName));
+            var group = _caller.GetFormat<Group>("/httpAuth/app/rest/userGroups/key:{0}", userGroupName);
 
             return group.Roles.Role;
         }
@@ -139,7 +132,7 @@ namespace TeamCitySharp
 
         public Change ChangeDetailsByChangeId(string id)
         {
-            var change = _caller.Get<Change>(string.Format("/httpAuth/app/rest/changes/id:{0}", id));
+            var change = _caller.GetFormat<Change>("/httpAuth/app/rest/changes/id:{0}", id);
 
             return change;
         }
@@ -153,100 +146,124 @@ namespace TeamCitySharp
 
         public BuildConfig BuildConfigByConfigurationName(string buildConfigName)
         {
-            var build = _caller.Get<BuildConfig>(string.Format("/httpAuth/app/rest/buildTypes/name:{0}", buildConfigName));
+            var build = _caller.GetFormat<BuildConfig>("/httpAuth/app/rest/buildTypes/name:{0}", buildConfigName);
 
             return build;
         }
 
         public BuildConfig BuildConfigByConfigurationId(string buildConfigId)
         {
-            var build = _caller.Get<BuildConfig>(string.Format("/httpAuth/app/rest/buildTypes/id:{0}", buildConfigId));
+            var build = _caller.GetFormat<BuildConfig>("/httpAuth/app/rest/buildTypes/id:{0}", buildConfigId);
 
             return build;
         }
 
         public List<BuildConfig> BuildConfigsByProjectId(string projectId)
         {
-            var buildWrapper = _caller.Get<BuildTypeWrapper>(string.Format("/httpAuth/app/rest/projects/id:{0}/buildTypes", projectId));
+            var buildWrapper = _caller.GetFormat<BuildTypeWrapper>("/httpAuth/app/rest/projects/id:{0}/buildTypes", projectId);
 
             return buildWrapper.BuildType;
         }
 
         public List<BuildConfig> BuildConfigsByProjectName(string projectName)
         {
-            var buildWrapper = _caller.Get<BuildTypeWrapper>(string.Format("/httpAuth/app/rest/projects/name:{0}/buildTypes", projectName));
+            var buildWrapper = _caller.GetFormat<BuildTypeWrapper>("/httpAuth/app/rest/projects/name:{0}/buildTypes", projectName);
 
             return buildWrapper.BuildType;
         }
 
+        public List<Build> BuildsByBuildLocator(BuildLocator locator)
+        {
+            return _caller.GetFormat<BuildWrapper>("/httpAuth/app/rest/builds?locator={0}", locator).Build;
+        }
+
+        public Build LastBuildByAgent(string agentName)
+        {
+            return BuildsByBuildLocator(BuildLocator.WithDimensions(
+                agentName: agentName,
+                maxResults: 1
+            )).SingleOrDefault();
+        }
+
         public List<Build> SuccessfulBuildsByBuildConfigId(string buildConfigId)
         {
-            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/id:{0}/builds?status=SUCCESS", buildConfigId));
-
-            return buildWrapper.Build;
+            return BuildsByBuildLocator(BuildLocator.WithDimensions(
+                buildType: BuildTypeLocator.WithId(buildConfigId),
+                status: BuildStatus.SUCCESS
+            ));
         }
 
         public Build LastSuccessfulBuildByBuildConfigId(string buildConfigId)
         {
-            return SuccessfulBuildsByBuildConfigId(buildConfigId).FirstOrDefault();
+            return BuildsByBuildLocator(BuildLocator.WithDimensions(
+                buildType: BuildTypeLocator.WithId(buildConfigId),
+                status: BuildStatus.FAILURE,
+                maxResults: 1
+            )).SingleOrDefault();
         }
 
         public List<Build> FailedBuildsByBuildConfigId(string buildConfigId)
         {
-            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/id:{0}/builds?status=FAILURE", buildConfigId));
-
-            return buildWrapper.Build;
+            return BuildsByBuildLocator(BuildLocator.WithDimensions(
+                buildType: BuildTypeLocator.WithId(buildConfigId),
+                status: BuildStatus.FAILURE
+            ));
         }
 
         public Build LastFailedBuildByBuildConfigId(string buildConfigId)
         {
-            return FailedBuildsByBuildConfigId(buildConfigId).FirstOrDefault();
+            return BuildsByBuildLocator(BuildLocator.WithDimensions(
+                buildType: BuildTypeLocator.WithId(buildConfigId),
+                status: BuildStatus.FAILURE,
+                maxResults: 1
+            )).SingleOrDefault();
         }
 
         public Build LastBuildByBuildConfigId(string buildConfigId)
         {
-            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/id:{0}/builds", buildConfigId));
-
-            return buildWrapper.Build.FirstOrDefault();
+            return BuildsByBuildLocator(BuildLocator.WithDimensions(
+                buildType: BuildTypeLocator.WithId(buildConfigId),
+                maxResults: 1
+            )).SingleOrDefault();
         }
 
         public List<Build> ErrorBuildsByBuildConfigId(string buildConfigId)
         {
-            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/id:{0}/builds?status=ERROR", buildConfigId));
-
-            return buildWrapper.Build;
+            return BuildsByBuildLocator(BuildLocator.WithDimensions(
+                buildType: BuildTypeLocator.WithId(buildConfigId),
+                status: BuildStatus.ERROR
+            ));
         }
 
         public Build LastErrorBuildByBuildConfigId(string buildConfigId)
         {
-            return ErrorBuildsByBuildConfigId(buildConfigId).FirstOrDefault();
+            return BuildsByBuildLocator(BuildLocator.WithDimensions(
+                buildType: BuildTypeLocator.WithId(buildConfigId),
+                status: BuildStatus.ERROR,
+                maxResults: 1
+            )).SingleOrDefault();
         }
 
         public List<Build> BuildConfigsByBuildConfigId(string buildConfigId)
         {
-            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/id:{0}/builds", buildConfigId));
-
-            return buildWrapper.Build;
+            return BuildsByBuildLocator(BuildLocator.WithDimensions(
+                buildType: BuildTypeLocator.WithId(buildConfigId)
+            ));
         }
 
         public List<Build> BuildConfigsByConfigIdAndTag(string buildConfigId, string tag)
         {
-            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/buildTypes/id:{0}/builds?tag={1}", buildConfigId, tag));
-
-            return buildWrapper.Build;
+            return BuildsByBuildLocator(BuildLocator.WithDimensions(
+                buildType: BuildTypeLocator.WithId(buildConfigId),
+                tags: new[] { tag }
+            ));
         }
 
         public List<Build> BuildsByUserName(string userName)
         {
-            return BuildsByBuildLocator(BuildLocator.WithDimensions(user: UserLocator.WithUserName(userName)));
-        }
-
-        public List<Build> BuildsByBuildLocator(BuildLocator locator)
-        {
-            var buildWrapper =
-                _caller.Get<BuildWrapper>(string.Format("/httpAuth/app/rest/builds?locator={0}", locator));
-
-            return buildWrapper.Build;
+            return BuildsByBuildLocator(BuildLocator.WithDimensions(
+                user: UserLocator.WithUserName(userName)
+            ));
         }
 
         public List<Build> NonSuccessfulBuildsForUser(string userName)
