@@ -72,7 +72,7 @@ List<Build> NonSuccessfulBuildsForUser(string userName);
 
 ##Credits
 
-Copyright (c) 2011 Paul Stack (@stack72)
+* Copyright (c) 2011 Paul Stack (@stack72)
 * Thanks to the following contributors:
 * Barry Mooring (@codingbadger)
 * Simon Bartlett (@sibartlett)
