@@ -70,9 +70,9 @@ List<Build> BuildsByBuildLocator(BuildLocator locator);
 List<Build> NonSuccessfulBuildsForUser(string userName);
 ```
 
-** Credits
+##Credits
 
- Copyright (c) 2011 Paul Stack (@stack72)
+Copyright (c) 2011 Paul Stack (@stack72)
 * Thanks to the following contributors:
 * Barry Mooring (@codingbadger)
 * Simon Bartlett (@sibartlett)
