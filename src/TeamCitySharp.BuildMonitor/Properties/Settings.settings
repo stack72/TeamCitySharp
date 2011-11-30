@@ -1,0 +1,18 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="BuildMonitor.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="TeamCityURL" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">teamcity.yourserver.com</Value>
+    </Setting>
+    <Setting Name="TeamCityUser" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">yourUserName</Value>
+    </Setting>
+    <Setting Name="TeamCityPwd" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">yourPassword</Value>
+    </Setting>
+    <Setting Name="TeamCityIsGuest" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
