@@ -35,13 +35,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EasyHttp">
-      <HintPath>..\packages\EasyHttp.1.4.1.0\lib\net40\EasyHttp.dll</HintPath>
+      <HintPath>..\..\packages\EasyHttp.1.4.2.0\lib\net40\EasyHttp.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.4.1.10331.0\lib\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="JsonFx">
-      <HintPath>..\packages\JsonFx.2.0.1106.2610\lib\net40\JsonFx.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data.Entity" />
@@ -67,7 +64,7 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="TeamCitySharp">
-      <HintPath>..\packages\TeamCitySharp.0.1\lib\net40\TeamCitySharp.dll</HintPath>
+      <HintPath>..\..\packages\TeamCitySharp.0.2\lib\net40\TeamCitySharp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
