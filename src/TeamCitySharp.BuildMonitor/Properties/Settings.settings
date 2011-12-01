@@ -3,16 +3,16 @@
   <Profiles />
   <Settings>
     <Setting Name="TeamCityURL" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">teamcity.yourserver.com</Value>
+      <Value Profile="(Default)">teamcity.codebetter.com</Value>
     </Setting>
     <Setting Name="TeamCityUser" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">yourUserName</Value>
+      <Value Profile="(Default)">teamcitysharpuser</Value>
     </Setting>
     <Setting Name="TeamCityPwd" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">yourPassword</Value>
+      <Value Profile="(Default)">qwerty</Value>
     </Setting>
     <Setting Name="TeamCityIsGuest" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>
