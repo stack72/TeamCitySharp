@@ -25,7 +25,7 @@ namespace BuildMonitor.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("teamcity.yourserver.com")]
+        [global::System.Configuration.DefaultSettingValueAttribute("teamcity.codebetter.com")]
         public string TeamCityURL {
             get {
                 return ((string)(this["TeamCityURL"]));
@@ -34,7 +34,7 @@ namespace BuildMonitor.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("yourUserName")]
+        [global::System.Configuration.DefaultSettingValueAttribute("teamcitysharpuser")]
         public string TeamCityUser {
             get {
                 return ((string)(this["TeamCityUser"]));
@@ -43,7 +43,7 @@ namespace BuildMonitor.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("yourPassword")]
+        [global::System.Configuration.DefaultSettingValueAttribute("qwerty")]
         public string TeamCityPwd {
             get {
                 return ((string)(this["TeamCityPwd"]));
@@ -52,7 +52,7 @@ namespace BuildMonitor.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool TeamCityIsGuest {
             get {
                 return ((bool)(this["TeamCityIsGuest"]));
