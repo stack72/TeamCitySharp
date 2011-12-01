@@ -25,6 +25,11 @@ namespace TeamCitySharp.Connection
             _configuration.ActAsGuest = actAsGuest;
         }
 
+        public T GetFormat<T>(string urlPart, params object[] parts)
+        {
+            return Get<T>(string.Format(urlPart, parts));
+        }
+
         public T Get<T>(string urlPart)
         {
             if (!_configuration.ActAsGuest && string.IsNullOrEmpty(_configuration.UserName) && string.IsNullOrEmpty(_configuration.Password))
