@@ -1,50 +1,68 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using BuildMonitor.Models;
+using System.Collections.Generic;
 using TeamCitySharp.DomainEntities;
 
 namespace BuildMonitor.Repository
 {
-    public class BuildMonitorRepository
+    public class BuildMonitorRepository: IDisposable
     {
         private TeamCitySharp.TeamCityClient client;
+        private List<ProjectModel> projectList;
+        private List<Project> projects;
+        private List<BuildConfig> buildConfigs;
+        private List<BuildConfig> currentProjectConfigs;
 
         public BuildMonitorRepository(string hostName)
         {
-            client = new TeamCitySharp.TeamCityClient(hostName, false);           
+            client = new TeamCitySharp.TeamCityClient(hostName, false);
+
+            projectList = new List<ProjectModel>();
+            projects = GetAllProjects();
+            buildConfigs = GetAllBuildConfigs();
+
         }
+
         public List<ProjectModel> GetAllProjectSummary()
         {
             try
             {
-
-                List<ProjectModel> projectList = new List<ProjectModel>();
-         
-                foreach (Project proj in GetAllProjects())
+                foreach (Project proj in projects)
                 {
                     try
                     {
-                        foreach (BuildConfig config in GetBuildConfigsByProject(proj.Id))
+                        currentProjectConfigs = buildConfigs.Where(x => x.ProjectId == proj.Id).ToList<BuildConfig>();
+
+                        foreach (BuildConfig currentConfig in currentProjectConfigs)
                         {
-
-
-                            var build = GetLatestBuildForConfig(config.Id);
+                            var build = GetLatestBuildForConfig(currentConfig.Id);
 
                             ProjectModel project = new ProjectModel()
                             {
                                 ProjectName = proj.Name,
                                 ProjectId = proj.Id,
-                                BuildConfigName = config.Name,
+                                BuildConfigName = currentConfig.Name,
                                 LastBuildTime = DateTime.ParseExact(build.StartDate, "yyyyMMddTHHmmsszzzzz", System.Globalization.CultureInfo.InvariantCulture).ToString("dd/MM/yyyy HH:mm:ss"),
                                 LastBuildStatus = build.Status,
                                 LastBuildStatusText = build.StatusText
                             };
                             projectList.Add(project);
-
                         }
 
+                    }
+                    catch (ArgumentNullException)
+                    {
+                        ProjectModel project = new ProjectModel()
+                        {
+                            ProjectName = proj.Name,
+                            ProjectId = proj.Id,
+                            BuildConfigName = "** No Builds available **",
+                            LastBuildTime = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"),
+                            LastBuildStatus = "undefined",
+                            LastBuildStatusText = String.Empty
+                        };
+                        projectList.Add(project);
                     }
                     catch (NullReferenceException)
                     {
@@ -54,18 +72,15 @@ namespace BuildMonitor.Repository
                             ProjectId = proj.Id,
                             BuildConfigName = String.Empty,
                             LastBuildTime = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"),
-                            LastBuildStatus = null,
+                            LastBuildStatus = "undefined",
                             LastBuildStatusText = String.Empty
                         };
                         projectList.Add(project);
-
-
                     }
                     catch (Exception ex)
                     {
                         throw ex;
                     }
-
 
                 }
 
@@ -94,14 +109,14 @@ namespace BuildMonitor.Repository
             return client.AllProjects();
         }
 
-        private List<BuildConfig> GetBuildConfigsByProject(string projectId)
+        private List<BuildConfig> GetAllBuildConfigs()
         {
-            client.Connect(Properties.Settings.Default.TeamCityUser,
-                           Properties.Settings.Default.TeamCityPwd,
-                           Properties.Settings.Default.TeamCityIsGuest
+            client.Connect(
+                            Properties.Settings.Default.TeamCityUser,
+                            Properties.Settings.Default.TeamCityPwd,
+                            Properties.Settings.Default.TeamCityIsGuest
                           );
-
-            return client.BuildConfigsByProjectId(projectId);
+            return client.AllBuildConfigs();
         }
 
         private Build GetLatestBuildForConfig(string configId)
@@ -110,10 +125,16 @@ namespace BuildMonitor.Repository
                             Properties.Settings.Default.TeamCityUser,
                             Properties.Settings.Default.TeamCityPwd,
                             Properties.Settings.Default.TeamCityIsGuest
-                            );
-
+                          );
             return client.LastBuildByBuildConfigId(configId);
         }
 
+        public void Dispose()
+        {
+            client = null;
+            projectList = null;
+            projects = null;
+            buildConfigs = null;
+        }
     }
 }

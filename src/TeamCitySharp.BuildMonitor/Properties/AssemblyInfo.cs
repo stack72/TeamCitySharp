@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("BuildMonitor")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Singer & Friedlander")]
+[assembly: AssemblyCompany("Microsoft")]
 [assembly: AssemblyProduct("BuildMonitor")]
-[assembly: AssemblyCopyright("Copyright © Singer & Friedlander 2011")]
+[assembly: AssemblyCopyright("Copyright © Microsoft 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
