@@ -11,3 +11,4 @@ output
 
 packages
 !/src/packages/repositories.config
+!/src/IntegrationTests/App.config
