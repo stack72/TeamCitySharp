@@ -15,8 +15,7 @@ namespace TeamCitySharp.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            _client = new TeamCityClient("localhost:81");
-            _client.Connect("admin", "qwerty");
+            _client = new ClientSetup().Connect();
         }
 
         [Test]
@@ -33,7 +32,7 @@ namespace TeamCitySharp.IntegrationTests
         public void it_throws_exception_when_host_url_invalid()
         {
             var client = new TeamCityClient("test:81");
-            client.Connect("admin", "qwerty");
+            client.Connect(ClientSetup.TeamCityClientUserName, ClientSetup.TeamCityClientPassword);
 
             var agents = client.AllAgents();
 
@@ -59,10 +58,10 @@ namespace TeamCitySharp.IntegrationTests
             Assert.That(agents.Any(), "No agents were found");
         }
 
-        [TestCase("stack-LP")]
-        public void it_returns_last_build_status_for_agent(string agentName)
+        [Test]
+        public void it_returns_last_build_status_for_agent()
         {
-            Build lastBuild = _client.LastBuildByAgent(agentName);
+            Build lastBuild = _client.LastBuildByAgent(ClientSetup.TeamCityAgentName);
 
             Assert.That(lastBuild != null, "No build information found for the last build on the specified agent");
         }

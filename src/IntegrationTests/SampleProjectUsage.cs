@@ -15,8 +15,7 @@ namespace TeamCitySharp.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            _client = new TeamCityClient("localhost:81");
-            _client.Connect("admin", "qwerty");
+            _client = new ClientSetup().Connect();
         }
 
         [Test]
@@ -33,7 +32,7 @@ namespace TeamCitySharp.IntegrationTests
         public void it_throws_exception_when_host_does_not_exist()
         {
             var client = new TeamCityClient("test:81");
-            client.Connect("admin", "qwerty");
+            client.Connect(ClientSetup.TeamCityClientUserName, ClientSetup.TeamCityClientPassword);
 
             var allProjects = client.AllProjects();             
 
@@ -45,7 +44,7 @@ namespace TeamCitySharp.IntegrationTests
         [ExpectedException(typeof(ArgumentException))]
         public void it_throws_exception_when_no_connection_formed()
         {
-            var client = new TeamCityClient("localhost:81");
+            var client = new TeamCityClient(ClientSetup.TeamCityClientUrl);
 
             var projects = client.AllProjects();
 
@@ -60,18 +59,18 @@ namespace TeamCitySharp.IntegrationTests
             Assert.That(projects.Any(), "No projects were found for this server");
         }
 
-        [TestCase("project6")]
-        public void it_returns_project_details_when_passing_a_project_id(string projectId)
+        [Test]
+        public void it_returns_project_details_when_passing_a_project_id()
         {
-            Project projectDetails = _client.ProjectById(projectId);
+            Project projectDetails = _client.ProjectById(ClientSetup.TestProjectId);
 
             Assert.That(projectDetails != null, "No details found for that specific project");
         }
 
-        [TestCase("nPUC")]
-        public void it_returns_project_details_when_passing_a_project_name(string projectName)
+        [Test]
+        public void it_returns_project_details_when_passing_a_project_name()
         {
-            Project projectDetails = _client.ProjectByName(projectName);
+            Project projectDetails = _client.ProjectByName(ClientSetup.TestProjectName);
 
             Assert.That(projectDetails != null, "No details found for that specific project");
         }
@@ -79,7 +78,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_project_details_when_passing_project()
         {
-            var project = new Project { Id = "project6" };
+            var project = new Project { Id = ClientSetup.TestProjectId };
             Project projectDetails = _client.ProjectDetails(project);
 
             Assert.That(!string.IsNullOrWhiteSpace(projectDetails.Id));

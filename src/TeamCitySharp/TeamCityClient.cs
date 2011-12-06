@@ -165,6 +165,13 @@ namespace TeamCitySharp
             return build;
         }
 
+        public BuildConfig BuildConfigByProjectNameAndConfigurationName(string projectName, string buildConfigName)
+        {
+            var build = _caller.Get<BuildConfig>(string.Format("/httpAuth/app/rest/projects/name:{0}/buildTypes/name:{1}", projectName, buildConfigName));
+
+            return build;
+        }
+
         public List<BuildConfig> BuildConfigsByProjectId(string projectId)
         {
             var buildWrapper = _caller.Get<BuildTypeWrapper>(string.Format("/httpAuth/app/rest/projects/id:{0}/buildTypes", projectId));

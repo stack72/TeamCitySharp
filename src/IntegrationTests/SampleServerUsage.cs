@@ -15,8 +15,7 @@ namespace TeamCitySharp.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            _client = new TeamCityClient("localhost:81");
-            _client.Connect("admin", "qwerty");
+            _client = new ClientSetup().Connect();
         }
 
         [Test]
@@ -33,7 +32,7 @@ namespace TeamCitySharp.IntegrationTests
         public void it_throws_exception_when_host_does_not_exist()
         {
             var client = new TeamCityClient("test:81");
-            client.Connect("admin", "qwerty");
+            client.Connect(ClientSetup.TeamCityClientUserName, ClientSetup.TeamCityClientPassword);
 
             var plugins = client.AllServerPlugins();
 
@@ -44,7 +43,7 @@ namespace TeamCitySharp.IntegrationTests
         [ExpectedException(typeof(ArgumentException))]
         public void it_throws_exception_when_no_connection_formed()
         {
-            var client = new TeamCityClient("localhost:81");
+            var client = new TeamCityClient(ClientSetup.TeamCityClientUrl);
 
             var plugins = client.AllServerPlugins();
 

@@ -15,8 +15,7 @@ namespace TeamCitySharp.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            _client = new TeamCityClient("localhost:81");
-            _client.Connect("admin", "qwerty");
+            _client = new ClientSetup().Connect();
         }
 
         [Test]
@@ -33,7 +32,7 @@ namespace TeamCitySharp.IntegrationTests
         public void it_returns_exception_when_host_does_not_exist()
         {
             var client = new TeamCityClient("test:81");
-            client.Connect("admin", "qwerty");
+            client.Connect(ClientSetup.TeamCityClientUserName, ClientSetup.TeamCityClientPassword);
 
             var changes = client.AllChanges();
 
@@ -44,7 +43,7 @@ namespace TeamCitySharp.IntegrationTests
         [ExpectedException(typeof(ArgumentException))]
         public void it_returns_exception_when_no_connection_made()
         {
-            var client = new TeamCityClient("localhost:81");
+            var client = new TeamCityClient(ClientSetup.TeamCityClientUrl);
 
             var changes = client.AllChanges();
 
@@ -59,10 +58,10 @@ namespace TeamCitySharp.IntegrationTests
             Assert.That(changes.Any(), "Cannot find any changes recorded in any of the projects");
         }
 
-        [TestCase("102")]
-        public void it_returns_change_details_by_change_id(string changeId)
+        [Test]
+        public void it_returns_change_details_by_change_id()
         {
-            Change changeDetails = _client.ChangeDetailsByChangeId(changeId);
+            Change changeDetails = _client.ChangeDetailsByChangeId(ClientSetup.TestChangeId);
 
             Assert.That(changeDetails != null, "Cannot find details of that specified change");
         }

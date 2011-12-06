@@ -15,8 +15,7 @@ namespace TeamCitySharp.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            _client = new TeamCityClient("localhost:81");
-            _client.Connect("admin", "qwerty");
+            _client = new ClientSetup().Connect();
         }
 
         [Test]
@@ -33,7 +32,7 @@ namespace TeamCitySharp.IntegrationTests
         public void it_returns_exception_when_host_does_not_exist()
         {
             var client = new TeamCityClient("test:81");
-            client.Connect("admin", "qwerty");
+            client.Connect(ClientSetup.TeamCityClientUserName, ClientSetup.TeamCityClientPassword);
 
             var users = client.AllUsers();
 
@@ -44,7 +43,7 @@ namespace TeamCitySharp.IntegrationTests
         [ExpectedException(typeof(ArgumentException))]
         public void it_returns_exception_when_no_connection_made()
         {
-            var client = new TeamCityClient("localhost:81");
+            var client = new TeamCityClient(ClientSetup.TeamCityClientUrl);
 
             var users = client.AllUsers();
 
@@ -62,8 +61,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_all_users_by_user_group_name()
         {
-            string userGroupName = "ALL_USERS_GROUP";
-            List<User> users = _client.AllUsersByUserGroup(userGroupName);
+            List<User> users = _client.AllUsersByUserGroup(ClientSetup.UserGroupName);
 
             Assert.That(users.Any(), "No users were found for this group");
         }
@@ -71,8 +69,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_all_roles_by_user_group_name()
         {
-            string userGroupName = "ALL_USERS_GROUP";
-            List<Role> roles = _client.AllUserRolesByUserGroup(userGroupName);
+            List<Role> roles = _client.AllUserRolesByUserGroup(ClientSetup.UserGroupName);
 
             Assert.That(roles.Any(), "No roles were found for that userGroup");
         }
@@ -88,8 +85,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_all_users_by_user_name()
         {
-            string userName = "admin";
-            List<Role> roles = _client.AllRolesByUserName(userName);
+            List<Role> roles = _client.AllRolesByUserName(ClientSetup.TeamCityClientUserName);
             
             Assert.That(roles.Any(), "No roles found for this user");
         }
@@ -97,8 +93,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_all_user_groups_by_user_group_name()
         {
-            string userName = "admin";
-            List<Group> groups = _client.AllGroupsByUserName(userName);
+            List<Group> groups = _client.AllGroupsByUserName(ClientSetup.TeamCityClientUserName);
 
             Assert.That(groups.Any(), "This user is not a member of any groups");
         }

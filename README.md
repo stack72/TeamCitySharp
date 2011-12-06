@@ -10,6 +10,7 @@ http://stack72.mit-license.org/
 
 ##Installation
 * install-package TeamCitysharp
+* Install ASP.NET MVC3 here http://www.microsoft.com/download/en/details.aspx?displaylang=en&id=1491
 * Download source and compile
 
 ##Sample Usage

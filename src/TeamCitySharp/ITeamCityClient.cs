@@ -27,6 +27,7 @@ namespace TeamCitySharp
         List<BuildConfig> AllBuildConfigs();
         BuildConfig BuildConfigByConfigurationName(string buildConfigName);
         BuildConfig BuildConfigByConfigurationId(string buildConfigId);
+        BuildConfig BuildConfigByProjectNameAndConfigurationName(string projectName, string buildConfigName);
         List<BuildConfig> BuildConfigsByProjectId(string projectId);
         List<BuildConfig> BuildConfigsByProjectName(string projectName);
         List<Build> SuccessfulBuildsByBuildConfigId(string buildConfigId);
