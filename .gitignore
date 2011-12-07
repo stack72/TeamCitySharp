@@ -10,4 +10,4 @@ output
 
 
 packages
-!/src/packages/repositories.config
+!/packages/repositories.config
