@@ -253,9 +253,14 @@ namespace TeamCitySharp
 
         public List<Build> BuildConfigsByConfigIdAndTag(string buildConfigId, string tag)
         {
+            return BuildConfigsByConfigIdAndTag(buildConfigId, new[] { tag });
+        }
+
+        public List<Build> BuildConfigsByConfigIdAndTag(string buildConfigId, string[] tags)
+        {
             return BuildsByBuildLocator(BuildLocator.WithDimensions(
                 buildType: BuildTypeLocator.WithId(buildConfigId),
-                tags: new[] { tag }
+                tags: tags
             ));
         }
 
