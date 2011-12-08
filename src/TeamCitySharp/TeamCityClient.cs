@@ -158,6 +158,30 @@ namespace TeamCitySharp
             return build;
         }
 
+        public BuildConfig BuildConfigByProjectNameAndConfigurationName(string projectName, string buildConfigName)
+        {
+            var build = _caller.Get<BuildConfig>(string.Format("/httpAuth/app/rest/projects/name:{0}/buildTypes/name:{1}", projectName, buildConfigName));
+            return build;
+        }
+
+        public BuildConfig BuildConfigByProjectNameAndConfigurationId(string projectName, string buildConfigId)
+        {
+            var build = _caller.Get<BuildConfig>(string.Format("/httpAuth/app/rest/projects/name:{0}/buildTypes/id:{1}", projectName, buildConfigId));
+            return build;
+        }
+
+        public BuildConfig BuildConfigByProjectIdAndConfigurationName(string projectId, string buildConfigName)
+        {
+            var build = _caller.Get<BuildConfig>(string.Format("/httpAuth/app/rest/projects/id:{0}/buildTypes/name:{1}", projectId, buildConfigName));
+            return build;
+        }
+
+        public BuildConfig BuildConfigByProjectIdAndConfigurationId(string projectId, string buildConfigId)
+        {
+            var build = _caller.Get<BuildConfig>(string.Format("/httpAuth/app/rest/projects/id:{0}/buildTypes/id:{1}", projectId, buildConfigId));
+            return build;
+        }
+
         public List<BuildConfig> BuildConfigsByProjectId(string projectId)
         {
             var buildWrapper = _caller.GetFormat<BuildTypeWrapper>("/httpAuth/app/rest/projects/id:{0}/buildTypes", projectId);
