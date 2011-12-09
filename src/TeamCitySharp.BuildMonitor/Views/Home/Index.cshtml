@@ -14,7 +14,6 @@
             this.LastBuildTime = ko.observable();
             this.LastBuildStatus = ko.observable();
             this.LastBuildStatusText = ko.observable();
-            this.TimeOfRequest = ko.observable();
             this.StatusClass = ko.dependentObservable(function () {
 
                 return "projectItem ".concat(String(this.LastBuildStatus()).toLowerCase()).toString();
@@ -45,7 +44,6 @@
                                                             .LastBuildTime(project.LastBuildTime)
                                                             .LastBuildStatus(project.LastBuildStatus)
                                                             .LastBuildStatusText(project.LastBuildStatusText)
-                                                            .TimeOfRequest(project.TimeOfRequest)
                                                               );
 
                             });

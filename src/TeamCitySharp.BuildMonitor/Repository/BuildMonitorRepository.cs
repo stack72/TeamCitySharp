@@ -87,6 +87,7 @@ namespace BuildMonitor.Repository
                 return projectList
                     .OrderBy(x => x.LastBuildStatus.ToLower().Contains("success") ? 3 : 0)
                     .ThenBy(x => x.LastBuildStatus.ToLower().Contains("undefined") ? 2 : 0)
+                    .ThenBy(x => x.LastBuildStatus.ToLower().Contains("unknown") ? 2 : 0)
                     .ThenBy(x => x.LastBuildStatus.ToLower().Contains("failure") ? 1 : 0)
                     .ToList<ProjectModel>();
             }

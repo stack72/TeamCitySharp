@@ -4,17 +4,19 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BuildMonitor.Repository;
+using BuildMonitor.Attributes;
 
 namespace BuildMonitor.Controllers
-{
+{   [DisableCaching]
     public class HomeController : Controller
     {
+        [DisableCaching]
         public ActionResult Index()
         {
             return View(); ;
         }
 
-
+        [DisableCaching]
         public JsonResult GetProjects()
         {
             try
