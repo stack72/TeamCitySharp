@@ -362,7 +362,7 @@ div#title {
     border:solid 2px #FF0000; 
     background-color: #FF0000;
 }
-.undefined
+.undefined, .unknown
 {
     border:solid 2px #FF6600; 
     background-color: #FF6600;
