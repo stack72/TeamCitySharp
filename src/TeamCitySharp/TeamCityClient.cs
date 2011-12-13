@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
@@ -284,6 +285,16 @@ namespace TeamCitySharp
             return BuildsByBuildLocator(BuildLocator.WithDimensions(
                 user: UserLocator.WithUserName(userName)
             ));
+        }
+
+        public List<Build> AllBuildsSinceDate(DateTime date)
+        {
+            return BuildsByBuildLocator(BuildLocator.WithDimensions(sinceDate: date));
+        }
+
+        public List<Build> AllBuildsOfStatusSinceDate(DateTime date, BuildStatus buildStatus)
+        {
+            return BuildsByBuildLocator(BuildLocator.WithDimensions(sinceDate: date, status: buildStatus));
         }
 
         public List<Build> NonSuccessfulBuildsForUser(string userName)

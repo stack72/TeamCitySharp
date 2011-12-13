@@ -167,5 +167,13 @@ namespace TeamCitySharp.IntegrationTests
 
             Assert.IsNotNull(builds, "There are currently no running builds");
         }
+
+        [Test] 
+        public void it_returns_all_successful_builds_since_date()
+        {
+            var builds = _client.AllBuildsOfStatusSinceDate(DateTime.Now.AddDays(-2), BuildStatus.FAILURE);
+
+            Assert.IsNotNull(builds);
+        }
     }
 }

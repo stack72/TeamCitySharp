@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TeamCitySharp.DomainEntities;
 
@@ -44,6 +45,8 @@ namespace TeamCitySharp
         List<Build> BuildConfigsByConfigIdAndTag(string buildConfigId, string tag);
         List<Build> BuildsByUserName(string userName);
         List<Build> BuildsByBuildLocator(BuildLocator locator);
+        List<Build> AllBuildsSinceDate(DateTime date);
+        List<Build> AllBuildsOfStatusSinceDate(DateTime date, BuildStatus buildStatus);
         List<Build> NonSuccessfulBuildsForUser(string userName);
     }
 }

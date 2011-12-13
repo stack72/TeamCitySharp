@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace TeamCitySharp
 {
@@ -36,6 +37,7 @@ namespace TeamCitySharp
                                                     int? maxResults = null,
                                                     int? startIndex = null,
                                                     BuildLocator sinceBuild = null,
+                                                    DateTime? sinceDate = null,
                                                     string[] tags = null
                                                 )
         {
@@ -52,6 +54,7 @@ namespace TeamCitySharp
                            MaxResults = maxResults,
                            StartIndex = startIndex,
                            SinceBuild = sinceBuild,
+                           SinceDate = sinceDate,
                            Tags = tags
                        };
         }
@@ -70,6 +73,7 @@ namespace TeamCitySharp
         public bool? Pinned { get; private set; }
         public int? MaxResults { get; private set; }
         public int? StartIndex { get; private set; }
+        public DateTime? SinceDate { get; private set; }
 
         public override string  ToString()
         {
@@ -143,6 +147,12 @@ namespace TeamCitySharp
             if(StartIndex.HasValue)
             {
                 locatorFields.Add("start:" + StartIndex.Value.ToString());
+            }
+
+            if (SinceDate.HasValue)
+            {
+                locatorFields.Add("sinceDate:" +
+                                  SinceDate.Value.ToString("yyyyMMdd'T'HHmmsszzzz").Replace(":", "").Replace("+", "-"));
             }
 
             return string.Join(",", locatorFields.ToArray());
