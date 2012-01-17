@@ -65,7 +65,7 @@ namespace TeamCitySharp.Connection
             var httpClient = new HttpClient();
             httpClient.Request.Accept = HttpContentTypes.ApplicationJson;
             httpClient.Request.SetBasicAuthentication(userName, password);
-
+            httpClient.Request.ForceBasicAuth = true;
             return httpClient;
         }
     }
