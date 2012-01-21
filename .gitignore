@@ -8,6 +8,8 @@ deploy
 *.dotCover
 output
 *.TeamCitySharp.sln.metaproj*
+*.DotSettings.*
+nuget
 
 
 packages

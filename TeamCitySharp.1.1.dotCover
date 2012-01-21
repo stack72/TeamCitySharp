@@ -6,6 +6,6 @@
     <ExcludeFilters />
   </CoverageFilters>
   <SnapshotDialog>
-    <InitialDirectory>C:\Projects\TeamCitySharp</InitialDirectory>
+    <InitialDirectory>C:\projects\TeamCitySharp</InitialDirectory>
   </SnapshotDialog>
 </Configuration>
