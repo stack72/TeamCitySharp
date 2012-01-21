@@ -219,10 +219,11 @@ namespace TeamCitySharp
 
         public Build LastSuccessfulBuildByBuildConfigId(string buildConfigId)
         {
-            return BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
-                status: BuildStatus.SUCCESS,
-                maxResults: 1
-            )).SingleOrDefault();
+            var builds = BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
+                                                                          status: BuildStatus.SUCCESS,
+                                                                          maxResults: 1
+                                                  ));
+            return builds != null ? builds.FirstOrDefault() : new Build();
         }
 
         public List<Build> FailedBuildsByBuildConfigId(string buildConfigId)
@@ -234,17 +235,19 @@ namespace TeamCitySharp
 
         public Build LastFailedBuildByBuildConfigId(string buildConfigId)
         {
-            return BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
-                status: BuildStatus.FAILURE,
-                maxResults: 1
-            )).SingleOrDefault();
+            var builds = BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
+                                                                          status: BuildStatus.FAILURE,
+                                                                          maxResults: 1
+                                                  ));
+            return builds != null ? builds.FirstOrDefault() : new Build();
         }
 
         public Build LastBuildByBuildConfigId(string buildConfigId)
         {
-            return BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
-                maxResults: 1
-            )).SingleOrDefault();
+            var builds = BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
+                                                                         maxResults: 1
+                                                 ));
+            return builds != null ? builds.FirstOrDefault() : new Build();
         }
 
         public List<Build> ErrorBuildsByBuildConfigId(string buildConfigId)
@@ -256,10 +259,11 @@ namespace TeamCitySharp
 
         public Build LastErrorBuildByBuildConfigId(string buildConfigId)
         {
-            return BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
-                status: BuildStatus.ERROR,
+            var builds = BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
+                                                                         status: BuildStatus.ERROR,
                 maxResults: 1
-            )).SingleOrDefault();
+                                                 ));
+            return builds != null ? builds.FirstOrDefault() : new Build();
         }
 
         public List<Build> BuildConfigsByBuildConfigId(string buildConfigId)
@@ -300,7 +304,7 @@ namespace TeamCitySharp
         public List<Build> NonSuccessfulBuildsForUser(string userName)
         {
             var builds = BuildsByUserName(userName);
-            if (builds == null )
+            if (builds == null)
             {
                 return null;
             }
