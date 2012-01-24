@@ -1,4 +1,6 @@
-﻿namespace TeamCitySharp.DomainEntities
+﻿using System;
+
+namespace TeamCitySharp.DomainEntities
 {
     public class VcsRoot
     {
@@ -8,7 +10,7 @@
         public string Name { get; set; }
         public string Version { get; set; }
         public string Status { get; set; }
-        public string lastChecked { get; set; }
+        public DateTime lastChecked { get; set; }
 
         public override string ToString()
         {
