@@ -62,7 +62,7 @@ namespace TeamCitySharp.Connection
 
         HttpClient CreateHttpRequest(string userName, string password)
         {
-            var httpClient = new HttpClient();
+            var httpClient = new HttpClient(new TeamcityJsonEncoderDecoderConfiguration());
             httpClient.Request.Accept = HttpContentTypes.ApplicationJson;
             httpClient.Request.SetBasicAuthentication(userName, password);
             httpClient.Request.ForceBasicAuth = true;
