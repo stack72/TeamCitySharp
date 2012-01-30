@@ -43,7 +43,7 @@ namespace BuildMonitor.Repository
                                 ProjectName = proj.Name,
                                 ProjectId = proj.Id,
                                 BuildConfigName = currentConfig.Name,
-                                LastBuildTime = DateTime.ParseExact(build.StartDate, "yyyyMMddTHHmmsszzzzz", System.Globalization.CultureInfo.InvariantCulture).ToString("dd/MM/yyyy HH:mm:ss"),
+                                LastBuildTime = build.StartDate.ToString("dd/MM/yyyy HH:mm:ss"),
                                 LastBuildStatus = build.Status,
                                 LastBuildStatusText = build.StatusText
                             };

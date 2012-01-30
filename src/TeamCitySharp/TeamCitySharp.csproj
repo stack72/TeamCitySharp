@@ -53,6 +53,8 @@
     <Compile Include="BuildTypeLocator.cs" />
     <Compile Include="Connection\IClientConnection.cs" />
     <Compile Include="Connection\TeamCityCaller.cs" />
+    <Compile Include="Connection\TeamCityDateFilter.cs" />
+    <Compile Include="Connection\TeamcityJsonEncoderDecoderConfiguration.cs" />
     <Compile Include="DomainEntities\Agent.cs" />
     <Compile Include="DomainEntities\AgentWrapper.cs" />
     <Compile Include="DomainEntities\Build.cs" />
