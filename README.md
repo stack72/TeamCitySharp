@@ -15,11 +15,12 @@ http://stack72.mit-license.org/
 ##Sample Usage
 * To get a list of projects
 
-```c#
+c#
 var client = new TeamCityClient("localhost:81");
+
 client.Connect("admin", "qwerty");
+
 var projects = client.AllProjects();
-```
 
 
 * To get a list of running builds
