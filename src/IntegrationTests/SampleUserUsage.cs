@@ -90,7 +90,7 @@ namespace TeamCitySharp.IntegrationTests
         {
             string userName = "teamcitysharpuser";
             List<Role> roles = _client.AllRolesByUserName(userName);
-            
+
             Assert.That(roles.Any(), "No roles found for this user");
         }
 
@@ -101,6 +101,18 @@ namespace TeamCitySharp.IntegrationTests
             List<Group> groups = _client.AllGroupsByUserName(userName);
 
             Assert.That(groups.Any(), "This user is not a member of any groups");
+        }
+
+        [Test]
+        [ExpectedException]
+        public void it_should_throw_exception_when_forbidden_status_code_returned()
+        {
+            var client = new TeamCityClient("localhost:81");
+            client.Connect("guest", string.Empty, true);
+
+            var users = client.AllUsers();
+             
+            //assert: Throws exception
         }
     }
 }

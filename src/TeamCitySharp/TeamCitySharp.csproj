@@ -67,6 +67,7 @@
     <Compile Include="DomainEntities\File.cs" />
     <Compile Include="DomainEntities\FileWrapper.cs" />
     <Compile Include="DomainEntities\Group.cs" />
+    <Compile Include="DomainEntities\IBaseEntity.cs" />
     <Compile Include="DomainEntities\Plugin.cs" />
     <Compile Include="DomainEntities\PluginWrapper.cs" />
     <Compile Include="DomainEntities\Project.cs" />

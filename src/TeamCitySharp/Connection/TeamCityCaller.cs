@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using EasyHttp.Http;
 using EasyHttp.Infrastructure;
 using TeamCitySharp.DomainEntities;
@@ -42,30 +43,40 @@ namespace TeamCitySharp.Connection
 
             string url = CreateUrl(urlPart);
 
-            try
+            var response = request.Get(url);
+            if (IsHttpError(response))
             {
-                var staticBody = request.Get(url).StaticBody<T>();
-                return staticBody;
+                throw new HttpException(response.StatusCode, response.StatusDescription);
             }
-            catch (HttpException httpException)
-            {
-                throw httpException;
-            }
+
+            return response.StaticBody<T>();
+        }
+
+        private bool IsHttpError(HttpResponse response)
+        {
+            var num = (int) response.StatusCode / 100;
+
+            return (num == 4 || num == 5);
         }
 
         private string CreateUrl(string urlPart)
         {
             var protocol = _configuration.UseSSL ? "https://" : "http://";
-            
-            return string.Format("{0}{1}{2}", protocol, _configuration.HostName, urlPart);
+            var authType = _configuration.ActAsGuest ? "/guestAuth" : "/httpAuth";
+
+            return string.Format("{0}{1}{2}{3}", protocol, _configuration.HostName, authType, urlPart);
         }
 
         HttpClient CreateHttpRequest(string userName, string password)
         {
             var httpClient = new HttpClient(new TeamcityJsonEncoderDecoderConfiguration());
             httpClient.Request.Accept = HttpContentTypes.ApplicationJson;
-            httpClient.Request.SetBasicAuthentication(userName, password);
-            httpClient.Request.ForceBasicAuth = true;
+            if (!_configuration.ActAsGuest)
+            {
+                httpClient.Request.SetBasicAuthentication(userName, password);
+                httpClient.Request.ForceBasicAuth = true;
+            }
+
             return httpClient;
         }
     }

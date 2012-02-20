@@ -22,21 +22,21 @@ namespace TeamCitySharp
 
         public List<Project> AllProjects()
         {
-            var projectWrapper = _caller.Get<ProjectWrapper>("/httpAuth/app/rest/projects");
+            var projectWrapper = _caller.Get<ProjectWrapper>("/app/rest/projects");
 
             return projectWrapper.Project;
         }
 
         public Project ProjectByName(string projectLocatorName)
         {
-            var project = _caller.GetFormat<Project>("/httpAuth/app/rest/projects/name:{0}", projectLocatorName);
+            var project = _caller.GetFormat<Project>("/app/rest/projects/name:{0}", projectLocatorName);
 
             return project;
         }
 
         public Project ProjectById(string projectLocatorId)
         {
-            var project = _caller.GetFormat<Project>("/httpAuth/app/rest/projects/id:{0}", projectLocatorId);
+            var project = _caller.GetFormat<Project>("/app/rest/projects/id:{0}", projectLocatorId);
 
             return project;
         }
@@ -48,41 +48,41 @@ namespace TeamCitySharp
 
         public Server ServerInfo()
         {
-            var server = _caller.Get<Server>("/httpAuth/app/rest/server");
+            var server = _caller.Get<Server>("/app/rest/server");
             return server;
         }
 
         public List<Plugin> AllServerPlugins()
         {
-            var pluginWrapper = _caller.Get<PluginWrapper>("/httpAuth/app/rest/server/plugins");
+            var pluginWrapper = _caller.Get<PluginWrapper>("/app/rest/server/plugins");
 
             return pluginWrapper.Plugin;
         }
 
         public List<Agent> AllAgents()
         {
-            var agentWrapper = _caller.Get<AgentWrapper>("/httpAuth/app/rest/agents");
+            var agentWrapper = _caller.Get<AgentWrapper>("/app/rest/agents");
 
             return agentWrapper.Agent;
         }
 
         public List<VcsRoot> AllVcsRoots()
         {
-            var vcsRootWrapper = _caller.Get<VcsRootWrapper>("/httpAuth/app/rest/vcs-roots");
+            var vcsRootWrapper = _caller.Get<VcsRootWrapper>("/app/rest/vcs-roots");
 
             return vcsRootWrapper.VcsRoot;
         }
 
         public VcsRoot VcsRootById(string vcsRootId)
         {
-            var vcsRoot = _caller.GetFormat<VcsRoot>("/httpAuth/app/rest/vcs-roots/id:{0}", vcsRootId);
+            var vcsRoot = _caller.GetFormat<VcsRoot>("/app/rest/vcs-roots/id:{0}", vcsRootId);
 
             return vcsRoot;
         }
 
         public List<User> AllUsers()
         {
-            var userWrapper = _caller.Get<UserWrapper>("/httpAuth/app/rest/users");
+            var userWrapper = _caller.Get<UserWrapper>("/app/rest/users");
 
             return userWrapper.User;
         }
@@ -90,7 +90,7 @@ namespace TeamCitySharp
         public List<Role> AllRolesByUserName(string userName)
         {
             var user =
-                _caller.GetFormat<User>("/httpAuth/app/rest/users/username:{0}", userName);
+                _caller.GetFormat<User>("/app/rest/users/username:{0}", userName);
 
             return user.Roles.Role;
         }
@@ -98,108 +98,108 @@ namespace TeamCitySharp
         public List<Group> AllGroupsByUserName(string userName)
         {
             var user =
-                _caller.GetFormat<User>("/httpAuth/app/rest/users/username:{0}", userName);
+                _caller.GetFormat<User>("/app/rest/users/username:{0}", userName);
 
             return user.Groups.Group;
         }
 
         public List<Group> AllUserGroups()
         {
-            var userGroupWrapper = _caller.Get<UserGroupWrapper>("/httpAuth/app/rest/userGroups");
+            var userGroupWrapper = _caller.Get<UserGroupWrapper>("/app/rest/userGroups");
 
             return userGroupWrapper.Group;
         }
 
         public List<User> AllUsersByUserGroup(string userGroupName)
         {
-            var group = _caller.GetFormat<Group>("/httpAuth/app/rest/userGroups/key:{0}", userGroupName);
+            var group = _caller.GetFormat<Group>("/app/rest/userGroups/key:{0}", userGroupName);
 
             return group.Users.User;
         }
 
         public List<Role> AllUserRolesByUserGroup(string userGroupName)
         {
-            var group = _caller.GetFormat<Group>("/httpAuth/app/rest/userGroups/key:{0}", userGroupName);
+            var group = _caller.GetFormat<Group>("/app/rest/userGroups/key:{0}", userGroupName);
 
             return group.Roles.Role;
         }
 
         public List<Change> AllChanges()
         {
-            var changeWrapper = _caller.Get<ChangeWrapper>("/httpAuth/app/rest/changes");
+            var changeWrapper = _caller.Get<ChangeWrapper>("/app/rest/changes");
 
             return changeWrapper.Change;
         }
 
         public Change ChangeDetailsByChangeId(string id)
         {
-            var change = _caller.GetFormat<Change>("/httpAuth/app/rest/changes/id:{0}", id);
+            var change = _caller.GetFormat<Change>("/app/rest/changes/id:{0}", id);
 
             return change;
         }
 
         public List<BuildConfig> AllBuildConfigs()
         {
-            var buildType = _caller.Get<BuildTypeWrapper>("/httpAuth/app/rest/buildTypes");
+            var buildType = _caller.Get<BuildTypeWrapper>("/app/rest/buildTypes");
 
             return buildType.BuildType;
         }
 
         public BuildConfig BuildConfigByConfigurationName(string buildConfigName)
         {
-            var build = _caller.GetFormat<BuildConfig>("/httpAuth/app/rest/buildTypes/name:{0}", buildConfigName);
+            var build = _caller.GetFormat<BuildConfig>("/app/rest/buildTypes/name:{0}", buildConfigName);
 
             return build;
         }
 
         public BuildConfig BuildConfigByConfigurationId(string buildConfigId)
         {
-            var build = _caller.GetFormat<BuildConfig>("/httpAuth/app/rest/buildTypes/id:{0}", buildConfigId);
+            var build = _caller.GetFormat<BuildConfig>("/app/rest/buildTypes/id:{0}", buildConfigId);
 
             return build;
         }
 
         public BuildConfig BuildConfigByProjectNameAndConfigurationName(string projectName, string buildConfigName)
         {
-            var build = _caller.Get<BuildConfig>(string.Format("/httpAuth/app/rest/projects/name:{0}/buildTypes/name:{1}", projectName, buildConfigName));
+            var build = _caller.Get<BuildConfig>(string.Format("/app/rest/projects/name:{0}/buildTypes/name:{1}", projectName, buildConfigName));
             return build;
         }
 
         public BuildConfig BuildConfigByProjectNameAndConfigurationId(string projectName, string buildConfigId)
         {
-            var build = _caller.Get<BuildConfig>(string.Format("/httpAuth/app/rest/projects/name:{0}/buildTypes/id:{1}", projectName, buildConfigId));
+            var build = _caller.Get<BuildConfig>(string.Format("/app/rest/projects/name:{0}/buildTypes/id:{1}", projectName, buildConfigId));
             return build;
         }
 
         public BuildConfig BuildConfigByProjectIdAndConfigurationName(string projectId, string buildConfigName)
         {
-            var build = _caller.Get<BuildConfig>(string.Format("/httpAuth/app/rest/projects/id:{0}/buildTypes/name:{1}", projectId, buildConfigName));
+            var build = _caller.Get<BuildConfig>(string.Format("/app/rest/projects/id:{0}/buildTypes/name:{1}", projectId, buildConfigName));
             return build;
         }
 
         public BuildConfig BuildConfigByProjectIdAndConfigurationId(string projectId, string buildConfigId)
         {
-            var build = _caller.Get<BuildConfig>(string.Format("/httpAuth/app/rest/projects/id:{0}/buildTypes/id:{1}", projectId, buildConfigId));
+            var build = _caller.Get<BuildConfig>(string.Format("/app/rest/projects/id:{0}/buildTypes/id:{1}", projectId, buildConfigId));
             return build;
         }
 
         public List<BuildConfig> BuildConfigsByProjectId(string projectId)
         {
-            var buildWrapper = _caller.GetFormat<BuildTypeWrapper>("/httpAuth/app/rest/projects/id:{0}/buildTypes", projectId);
+            var buildWrapper = _caller.GetFormat<BuildTypeWrapper>("/app/rest/projects/id:{0}/buildTypes", projectId);
 
             return buildWrapper.BuildType;
         }
 
         public List<BuildConfig> BuildConfigsByProjectName(string projectName)
         {
-            var buildWrapper = _caller.GetFormat<BuildTypeWrapper>("/httpAuth/app/rest/projects/name:{0}/buildTypes", projectName);
+            var buildWrapper = _caller.GetFormat<BuildTypeWrapper>("/app/rest/projects/name:{0}/buildTypes", projectName);
 
             return buildWrapper.BuildType;
         }
 
         public List<Build> BuildsByBuildLocator(BuildLocator locator)
         {
-            return _caller.GetFormat<BuildWrapper>("/httpAuth/app/rest/builds?locator={0}", locator).Build;
+            return _caller.GetFormat<BuildWrapper>("/app/rest/builds?locator={0}", locator).Build;
         }
 
         public Build LastBuildByAgent(string agentName)
