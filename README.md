@@ -52,9 +52,15 @@ List<User> AllUsersByUserGroup(string userGroupName);
 List<Role> AllUserRolesByUserGroup(string userGroupName);
 List<Change> AllChanges();
 Change ChangeDetailsByChangeId(string id);
+Change LastChangeDetailByBuildConfigId(string buildConfigId);
+List<Change> ChangeDetailsByBuildConfigId(string buildConfigId);
 List<BuildConfig> AllBuildConfigs();
 BuildConfig BuildConfigByConfigurationName(string buildConfigName);
 BuildConfig BuildConfigByConfigurationId(string buildConfigId);
+BuildConfig BuildConfigByProjectNameAndConfigurationName(string projectName, string buildConfigName);
+BuildConfig BuildConfigByProjectNameAndConfigurationId(string projectName, string buildConfigId);
+BuildConfig BuildConfigByProjectIdAndConfigurationName(string projectId, string buildConfigName);
+BuildConfig BuildConfigByProjectIdAndConfigurationId(string projectId, string buildConfigId);
 List<BuildConfig> BuildConfigsByProjectId(string projectId);
 List<BuildConfig> BuildConfigsByProjectName(string projectName);
 List<Build> SuccessfulBuildsByBuildConfigId(string buildConfigId);
@@ -68,6 +74,8 @@ List<Build> BuildConfigsByBuildConfigId(string buildConfigId);
 List<Build> BuildConfigsByConfigIdAndTag(string buildConfigId, string tag);
 List<Build> BuildsByUserName(string userName);
 List<Build> BuildsByBuildLocator(BuildLocator locator);
+List<Build> AllBuildsSinceDate(DateTime date);
+List<Build> AllBuildsOfStatusSinceDate(DateTime date, BuildStatus buildStatus);
 List<Build> NonSuccessfulBuildsForUser(string userName);
 ```
 
