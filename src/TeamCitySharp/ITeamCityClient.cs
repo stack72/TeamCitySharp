@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using TeamCitySharp.DomainEntities;
+using TeamCitySharp.Locators;
 
 namespace TeamCitySharp
 {
@@ -25,6 +26,8 @@ namespace TeamCitySharp
         List<Role> AllUserRolesByUserGroup(string userGroupName);
         List<Change> AllChanges();
         Change ChangeDetailsByChangeId(string id);
+        Change LastChangeDetailByBuildConfigId(string buildConfigId);
+        List<Change> ChangeDetailsByBuildConfigId(string buildConfigId);
         List<BuildConfig> AllBuildConfigs();
         BuildConfig BuildConfigByConfigurationName(string buildConfigName);
         BuildConfig BuildConfigByConfigurationId(string buildConfigId);
@@ -48,5 +51,6 @@ namespace TeamCitySharp
         List<Build> AllBuildsSinceDate(DateTime date);
         List<Build> AllBuildsOfStatusSinceDate(DateTime date, BuildStatus buildStatus);
         List<Build> NonSuccessfulBuildsForUser(string userName);
+        
     }
 }

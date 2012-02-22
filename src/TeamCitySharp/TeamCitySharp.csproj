@@ -49,8 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BuildLocator.cs" />
-    <Compile Include="BuildTypeLocator.cs" />
+    <Compile Include="Locators\BuildLocator.cs" />
+    <Compile Include="Locators\BuildTypeLocator.cs" />
     <Compile Include="Connection\IClientConnection.cs" />
     <Compile Include="Connection\TeamCityCaller.cs" />
     <Compile Include="Connection\TeamCityDateFilter.cs" />
@@ -83,7 +83,7 @@
     <Compile Include="ITeamCityClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TeamCityClient.cs" />
-    <Compile Include="UserLocator.cs" />
+    <Compile Include="Locators\UserLocator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
