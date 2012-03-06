@@ -21,10 +21,7 @@
             {
                 return "id:" + Id;
             }
-            else
-            {
-                return "name:" + Name;
-            }
+            return "name:" + Name;
         }
     }
 }
