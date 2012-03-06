@@ -38,13 +38,12 @@ namespace TeamCitySharp.Connection
             if (string.IsNullOrEmpty(urlPart))
                 throw new ArgumentException("Url must be specfied");
 
-            var request = CreateHttpRequest(_configuration.UserName, _configuration.Password);
-            string url = CreateUrl(urlPart);
+            var url = CreateUrl(urlPart);
 
-            var response = request.Get(url);
+            var response = CreateHttpRequest(_configuration.UserName, _configuration.Password).Get(url);
             if (IsHttpError(response))
             {
-                throw new HttpException(response.StatusCode, response.StatusDescription);
+                throw new HttpException(response.StatusCode, string.Format("Error {0}: Thrown with URL {1}", response.StatusDescription, url));
             }
 
             return response.StaticBody<T>();

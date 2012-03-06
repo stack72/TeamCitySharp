@@ -326,5 +326,11 @@ namespace TeamCitySharp
 
             return builds.Where(b => b.Status != "SUCCESS").ToList();
         }
+
+        public T CallByUrl<T>(string urlPart)
+        {
+            var call = _caller.Get<T>(urlPart);
+            return call;
+        }
     }
 }

@@ -169,7 +169,7 @@ namespace TeamCitySharp.IntegrationTests
             Assert.IsNotNull(builds, "There are currently no running builds");
         }
 
-        [Test] 
+        [Test]
         public void it_returns_all_successful_builds_since_date()
         {
             var builds = _client.AllBuildsOfStatusSinceDate(DateTime.Now.AddDays(-2), BuildStatus.FAILURE);
@@ -178,17 +178,17 @@ namespace TeamCitySharp.IntegrationTests
         }
 
         [Test]
-        public void it_populates_the_status_text_field_of_the_build_object()
+        public void it_does_not_populate_the_status_text_field_of_the_build_object()
         {
             string buildConfigId = "bt5";
+            var client = new TeamCityClient("localhost:81");
+            client.Connect("admin", "qwerty");
+
             var build =
-                _client.BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
+                client.BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
                                                                          maxResults: 1));
-
-            var otherBuild = _client.BuildConfigsByBuildConfigId("bt5");
-
             Assert.That(build.Count == 1);
-            Assert.That(!string.IsNullOrWhiteSpace(build.FirstOrDefault().StatusText));
+            Assert.IsNull(build.FirstOrDefault().StatusText);
         }
     }
 }

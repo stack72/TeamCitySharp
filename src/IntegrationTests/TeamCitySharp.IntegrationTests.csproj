@@ -58,6 +58,7 @@
     <Compile Include="SampleServerUsage.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SampleUrlUsage.cs" />
     <Compile Include="SampleUserUsage.cs">
       <SubType>Code</SubType>
     </Compile>
