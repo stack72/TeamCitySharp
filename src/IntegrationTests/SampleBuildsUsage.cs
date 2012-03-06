@@ -14,8 +14,8 @@ namespace TeamCitySharp.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            _client = new TeamCityClient("teamcity.codebetter.com");
-            _client.Connect("teamcitysharpuser", "qwerty");
+            _client = new TeamCityClient("localhost:81");
+            _client.Connect("admin", "qwerty");
         }
 
         [Test]
@@ -175,6 +175,20 @@ namespace TeamCitySharp.IntegrationTests
             var builds = _client.AllBuildsOfStatusSinceDate(DateTime.Now.AddDays(-2), BuildStatus.FAILURE);
 
             Assert.IsNotNull(builds);
+        }
+
+        [Test]
+        public void it_populates_the_status_text_field_of_the_build_object()
+        {
+            string buildConfigId = "bt5";
+            var build =
+                _client.BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
+                                                                         maxResults: 1));
+
+            var otherBuild = _client.BuildConfigsByBuildConfigId("bt5");
+
+            Assert.That(build.Count == 1);
+            Assert.That(!string.IsNullOrWhiteSpace(build.FirstOrDefault().StatusText));
         }
     }
 }

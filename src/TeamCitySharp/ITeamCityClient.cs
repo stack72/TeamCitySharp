@@ -51,6 +51,5 @@ namespace TeamCitySharp
         List<Build> AllBuildsSinceDate(DateTime date);
         List<Build> AllBuildsOfStatusSinceDate(DateTime date, BuildStatus buildStatus);
         List<Build> NonSuccessfulBuildsForUser(string userName);
-        
     }
 }

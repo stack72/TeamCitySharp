@@ -33,7 +33,7 @@ namespace TeamCitySharp.Connection
 
         public T Get<T>(string urlPart)
         {
-            if (!_configuration.ActAsGuest && string.IsNullOrEmpty(_configuration.UserName) && string.IsNullOrEmpty(_configuration.Password))
+            if (CheckForUserNameAndPassword())
                 throw new ArgumentException("If you are not acting as a guest you must supply userName and password");
 
             if (string.IsNullOrEmpty(urlPart))
@@ -50,6 +50,11 @@ namespace TeamCitySharp.Connection
             }
 
             return response.StaticBody<T>();
+        }
+
+        private bool CheckForUserNameAndPassword()
+        {
+            return !_configuration.ActAsGuest && string.IsNullOrEmpty(_configuration.UserName) && string.IsNullOrEmpty(_configuration.Password);
         }
 
         private bool IsHttpError(HttpResponse response)
