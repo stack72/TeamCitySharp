@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using EasyHttp.Http;
 using EasyHttp.Infrastructure;
 using TeamCitySharp.DomainEntities;
@@ -40,7 +39,6 @@ namespace TeamCitySharp.Connection
                 throw new ArgumentException("UrlPart must be specfied");
 
             var request = CreateHttpRequest(_configuration.UserName, _configuration.Password);
-
             string url = CreateUrl(urlPart);
 
             var response = request.Get(url);
