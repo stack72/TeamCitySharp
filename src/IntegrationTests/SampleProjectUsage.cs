@@ -55,7 +55,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_all_projects()
         {
-            List<Project> projects = _client.AllProjects();
+            List<ProjectRef> projects = _client.AllProjects();
 
             Assert.That(projects.Any(), "No projects were found for this server");
         }
@@ -77,9 +77,9 @@ namespace TeamCitySharp.IntegrationTests
         }
 
         [Test]
-        public void it_returns_project_details_when_passing_project()
+        public void it_returns_project_details_when_passing_projectInfo()
         {
-            var project = new Project { Id = "project137" };
+            var project = new ProjectRef { Id = "project137" };
             Project projectDetails = _client.ProjectDetails(project);
 
             Assert.That(!string.IsNullOrWhiteSpace(projectDetails.Id));

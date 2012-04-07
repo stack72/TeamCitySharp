@@ -91,7 +91,7 @@ namespace TeamCitySharp.IntegrationTests
             string userName = "teamcitysharpuser";
             List<Role> roles = _client.AllRolesByUserName(userName);
 
-            Assert.That(roles.Any(), "No roles found for this user");
+            Assert.That(!roles.Any(), "Roles have been found for this user");
         }
 
         [Test]

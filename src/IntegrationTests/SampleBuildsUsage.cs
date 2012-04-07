@@ -129,7 +129,7 @@ namespace TeamCitySharp.IntegrationTests
         {
             string buildConfigId = "bt437";
             string tag = "test";
-            var builds = _client.BuildConfigsByConfigIdAndTag(buildConfigId, tag);
+            var builds = _client.BuildConfigsByConfigIdAndTags(buildConfigId, tag);
 
             Assert.IsNotNull(builds, "No builds were found for this build id and Tag");
         }
@@ -164,8 +164,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_all_running_builds()
         {
-            var builds = _client.BuildsByBuildLocator(BuildLocator.RunningBuilds());
-
+			var builds = _client.RunningBuilds();
             Assert.IsNotNull(builds, "There are currently no running builds");
         }
 

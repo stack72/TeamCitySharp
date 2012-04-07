@@ -2,6 +2,7 @@
 using System.Linq;
 using BuildMonitor.Models;
 using System.Collections.Generic;
+using TeamCitySharp;
 using TeamCitySharp.DomainEntities;
 
 namespace BuildMonitor.Repository
@@ -10,7 +11,7 @@ namespace BuildMonitor.Repository
     {
         private TeamCitySharp.TeamCityClient client;
         private List<ProjectModel> projectList;
-        private List<Project> projects;
+        private List<ProjectRef> projects;
         private List<BuildConfig> buildConfigs;
         private List<BuildConfig> currentProjectConfigs;
 
@@ -28,7 +29,7 @@ namespace BuildMonitor.Repository
         {
             try
             {
-                foreach (Project proj in projects)
+                foreach (ProjectRef proj in projects)
                 {
                     try
                     {
@@ -98,7 +99,7 @@ namespace BuildMonitor.Repository
             
         }
 
-        private List<Project> GetAllProjects()
+        private List<ProjectRef> GetAllProjects()
         {
             client.Connect(
                           Properties.Settings.Default.TeamCityUser,

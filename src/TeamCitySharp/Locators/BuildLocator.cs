@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using TeamCitySharp.Connection;
+using TeamCitySharp.DomainEntities;
 
 namespace TeamCitySharp.Locators
 {
@@ -9,6 +11,41 @@ namespace TeamCitySharp.Locators
         FAILURE,
         ERROR
     }
+	
+	public class BuildQuery
+	{
+        private readonly TeamCityCaller _caller;
+		
+		internal BuildQuery(TeamCityCaller caller)
+		{
+			_caller = caller;
+		}
+		
+		public BuildLocator Locator { get; set; }
+		
+		public Build Latest()
+		{
+            return _caller.GetFormat<Build>("/app/rest/builds/{0}", Locator.ToString());
+		}
+		
+		public List<BuildRef> List(long? skip = null, long? take = null)
+		{
+			var query = Locator.ToString();
+			
+			if (skip.HasValue)
+			{
+				query += ",start:" + skip.Value;
+			}
+			if (take.HasValue)
+			{
+				query += ",count:" + take.Value;
+			}
+			
+            return _caller.GetFormat<BuildWrapper>("/app/rest/builds?locator={0}", query).Build ?? new List<BuildRef>();
+		}
+	}
+	
+	
     public class BuildLocator
     {
         public static BuildLocator WithId(long id)
@@ -21,11 +58,6 @@ namespace TeamCitySharp.Locators
             return new BuildLocator {Number = number};
         }
 
-        public static BuildLocator RunningBuilds()
-        {
-            return new BuildLocator {Running = true};
-        }
-
         public static BuildLocator WithDimensions(BuildTypeLocator buildType = null,
                                                     UserLocator user = null,
                                                     string agentName = null,
@@ -34,8 +66,6 @@ namespace TeamCitySharp.Locators
                                                     bool? canceled = null,
                                                     bool? running = null,
                                                     bool? pinned = null,
-                                                    int? maxResults = null,
-                                                    int? startIndex = null,
                                                     BuildLocator sinceBuild = null,
                                                     DateTime? sinceDate = null,
                                                     string[] tags = null
@@ -51,8 +81,6 @@ namespace TeamCitySharp.Locators
                            Canceled = canceled,
                            Running = running,
                            Pinned = pinned,
-                           MaxResults = maxResults,
-                           StartIndex = startIndex,
                            SinceBuild = sinceBuild,
                            SinceDate = sinceDate,
                            Tags = tags
@@ -71,8 +99,6 @@ namespace TeamCitySharp.Locators
         public bool? Canceled { get; private set; }
         public bool? Running { get; private set; }
         public bool? Pinned { get; private set; }
-        public int? MaxResults { get; private set; }
-        public int? StartIndex { get; private set; }
         public DateTime? SinceDate { get; private set; }
 
         public override string  ToString()
@@ -137,16 +163,6 @@ namespace TeamCitySharp.Locators
             if(Pinned.HasValue)
             {
                 locatorFields.Add("pinned:" + Pinned.Value.ToString());
-            }
-
-            if(MaxResults.HasValue)
-            {
-                locatorFields.Add("count:" + MaxResults.Value.ToString());
-            }
-
-            if(StartIndex.HasValue)
-            {
-                locatorFields.Add("start:" + StartIndex.Value.ToString());
             }
 
             if (SinceDate.HasValue)
