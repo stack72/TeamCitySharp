@@ -21,310 +21,154 @@ namespace TeamCitySharp
             _caller.Connect(userName, password, actAsGuest);
         }
 
-        public List<Project> AllProjects()
+        public List<ProjectRef> AllProjects()
         {
-            var projectWrapper = _caller.Get<ProjectWrapper>("/app/rest/projects");
-
-            return projectWrapper.Project;
+            return _caller.Get<ProjectWrapper>("/app/rest/projects").Project;
         }
 
-        public Project ProjectByName(string projectLocatorName)
+        public Project ProjectById(string id)
         {
-            var project = _caller.GetFormat<Project>("/app/rest/projects/name:{0}", projectLocatorName);
-
-            return project;
+            return _caller.GetFormat<Project>("/app/rest/projects/id:{0}", id);
         }
 
-        public Project ProjectById(string projectLocatorId)
+        public Project ProjectByName(string name)
         {
-            var project = _caller.GetFormat<Project>("/app/rest/projects/id:{0}", projectLocatorId);
-
-            return project;
-        }
-
-        public Project ProjectDetails(Project project)
-        {
-            return ProjectById(project.Id);
+            return _caller.GetFormat<Project>("/app/rest/projects/name:{0}", name);
         }
 
         public Server ServerInfo()
         {
-            var server = _caller.Get<Server>("/app/rest/server");
-            return server;
+            return _caller.Get<Server>("/app/rest/server");
         }
 
         public List<Plugin> AllServerPlugins()
         {
-            var pluginWrapper = _caller.Get<PluginWrapper>("/app/rest/server/plugins");
-
-            return pluginWrapper.Plugin;
+            return _caller.Get<PluginWrapper>("/app/rest/server/plugins").Plugin;
         }
 
         public List<Agent> AllAgents()
         {
-            var agentWrapper = _caller.Get<AgentWrapper>("/app/rest/agents");
-
-            return agentWrapper.Agent;
+            return _caller.Get<AgentWrapper>("/app/rest/agents").Agent;
         }
 
         public List<VcsRoot> AllVcsRoots()
         {
-            var vcsRootWrapper = _caller.Get<VcsRootWrapper>("/app/rest/vcs-roots");
-
-            return vcsRootWrapper.VcsRoot;
+            return _caller.Get<VcsRootWrapper>("/app/rest/vcs-roots").VcsRoot;
         }
 
         public VcsRoot VcsRootById(string vcsRootId)
         {
-            var vcsRoot = _caller.GetFormat<VcsRoot>("/app/rest/vcs-roots/id:{0}", vcsRootId);
-
-            return vcsRoot;
+            return _caller.GetFormat<VcsRoot>("/app/rest/vcs-roots/id:{0}", vcsRootId);
         }
 
         public List<User> AllUsers()
         {
-            var userWrapper = _caller.Get<UserWrapper>("/app/rest/users");
-
-            return userWrapper.User;
+            return _caller.Get<UserWrapper>("/app/rest/users").User;
         }
 
-        public List<Role> AllRolesByUserName(string userName)
+        public User UserByUserName(string userName)
         {
-            var user =
-                _caller.GetFormat<User>("/app/rest/users/username:{0}", userName);
-
-            return user.Roles.Role;
-        }
-
-        public List<Group> AllGroupsByUserName(string userName)
-        {
-            var user =
-                _caller.GetFormat<User>("/app/rest/users/username:{0}", userName);
-
-            return user.Groups.Group;
+            return _caller.GetFormat<User>("/app/rest/users/username:{0}", userName);
         }
 
         public List<Group> AllUserGroups()
         {
-            var userGroupWrapper = _caller.Get<UserGroupWrapper>("/app/rest/userGroups");
-
-            return userGroupWrapper.Group;
+            return _caller.Get<UserGroupWrapper>("/app/rest/userGroups").Group;
         }
 
-        public List<User> AllUsersByUserGroup(string userGroupName)
+        public Group UserGroupByName(string name)
         {
-            var group = _caller.GetFormat<Group>("/app/rest/userGroups/key:{0}", userGroupName);
-
-            return group.Users.User;
-        }
-
-        public List<Role> AllUserRolesByUserGroup(string userGroupName)
-        {
-            var group = _caller.GetFormat<Group>("/app/rest/userGroups/key:{0}", userGroupName);
-
-            return group.Roles.Role;
+            return _caller.GetFormat<Group>("/app/rest/userGroups/key:{0}", name);
         }
 
         public List<Change> AllChanges()
         {
-            var changeWrapper = _caller.Get<ChangeWrapper>("/app/rest/changes");
-
-            return changeWrapper.Change;
+            return _caller.Get<ChangeWrapper>("/app/rest/changes").Change;
         }
 
         public Change ChangeDetailsByChangeId(string id)
         {
-            var change = _caller.GetFormat<Change>("/app/rest/changes/id:{0}", id);
-
-            return change;
+            return _caller.GetFormat<Change>("/app/rest/changes/id:{0}", id);
         }
 
         public List<Change> ChangeDetailsByBuildConfigId(string buildConfigId)
         {
-            var changeWrapper = _caller.GetFormat<ChangeWrapper>("/app/rest/changes?buildType={0}", buildConfigId);
-
-            return changeWrapper.Change;
-        }
-
-        public Change LastChangeDetailByBuildConfigId(string buildConfigId)
-        {
-            var changes = ChangeDetailsByBuildConfigId(buildConfigId);
-
-            return changes.FirstOrDefault();
+            return _caller.GetFormat<ChangeWrapper>("/app/rest/changes?buildType={0}", buildConfigId).Change;
         }
 
         public List<BuildConfig> AllBuildConfigs()
         {
-            var buildType = _caller.Get<BuildTypeWrapper>("/app/rest/buildTypes");
-
-            return buildType.BuildType;
+            return _caller.Get<BuildTypeWrapper>("/app/rest/buildTypes").BuildType;
         }
 
-        public BuildConfig BuildConfigByConfigurationName(string buildConfigName)
+        public BuildConfig BuildConfigById(string id)
         {
-            var build = _caller.GetFormat<BuildConfig>("/app/rest/buildTypes/name:{0}", buildConfigName);
-
-            return build;
+            return _caller.GetFormat<BuildConfig>("/app/rest/buildTypes/id:{0}", id);
         }
 
-        public BuildConfig BuildConfigByConfigurationId(string buildConfigId)
+        public BuildConfig BuildConfigByName(string name)
         {
-            var build = _caller.GetFormat<BuildConfig>("/app/rest/buildTypes/id:{0}", buildConfigId);
-
-            return build;
+            return _caller.GetFormat<BuildConfig>("/app/rest/buildTypes/name:{0}", name);
         }
 
         public BuildConfig BuildConfigByProjectNameAndConfigurationName(string projectName, string buildConfigName)
         {
-            var build = _caller.Get<BuildConfig>(string.Format("/app/rest/projects/name:{0}/buildTypes/name:{1}", projectName, buildConfigName));
-            return build;
-        }
-
-        public BuildConfig BuildConfigByProjectNameAndConfigurationId(string projectName, string buildConfigId)
-        {
-            var build = _caller.Get<BuildConfig>(string.Format("/app/rest/projects/name:{0}/buildTypes/id:{1}", projectName, buildConfigId));
-            return build;
+            return _caller.Get<BuildConfig>(string.Format("/app/rest/projects/name:{0}/buildTypes/name:{1}", projectName, buildConfigName));
         }
 
         public BuildConfig BuildConfigByProjectIdAndConfigurationName(string projectId, string buildConfigName)
         {
-            var build = _caller.Get<BuildConfig>(string.Format("/app/rest/projects/id:{0}/buildTypes/name:{1}", projectId, buildConfigName));
-            return build;
-        }
-
-        public BuildConfig BuildConfigByProjectIdAndConfigurationId(string projectId, string buildConfigId)
-        {
-            var build = _caller.Get<BuildConfig>(string.Format("/app/rest/projects/id:{0}/buildTypes/id:{1}", projectId, buildConfigId));
-            return build;
+            return _caller.Get<BuildConfig>(string.Format("/app/rest/projects/id:{0}/buildTypes/name:{1}", projectId, buildConfigName));
         }
 
         public List<BuildConfig> BuildConfigsByProjectId(string projectId)
         {
-            var buildWrapper = _caller.GetFormat<BuildTypeWrapper>("/app/rest/projects/id:{0}/buildTypes", projectId);
-
-            return buildWrapper.BuildType;
+            return _caller.GetFormat<BuildTypeWrapper>("/app/rest/projects/id:{0}/buildTypes", projectId).BuildType;
         }
 
         public List<BuildConfig> BuildConfigsByProjectName(string projectName)
         {
-            var buildWrapper = _caller.GetFormat<BuildTypeWrapper>("/app/rest/projects/name:{0}/buildTypes", projectName);
-
-            return buildWrapper.BuildType;
+            return _caller.GetFormat<BuildTypeWrapper>("/app/rest/projects/name:{0}/buildTypes", projectName).BuildType;
         }
-
-        public List<Build> BuildsByBuildLocator(BuildLocator locator)
+		
+		public Build BuildById(long id)
+		{
+            return _caller.GetFormat<Build>("/app/rest/builds/id:{0}", id);
+		}
+		
+		public Build BuildByNumber(string number)
+		{
+            return _caller.GetFormat<Build>("/app/rest/builds/number:{0}", number);
+		}
+		
+        public BuildQuery BuildQuery(BuildTypeLocator buildType = null,
+                                                    UserLocator user = null,
+                                                    string agentName = null,
+                                                    BuildStatus? status = null,
+                                                    bool? personal = null,
+                                                    bool? canceled = null,
+                                                    bool? running = null,
+                                                    bool? pinned = null,
+                                                    BuildLocator sinceBuild = null,
+                                                    DateTime? sinceDate = null,
+                                                    string[] tags = null
+                                                )
         {
-            return _caller.GetFormat<BuildWrapper>("/app/rest/builds?locator={0}", locator).Build;
-        }
-
-        public Build LastBuildByAgent(string agentName)
-        {
-            return BuildsByBuildLocator(BuildLocator.WithDimensions(
-                agentName: agentName,
-                maxResults: 1
-            )).SingleOrDefault();
-        }
-
-        public List<Build> SuccessfulBuildsByBuildConfigId(string buildConfigId)
-        {
-            return BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
-                status: BuildStatus.SUCCESS
-            ));
-        }
-
-        public Build LastSuccessfulBuildByBuildConfigId(string buildConfigId)
-        {
-            var builds = BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
-                                                                          status: BuildStatus.SUCCESS,
-                                                                          maxResults: 1
-                                                  ));
-            return builds != null ? builds.FirstOrDefault() : new Build();
-        }
-
-        public List<Build> FailedBuildsByBuildConfigId(string buildConfigId)
-        {
-            return BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
-                status: BuildStatus.FAILURE
-            ));
-        }
-
-        public Build LastFailedBuildByBuildConfigId(string buildConfigId)
-        {
-            var builds = BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
-                                                                          status: BuildStatus.FAILURE,
-                                                                          maxResults: 1
-                                                  ));
-            return builds != null ? builds.FirstOrDefault() : new Build();
-        }
-
-        public Build LastBuildByBuildConfigId(string buildConfigId)
-        {
-            var builds = BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
-                                                                         maxResults: 1
-                                                 ));
-            return builds != null ? builds.FirstOrDefault() : new Build();
-        }
-
-        public List<Build> ErrorBuildsByBuildConfigId(string buildConfigId)
-        {
-            return BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
-                status: BuildStatus.ERROR
-            ));
-        }
-
-        public Build LastErrorBuildByBuildConfigId(string buildConfigId)
-        {
-            var builds = BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
-                                                                         status: BuildStatus.ERROR,
-                maxResults: 1
-                                                 ));
-            return builds != null ? builds.FirstOrDefault() : new Build();
-        }
-
-        public List<Build> BuildConfigsByBuildConfigId(string buildConfigId)
-        {
-            return BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId)
-            ));
-        }
-
-        public List<Build> BuildConfigsByConfigIdAndTag(string buildConfigId, string tag)
-        {
-            return BuildConfigsByConfigIdAndTag(buildConfigId, new[] { tag });
-        }
-
-        public List<Build> BuildConfigsByConfigIdAndTag(string buildConfigId, string[] tags)
-        {
-            return BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
-                tags: tags
-            ));
-        }
-
-        public List<Build> BuildsByUserName(string userName)
-        {
-            return BuildsByBuildLocator(BuildLocator.WithDimensions(
-                user: UserLocator.WithUserName(userName)
-            ));
-        }
-
-        public List<Build> AllBuildsSinceDate(DateTime date)
-        {
-            return BuildsByBuildLocator(BuildLocator.WithDimensions(sinceDate: date));
-        }
-
-        public List<Build> AllBuildsOfStatusSinceDate(DateTime date, BuildStatus buildStatus)
-        {
-            return BuildsByBuildLocator(BuildLocator.WithDimensions(sinceDate: date, status: buildStatus));
-        }
-
-        public List<Build> NonSuccessfulBuildsForUser(string userName)
-        {
-            var builds = BuildsByUserName(userName);
-            if (builds == null)
-            {
-                return null;
-            }
-
-            return builds.Where(b => b.Status != "SUCCESS").ToList();
+            return new BuildQuery(_caller)
+			{
+				Locator = BuildLocator.WithDimensions(
+					buildType: buildType,
+					user: user,
+					agentName: agentName,
+					status: status,
+					personal: personal,
+					canceled: canceled,
+					running: running,
+					pinned: pinned,
+					sinceBuild: sinceBuild,
+					sinceDate: sinceDate,
+					tags: tags)
+			};
         }
     }
 }

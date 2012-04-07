@@ -61,7 +61,7 @@ namespace TeamCitySharp.IntegrationTests
         public void it_returns_build_config_details_by_configuration_id()
         {
             string buildConfigId = "bt437";
-            var buildConfig = _client.BuildConfigByConfigurationId(buildConfigId);
+            var buildConfig = _client.BuildConfigById(buildConfigId);
 
             Assert.That(buildConfig != null, "Cannot find a build type for that buildId");
         }
@@ -70,7 +70,7 @@ namespace TeamCitySharp.IntegrationTests
         public void it_returns_build_config_details_by_configuration_name()
         {
             string buildConfigName = "Release Build";
-            var buildConfig = _client.BuildConfigByConfigurationName(buildConfigName);
+            var buildConfig = _client.BuildConfigByName(buildConfigName);
 
             Assert.That(buildConfig != null, "Cannot find a build type for that buildName");
         }

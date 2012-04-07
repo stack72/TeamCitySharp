@@ -8,49 +8,50 @@ namespace TeamCitySharp
     public interface ITeamCityClient
     {
         void Connect(string userName, string password, bool actAsGuest = false);
-        List<Project> AllProjects();
-        Project ProjectByName(string projectLocatorName);
-        Project ProjectById(string projectLocatorId);
-        Project ProjectDetails(Project project);
-        Server ServerInfo();
+        
+		Server ServerInfo();
         List<Plugin> AllServerPlugins();
         List<Agent> AllAgents();
-        Build LastBuildByAgent(string agentName);
-        List<VcsRoot> AllVcsRoots();
+		
+        List<ProjectRef> AllProjects();
+        Project ProjectById(string projectLocatorId);
+        Project ProjectByName(string projectLocatorName);
+        
+		List<VcsRoot> AllVcsRoots();
         VcsRoot VcsRootById(string vcsRootId);
-        List<User> AllUsers();
-        List<Role> AllRolesByUserName(string userName);
-        List<Group> AllGroupsByUserName(string userName);
-        List<Group> AllUserGroups();
-        List<User> AllUsersByUserGroup(string userGroupName);
-        List<Role> AllUserRolesByUserGroup(string userGroupName);
+        
+		List<User> AllUsers();
+		User UserByUserName(string userName);
+        
+		List<Group> AllUserGroups();
+		Group UserGroupByName(string userGroupName);
+		
         List<Change> AllChanges();
         Change ChangeDetailsByChangeId(string id);
-        Change LastChangeDetailByBuildConfigId(string buildConfigId);
         List<Change> ChangeDetailsByBuildConfigId(string buildConfigId);
+		
         List<BuildConfig> AllBuildConfigs();
-        BuildConfig BuildConfigByConfigurationName(string buildConfigName);
-        BuildConfig BuildConfigByConfigurationId(string buildConfigId);
-        BuildConfig BuildConfigByProjectNameAndConfigurationName(string projectName, string buildConfigName);
-        BuildConfig BuildConfigByProjectNameAndConfigurationId(string projectName, string buildConfigId);
+        BuildConfig BuildConfigById(string id);
+        BuildConfig BuildConfigByName(string name);
         BuildConfig BuildConfigByProjectIdAndConfigurationName(string projectId, string buildConfigName);
-        BuildConfig BuildConfigByProjectIdAndConfigurationId(string projectId, string buildConfigId);
+        BuildConfig BuildConfigByProjectNameAndConfigurationName(string projectName, string buildConfigName);
         List<BuildConfig> BuildConfigsByProjectId(string projectId);
         List<BuildConfig> BuildConfigsByProjectName(string projectName);
-        List<Build> SuccessfulBuildsByBuildConfigId(string buildConfigId);
-        Build LastSuccessfulBuildByBuildConfigId(string buildConfigId);
-        List<Build> FailedBuildsByBuildConfigId(string buildConfigId);
-        Build LastFailedBuildByBuildConfigId(string buildConfigId);
-        Build LastBuildByBuildConfigId(string buildConfigId);
-        List<Build> ErrorBuildsByBuildConfigId(string buildConfigId);
-        Build LastErrorBuildByBuildConfigId(string buildConfigId);
-        List<Build> BuildConfigsByBuildConfigId(string buildConfigId);
-        List<Build> BuildConfigsByConfigIdAndTag(string buildConfigId, string tag);
-        List<Build> BuildsByUserName(string userName);
-        List<Build> BuildsByBuildLocator(BuildLocator locator);
-        List<Build> AllBuildsSinceDate(DateTime date);
-        List<Build> AllBuildsOfStatusSinceDate(DateTime date, BuildStatus buildStatus);
-        List<Build> NonSuccessfulBuildsForUser(string userName);
-        
+		
+		Build BuildById(long id);
+		Build BuildByNumber(string number);
+        BuildQuery BuildQuery(
+			BuildTypeLocator buildType = null,
+	        UserLocator user = null,
+	        string agentName = null,
+	        BuildStatus? status = null,
+	        bool? personal = null,
+	        bool? canceled = null,
+	        bool? running = null,
+	        bool? pinned = null,
+	        BuildLocator sinceBuild = null,
+	        DateTime? sinceDate = null,
+	        string[] tags = null
+	    );
     }
 }

@@ -67,7 +67,6 @@
     <Compile Include="DomainEntities\File.cs" />
     <Compile Include="DomainEntities\FileWrapper.cs" />
     <Compile Include="DomainEntities\Group.cs" />
-    <Compile Include="DomainEntities\IBaseEntity.cs" />
     <Compile Include="DomainEntities\Plugin.cs" />
     <Compile Include="DomainEntities\PluginWrapper.cs" />
     <Compile Include="DomainEntities\Project.cs" />
@@ -84,6 +83,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TeamCityClient.cs" />
     <Compile Include="Locators\UserLocator.cs" />
+    <Compile Include="TeamCityClientExtensions.cs" />
+    <Compile Include="DomainEntities\ProjectRef.cs" />
+    <Compile Include="DomainEntities\BuildRef.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
