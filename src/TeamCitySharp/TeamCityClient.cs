@@ -214,7 +214,12 @@ namespace TeamCitySharp
 
         public List<Build> BuildsByBuildLocator(BuildLocator locator)
         {
-            return _caller.GetFormat<BuildWrapper>("/app/rest/builds?locator={0}", locator).Build;
+            var buildWrapper = _caller.GetFormat<BuildWrapper>("/app/rest/builds?locator={0}", locator);
+            if (int.Parse(buildWrapper.Count) > 0)
+            {
+                return buildWrapper.Build;
+            }
+            return new List<Build>();
         }
 
         public Build LastBuildByAgent(string agentName)

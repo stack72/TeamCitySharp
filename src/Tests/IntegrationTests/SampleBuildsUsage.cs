@@ -14,8 +14,8 @@ namespace TeamCitySharp.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            _client = new TeamCityClient("localhost:81");
-            _client.Connect("admin", "qwerty");
+            _client = new TeamCityClient("teamcity.codebetter.com");
+            _client.Connect("teamcitysharpuser", "qwerty");
         }
 
         [Test]
@@ -128,7 +128,7 @@ namespace TeamCitySharp.IntegrationTests
         public void it_returns_all_builds_by_build_config_id_and_tag()
         {
             const string buildConfigId = "bt437";
-            const string tag = "test";
+            const string tag = "Release";
             var builds = _client.BuildConfigsByConfigIdAndTag(buildConfigId, tag);
 
             Assert.IsNotNull(builds, "No builds were found for this build id and Tag");

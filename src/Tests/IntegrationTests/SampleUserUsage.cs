@@ -86,7 +86,7 @@ namespace TeamCitySharp.IntegrationTests
         }
 
         [Test]
-        public void it_returns_all_users_by_user_name()
+        public void it_returns_all_user_roles_by_user_name()
         {
             string userName = "teamcitysharpuser";
             List<Role> roles = _client.AllRolesByUserName(userName);
