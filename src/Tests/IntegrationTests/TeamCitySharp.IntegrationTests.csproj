@@ -72,7 +72,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TeamCitySharp\TeamCitySharp.csproj">
+    <ProjectReference Include="..\..\TeamCitySharp\TeamCitySharp.csproj">
       <Project>{87598714-132F-478E-866E-8C1AF3E83057}</Project>
       <Name>TeamCitySharp</Name>
     </ProjectReference>
