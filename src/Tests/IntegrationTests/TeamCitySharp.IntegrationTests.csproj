@@ -54,6 +54,7 @@
     <Compile Include="SampleChangeUsage.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SampleConnectionUsage.cs" />
     <Compile Include="SampleProjectUsage.cs" />
     <Compile Include="SampleServerUsage.cs">
       <SubType>Code</SubType>
