@@ -19,7 +19,8 @@ namespace TeamCitySharp.IntegrationTests
         public void it_will_authenticate_a_known_user()
         {
             _client.Connect("admin", "qwerty");
-            Assert.That(_client.IsAuthenticated);
+            
+            Assert.That(_client.Authenticate());
         }
 
         [Test]
@@ -27,7 +28,8 @@ namespace TeamCitySharp.IntegrationTests
         public void it_will_throw_an_exception_for_an_unknown_user()
         {
             _client.Connect("smithy", "smithy");
-            
+            _client.Authenticate();
+
             //Assert.Throws Exception
         }
 

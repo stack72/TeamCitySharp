@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Dynamic;
 using System.Net;
 using System.Security.Authentication;
 using EasyHttp.Http;
@@ -76,7 +75,6 @@ namespace TeamCitySharp.Connection
         {
             var httpClient = new HttpClient(new TeamcityJsonEncoderDecoderConfiguration());
             httpClient.Request.Accept = HttpContentTypes.ApplicationJson;
-            httpClient.ThrowExceptionOnHttpError = true;
             if (!_configuration.ActAsGuest)
             {
                 httpClient.Request.SetBasicAuthentication(userName, password);
@@ -90,19 +88,13 @@ namespace TeamCitySharp.Connection
         {
             try
             {
-                var httpClient = new HttpClient{};
-                httpClient.ThrowExceptionOnHttpError = true;
+                var httpClient = CreateHttpRequest(_configuration.UserName, _configuration.Password);
                 httpClient.Request.Accept = HttpContentTypes.TextPlain;
-                if (!_configuration.ActAsGuest)
-                {
-                    httpClient.Request.SetBasicAuthentication(_configuration.UserName, _configuration.Password);
-                    httpClient.Request.ForceBasicAuth = true;
-                }
-
+                httpClient.ThrowExceptionOnHttpError = true;
                 httpClient.Get(CreateUrl(urlPart));
-                var response = httpClient.Response;
 
-                return (response.StatusCode == HttpStatusCode.OK);
+                var response = httpClient.Response;
+                return response.StatusCode == HttpStatusCode.OK;
             }
             catch (HttpException exception)
             {

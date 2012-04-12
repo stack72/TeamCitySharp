@@ -10,7 +10,6 @@ namespace TeamCitySharp
     public class TeamCityClient : IClientConnection, ITeamCityClient
     {
         private readonly TeamCityCaller _caller;
-        public bool IsAuthenticated { get; private set; }
 
         public TeamCityClient(string hostName, bool useSsl = false)
         {
@@ -20,7 +19,11 @@ namespace TeamCitySharp
         public void Connect(string userName, string password, bool actAsGuest = false)
         {
             _caller.Connect(userName, password, actAsGuest);
-            IsAuthenticated = _caller.Authenticate("/app/rest");
+        }
+
+        public bool Authenticate()
+        {
+            return _caller.Authenticate("/app/rest");
         }
 
         public List<Project> AllProjects()

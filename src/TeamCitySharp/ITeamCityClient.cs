@@ -8,7 +8,7 @@ namespace TeamCitySharp
     public interface ITeamCityClient
     {
         void Connect(string userName, string password, bool actAsGuest = false);
-        bool IsAuthenticated { get; }
+        bool Authenticate();
         List<Project> AllProjects();
         Project ProjectByName(string projectLocatorName);
         Project ProjectById(string projectLocatorId);
