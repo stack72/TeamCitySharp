@@ -50,9 +50,10 @@ namespace BuildMonitor.Repository
                                 LastBuildStatus = build.Status,
                                 LastBuildStatusText = build.StatusText
                             };
-                            if (Properties.Settings.Default.ShowFailedBuildsOnly && build.Status != "SUCCESS")
+                            if (Properties.Settings.Default.ShowFailedBuildsOnly)
                             {
-                                projectList.Add(project);
+                                if (build.Status != "SUCCESS")
+                                    projectList.Add(project);
                             }
                             else
                             {
