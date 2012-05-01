@@ -25,7 +25,7 @@ namespace BuildMonitor.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("localhost:81")]
+        [global::System.Configuration.DefaultSettingValueAttribute("teamcity.codebetter.com")]
         public string TeamCityURL {
             get {
                 return ((string)(this["TeamCityURL"]));
@@ -34,7 +34,7 @@ namespace BuildMonitor.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("admin")]
+        [global::System.Configuration.DefaultSettingValueAttribute("teamcitysharpuser")]
         public string TeamCityUser {
             get {
                 return ((string)(this["TeamCityUser"]));
@@ -56,6 +56,15 @@ namespace BuildMonitor.Properties {
         public bool TeamCityIsGuest {
             get {
                 return ((bool)(this["TeamCityIsGuest"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowFailedBuildsOnly {
+            get {
+                return ((bool)(this["ShowFailedBuildsOnly"]));
             }
         }
     }

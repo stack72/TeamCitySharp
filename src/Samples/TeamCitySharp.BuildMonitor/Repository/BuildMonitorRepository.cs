@@ -6,7 +6,7 @@ using TeamCitySharp.DomainEntities;
 
 namespace BuildMonitor.Repository
 {
-    public class BuildMonitorRepository: IDisposable
+    public class BuildMonitorRepository : IDisposable
     {
         private TeamCitySharp.TeamCityClient client;
         private List<ProjectModel> projectList;
@@ -32,7 +32,10 @@ namespace BuildMonitor.Repository
                 {
                     try
                     {
-                        currentProjectConfigs = buildConfigs.Where(x => x.ProjectId == proj.Id).ToList<BuildConfig>();
+                        currentProjectConfigs = (from configs in buildConfigs
+                                                 where configs.ProjectId == proj.Id
+                                                 select configs).ToList<BuildConfig>();
+
 
                         foreach (BuildConfig currentConfig in currentProjectConfigs)
                         {
@@ -47,7 +50,15 @@ namespace BuildMonitor.Repository
                                 LastBuildStatus = build.Status,
                                 LastBuildStatusText = build.StatusText
                             };
-                            projectList.Add(project);
+                            if (Properties.Settings.Default.ShowFailedBuildsOnly && build.Status != "SUCCESS")
+                            {
+                                projectList.Add(project);
+                            }
+                            else
+                            {
+                                projectList.Add(project);
+                            }
+
                         }
 
                     }
@@ -95,7 +106,7 @@ namespace BuildMonitor.Repository
             {
                 throw ex;
             }
-            
+
         }
 
         private List<Project> GetAllProjects()
