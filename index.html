@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Teamcitysharp by stack72</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Teamcitysharp</h1>
+        <p>API for TeamCity</p>
+        <p class="view"><a href="https://github.com/stack72/TeamCitySharp">View the Project on GitHub <small>stack72/TeamCitySharp</small></a></p>
+        <ul>
+          <li><a href="https://github.com/stack72/TeamCitySharp/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/stack72/TeamCitySharp/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/stack72/TeamCitySharp">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>TeamCitySharp</h1>
+
+<p>*.NET Library to access TeamCity via their REST API.</p>
+
+<p>For more information on TeamCity visit:
+<a href="http://www.jetbrains.com/teamcity">http://www.jetbrains.com/teamcity</a></p>
+
+<h2>License</h2>
+
+<p><a href="http://stack72.mit-license.org/">http://stack72.mit-license.org/</a></p>
+
+<h2>Installation</h2>
+
+<ul>
+<li>install-package TeamCitysharp</li>
+<li>Download source and compile</li>
+</ul><h2>Sample Usage</h2>
+
+<ul>
+<li>To get a list of projects</li>
+</ul><div class="highlight">
+<pre><span class="kt">var</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TeamCityClient</span><span class="p">(</span><span class="s">"localhost:81"</span><span class="p">);</span>
+<span class="n">client</span><span class="p">.</span><span class="n">Connect</span><span class="p">(</span><span class="s">"admin"</span><span class="p">,</span> <span class="s">"qwerty"</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">projects</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">AllProjects</span><span class="p">();</span>
+</pre>
+</div>
+
+
+<ul>
+<li>To get a list of running builds</li>
+</ul><div class="highlight">
+<pre><span class="kt">var</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TeamCityClient</span><span class="p">(</span><span class="s">"localhost:81"</span><span class="p">);</span>
+<span class="n">client</span><span class="p">.</span><span class="n">Connect</span><span class="p">(</span><span class="s">"admin"</span><span class="p">,</span> <span class="s">"qwerty"</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">builds</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">BuildsByBuildLocator</span><span class="p">(</span><span class="n">BuildLocator</span><span class="p">.</span><span class="n">RunningBuilds</span><span class="p">());</span>
+</pre>
+</div>
+
+
+<h2>Methods Available</h2>
+
+<div class="highlight">
+<pre><span class="n">List</span><span class="p">&lt;</span><span class="n">Project</span><span class="p">&gt;</span> <span class="n">AllProjects</span><span class="p">();</span>
+<span class="n">Project</span> <span class="nf">ProjectByName</span><span class="p">(</span><span class="kt">string</span> <span class="n">projectLocatorName</span><span class="p">);</span>
+<span class="n">Project</span> <span class="nf">ProjectById</span><span class="p">(</span><span class="kt">string</span> <span class="n">projectLocatorId</span><span class="p">);</span>
+<span class="n">Project</span> <span class="nf">ProjectDetails</span><span class="p">(</span><span class="n">Project</span> <span class="n">project</span><span class="p">);</span>
+<span class="n">Server</span> <span class="nf">ServerInfo</span><span class="p">();</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="n">Plugin</span><span class="p">&gt;</span> <span class="n">AllServerPlugins</span><span class="p">();</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="n">Agent</span><span class="p">&gt;</span> <span class="n">AllAgents</span><span class="p">();</span>
+<span class="n">Build</span> <span class="nf">LastBuildByAgent</span><span class="p">(</span><span class="kt">string</span> <span class="n">agentName</span><span class="p">);</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="n">VcsRoot</span><span class="p">&gt;</span> <span class="n">AllVcsRoots</span><span class="p">();</span>
+<span class="n">VcsRoot</span> <span class="nf">VcsRootById</span><span class="p">(</span><span class="kt">string</span> <span class="n">vcsRootId</span><span class="p">);</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="n">User</span><span class="p">&gt;</span> <span class="n">AllUsers</span><span class="p">();</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="n">Role</span><span class="p">&gt;</span> <span class="n">AllRolesByUserName</span><span class="p">(</span><span class="kt">string</span> <span class="n">userName</span><span class="p">);</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="n">Group</span><span class="p">&gt;</span> <span class="n">AllGroupsByUserName</span><span class="p">(</span><span class="kt">string</span> <span class="n">userName</span><span class="p">);</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="n">Group</span><span class="p">&gt;</span> <span class="n">AllUserGroups</span><span class="p">();</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="n">User</span><span class="p">&gt;</span> <span class="n">AllUsersByUserGroup</span><span class="p">(</span><span class="kt">string</span> <span class="n">userGroupName</span><span class="p">);</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="n">Role</span><span class="p">&gt;</span> <span class="n">AllUserRolesByUserGroup</span><span class="p">(</span><span class="kt">string</span> <span class="n">userGroupName</span><span class="p">);</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="n">Change</span><span class="p">&gt;</span> <span class="n">AllChanges</span><span class="p">();</span>
+<span class="n">Change</span> <span class="nf">ChangeDetailsByChangeId</span><span class="p">(</span><span class="kt">string</span> <span class="n">id</span><span class="p">);</span>
+<span class="n">Change</span> <span class="nf">LastChangeDetailByBuildConfigId</span><span class="p">(</span><span class="kt">string</span> <span class="n">buildConfigId</span><span class="p">);</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="n">Change</span><span class="p">&gt;</span> <span class="n">ChangeDetailsByBuildConfigId</span><span class="p">(</span><span class="kt">string</span> <span class="n">buildConfigId</span><span class="p">);</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="n">BuildConfig</span><span class="p">&gt;</span> <span class="n">AllBuildConfigs</span><span class="p">();</span>
+<span class="n">BuildConfig</span> <span class="nf">BuildConfigByConfigurationName</span><span class="p">(</span><span class="kt">string</span> <span class="n">buildConfigName</span><span class="p">);</span>
+<span class="n">BuildConfig</span> <span class="nf">BuildConfigByConfigurationId</span><span class="p">(</span><span class="kt">string</span> <span class="n">buildConfigId</span><span class="p">);</span>
+<span class="n">BuildConfig</span> <span class="nf">BuildConfigByProjectNameAndConfigurationName</span><span class="p">(</span><span class="kt">string</span> <span class="n">projectName</span><span class="p">,</span> <span class="kt">string</span> <span class="n">buildConfigName</span><span class="p">);</span>
+<span class="n">BuildConfig</span> <span class="nf">BuildConfigByProjectNameAndConfigurationId</span><span class="p">(</span><span class="kt">string</span> <span class="n">projectName</span><span class="p">,</span> <span class="kt">string</span> <span class="n">buildConfigId</span><span class="p">);</span>
+<span class="n">BuildConfig</span> <span class="nf">BuildConfigByProjectIdAndConfigurationName</span><span class="p">(</span><span class="kt">string</span> <span class="n">projectId</span><span class="p">,</span> <span class="kt">string</span> <span class="n">buildConfigName</span><span class="p">);</span>
+<span class="n">BuildConfig</span> <span class="nf">BuildConfigByProjectIdAndConfigurationId</span><span class="p">(</span><span class="kt">string</span> <span class="n">projectId</span><span class="p">,</span> <span class="kt">string</span> <span class="n">buildConfigId</span><span class="p">);</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="n">BuildConfig</span><span class="p">&gt;</span> <span class="n">BuildConfigsByProjectId</span><span class="p">(</span><span class="kt">string</span> <span class="n">projectId</span><span class="p">);</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="n">BuildConfig</span><span class="p">&gt;</span> <span class="n">BuildConfigsByProjectName</span><span class="p">(</span><span class="kt">string</span> <span class="n">projectName</span><span class="p">);</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="n">Build</span><span class="p">&gt;</span> <span class="n">SuccessfulBuildsByBuildConfigId</span><span class="p">(</span><span class="kt">string</span> <span class="n">buildConfigId</span><span class="p">);</span>
+<span class="n">Build</span> <span class="nf">LastSuccessfulBuildByBuildConfigId</span><span class="p">(</span><span class="kt">string</span> <span class="n">buildConfigId</span><span class="p">);</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="n">Build</span><span class="p">&gt;</span> <span class="n">FailedBuildsByBuildConfigId</span><span class="p">(</span><span class="kt">string</span> <span class="n">buildConfigId</span><span class="p">);</span>
+<span class="n">Build</span> <span class="nf">LastFailedBuildByBuildConfigId</span><span class="p">(</span><span class="kt">string</span> <span class="n">buildConfigId</span><span class="p">);</span>
+<span class="n">Build</span> <span class="nf">LastBuildByBuildConfigId</span><span class="p">(</span><span class="kt">string</span> <span class="n">buildConfigId</span><span class="p">);</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="n">Build</span><span class="p">&gt;</span> <span class="n">ErrorBuildsByBuildConfigId</span><span class="p">(</span><span class="kt">string</span> <span class="n">buildConfigId</span><span class="p">);</span>
+<span class="n">Build</span> <span class="nf">LastErrorBuildByBuildConfigId</span><span class="p">(</span><span class="kt">string</span> <span class="n">buildConfigId</span><span class="p">);</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="n">Build</span><span class="p">&gt;</span> <span class="n">BuildConfigsByBuildConfigId</span><span class="p">(</span><span class="kt">string</span> <span class="n">buildConfigId</span><span class="p">);</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="n">Build</span><span class="p">&gt;</span> <span class="n">BuildConfigsByConfigIdAndTag</span><span class="p">(</span><span class="kt">string</span> <span class="n">buildConfigId</span><span class="p">,</span> <span class="kt">string</span> <span class="n">tag</span><span class="p">);</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="n">Build</span><span class="p">&gt;</span> <span class="n">BuildsByUserName</span><span class="p">(</span><span class="kt">string</span> <span class="n">userName</span><span class="p">);</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="n">Build</span><span class="p">&gt;</span> <span class="n">BuildsByBuildLocator</span><span class="p">(</span><span class="n">BuildLocator</span> <span class="n">locator</span><span class="p">);</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="n">Build</span><span class="p">&gt;</span> <span class="n">AllBuildsSinceDate</span><span class="p">(</span><span class="n">DateTime</span> <span class="n">date</span><span class="p">);</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="n">Build</span><span class="p">&gt;</span> <span class="n">AllBuildsOfStatusSinceDate</span><span class="p">(</span><span class="n">DateTime</span> <span class="n">date</span><span class="p">,</span> <span class="n">BuildStatus</span> <span class="n">buildStatus</span><span class="p">);</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="n">Build</span><span class="p">&gt;</span> <span class="n">NonSuccessfulBuildsForUser</span><span class="p">(</span><span class="kt">string</span> <span class="n">userName</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<h2>Credits</h2>
+
+<ul>
+<li>Copyright (c) 2011 Paul Stack (<a href="https://github.com/stack72" class="user-mention">@stack72</a>)</li>
+<li>Thanks to the following contributors:</li>
+<li>Barry Mooring (<a href="https://github.com/codingbadger" class="user-mention">@codingbadger</a>)</li>
+<li>Simon Bartlett (@sibartlett)</li>
+</ul>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/stack72">stack72</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+    
+  </body>
+</html>
