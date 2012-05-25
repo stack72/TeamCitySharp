@@ -172,6 +172,11 @@ namespace TeamCitySharp
             return build;
         }
 
+        public void DownloadArtifactsByBuildId(string buildId, Action<string> downloadHandler)
+        {
+            _caller.GetDownloadFormat(downloadHandler, "/downloadArtifacts.html?buildId={0}", buildId);
+        }
+
         public BuildConfig BuildConfigByConfigurationId(string buildConfigId)
         {
             var build = _caller.GetFormat<BuildConfig>("/app/rest/buildTypes/id:{0}", buildConfigId);

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 using System.Security.Authentication;
 using EasyHttp.Http;
 using EasyHttp.Infrastructure;
 using TeamCitySharp.DomainEntities;
+using File = System.IO.File;
 
 namespace TeamCitySharp.Connection
 {
@@ -25,6 +27,40 @@ namespace TeamCitySharp.Connection
             _configuration.Password = password;
             _configuration.UserName = userName;
             _configuration.ActAsGuest = actAsGuest;
+        }
+
+        public void GetDownloadFormat(Action<string> downloadHandler, string urlPart, params object[] parts)
+        {
+            if (CheckForUserNameAndPassword())
+            {
+                throw new ArgumentException("If you are not acting as a guest you must supply userName and password");
+            }
+
+            if (string.IsNullOrEmpty(urlPart))
+            {
+                throw new ArgumentException("Url must be specfied");
+            }
+
+            if(downloadHandler == null)
+            {
+                throw new ArgumentException("A download handler must be specfied.");
+            }
+
+            string tempFileName = Path.GetRandomFileName();
+            var url = CreateUrl(string.Format(urlPart,parts));
+
+            try
+            {
+                CreateHttpRequest(_configuration.UserName, _configuration.Password).GetAsFile(url, tempFileName);
+                downloadHandler.Invoke(tempFileName);
+                
+            }finally
+            {
+                if (File.Exists(tempFileName))
+                {
+                    File.Delete(tempFileName);
+                }
+            }
         }
 
         public T GetFormat<T>(string urlPart, params object[] parts)
