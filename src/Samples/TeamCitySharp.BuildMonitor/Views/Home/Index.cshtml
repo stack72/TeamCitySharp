@@ -1,98 +1,99 @@
-﻿@model IEnumerable<BuildMonitor.Models.ProjectModel>
+﻿@using BuildMonitor.Models
+@model IEnumerable<ProjectModel>
 @{
-    ViewBag.Title = "Build Monitor";
+	ViewBag.Title = "Build Monitor";
 }
 <script type="text/javascript">
-    var projectsViewModel;
+	var projectsViewModel;
 
-    $(document).ready(function () {
+	$(document).ready(function () {
 
-        function projectModel() {
-            this.ProjectName = ko.observable();
-            this.ProjectId = ko.observable();
-            this.BuildConfigName = ko.observable();
-            this.LastBuildTime = ko.observable();
-            this.LastBuildStatus = ko.observable();
-            this.LastBuildStatusText = ko.observable();
-            this.StatusClass = ko.dependentObservable(function () {
+		function projectModel() {
+			this.ProjectName = ko.observable();
+			this.ProjectId = ko.observable();
+			this.BuildConfigName = ko.observable();
+			this.LastBuildTime = ko.observable();
+			this.LastBuildStatus = ko.observable();
+			this.LastBuildStatusText = ko.observable();
+			this.StatusClass = ko.dependentObservable(function () {
 
-                return "projectItem ".concat(String(this.LastBuildStatus()).toLowerCase()).toString();
-            } .bind(this)
+				return "projectItem ".concat(String(this.LastBuildStatus()).toLowerCase()).toString();
+			} .bind(this)
 
-            );
-
-
-        };
+			);
 
 
-        projectsViewModel = {
-            projects: ko.observableArray([]),
-            loadProjects: function () {
-                var url = "/Home/GetProjects/";
-                $.ajax({
-                    url: url,
-                    success: function (response) {
-                        if (response.success) {
+		};
 
-                            projectsViewModel.projects.removeAll();
 
-                            $.each(response.results, function (x, project) {
-                                projectsViewModel.projects.push(new projectModel()
-                                                            .ProjectName(project.ProjectName)
-                                                            .ProjectId(project.ProjectId)
-                                                            .BuildConfigName(project.BuildConfigName)
-                                                            .LastBuildTime(project.LastBuildTime)
-                                                            .LastBuildStatus(project.LastBuildStatus)
-                                                            .LastBuildStatusText(project.LastBuildStatusText)
-                                                              );
+		projectsViewModel = {
+			projects: ko.observableArray([]),
+			loadProjects: function () {
+				var url = "/Home/GetProjects/";
+				$.ajax({
+					url: url,
+					success: function (response) {
+						if (response.success) {
 
-                            });
+							projectsViewModel.projects.removeAll();
 
-                            $("#lastRefresh").text("Last Refresh : " + GetDateTime());
-                            $("#fetchfailed").hide("slow");
-                            $("#loading").remove();
+							$.each(response.results, function (x, project) {
+								projectsViewModel.projects.push(new projectModel()
+															.ProjectName(project.ProjectName)
+															.ProjectId(project.ProjectId)
+															.BuildConfigName(project.BuildConfigName)
+															.LastBuildTime(project.LastBuildTime)
+															.LastBuildStatus(project.LastBuildStatus)
+															.LastBuildStatusText(project.LastBuildStatusText)
+															  );
 
-                        } else {
-                            ShowError(response.message);
-                        }
-                    },
-                    error: function (response) {
+							});
 
-                        ShowError("");
-                    }
-                });
-            }
-        };
+							$("#lastRefresh").text("Last Refresh : " + GetDateTime());
+							$("#fetchfailed").hide("slow");
+							$("#loading").remove();
 
-        ko.applyBindings(projectsViewModel);
+						} else {
+							ShowError(response.message);
+						}
+					},
+					error: function (response) {
 
-        projectsViewModel.loadProjects();
+						ShowError("");
+					}
+				});
+			}
+		};
 
-        window.setInterval(function () {
-            projectsViewModel.loadProjects();
-        }, 60000);
+		ko.applyBindings(projectsViewModel);
 
-    });
+		projectsViewModel.loadProjects();
 
-    function GetDateTime () {
-        var currentTime = new Date()
-        var month = currentTime.getMonth() + 1
-        var day = currentTime.getDate()
-        var year = currentTime.getFullYear()
-        var hours = currentTime.getHours()
-        var minutes = currentTime.getMinutes()
-        if (minutes < 10) {
-            minutes = "0" + minutes
-        }
-        return new String().concat(day, "/", month, "/", year, " ", hours, ":", minutes);
-    }
+		window.setInterval(function () {
+			projectsViewModel.loadProjects();
+		}, 60000);
 
-    function ShowError(errorMessage) {
+	});
 
-        $("#loading").remove();
-        $("#fetchfailed").text("WARNING: Failed to retrieve projects ... " + errorMessage);
-        $("#fetchfailed").show("slow");
-    }
+	function GetDateTime () {
+		var currentTime = new Date()
+		var month = currentTime.getMonth() + 1
+		var day = currentTime.getDate()
+		var year = currentTime.getFullYear()
+		var hours = currentTime.getHours()
+		var minutes = currentTime.getMinutes()
+		if (minutes < 10) {
+			minutes = "0" + minutes
+		}
+		return new String().concat(day, "/", month, "/", year, " ", hours, ":", minutes);
+	}
+
+	function ShowError(errorMessage) {
+
+		$("#loading").remove();
+		$("#fetchfailed").text("WARNING: Failed to retrieve projects ... " + errorMessage);
+		$("#fetchfailed").show("slow");
+	}
 
 </script>
 
@@ -103,19 +104,35 @@
 </div>
 
 <div id="loading" class="loading">
-    <img src="../../Content/ajax-loader.gif" alt="Loading..." />
+	<img src="../../Content/ajax-loader.gif" alt="Loading..." />
 </div>
+
+@if (Html.FeatureSwitchEnabled("ShowBuildSuccessMessage"))
+{
+	<div class="AllBuildSuccess" data-bind="visible: ShowPass ">
+		Builds all green &#9786;
+    </div>
+}
+
+@if (Html.FeatureSwitchEnabled("ShowBuildFailureMessage"))
+{
+    <div class="BuildFailure" data-bind="visible: ShowFail ">
+        Oh Nobby! Not again<br />
+        <img src="../../Content/images/photo.png" alt="It wasn't me" />
+        <audio src="Content/sounds/buzzer2.wav" autoplay></audio>
+    </div>
+}
 
 <div class="projectContainer" data-bind="foreach: projects">
 
-    <div data-bind="attr: { 'class': StatusClass }">
-        <h2 class="projectItemTitle" data-bind="text: ProjectName">
-           </h2>
-        <h4 data-bind="text: BuildConfigName">
-        </h4>
-        <p>
-            Last build Time:<br />
-            <span data-bind="text: LastBuildTime"></span>
-        </p>
-    </div>
+	<div data-bind="attr: { 'class': StatusClass }">
+		<h2 class="projectItemTitle" data-bind="text: ProjectName">
+		   </h2>
+		<h4 data-bind="text: BuildConfigName">
+		</h4>
+		<p>
+			Last build Time:<br />
+			<span data-bind="text: LastBuildTime"></span>
+		</p>
+	</div>
 </div>
