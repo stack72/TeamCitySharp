@@ -110,15 +110,20 @@
 @if (Html.FeatureSwitchEnabled("ShowBuildSuccessMessage"))
 {
 	<div class="AllBuildSuccess" data-bind="visible: ShowPass ">
-		Builds all green &#9786;
+	  @Html.GetMessage("BuildSuccessfulMessage")	
     </div>
 }
 
 @if (Html.FeatureSwitchEnabled("ShowBuildFailureMessage"))
 {
     <div class="BuildFailure" data-bind="visible: ShowFail ">
-        Oh Nobby! Not again<br />
-        <img src="../../Content/images/photo.png" alt="It wasn't me" />
+        @Html.GetMessage("BuildFailureMessage")
+    </div>
+}
+
+@if (Html.FeatureSwitchEnabled("PlayFailureMessage"))
+{
+    <div class="BuildFailureSound">
         <audio src="Content/sounds/buzzer2.wav" autoplay></audio>
     </div>
 }
