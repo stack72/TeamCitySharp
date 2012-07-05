@@ -12,6 +12,9 @@ http://stack72.mit-license.org/
 * install-package TeamCitysharp
 * Download source and compile
 
+##Build Monitor
+* There is a build monitor build with TeamCitySharp. It can be found at <link>
+
 ##Sample Usage
 * To get a list of projects
 
