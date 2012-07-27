@@ -63,6 +63,12 @@ namespace TeamCitySharp.Connection
             }
         }
 
+        public Uri GetDownloadFormat(string uriPart)
+        {
+          var uri = new Uri(CreateUrl(uriPart));
+          return uri;
+        }
+
         public T GetFormat<T>(string urlPart, params object[] parts)
         {
             return Get<T>(string.Format(urlPart, parts));
@@ -137,5 +143,56 @@ namespace TeamCitySharp.Connection
                 throw new AuthenticationException(exception.StatusDescription);
             }
         }
+
+      /// <summary>
+        ///   Creates a <see cref = "WebRequest" /> for the specified <paramref name = "uri" /> with
+        ///   the credentials of the TeamCity Account
+        /// </summary>
+        /// <param name = "uri">The Uri for the <see cref = "WebRequest" /></param>
+        /// <returns>A <see cref = "WebRequest" /> that can access the TeamCity Server</returns>
+        private HttpWebRequest CreateWebRequest(Uri uri)
+        {
+          var webRequest = (HttpWebRequest)WebRequest.Create(uri);
+          webRequest.Credentials = new NetworkCredential(_configuration.UserName,
+                                                         _configuration.Password);
+          webRequest.Proxy = null;
+          return (webRequest);
+        }
+
+        /// <summary>
+        ///   Downloads a Resource from the TeamCity Server and saves it to <paramref name = "destinationFile" />
+        /// </summary>
+        /// <param name = "uri">The Uri of the Resource</param>
+        /// <param name = "destinationFile">The destination File</param>
+        internal void Download(Uri uri, string destinationFile)
+        {
+          HttpWebRequest webRequest = CreateWebRequest(uri);
+
+          using (WebResponse webResponse = webRequest.GetResponse())
+          {
+            using (Stream sourceStream = webResponse.GetResponseStream())
+            {
+              using (FileStream fs = new FileStream(destinationFile,
+                                                    FileMode.OpenOrCreate,
+                                                    FileAccess.ReadWrite,
+                                                    FileShare.None))
+              {
+                byte[] buffer = new byte[4096 * 4];
+                int count;
+
+                do
+                {
+                  count = sourceStream.Read(buffer,
+                                            0,
+                                            buffer.Length);
+                  fs.Write(buffer,
+                           0,
+                           count);
+                } while (count > 0);
+              }
+            }
+          }
+        }
+
     }
 }

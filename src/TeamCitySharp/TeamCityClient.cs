@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
@@ -232,12 +233,24 @@ namespace TeamCitySharp
             return new List<Build>();
         }
 
+        public Build BuildByBuildId(string id)
+        {
+          return _caller.GetFormat<Build>("/app/rest/builds/id:{0}", id);
+        }
+
         public Build LastBuildByAgent(string agentName)
         {
             return BuildsByBuildLocator(BuildLocator.WithDimensions(
                 agentName: agentName,
                 maxResults: 1
             )).SingleOrDefault();
+        }
+
+        public List<Build> BuildsByBuildConfigId(string buildConfigId)
+        {
+          return BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
+              status: BuildStatus.SUCCESS
+          ));
         }
 
         public List<Build> SuccessfulBuildsByBuildConfigId(string buildConfigId)
@@ -347,5 +360,44 @@ namespace TeamCitySharp
             var call = _caller.Get<T>(urlPart);
             return call;
         }
+
+      /// <summary/>
+      /// <param name="build"> </param>
+      /// <param name="artifact"/>
+      public string DownloadArtifact(Build build, string artifact)
+      {
+        string uriPart = string.Format("/repository/download/{0}/{1}:id/{2}", build.BuildTypeId, build.Id, artifact);
+        string filePath = DownloadArtifactFromUriPart(uriPart);
+        return filePath;
+      }
+
+      /// <summary/>
+      /// <param name="buildNumber"/>
+      /// <param name="artifact"/>
+      /// <param name="buildTypeId"/>
+      /// /repository/download/BUILD_TYPE_ID/BUILD_NUMBER/ARTIFACT_PATH
+      public string DownloadArtifact(string buildTypeId, string buildNumber, string artifact)
+      {
+        string uriPart = string.Format("/repository/download/{0}/{1}/{2}", buildTypeId, buildNumber, artifact);
+        string filePath = DownloadArtifactFromUriPart(uriPart);
+        return filePath;
+      }
+
+      /// <summary/>
+      /// <param name="build"> </param>
+      public string DownloadTestsCsv(Build build)
+      {
+        string uriPart = string.Format("/get/tests/buildId/{0}", build.Id);
+        string filePath = DownloadArtifactFromUriPart(uriPart);
+        return filePath;
+      }
+
+      private string DownloadArtifactFromUriPart(string uriPart)
+      {
+        var uri = _caller.GetDownloadFormat(uriPart);
+        string tempFileName = Path.GetTempFileName();
+        _caller.Download(uri, tempFileName);
+        return tempFileName;
+      }
     }
 }
