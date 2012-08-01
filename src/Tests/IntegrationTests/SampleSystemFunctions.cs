@@ -17,7 +17,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void triggering_a_backup_works_as_expected()
         {
-            var backup = _client.InitialTeamCityInstanceBackup("integration-test");
+            var backup = _client.TriggerServerInstanceBackup("integration-test");
 
             Assert.IsTrue(backup);
         }
