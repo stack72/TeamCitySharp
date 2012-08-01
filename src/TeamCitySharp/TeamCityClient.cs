@@ -342,6 +342,12 @@ namespace TeamCitySharp
             return builds.Where(b => b.Status != "SUCCESS").ToList();
         }
 
+        public bool InitialTeamCityInstanceBackup(string fileName)
+        {
+            var url = string.Format("/app/rest/server/backup?fileName={0}&includeConfigs=true&includeDatabase=true&includeBuildLogs=false", fileName);
+            return _caller.StartBackup(url);
+        }
+
         public T CallByUrl<T>(string urlPart)
         {
             var call = _caller.Get<T>(urlPart);

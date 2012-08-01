@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Dynamic;
 using System.IO;
 using System.Net;
 using System.Security.Authentication;
+using System.Web;
 using EasyHttp.Http;
-using EasyHttp.Infrastructure;
 using TeamCitySharp.DomainEntities;
 using File = System.IO.File;
+using HttpException = EasyHttp.Infrastructure.HttpException;
+using HttpResponse = EasyHttp.Http.HttpResponse;
 
 namespace TeamCitySharp.Connection
 {
@@ -51,7 +54,7 @@ namespace TeamCitySharp.Connection
 
             try
             {
-                CreateHttpRequest(_configuration.UserName, _configuration.Password).GetAsFile(url, tempFileName);
+                CreateHttpRequest(_configuration.UserName, _configuration.Password, HttpContentTypes.ApplicationJson).GetAsFile(url, tempFileName);
                 downloadHandler.Invoke(tempFileName);
                 
             }finally
@@ -68,6 +71,28 @@ namespace TeamCitySharp.Connection
             return Get<T>(string.Format(urlPart, parts));
         }
 
+        public bool StartBackup(string urlPart)
+        {
+            if (CheckForUserNameAndPassword())
+                throw new ArgumentException("If you are not acting as a guest you must supply userName and password");
+
+            if (string.IsNullOrEmpty(urlPart))
+                throw new ArgumentException("Url must be specfied");
+
+            var url = CreateUrl(urlPart);
+
+            var httpClient = CreateHttpRequest(_configuration.UserName, _configuration.Password, HttpContentTypes.TextPlain);
+            var response = httpClient.Post(url, null, HttpContentTypes.TextPlain);
+            if (IsHttpError(response))
+            {
+                throw new HttpException(response.StatusCode, string.Format("Error {0}: Thrown with URL {1}", response.StatusDescription, url));
+            }
+
+            return response.StatusCode == HttpStatusCode.OK;
+        }
+
+        
+
         public T Get<T>(string urlPart)
         {
             if (CheckForUserNameAndPassword())
@@ -78,7 +103,7 @@ namespace TeamCitySharp.Connection
 
             var url = CreateUrl(urlPart);
 
-            var response = CreateHttpRequest(_configuration.UserName, _configuration.Password).Get(url);
+            var response = CreateHttpRequest(_configuration.UserName, _configuration.Password, HttpContentTypes.ApplicationJson).Get(url);
             if (IsHttpError(response))
             {
                 throw new HttpException(response.StatusCode, string.Format("Error {0}: Thrown with URL {1}", response.StatusDescription, url));
@@ -107,10 +132,10 @@ namespace TeamCitySharp.Connection
             return string.Format("{0}{1}{2}{3}", protocol, _configuration.HostName, authType, urlPart);
         }
 
-        HttpClient CreateHttpRequest(string userName, string password)
+        HttpClient CreateHttpRequest(string userName, string password, string accept)
         {
             var httpClient = new HttpClient(new TeamcityJsonEncoderDecoderConfiguration());
-            httpClient.Request.Accept = HttpContentTypes.ApplicationJson;
+            httpClient.Request.Accept = accept;
             if (!_configuration.ActAsGuest)
             {
                 httpClient.Request.SetBasicAuthentication(userName, password);
@@ -124,8 +149,7 @@ namespace TeamCitySharp.Connection
         {
             try
             {
-                var httpClient = CreateHttpRequest(_configuration.UserName, _configuration.Password);
-                httpClient.Request.Accept = HttpContentTypes.TextPlain;
+                var httpClient = CreateHttpRequest(_configuration.UserName, _configuration.Password, HttpContentTypes.TextPlain);
                 httpClient.ThrowExceptionOnHttpError = true;
                 httpClient.Get(CreateUrl(urlPart));
 

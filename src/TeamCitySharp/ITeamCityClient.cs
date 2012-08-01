@@ -52,6 +52,7 @@ namespace TeamCitySharp
         List<Build> AllBuildsSinceDate(DateTime date);
         List<Build> AllBuildsOfStatusSinceDate(DateTime date, BuildStatus buildStatus);
         List<Build> NonSuccessfulBuildsForUser(string userName);
+        bool InitialTeamCityInstanceBackup(string fileName);
 
         T CallByUrl<T>(string urlPart);
     }
