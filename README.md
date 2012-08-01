@@ -79,6 +79,7 @@ List<Build> BuildsByBuildLocator(BuildLocator locator);
 List<Build> AllBuildsSinceDate(DateTime date);
 List<Build> AllBuildsOfStatusSinceDate(DateTime date, BuildStatus buildStatus);
 List<Build> NonSuccessfulBuildsForUser(string userName);
+bool TriggerServerInstanceBackup(string fileName);
 ```
 
 ##Credits
