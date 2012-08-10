@@ -53,6 +53,8 @@ namespace TeamCitySharp
         List<Build> AllBuildsOfStatusSinceDate(DateTime date, BuildStatus buildStatus);
         List<Build> NonSuccessfulBuildsForUser(string userName);
         bool TriggerServerInstanceBackup(string fileName);
+        bool CreateUser(string username, string name, string email, string password);
+        bool AddPassword(string username, string password);
 
         T CallByUrl<T>(string urlPart);
     }

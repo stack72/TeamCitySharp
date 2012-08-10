@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
 using TeamCitySharp.Locators;
@@ -346,6 +347,40 @@ namespace TeamCitySharp
         {
             var url = string.Format("/app/rest/server/backup?fileName={0}&includeConfigs=true&includeDatabase=true&includeBuildLogs=false", fileName);
             return _caller.StartBackup(url);
+        }
+
+        public bool CreateUser(string username, string name, string email, string password)
+        {
+            bool result = false;
+
+            string data = string.Format("<user name=\"{0}\" username=\"{1}\" email=\"{2}\" password=\"{3}\"/>", name, username, email, password);
+
+            var createUserResponse = this._caller.Post("/app/rest/users", data, string.Empty);
+
+            // Workaround, CreateUser POST request fails to deserialize password field. See http://youtrack.jetbrains.com/issue/TW-23200
+            // Also this does not return an accurate representation of whether it has worked or not
+            bool passwordResult = AddPassword(username, password);
+
+            if (createUserResponse.StatusCode == HttpStatusCode.OK)
+            {
+                result = true;
+            }
+
+            return result;
+        }
+
+        public bool AddPassword(string username, string password)
+        {
+            bool result = false;
+
+            var response = this._caller.Put(string.Format("/app/rest/users/username:{0}/password", username), password, string.Empty);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                result = true;
+            }
+
+            return result;
         }
 
         public T CallByUrl<T>(string urlPart)
