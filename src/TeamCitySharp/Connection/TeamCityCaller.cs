@@ -91,8 +91,6 @@ namespace TeamCitySharp.Connection
             return response.StatusCode == HttpStatusCode.OK;
         }
 
-        
-
         public T Get<T>(string urlPart)
         {
             if (CheckForUserNameAndPassword())
@@ -160,6 +158,42 @@ namespace TeamCitySharp.Connection
             {
                 throw new AuthenticationException(exception.StatusDescription);
             }
+        }
+
+        public HttpResponse Post(string urlPart, object data, string accept)
+        {
+            var client = MakePostRequest(urlPart, data, accept);
+
+            return client.Response;
+        }
+        
+        public HttpResponse Put(string urlPart, object data, string accept)
+        {
+            var client = MakePutRequest(urlPart, data, accept);
+
+            return client.Response;
+        }
+
+        private HttpClient MakePostRequest(string urlPart, object data, string accept)
+        {
+            var client = CreateHttpRequest(_configuration.UserName, _configuration.Password, HttpContentTypes.TextPlain);
+
+            client.Request.Accept = accept;
+
+            client.Post(CreateUrl(urlPart), data, HttpContentTypes.ApplicationXml);
+
+            return client;
+        }
+        
+        private HttpClient MakePutRequest(string urlPart, object data, string accept)
+        {
+            var client = CreateHttpRequest(_configuration.UserName, _configuration.Password, HttpContentTypes.TextPlain);
+
+            client.Request.Accept = accept;
+
+            client.Put(CreateUrl(urlPart), data, HttpContentTypes.TextPlain);
+
+            return client;
         }
     }
 }
