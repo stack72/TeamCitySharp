@@ -87,7 +87,7 @@ bool AddPassword(string username, string password);
 
 ##Credits
 
-* Copyright (c) 2011 Paul Stack (@stack72)
+* Copyright (c) 2012 Paul Stack (@stack72)
 * Thanks to the following contributors:
 * Barry Mooring (@codingbadger)
 * Simon Bartlett (@sibartlett)
