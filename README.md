@@ -80,6 +80,9 @@ List<Build> AllBuildsSinceDate(DateTime date);
 List<Build> AllBuildsOfStatusSinceDate(DateTime date, BuildStatus buildStatus);
 List<Build> NonSuccessfulBuildsForUser(string userName);
 bool TriggerServerInstanceBackup(string fileName);
+bool CreateUser(string username, string name, string email, string password);
+bool AddPassword(string username, string password);
+
 ```
 
 ##Credits
@@ -88,3 +91,4 @@ bool TriggerServerInstanceBackup(string fileName);
 * Thanks to the following contributors:
 * Barry Mooring (@codingbadger)
 * Simon Bartlett (@sibartlett)
+* Mike Larah (@MikeLarah)
