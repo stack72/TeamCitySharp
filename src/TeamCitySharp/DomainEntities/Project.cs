@@ -15,5 +15,6 @@
         public string WebUrl { get; set; }
 
         public BuildTypeWrapper BuildTypes { get; set; }
+        public Parameters Parameters { get; set; }
     }
 }

@@ -14,7 +14,9 @@ namespace TeamCitySharp.DomainEntities
 
         public override string ToString()
         {
-            return vcsName;
+            return Name;
         }
+
+        public Properties Properties { get; set; }
     }
 }
