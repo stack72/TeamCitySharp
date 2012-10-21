@@ -1,6 +1,6 @@
 #TeamCitySharp
 
-*.NET Library to access TeamCity via their REST API.
+.NET Library to access TeamCity via their REST API.
 
 For more information on TeamCity visit:
 http://www.jetbrains.com/teamcity
@@ -9,11 +9,11 @@ http://www.jetbrains.com/teamcity
 http://stack72.mit-license.org/
 
 ##Installation
-* install-package TeamCitysharp
+* Install-ackage TeamCitySharp
 * Download source and compile
 
 ##Build Monitor
-* There is a build monitor build with TeamCitySharp. It can be found at <link>
+* There is a build monitor build with TeamCitySharp. It can be found at https://github.com/stack72/TeamCityMonitor
 
 ##Sample Usage
 * To get a list of projects
@@ -79,6 +79,7 @@ List<Build> BuildsByBuildLocator(BuildLocator locator);
 List<Build> AllBuildsSinceDate(DateTime date);
 List<Build> AllBuildsOfStatusSinceDate(DateTime date, BuildStatus buildStatus);
 List<Build> NonSuccessfulBuildsForUser(string userName);
+void DownloadArtifactsByBuildId(string buildId, Action<string> downloadHandler);
 bool TriggerServerInstanceBackup(string fileName);
 bool CreateUser(string username, string name, string email, string password);
 bool AddPassword(string username, string password);

@@ -52,6 +52,7 @@ namespace TeamCitySharp
         List<Build> AllBuildsSinceDate(DateTime date);
         List<Build> AllBuildsOfStatusSinceDate(DateTime date, BuildStatus buildStatus);
         List<Build> NonSuccessfulBuildsForUser(string userName);
+        void DownloadArtifactsByBuildId(string buildId, Action<string> downloadHandler);
         bool TriggerServerInstanceBackup(string fileName);
         bool CreateUser(string username, string name, string email, string password);
         bool AddPassword(string username, string password);
