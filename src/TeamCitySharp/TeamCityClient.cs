@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Xml;
+using System.Xml.XPath;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
 using TeamCitySharp.Locators;
@@ -178,6 +180,11 @@ namespace TeamCitySharp
             _caller.GetDownloadFormat(downloadHandler, "/downloadArtifacts.html?buildId={0}", buildId);
         }
 
+        public void DownloadArtifact(string url, Action<string> downloadHandler)
+        {
+            _caller.GetDownloadFormat(downloadHandler, url);
+        }
+
         public BuildConfig BuildConfigByConfigurationId(string buildConfigId)
         {
             var build = _caller.GetFormat<BuildConfig>("/app/rest/buildTypes/id:{0}", buildConfigId);
@@ -341,6 +348,56 @@ namespace TeamCitySharp
             }
 
             return builds.Where(b => b.Status != "SUCCESS").ToList();
+        }
+
+        public List<string> ArtifactsByBuildConfigIdLastFinished(string buildConfigId)
+        {
+            return ArtifactsByBuildConfigIdAndBuildNumber(buildConfigId, ".lastFinished");
+        }
+
+        public List<string> ArtifactsByBuildConfigIdLastPinned(string buildConfigId)
+        {
+            return ArtifactsByBuildConfigIdAndBuildNumber(buildConfigId, ".lastPinned");
+        }
+
+        public List<string> ArtifactsByBuildConfigIdLastSuccessful(string buildConfigId)
+        {
+            return ArtifactsByBuildConfigIdAndBuildNumber(buildConfigId, ".lastSuccessful");
+        }
+
+        public List<string> ArtifactsByBuildConfigIdAndTag(string buildConfigId, string tag)
+        {
+            return ArtifactsByBuildConfigIdAndBuildNumber(buildConfigId, tag + ".tcbuildtag");
+        }
+
+        public List<string> ArtifactsByBuildConfigIdAndBuildNumber(string buildConfigId, string buildSpecification)
+        {
+            var xml = _caller.GetRaw(string.Format("/repository/download/{0}/{1}/teamcity-ivy.xml", buildConfigId, buildSpecification));
+
+            var document = new XmlDocument();
+            document.LoadXml(xml);
+            var artifactNodes = document.SelectNodes("//artifact");
+            if (artifactNodes == null)
+            {
+                return null;
+            }
+            var list = new List<string>();
+            foreach (XmlNode node in artifactNodes)
+            {
+                var nameNode = node.SelectSingleNode("@name");
+                var extensionNode = node.SelectSingleNode("@ext");
+                var artifact = string.Empty;
+                if (nameNode != null)
+                {
+                    artifact = nameNode.Value;
+                }
+                if (extensionNode != null)
+                {
+                    artifact += "." + extensionNode.Value;
+                }
+                list.Add(string.Format("/repository/download/{0}/{1}/{2}", buildConfigId, buildSpecification, artifact));
+            }
+            return list;
         }
 
         public bool TriggerServerInstanceBackup(string fileName)
