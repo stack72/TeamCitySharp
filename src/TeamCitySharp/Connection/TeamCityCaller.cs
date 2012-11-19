@@ -110,6 +110,25 @@ namespace TeamCitySharp.Connection
             return response.StaticBody<T>();
         }
 
+        public string GetRaw(string urlPart)
+        {
+            if (CheckForUserNameAndPassword())
+                throw new ArgumentException("If you are not acting as a guest you must supply userName and password");
+
+            if (string.IsNullOrEmpty(urlPart))
+                throw new ArgumentException("Url must be specfied");
+
+            var url = CreateUrl(urlPart);
+
+            var response = CreateHttpRequest(_configuration.UserName, _configuration.Password, HttpContentTypes.TextPlain).Get(url);
+            if (IsHttpError(response))
+            {
+                throw new HttpException(response.StatusCode, string.Format("Error {0}: Thrown with URL {1}", response.StatusDescription, url));
+            }
+
+            return response.RawText;
+        }
+
         private bool CheckForUserNameAndPassword()
         {
             return !_configuration.ActAsGuest && string.IsNullOrEmpty(_configuration.UserName) && string.IsNullOrEmpty(_configuration.Password);
