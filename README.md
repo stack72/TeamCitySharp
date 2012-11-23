@@ -36,6 +36,8 @@ var builds = client.BuildsByBuildLocator(BuildLocator.RunningBuilds());
 
 ##Methods Available
 ```c#
+void Connect(string userName, string password, bool actAsGuest = false);
+bool Authenticate();
 List<Project> AllProjects();
 Project ProjectByName(string projectLocatorName);
 Project ProjectById(string projectLocatorId);
@@ -57,6 +59,9 @@ Change ChangeDetailsByChangeId(string id);
 Change LastChangeDetailByBuildConfigId(string buildConfigId);
 List<Change> ChangeDetailsByBuildConfigId(string buildConfigId);
 List<BuildConfig> AllBuildConfigs();
+void DownloadArtifactsByBuildId(string buildId, Action<string> downloadHandler);
+void DownloadArtifact(string url, Action<string> downloadHandler);
+void DownloadArtifacts(List<string> artifactUrls, string directory, bool flatten);
 BuildConfig BuildConfigByConfigurationName(string buildConfigName);
 BuildConfig BuildConfigByConfigurationId(string buildConfigId);
 BuildConfig BuildConfigByProjectNameAndConfigurationName(string projectName, string buildConfigName);
@@ -79,6 +84,11 @@ List<Build> BuildsByBuildLocator(BuildLocator locator);
 List<Build> AllBuildsSinceDate(DateTime date);
 List<Build> AllBuildsOfStatusSinceDate(DateTime date, BuildStatus buildStatus);
 List<Build> NonSuccessfulBuildsForUser(string userName);
+List<string> ArtifactsByBuildConfigIdLastFinished(string buildConfigId);
+List<string> ArtifactsByBuildConfigIdLastPinned(string buildConfigId);
+List<string> ArtifactsByBuildConfigIdLastSuccessful(string buildConfigId);
+List<string> ArtifactsByBuildConfigIdAndTag(string buildConfigId, string tag);
+List<string> ArtifactsByBuildConfigIdAndBuildNumber(string buildConfigId, string buildSpecification);
 bool TriggerServerInstanceBackup(string fileName);
 bool CreateUser(string username, string name, string email, string password);
 bool AddPassword(string username, string password);
