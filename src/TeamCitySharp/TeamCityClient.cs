@@ -169,13 +169,6 @@ namespace TeamCitySharp
             return buildType.BuildType;
         }
 
-        public BuildConfig BuildConfigByConfigurationName(string buildConfigName)
-        {
-            var build = _caller.GetFormat<BuildConfig>("/app/rest/buildTypes/name:{0}", buildConfigName);
-
-            return build;
-        }
-
         public void DownloadArtifactsByBuildId(string buildId, Action<string> downloadHandler)
         {
             _caller.GetDownloadFormat(downloadHandler, "/downloadArtifacts.html?buildId={0}", buildId);
@@ -225,6 +218,13 @@ namespace TeamCitySharp
                 
                 DownloadArtifact(url, tempfile => System.IO.File.Move(tempfile, destination));
             }
+        }
+
+        public BuildConfig BuildConfigByConfigurationName(string buildConfigName)
+        {
+            var build = _caller.GetFormat<BuildConfig>("/app/rest/buildTypes/name:{0}", buildConfigName);
+
+            return build;
         }
 
         public BuildConfig BuildConfigByConfigurationId(string buildConfigId)
