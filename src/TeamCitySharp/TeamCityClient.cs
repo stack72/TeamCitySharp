@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Xml;
-using System.Xml.XPath;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
 using TeamCitySharp.Locators;
@@ -183,6 +184,47 @@ namespace TeamCitySharp
         public void DownloadArtifact(string url, Action<string> downloadHandler)
         {
             _caller.GetDownloadFormat(downloadHandler, url);
+        }
+
+        /// <summary>
+        /// Takes a list of artifact urls and downloads them, see ArtifactsBy* methods.
+        /// </summary>
+        /// <param name="artifactUrls">
+        /// List of urls in the format of /repository/download/*.
+        /// </param>
+        /// <param name="directory">
+        /// Destination directory for downloaded artifacts, default is current working directory.
+        /// </param>
+        /// <param name="flatten">
+        /// If true all files will be downloaded to destination directory, no subfolders will be created.
+        /// </param>
+        public void DownloadArtifacts(List<string> artifactUrls, string directory = null, bool flatten = false)
+        {
+            if (directory == null)
+            {
+                directory = Directory.GetCurrentDirectory();
+            }
+            foreach (var url in artifactUrls)
+            {
+                // user probably didnt use to artifact url generating functions
+                Debug.Assert(url.StartsWith("/repository/download/"));
+
+                // figure out local filename
+                var parts = url.Split('/').Skip(5).ToArray();
+                var destination = flatten
+                    ? parts.Last()
+                    : string.Join(Path.DirectorySeparatorChar.ToString(), parts);
+                destination = Path.Combine(directory, destination);
+
+                // create directories that doesnt exist
+                var directoryName = Path.GetDirectoryName(destination);
+                if (directoryName != null && !Directory.Exists(directoryName))
+                {
+                    Directory.CreateDirectory(directoryName);
+                }
+                
+                DownloadArtifact(url, tempfile => System.IO.File.Move(tempfile, destination));
+            }
         }
 
         public BuildConfig BuildConfigByConfigurationId(string buildConfigId)
