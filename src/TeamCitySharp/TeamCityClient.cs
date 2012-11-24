@@ -191,7 +191,10 @@ namespace TeamCitySharp
         /// <param name="flatten">
         /// If true all files will be downloaded to destination directory, no subfolders will be created.
         /// </param>
-        public void DownloadArtifacts(List<string> artifactUrls, string directory = null, bool flatten = false)
+        /// <param name="overwrite">
+        /// If true files that already exist where a downloaded file is to be placed will be deleted prior to download.
+        /// </param>
+        public void DownloadArtifacts(List<string> artifactUrls, string directory = null, bool flatten = false, bool overwrite = true)
         {
             if (directory == null)
             {
@@ -215,7 +218,14 @@ namespace TeamCitySharp
                 {
                     Directory.CreateDirectory(directoryName);
                 }
-                
+
+                // if the file already exists delete it or move to next artifact
+                if (System.IO.File.Exists(destination))
+                {
+                    if (overwrite) System.IO.File.Delete(destination);
+                    else continue;
+                }
+
                 DownloadArtifact(url, tempfile => System.IO.File.Move(tempfile, destination));
             }
         }
