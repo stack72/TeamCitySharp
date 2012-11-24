@@ -32,7 +32,7 @@ namespace TeamCitySharp
         List<BuildConfig> AllBuildConfigs();
         void DownloadArtifactsByBuildId(string buildId, Action<string> downloadHandler);
         void DownloadArtifact(string url, Action<string> downloadHandler);
-        void DownloadArtifacts(List<string> artifactUrls, string directory, bool flatten, bool overwrite);
+        List<string> DownloadArtifacts(List<string> artifactUrls, string directory, bool flatten, bool overwrite);
         BuildConfig BuildConfigByConfigurationName(string buildConfigName);
         BuildConfig BuildConfigByConfigurationId(string buildConfigId);
         BuildConfig BuildConfigByProjectNameAndConfigurationName(string projectName, string buildConfigName);

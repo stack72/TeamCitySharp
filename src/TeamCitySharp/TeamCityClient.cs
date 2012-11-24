@@ -194,12 +194,16 @@ namespace TeamCitySharp
         /// <param name="overwrite">
         /// If true files that already exist where a downloaded file is to be placed will be deleted prior to download.
         /// </param>
-        public void DownloadArtifacts(List<string> artifactUrls, string directory = null, bool flatten = false, bool overwrite = true)
+        /// <returns>
+        /// A list of full paths to all downloaded artifacts.
+        /// </returns>
+        public List<string> DownloadArtifacts(List<string> artifactUrls, string directory = null, bool flatten = false, bool overwrite = true)
         {
             if (directory == null)
             {
                 directory = Directory.GetCurrentDirectory();
             }
+            var downloaded = new List<string>();
             foreach (var url in artifactUrls)
             {
                 // user probably didnt use to artifact url generating functions
@@ -219,6 +223,9 @@ namespace TeamCitySharp
                     Directory.CreateDirectory(directoryName);
                 }
 
+                // add artifact to list regardless if it was downloaded or skipped
+                downloaded.Add(Path.GetFullPath(destination));
+
                 // if the file already exists delete it or move to next artifact
                 if (System.IO.File.Exists(destination))
                 {
@@ -228,6 +235,7 @@ namespace TeamCitySharp
 
                 DownloadArtifact(url, tempfile => System.IO.File.Move(tempfile, destination));
             }
+            return downloaded;
         }
 
         public BuildConfig BuildConfigByConfigurationName(string buildConfigName)

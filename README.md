@@ -102,3 +102,4 @@ bool AddPassword(string username, string password);
 * Barry Mooring (@codingbadger)
 * Simon Bartlett (@sibartlett)
 * Mike Larah (@MikeLarah)
+* Alexander Fast (@mizipzor)
