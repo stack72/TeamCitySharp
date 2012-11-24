@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Xml;
-using System.Xml.XPath;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
 using TeamCitySharp.Locators;
@@ -168,13 +169,6 @@ namespace TeamCitySharp
             return buildType.BuildType;
         }
 
-        public BuildConfig BuildConfigByConfigurationName(string buildConfigName)
-        {
-            var build = _caller.GetFormat<BuildConfig>("/app/rest/buildTypes/name:{0}", buildConfigName);
-
-            return build;
-        }
-
         public void DownloadArtifactsByBuildId(string buildId, Action<string> downloadHandler)
         {
             _caller.GetDownloadFormat(downloadHandler, "/downloadArtifacts.html?buildId={0}", buildId);
@@ -183,6 +177,72 @@ namespace TeamCitySharp
         public void DownloadArtifact(string url, Action<string> downloadHandler)
         {
             _caller.GetDownloadFormat(downloadHandler, url);
+        }
+
+        /// <summary>
+        /// Takes a list of artifact urls and downloads them, see ArtifactsBy* methods.
+        /// </summary>
+        /// <param name="artifactUrls">
+        /// List of urls in the format of /repository/download/*.
+        /// </param>
+        /// <param name="directory">
+        /// Destination directory for downloaded artifacts, default is current working directory.
+        /// </param>
+        /// <param name="flatten">
+        /// If true all files will be downloaded to destination directory, no subfolders will be created.
+        /// </param>
+        /// <param name="overwrite">
+        /// If true files that already exist where a downloaded file is to be placed will be deleted prior to download.
+        /// </param>
+        /// <returns>
+        /// A list of full paths to all downloaded artifacts.
+        /// </returns>
+        public List<string> DownloadArtifacts(List<string> artifactUrls, string directory = null, bool flatten = false, bool overwrite = true)
+        {
+            if (directory == null)
+            {
+                directory = Directory.GetCurrentDirectory();
+            }
+            var downloaded = new List<string>();
+            foreach (var url in artifactUrls)
+            {
+                // user probably didnt use to artifact url generating functions
+                Debug.Assert(url.StartsWith("/repository/download/"));
+
+                // figure out local filename
+                var parts = url.Split('/').Skip(5).ToArray();
+                var destination = flatten
+                    ? parts.Last()
+                    : string.Join(Path.DirectorySeparatorChar.ToString(), parts);
+                destination = Path.Combine(directory, destination);
+
+                // create directories that doesnt exist
+                var directoryName = Path.GetDirectoryName(destination);
+                if (directoryName != null && !Directory.Exists(directoryName))
+                {
+                    Directory.CreateDirectory(directoryName);
+                }
+
+                // add artifact to list regardless if it was downloaded or skipped
+                downloaded.Add(Path.GetFullPath(destination));
+
+                // if the file already exists delete it or move to next artifact
+                if (System.IO.File.Exists(destination))
+                {
+                    if (overwrite) System.IO.File.Delete(destination);
+                    else continue;
+                }
+
+                DownloadArtifact(url, tempfile => System.IO.File.Move(tempfile, destination));
+            }
+            return downloaded;
+        }
+
+        public BuildConfig BuildConfigByConfigurationName(string buildConfigName)
+        {
+            var build = _caller.GetFormat<BuildConfig>("/app/rest/buildTypes/name:{0}", buildConfigName);
+
+            return build;
         }
 
         public BuildConfig BuildConfigByConfigurationId(string buildConfigId)
