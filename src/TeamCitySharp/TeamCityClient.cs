@@ -1,9 +1,10 @@
 ﻿using System;
+using TeamCitySharp.ActionTypes;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
 using TeamCitySharp.Locators;
 
-namespace TeamCitySharp.ActionTypes
+namespace TeamCitySharp
 {
     public class TeamCityClient : IClientConnection, ITeamCityClient
     {
