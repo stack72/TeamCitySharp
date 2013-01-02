@@ -49,6 +49,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionTypes\Agents.cs" />
+    <Compile Include="ActionTypes\BuildConfigs.cs" />
+    <Compile Include="ActionTypes\Builds.cs" />
+    <Compile Include="ActionTypes\Changes.cs" />
+    <Compile Include="ActionTypes\IAgents.cs" />
+    <Compile Include="ActionTypes\IBuildConfigs.cs" />
+    <Compile Include="ActionTypes\IBuilds.cs" />
+    <Compile Include="ActionTypes\IChanges.cs" />
+    <Compile Include="ActionTypes\IProjects.cs" />
+    <Compile Include="ActionTypes\IServerInformation.cs" />
+    <Compile Include="ActionTypes\IUsers.cs" />
+    <Compile Include="ActionTypes\IVcsRoots.cs" />
+    <Compile Include="ActionTypes\Projects.cs" />
+    <Compile Include="ActionTypes\ServerInformation.cs" />
+    <Compile Include="ActionTypes\TeamCityClient.cs" />
+    <Compile Include="ActionTypes\Users.cs" />
+    <Compile Include="ActionTypes\VcsRoots.cs" />
     <Compile Include="DomainEntities\AgentRequirement.cs" />
     <Compile Include="DomainEntities\AgentRequirements.cs" />
     <Compile Include="DomainEntities\ArtifactDependencies.cs" />
@@ -96,7 +113,6 @@
     <Compile Include="DomainEntities\VcsRootWrapper.cs" />
     <Compile Include="ITeamCityClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TeamCityClient.cs" />
     <Compile Include="Locators\UserLocator.cs" />
   </ItemGroup>
   <ItemGroup>
