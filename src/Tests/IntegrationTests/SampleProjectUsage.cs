@@ -35,7 +35,7 @@ namespace TeamCitySharp.IntegrationTests
             var client = new TeamCityClient("test:81");
             client.Connect("admin", "qwerty");
 
-            var allProjects = client.Projects.AllProjects();             
+            var allProjects = client.Projects.All();             
 
             //Assert: Exception
         }
@@ -47,7 +47,7 @@ namespace TeamCitySharp.IntegrationTests
         {
             var client = new TeamCityClient("teamcity.codebetter.com");
 
-            var projects = client.Projects.AllProjects();
+            var projects = client.Projects.All();
 
             //Assert: Exception
         }
@@ -55,7 +55,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_all_projects()
         {
-            List<Project> projects = _client.Projects.AllProjects();
+            List<Project> projects = _client.Projects.All();
 
             Assert.That(projects.Any(), "No projects were found for this server");
         }
@@ -63,7 +63,7 @@ namespace TeamCitySharp.IntegrationTests
         [TestCase("project137")]
         public void it_returns_project_details_when_passing_a_project_id(string projectId)
         {
-            Project projectDetails = _client.Projects.ProjectById(projectId);
+            Project projectDetails = _client.Projects.ById(projectId);
 
             Assert.That(projectDetails != null, "No details found for that specific project");
         }
@@ -71,7 +71,7 @@ namespace TeamCitySharp.IntegrationTests
         [TestCase("YouTrackSharp")]
         public void it_returns_project_details_when_passing_a_project_name(string projectName)
         {
-            Project projectDetails = _client.Projects.ProjectByName(projectName);
+            Project projectDetails = _client.Projects.ByName(projectName);
 
             Assert.That(projectDetails != null, "No details found for that specific project");
         }
@@ -80,7 +80,7 @@ namespace TeamCitySharp.IntegrationTests
         public void it_returns_project_details_when_passing_project()
         {
             var project = new Project { Id = "project137" };
-            Project projectDetails = _client.Projects.ProjectDetails(project);
+            Project projectDetails = _client.Projects.Details(project);
 
             Assert.That(!string.IsNullOrWhiteSpace(projectDetails.Id));
         }

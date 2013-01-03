@@ -13,38 +13,38 @@ namespace TeamCitySharp.ActionTypes
             _caller = caller;
         }
 
-        public List<Project> AllProjects()
+        public List<Project> All()
         {
             var projectWrapper = _caller.Get<ProjectWrapper>("/app/rest/projects");
 
             return projectWrapper.Project;
         }
 
-        public Project ProjectByName(string projectLocatorName)
+        public Project ByName(string projectLocatorName)
         {
             var project = _caller.GetFormat<Project>("/app/rest/projects/name:{0}", projectLocatorName);
 
             return project;
         }
 
-        public Project ProjectById(string projectLocatorId)
+        public Project ById(string projectLocatorId)
         {
             var project = _caller.GetFormat<Project>("/app/rest/projects/id:{0}", projectLocatorId);
 
             return project;
         }
 
-        public Project ProjectDetails(Project project)
+        public Project Details(Project project)
         {
-            return ProjectById(project.Id);
+            return ById(project.Id);
         }
 
-        public Project CreateProject(string projectName)
+        public Project Create(string projectName)
         {
             return _caller.Post<Project>(projectName, "/app/rest/projects/");
         }
 
-        public void DeleteProject(string projectName)
+        public void Delete(string projectName)
         {
             _caller.DeleteFormat("/app/rest/projects/name:{0}", projectName);
         }

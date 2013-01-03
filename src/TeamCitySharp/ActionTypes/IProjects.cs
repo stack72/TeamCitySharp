@@ -5,12 +5,12 @@ namespace TeamCitySharp.ActionTypes
 {
     public interface IProjects
     {
-        List<Project> AllProjects();
-        Project ProjectByName(string projectLocatorName);
-        Project ProjectById(string projectLocatorId);
-        Project ProjectDetails(Project project);
-        Project CreateProject(string projectName);
-        void DeleteProject(string projectName);
+        List<Project> All();
+        Project ByName(string projectLocatorName);
+        Project ById(string projectLocatorId);
+        Project Details(Project project);
+        Project Create(string projectName);
+        void Delete(string projectName);
         void DeleteProjectParameter(string projectName, string parameterName);
         void SetProjectParameter(string projectName, string settingName, string settingValue);
     }
