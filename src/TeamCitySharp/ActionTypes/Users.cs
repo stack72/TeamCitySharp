@@ -14,7 +14,7 @@ namespace TeamCitySharp.ActionTypes
             _caller = caller;
         }
 
-        public List<User> AllUsers()
+        public List<User> All()
         {
             var userWrapper = _caller.Get<UserWrapper>("/app/rest/users");
 
@@ -58,7 +58,7 @@ namespace TeamCitySharp.ActionTypes
             return group.Roles.Role;
         }
 
-        public bool CreateUser(string username, string name, string email, string password)
+        public bool Create(string username, string name, string email, string password)
         {
             bool result = false;
 
@@ -66,7 +66,7 @@ namespace TeamCitySharp.ActionTypes
 
             var createUserResponse = this._caller.Post("/app/rest/users", data, string.Empty);
 
-            // Workaround, CreateUser POST request fails to deserialize password field. See http://youtrack.jetbrains.com/issue/TW-23200
+            // Workaround, Create POST request fails to deserialize password field. See http://youtrack.jetbrains.com/issue/TW-23200
             // Also this does not return an accurate representation of whether it has worked or not
             bool passwordResult = AddPassword(username, password);
 

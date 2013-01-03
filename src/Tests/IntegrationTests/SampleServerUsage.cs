@@ -35,7 +35,7 @@ namespace TeamCitySharp.IntegrationTests
             var client = new TeamCityClient("test:81");
             client.Connect("admin", "qwerty");
 
-            var plugins = client.ServerInformation.AllServerPlugins();
+            var plugins = client.ServerInformation.AllPlugins();
 
             //Assert: Exception
         }
@@ -46,7 +46,7 @@ namespace TeamCitySharp.IntegrationTests
         {
             var client = new TeamCityClient("teamcity.codebetter.com");
 
-            var plugins = client.ServerInformation.AllServerPlugins();
+            var plugins = client.ServerInformation.AllPlugins();
 
             //Assert: Exception
         }
@@ -62,7 +62,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_all_server_plugins()
         {
-            List<Plugin> plugins = _client.ServerInformation.AllServerPlugins();
+            List<Plugin> plugins = _client.ServerInformation.AllPlugins();
 
             Assert.IsNotNull(plugins, "Server is not returning a plugin list");
         }

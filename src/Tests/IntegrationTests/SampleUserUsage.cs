@@ -35,7 +35,7 @@ namespace TeamCitySharp.IntegrationTests
             var client = new TeamCityClient("test:81");
             client.Connect("admin", "qwerty");
 
-            var users = client.Users.AllUsers();
+            var users = client.Users.All();
 
             //Assert: Exception
         }
@@ -46,7 +46,7 @@ namespace TeamCitySharp.IntegrationTests
         {
             var client = new TeamCityClient("teamcity.codebetter.com");
 
-            var users = client.Users.AllUsers();
+            var users = client.Users.All();
 
             //Assert: Exception
         }
@@ -80,7 +80,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_all_users()
         {
-            List<User> users = _client.Users.AllUsers();
+            List<User> users = _client.Users.All();
 
             Assert.That(users.Any(), "No users found for this server");
         }
@@ -110,7 +110,7 @@ namespace TeamCitySharp.IntegrationTests
             var client = new TeamCityClient("localhost:81");
             client.Connect("guest", string.Empty, true);
 
-            var users = client.Users.AllUsers();
+            var users = client.Users.All();
              
             //assert: Throws exception
         }

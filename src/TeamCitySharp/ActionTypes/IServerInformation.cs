@@ -6,7 +6,7 @@ namespace TeamCitySharp.ActionTypes
     public interface IServerInformation
     {
         Server ServerInfo();
-        List<Plugin> AllServerPlugins();
+        List<Plugin> AllPlugins();
         bool TriggerServerInstanceBackup(string fileName);
     }
 }

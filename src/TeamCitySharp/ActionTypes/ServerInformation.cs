@@ -19,7 +19,7 @@ namespace TeamCitySharp.ActionTypes
             return server;
         }
 
-        public List<Plugin> AllServerPlugins()
+        public List<Plugin> AllPlugins()
         {
             var pluginWrapper = _caller.Get<PluginWrapper>("/app/rest/server/plugins");
 

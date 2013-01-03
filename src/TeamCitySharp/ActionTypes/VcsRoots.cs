@@ -15,14 +15,14 @@ namespace TeamCitySharp.ActionTypes
             _caller = caller;
         }
 
-        public List<VcsRoot> AllVcsRoots()
+        public List<VcsRoot> All()
         {
             var vcsRootWrapper = _caller.Get<VcsRootWrapper>("/app/rest/vcs-roots");
 
             return vcsRootWrapper.VcsRoot;
         }
 
-        public VcsRoot VcsRootById(string vcsRootId)
+        public VcsRoot ById(string vcsRootId)
         {
             var vcsRoot = _caller.GetFormat<VcsRoot>("/app/rest/vcs-roots/id:{0}", vcsRootId);
 
