@@ -61,7 +61,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SampleSystemFunctions.cs" />
-    <Compile Include="SampleUrlUsage.cs" />
     <Compile Include="SampleUserUsage.cs">
       <SubType>Code</SubType>
     </Compile>

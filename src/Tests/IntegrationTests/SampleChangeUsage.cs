@@ -35,7 +35,7 @@ namespace TeamCitySharp.IntegrationTests
             var client = new TeamCityClient("test:81");
             client.Connect("admin", "qwerty");
 
-            var changes = client.AllChanges();
+            var changes = client.Changes.AllChanges();
 
             //Assert: Exception
         }
@@ -46,7 +46,7 @@ namespace TeamCitySharp.IntegrationTests
         {
             var client = new TeamCityClient("teamcity.codebetter.com");
 
-            var changes = client.AllChanges();
+            var changes = client.Changes.AllChanges();
 
             //Assert: Exception
         }
@@ -54,7 +54,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_all_changes()
         {
-            List<Change> changes = _client.AllChanges();
+            List<Change> changes = _client.Changes.AllChanges();
 
             Assert.That(changes.Any(), "Cannot find any changes recorded in any of the projects");
         }
@@ -62,7 +62,7 @@ namespace TeamCitySharp.IntegrationTests
         [TestCase("42843")]
         public void it_returns_change_details_by_change_id(string changeId)
         {
-            Change changeDetails = _client.ChangeDetailsByChangeId(changeId);
+            Change changeDetails = _client.Changes.ChangeDetailsByChangeId(changeId);
 
             Assert.That(changeDetails != null, "Cannot find details of that specified change");
         }
@@ -70,7 +70,7 @@ namespace TeamCitySharp.IntegrationTests
         [TestCase("bt113")]
         public void it_returns_change_details_for_build_config(string buildConfigId)
         {
-            Change changeDetails = _client.LastChangeDetailByBuildConfigId(buildConfigId);
+            Change changeDetails = _client.Changes.LastChangeDetailByBuildConfigId(buildConfigId);
 
             Assert.That(changeDetails != null, "Cannot find details of that specified change");
         }

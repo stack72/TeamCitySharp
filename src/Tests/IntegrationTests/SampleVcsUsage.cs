@@ -35,7 +35,7 @@ namespace TeamCitySharp.IntegrationTests
             var client = new TeamCityClient("test:81");
             client.Connect("admin", "qwerty");
 
-            var vcsroots = client.AllVcsRoots();
+            var vcsroots = client.VcsRoots.AllVcsRoots();
 
             //Assert: Exception
         }
@@ -46,7 +46,7 @@ namespace TeamCitySharp.IntegrationTests
         {
             var client = new TeamCityClient("teamcity.codebetter.com");
 
-            var vcsRoots = client.AllVcsRoots();
+            var vcsRoots = client.VcsRoots.AllVcsRoots();
 
             //Assert: Exception
         }
@@ -54,7 +54,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_all_vcs_roots()
         {
-            List<VcsRoot> vcsRoots = _client.AllVcsRoots();
+            List<VcsRoot> vcsRoots = _client.VcsRoots.AllVcsRoots();
 
             Assert.That(vcsRoots.Any(), "No VCS Roots were found for the installation");
         }
@@ -62,7 +62,7 @@ namespace TeamCitySharp.IntegrationTests
         [TestCase("1")]
         public void it_returns_vcs_details_when_passing_vcs_root_id(string vcsRootId)
         {
-            VcsRoot rootDetails = _client.VcsRootById(vcsRootId);
+            VcsRoot rootDetails = _client.VcsRoots.VcsRootById(vcsRootId);
 
             Assert.That(rootDetails != null, "Cannot find the specific VCSRoot");
         }

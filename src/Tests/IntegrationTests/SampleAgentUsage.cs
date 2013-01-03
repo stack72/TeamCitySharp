@@ -35,7 +35,7 @@ namespace TeamCitySharp.IntegrationTests
             var client = new TeamCityClient("teamcity:81");
             client.Connect("teamcitysharpuser", "qwerty");
 
-            var agents = client.AllAgents();
+            var agents = client.Agents.AllAgents();
 
             //Assert: Exception
         }
@@ -46,7 +46,7 @@ namespace TeamCitySharp.IntegrationTests
         {
             var client = new TeamCityClient("teamcity.codebetter.com");
 
-            var agents = client.AllAgents();
+            var agents = client.Agents.AllAgents();
 
             //Assert: Exception
         }
@@ -54,7 +54,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_all_agents()
         {
-            List<Agent> agents = _client.AllAgents();
+            List<Agent> agents = _client.Agents.AllAgents();
 
             Assert.That(agents.Any(), "No agents were found");
         }
@@ -62,7 +62,7 @@ namespace TeamCitySharp.IntegrationTests
         [TestCase("agent01")]
         public void it_returns_last_build_status_for_agent(string agentName)
         {
-            Build lastBuild = _client.LastBuildByAgent(agentName);
+            Build lastBuild = _client.Builds.LastBuildByAgent(agentName);
 
             Assert.That(lastBuild != null, "No build information found for the last build on the specified agent");
         }

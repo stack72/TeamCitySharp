@@ -28,7 +28,7 @@ namespace TeamCitySharp.IntegrationTests
             string email = "John.Doe@test.com";
             string password = "J0hnD03";
             
-            var createUserResult = _client.CreateUser(userName, name, email, password);
+            var createUserResult = _client.Users.CreateUser(userName, name, email, password);
 
             ITeamCityClient _newUser;
             _newUser = new TeamCityClient("teamcity.codebetter.com");
