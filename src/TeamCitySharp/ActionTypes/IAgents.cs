@@ -5,6 +5,6 @@ namespace TeamCitySharp.ActionTypes
 {
     public interface IAgents
     {
-        List<Agent> AllAgents();
+        List<Agent> All();
     }
 }

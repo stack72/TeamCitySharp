@@ -14,52 +14,52 @@ namespace TeamCitySharp.ActionTypes
             _caller = caller;
         }
 
-        public List<BuildConfig> AllBuildConfigs()
+        public List<BuildConfig> All()
         {
             var buildType = _caller.Get<BuildTypeWrapper>("/app/rest/buildTypes");
 
             return buildType.BuildType;
         }
 
-        public BuildConfig BuildConfigByConfigurationName(string buildConfigName)
+        public BuildConfig ByConfigurationName(string buildConfigName)
         {
             var build = _caller.GetFormat<BuildConfig>("/app/rest/buildTypes/name:{0}", buildConfigName);
 
             return build;
         }
 
-        public BuildConfig BuildConfigByConfigurationId(string buildConfigId)
+        public BuildConfig ByConfigurationId(string buildConfigId)
         {
             var build = _caller.GetFormat<BuildConfig>("/app/rest/buildTypes/id:{0}", buildConfigId);
 
             return build;
         }
 
-        public BuildConfig BuildConfigByProjectNameAndConfigurationName(string projectName, string buildConfigName)
+        public BuildConfig ByProjectNameAndConfigurationName(string projectName, string buildConfigName)
         {
             var build = _caller.Get<BuildConfig>(string.Format("/app/rest/projects/name:{0}/buildTypes/name:{1}", projectName, buildConfigName));
             return build;
         }
 
-        public BuildConfig BuildConfigByProjectNameAndConfigurationId(string projectName, string buildConfigId)
+        public BuildConfig ByProjectNameAndConfigurationId(string projectName, string buildConfigId)
         {
             var build = _caller.Get<BuildConfig>(string.Format("/app/rest/projects/name:{0}/buildTypes/id:{1}", projectName, buildConfigId));
             return build;
         }
 
-        public BuildConfig BuildConfigByProjectIdAndConfigurationName(string projectId, string buildConfigName)
+        public BuildConfig ByProjectIdAndConfigurationName(string projectId, string buildConfigName)
         {
             var build = _caller.Get<BuildConfig>(string.Format("/app/rest/projects/id:{0}/buildTypes/name:{1}", projectId, buildConfigName));
             return build;
         }
 
-        public BuildConfig BuildConfigByProjectIdAndConfigurationId(string projectId, string buildConfigId)
+        public BuildConfig ByProjectIdAndConfigurationId(string projectId, string buildConfigId)
         {
             var build = _caller.Get<BuildConfig>(string.Format("/app/rest/projects/id:{0}/buildTypes/id:{1}", projectId, buildConfigId));
             return build;
         }
 
-        public List<BuildConfig> BuildConfigsByProjectId(string projectId)
+        public List<BuildConfig> ByProjectId(string projectId)
         {
             var buildWrapper = _caller.GetFormat<BuildTypeWrapper>("/app/rest/projects/id:{0}/buildTypes", projectId);
 
@@ -67,7 +67,7 @@ namespace TeamCitySharp.ActionTypes
             return buildWrapper.BuildType;
         }
 
-        public List<BuildConfig> BuildConfigsByProjectName(string projectName)
+        public List<BuildConfig> ByProjectName(string projectName)
         {
             var buildWrapper = _caller.GetFormat<BuildTypeWrapper>("/app/rest/projects/name:{0}/buildTypes", projectName);
 
@@ -80,16 +80,10 @@ namespace TeamCitySharp.ActionTypes
             return _caller.PostFormat<BuildConfig>(configurationName, "/app/rest/projects/name:{0}/buildTypes", projectName);
         }
 
-
-
         public void SetConfigurationSetting(BuildTypeLocator locator, string settingName, string settingValue)
         {
             _caller.PutFormat(settingValue, "/app/rest/buildTypes/{0}/settings/{1}", locator, settingName);
         }
-
-
-
-
 
         public void PostRawArtifactDependency(BuildTypeLocator locator, string rawXml)
         {
@@ -105,8 +99,6 @@ namespace TeamCitySharp.ActionTypes
         {
             _caller.PostFormat(rawXml, "/app/rest/buildTypes/{0}/triggers", locator);
         }
-
-        
 
         public void SetConfigurationParameter(BuildTypeLocator locator, string key, string value)
         {

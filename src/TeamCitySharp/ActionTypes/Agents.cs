@@ -13,12 +13,11 @@ namespace TeamCitySharp.ActionTypes
             _caller = caller;
         }
 
-        public List<Agent> AllAgents()
+        public List<Agent> All()
         {
             var agentWrapper = _caller.Get<AgentWrapper>("/app/rest/agents");
 
             return agentWrapper.Agent;
         }
-
     }
 }

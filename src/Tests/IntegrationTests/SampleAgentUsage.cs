@@ -35,7 +35,7 @@ namespace TeamCitySharp.IntegrationTests
             var client = new TeamCityClient("teamcity:81");
             client.Connect("teamcitysharpuser", "qwerty");
 
-            var agents = client.Agents.AllAgents();
+            var agents = client.Agents.All();
 
             //Assert: Exception
         }
@@ -46,7 +46,7 @@ namespace TeamCitySharp.IntegrationTests
         {
             var client = new TeamCityClient("teamcity.codebetter.com");
 
-            var agents = client.Agents.AllAgents();
+            var agents = client.Agents.All();
 
             //Assert: Exception
         }
@@ -54,7 +54,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_all_agents()
         {
-            List<Agent> agents = _client.Agents.AllAgents();
+            List<Agent> agents = _client.Agents.All();
 
             Assert.That(agents.Any(), "No agents were found");
         }

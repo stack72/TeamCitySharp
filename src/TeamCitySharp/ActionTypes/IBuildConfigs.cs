@@ -6,15 +6,15 @@ namespace TeamCitySharp.ActionTypes
 {
     public interface IBuildConfigs
     {
-        List<BuildConfig> AllBuildConfigs();
-        BuildConfig BuildConfigByConfigurationName(string buildConfigName);
-        BuildConfig BuildConfigByConfigurationId(string buildConfigId);
-        BuildConfig BuildConfigByProjectNameAndConfigurationName(string projectName, string buildConfigName);
-        BuildConfig BuildConfigByProjectNameAndConfigurationId(string projectName, string buildConfigId);
-        BuildConfig BuildConfigByProjectIdAndConfigurationName(string projectId, string buildConfigName);
-        BuildConfig BuildConfigByProjectIdAndConfigurationId(string projectId, string buildConfigId);
-        List<BuildConfig> BuildConfigsByProjectId(string projectId);
-        List<BuildConfig> BuildConfigsByProjectName(string projectName);
+        List<BuildConfig> All();
+        BuildConfig ByConfigurationName(string buildConfigName);
+        BuildConfig ByConfigurationId(string buildConfigId);
+        BuildConfig ByProjectNameAndConfigurationName(string projectName, string buildConfigName);
+        BuildConfig ByProjectNameAndConfigurationId(string projectName, string buildConfigId);
+        BuildConfig ByProjectIdAndConfigurationName(string projectId, string buildConfigName);
+        BuildConfig ByProjectIdAndConfigurationId(string projectId, string buildConfigId);
+        List<BuildConfig> ByProjectId(string projectId);
+        List<BuildConfig> ByProjectName(string projectName);
         BuildConfig CreateConfiguration(string projectName, string configurationName);
 
         void SetConfigurationSetting(BuildTypeLocator locator, string settingName, string settingValue);
