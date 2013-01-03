@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TeamCitySharp.DomainEntities;
+using TeamCitySharp.Locators;
 
 namespace TeamCitySharp.ActionTypes
 {
@@ -14,5 +15,18 @@ namespace TeamCitySharp.ActionTypes
         BuildConfig BuildConfigByProjectIdAndConfigurationId(string projectId, string buildConfigId);
         List<BuildConfig> BuildConfigsByProjectId(string projectId);
         List<BuildConfig> BuildConfigsByProjectName(string projectName);
+        BuildConfig CreateConfiguration(string projectName, string configurationName);
+
+        void SetConfigurationSetting(BuildTypeLocator locator, string settingName, string settingValue);
+        void PostRawArtifactDependency(BuildTypeLocator locator, string rawXml);
+        void PostRawBuildStep(BuildTypeLocator locator, string rawXml);
+        void PostRawBuildTrigger(BuildTypeLocator locator, string rawXml);
+        void SetConfigurationParameter(BuildTypeLocator locator, string key, string value);
+        void PostRawAgentRequirement(BuildTypeLocator locator, string rawXml);
+        void DeleteBuildStep(BuildTypeLocator locator, string buildStepId);
+        void DeleteArtifactDependency(BuildTypeLocator locator, string artifactDependencyId);
+        void DeleteAgentRequirement(BuildTypeLocator locator, string agentRequirementId);
+        void DeleteParameter(BuildTypeLocator locator, string parameterName);
+        void DeleteBuildTrigger(BuildTypeLocator locator, string buildTriggerId);
     }
 }

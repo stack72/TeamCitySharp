@@ -53,5 +53,10 @@ namespace TeamCitySharp.ActionTypes
         {
             _caller.DeleteFormat("/app/rest/projects/name:{0}/parameters/{1}", projectName, parameterName);
         }
+
+        public void SetProjectParameter(string projectName, string settingName, string settingValue)
+        {
+            _caller.PutFormat(settingValue, "/app/rest/projects/name:{0}/parameters/{1}", projectName, settingName);
+        }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TeamCitySharp.DomainEntities;
+using TeamCitySharp.Locators;
 
 namespace TeamCitySharp.ActionTypes
 {
@@ -7,5 +8,8 @@ namespace TeamCitySharp.ActionTypes
     {
         List<VcsRoot> AllVcsRoots();
         VcsRoot VcsRootById(string vcsRootId);
+        VcsRoot AttachVcsRoot(BuildTypeLocator locator, VcsRoot vcsRoot);
+        void DetachVcsRoot(BuildTypeLocator locator, string vcsRootId);
+        void SetVcsRootField(VcsRoot vcsRoot, VcsRootField field, object value);
     }
 }

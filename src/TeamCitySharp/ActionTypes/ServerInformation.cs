@@ -26,5 +26,10 @@ namespace TeamCitySharp.ActionTypes
             return pluginWrapper.Plugin;
         }
 
+        public bool TriggerServerInstanceBackup(string fileName)
+        {
+            var url = string.Format("/app/rest/server/backup?fileName={0}&includeConfigs=true&includeDatabase=true&includeBuildLogs=false", fileName);
+            return _caller.StartBackup(url);
+        }
     }
 }

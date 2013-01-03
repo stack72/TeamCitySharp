@@ -7,5 +7,6 @@ namespace TeamCitySharp.ActionTypes
     {
         Server ServerInfo();
         List<Plugin> AllServerPlugins();
+        bool TriggerServerInstanceBackup(string fileName);
     }
 }
