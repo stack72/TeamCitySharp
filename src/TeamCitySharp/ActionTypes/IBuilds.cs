@@ -14,11 +14,11 @@ namespace TeamCitySharp.ActionTypes
         Build LastBuildByBuildConfigId(string buildConfigId);
         List<Build> ErrorBuildsByBuildConfigId(string buildConfigId);
         Build LastErrorBuildByBuildConfigId(string buildConfigId);
-        List<Build> BuildConfigsByBuildConfigId(string buildConfigId);
-        List<Build> BuildConfigsByConfigIdAndTag(string buildConfigId, string tag);
-        List<Build> BuildsByUserName(string userName);
-        List<Build> BuildsByBuildLocator(BuildLocator locator);
-        List<Build> AllBuildsSinceDate(DateTime date);
+        List<Build> ByBuildConfigId(string buildConfigId);
+        List<Build> ByConfigIdAndTag(string buildConfigId, string tag);
+        List<Build> ByUserName(string userName);
+        List<Build> ByBuildLocator(BuildLocator locator);
+        List<Build> AllSinceDate(DateTime date);
         List<Build> AllBuildsOfStatusSinceDate(DateTime date, BuildStatus buildStatus);
         List<Build> NonSuccessfulBuildsForUser(string userName);
         Build LastBuildByAgent(string agentName);

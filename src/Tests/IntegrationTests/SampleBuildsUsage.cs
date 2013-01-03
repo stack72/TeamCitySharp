@@ -119,7 +119,7 @@ namespace TeamCitySharp.IntegrationTests
         public void it_returns_all_builds_by_build_config_id()
         {
             const string buildConfigId = "bt437";
-            var builds = _client.Builds.BuildConfigsByBuildConfigId(buildConfigId);
+            var builds = _client.Builds.ByBuildConfigId(buildConfigId);
 
             Assert.That(builds.Any(), "No builds for this build configuration have been found");
         }
@@ -129,7 +129,7 @@ namespace TeamCitySharp.IntegrationTests
         {
             const string buildConfigId = "bt437";
             const string tag = "Release";
-            var builds = _client.Builds.BuildConfigsByConfigIdAndTag(buildConfigId, tag);
+            var builds = _client.Builds.ByConfigIdAndTag(buildConfigId, tag);
 
             Assert.IsNotNull(builds, "No builds were found for this build id and Tag");
         }
@@ -138,7 +138,7 @@ namespace TeamCitySharp.IntegrationTests
         public void it_returns_all_builds_by_username()
         {
             const string userName = "teamcitysharpuser";
-            var builds = _client.Builds.BuildsByUserName(userName);
+            var builds = _client.Builds.ByUserName(userName);
 
             Assert.IsNotNull(builds, "No builds for this user have been found");
         }
@@ -164,7 +164,7 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_returns_all_running_builds()
         {
-            var builds = _client.Builds.BuildsByBuildLocator(BuildLocator.RunningBuilds());
+            var builds = _client.Builds.ByBuildLocator(BuildLocator.RunningBuilds());
 
             Assert.IsNotNull(builds, "There are currently no running builds");
         }
@@ -185,7 +185,7 @@ namespace TeamCitySharp.IntegrationTests
             client.Connect("admin", "qwerty");
 
             var build =
-                client.Builds.BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
+                client.Builds.ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
                                                                          maxResults: 1));
             Assert.That(build.Count == 1);
             Assert.IsNull(build[0].StatusText);

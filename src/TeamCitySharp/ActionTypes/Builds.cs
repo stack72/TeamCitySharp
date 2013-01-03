@@ -16,7 +16,7 @@ namespace TeamCitySharp.ActionTypes
             _caller = caller;
         }
 
-        public List<Build> BuildsByBuildLocator(BuildLocator locator)
+        public List<Build> ByBuildLocator(BuildLocator locator)
         {
             var buildWrapper = _caller.GetFormat<BuildWrapper>("/app/rest/builds?locator={0}", locator);
             if (int.Parse(buildWrapper.Count) > 0)
@@ -28,7 +28,7 @@ namespace TeamCitySharp.ActionTypes
 
         public Build LastBuildByAgent(string agentName)
         {
-            return BuildsByBuildLocator(BuildLocator.WithDimensions(
+            return ByBuildLocator(BuildLocator.WithDimensions(
                 agentName: agentName,
                 maxResults: 1
                                             )).SingleOrDefault();
@@ -36,14 +36,14 @@ namespace TeamCitySharp.ActionTypes
 
         public List<Build> SuccessfulBuildsByBuildConfigId(string buildConfigId)
         {
-            return BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
+            return ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
                                                                     status: BuildStatus.SUCCESS
                                             ));
         }
 
         public Build LastSuccessfulBuildByBuildConfigId(string buildConfigId)
         {
-            var builds = BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
+            var builds = ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
                                                                           status: BuildStatus.SUCCESS,
                                                                           maxResults: 1
                                                   ));
@@ -52,14 +52,14 @@ namespace TeamCitySharp.ActionTypes
 
         public List<Build> FailedBuildsByBuildConfigId(string buildConfigId)
         {
-            return BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
+            return ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
                                                                     status: BuildStatus.FAILURE
                                             ));
         }
 
         public Build LastFailedBuildByBuildConfigId(string buildConfigId)
         {
-            var builds = BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
+            var builds = ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
                                                                           status: BuildStatus.FAILURE,
                                                                           maxResults: 1
                                                   ));
@@ -68,7 +68,7 @@ namespace TeamCitySharp.ActionTypes
 
         public Build LastBuildByBuildConfigId(string buildConfigId)
         {
-            var builds = BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
+            var builds = ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
                                                                           maxResults: 1
                                                   ));
             return builds != null ? builds.FirstOrDefault() : new Build();
@@ -76,58 +76,58 @@ namespace TeamCitySharp.ActionTypes
 
         public List<Build> ErrorBuildsByBuildConfigId(string buildConfigId)
         {
-            return BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
+            return ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
                                                                     status: BuildStatus.ERROR
                                             ));
         }
 
         public Build LastErrorBuildByBuildConfigId(string buildConfigId)
         {
-            var builds = BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
+            var builds = ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
                                                                           status: BuildStatus.ERROR,
                                                                           maxResults: 1
                                                   ));
             return builds != null ? builds.FirstOrDefault() : new Build();
         }
 
-        public List<Build> BuildConfigsByBuildConfigId(string buildConfigId)
+        public List<Build> ByBuildConfigId(string buildConfigId)
         {
-            return BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId)
+            return ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId)
                                             ));
         }
 
-        public List<Build> BuildConfigsByConfigIdAndTag(string buildConfigId, string tag)
+        public List<Build> ByConfigIdAndTag(string buildConfigId, string tag)
         {
-            return BuildConfigsByConfigIdAndTag(buildConfigId, new[] { tag });
+            return ByConfigIdAndTag(buildConfigId, new[] { tag });
         }
 
-        public List<Build> BuildConfigsByConfigIdAndTag(string buildConfigId, string[] tags)
+        public List<Build> ByConfigIdAndTag(string buildConfigId, string[] tags)
         {
-            return BuildsByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
+            return ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
                                                                     tags: tags
                                             ));
         }
 
-        public List<Build> BuildsByUserName(string userName)
+        public List<Build> ByUserName(string userName)
         {
-            return BuildsByBuildLocator(BuildLocator.WithDimensions(
+            return ByBuildLocator(BuildLocator.WithDimensions(
                 user: UserLocator.WithUserName(userName)
                                             ));
         }
 
-        public List<Build> AllBuildsSinceDate(DateTime date)
+        public List<Build> AllSinceDate(DateTime date)
         {
-            return BuildsByBuildLocator(BuildLocator.WithDimensions(sinceDate: date));
+            return ByBuildLocator(BuildLocator.WithDimensions(sinceDate: date));
         }
 
         public List<Build> AllBuildsOfStatusSinceDate(DateTime date, BuildStatus buildStatus)
         {
-            return BuildsByBuildLocator(BuildLocator.WithDimensions(sinceDate: date, status: buildStatus));
+            return ByBuildLocator(BuildLocator.WithDimensions(sinceDate: date, status: buildStatus));
         }
 
         public List<Build> NonSuccessfulBuildsForUser(string userName)
         {
-            var builds = BuildsByUserName(userName);
+            var builds = ByUserName(userName);
             if (builds == null)
             {
                 return null;

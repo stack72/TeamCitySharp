@@ -14,21 +14,21 @@ namespace TeamCitySharp.ActionTypes
             _caller = caller;
         }
 
-        public List<Change> AllChanges()
+        public List<Change> All()
         {
             var changeWrapper = _caller.Get<ChangeWrapper>("/app/rest/changes");
 
             return changeWrapper.Change;
         }
 
-        public Change ChangeDetailsByChangeId(string id)
+        public Change ByChangeId(string id)
         {
             var change = _caller.GetFormat<Change>("/app/rest/changes/id:{0}", id);
 
             return change;
         }
 
-        public List<Change> ChangeDetailsByBuildConfigId(string buildConfigId)
+        public List<Change> ByBuildConfigId(string buildConfigId)
         {
             var changeWrapper = _caller.GetFormat<ChangeWrapper>("/app/rest/changes?buildType={0}", buildConfigId);
 
@@ -37,7 +37,7 @@ namespace TeamCitySharp.ActionTypes
 
         public Change LastChangeDetailByBuildConfigId(string buildConfigId)
         {
-            var changes = ChangeDetailsByBuildConfigId(buildConfigId);
+            var changes = ByBuildConfigId(buildConfigId);
 
             return changes.FirstOrDefault();
         }
