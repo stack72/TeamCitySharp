@@ -106,8 +106,9 @@ void DeleteBuildTrigger(BuildTypeLocator locator, string buildTriggerId);
 
 ##Credits
 
-* Copyright (c) 2012 Paul Stack (@stack72)
+* Copyright (c) 2013 Paul Stack (@stack72)
 * Thanks to the following contributors:
 * Barry Mooring (@codingbadger)
 * Simon Bartlett (@sibartlett)
 * Mike Larah (@MikeLarah)
+* Alexander Fast (@mizipzor)
