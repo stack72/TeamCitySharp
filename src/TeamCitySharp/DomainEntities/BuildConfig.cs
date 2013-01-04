@@ -16,5 +16,12 @@
         public string WebUrl { get; set; }
 
         public Project Project { get; set; }
+
+        public Parameters Parameters { get; set; }
+        public ArtifactDependencies ArtifactDependencies { get; set; }
+        public VcsRootEntries VcsRootEntries { get; set; }
+        public BuildSteps Steps { get; set; }
+        public AgentRequirements AgentRequirements { get; set; }
+        public BuildTriggers Triggers { get; set; } 
     }
 }

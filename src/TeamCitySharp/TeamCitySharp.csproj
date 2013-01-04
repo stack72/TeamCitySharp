@@ -33,12 +33,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EasyHttp, Version=1.4.4.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="EasyHttp, Version=1.6.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\EasyHttp.1.4.4.0\lib\net40\EasyHttp.dll</HintPath>
+      <HintPath>..\..\packages\EasyHttp.1.6.1.0\lib\net40\EasyHttp.dll</HintPath>
     </Reference>
     <Reference Include="JsonFx">
-      <HintPath>..\..\packages\JsonFx.2.0.1106.2610\lib\net40\JsonFx.dll</HintPath>
+      <HintPath>..\..\packages\JsonFx.2.0.1209.2802\lib\net40\JsonFx.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -49,6 +49,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainEntities\AgentRequirement.cs" />
+    <Compile Include="DomainEntities\AgentRequirements.cs" />
+    <Compile Include="DomainEntities\ArtifactDependencies.cs" />
+    <Compile Include="DomainEntities\ArtifactDependency.cs" />
+    <Compile Include="DomainEntities\BuildStep.cs" />
+    <Compile Include="DomainEntities\BuildSteps.cs" />
+    <Compile Include="DomainEntities\BuildTrigger.cs" />
+    <Compile Include="DomainEntities\BuildTriggers.cs" />
+    <Compile Include="DomainEntities\Parameters.cs" />
+    <Compile Include="DomainEntities\Properties.cs" />
+    <Compile Include="DomainEntities\Property.cs" />
+    <Compile Include="DomainEntities\VcsRootEntries.cs" />
+    <Compile Include="DomainEntities\VcsRootEntry.cs" />
+    <Compile Include="DomainEntities\VcsRootField.cs" />
     <Compile Include="Locators\BuildLocator.cs" />
     <Compile Include="Locators\BuildTypeLocator.cs" />
     <Compile Include="Connection\IClientConnection.cs" />
