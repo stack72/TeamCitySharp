@@ -35,19 +35,19 @@ namespace TeamCitySharp.Connection
             return Get<T>(string.Format(urlPart, parts));
         }
 
-        public T PostFormat<T>(object data, string urlPart, params object[] parts)
+        public T PostFormat<T>(object data, string contenttype, string accept, string urlPart, params object[] parts)
         {
-            return Post<T>(data.ToString(), string.Format(urlPart, parts));
+            return Post<T>(data.ToString(), contenttype, string.Format(urlPart, parts), accept);
         }
 
-        public void PostFormat(object data, string urlPart, params object[] parts)
+        public void PostFormat(object data, string contenttype, string urlPart, params object[] parts)
         {
-            Post(data.ToString(), string.Format(urlPart, parts), string.Empty);
+            Post(data.ToString(), contenttype, string.Format(urlPart, parts), string.Empty);
         }
 
-        public void PutFormat(object data, string urlPart, params object[] parts)
+        public void PutFormat(object data, string contenttype, string urlPart, params object[] parts)
         {
-            Put(data.ToString(), string.Format(urlPart, parts), string.Empty);
+            Put(data.ToString(), contenttype, string.Format(urlPart, parts), string.Empty);
         }
 
         public void DeleteFormat(string urlPart, params object[] parts)
@@ -102,10 +102,7 @@ namespace TeamCitySharp.Connection
 
             var httpClient = CreateHttpClient(_configuration.UserName, _configuration.Password, HttpContentTypes.TextPlain);
             var response = httpClient.Post(url, null, HttpContentTypes.TextPlain);
-            if (IsHttpError(response))
-            {
-                throw new HttpException(response.StatusCode, string.Format("Error {0}: Thrown with URL {1}", response.StatusDescription, url));
-            }
+            ThrowIfHttpError(response, url);
 
             return response.StatusCode == HttpStatusCode.OK;
         }
@@ -121,17 +118,14 @@ namespace TeamCitySharp.Connection
             var url = CreateUrl(urlPart);
 
             var response = CreateHttpClient(_configuration.UserName, _configuration.Password, HttpContentTypes.ApplicationJson).Get(url);
-            if (IsHttpError(response))
-            {
-                throw new HttpException(response.StatusCode, string.Format("Error {0}: Thrown with URL {1}", response.StatusDescription, url));
-            }
+            ThrowIfHttpError(response, url);
 
             return response.StaticBody<T>();
         }
 
-        public T Post<T>(string data, string urlPart)
+        public T Post<T>(string data, string contenttype, string urlPart, string accept)
         {
-            return Post(data, urlPart, string.Empty).StaticBody<T>();
+            return Post(data, contenttype, urlPart, accept).StaticBody<T>();
         }
 
         public bool Authenticate(string urlPart)
@@ -151,16 +145,16 @@ namespace TeamCitySharp.Connection
             }
         }
 
-        public HttpResponse Post(string urlPart, object data, string accept)
+        public HttpResponse Post(object data, string contenttype, string urlPart, string accept)
         {
-            var client = MakePostRequest(urlPart, data, accept);
+            var client = MakePostRequest(data, contenttype, urlPart, accept);
 
             return client.Response;
         }
 
-        public HttpResponse Put(string urlPart, object data, string accept)
+        public HttpResponse Put(object data, string contenttype, string urlPart, string accept)
         {
-            var client = MakePutRequest(urlPart, data, accept);
+            var client = MakePutRequest(data, contenttype, urlPart, accept);
 
             return client.Response;
         }
@@ -174,26 +168,29 @@ namespace TeamCitySharp.Connection
         {
             var client = CreateHttpClient(_configuration.UserName, _configuration.Password, HttpContentTypes.TextPlain);
             client.Delete(CreateUrl(urlPart));
+            ThrowIfHttpError(client.Response, client.Request.Uri);
         }
 
-        private HttpClient MakePostRequest(string urlPart, object data, string accept)
+        private HttpClient MakePostRequest(object data, string contenttype, string urlPart, string accept)
         {
             var client = CreateHttpClient(_configuration.UserName, _configuration.Password, string.IsNullOrWhiteSpace(accept) ? GetContentType(data.ToString()) : accept);
 
             client.Request.Accept = accept;
 
-            client.Post(CreateUrl(urlPart), data, HttpContentTypes.ApplicationXml);
+            client.Post(CreateUrl(urlPart), data, contenttype);
+            ThrowIfHttpError(client.Response, client.Request.Uri);
 
             return client;
         }
 
-        private HttpClient MakePutRequest(string urlPart, object data, string accept)
+        private HttpClient MakePutRequest(object data, string contenttype, string urlPart, string accept)
         {
             var client = CreateHttpClient(_configuration.UserName, _configuration.Password, string.IsNullOrWhiteSpace(accept) ? GetContentType(data.ToString()) : accept);
 
             client.Request.Accept = accept;
 
-            client.Put(CreateUrl(urlPart), data, HttpContentTypes.TextPlain);
+            client.Put(CreateUrl(urlPart), data, contenttype);
+            ThrowIfHttpError(client.Response, client.Request.Uri);
 
             return client;
         }
@@ -203,6 +200,19 @@ namespace TeamCitySharp.Connection
             var num = (int)response.StatusCode / 100;
 
             return (num == 4 || num == 5);
+        }
+
+        /// <summary>
+        /// <para>If the <paramref name="response"/> is OK (see <see cref="IsHttpError"/> for definition), does nothing.</para>
+        /// <para>Otherwise, throws an exception which includes also the response raw text.
+        /// This would often contain a Java exception dump from the TeamCity REST Plugin, which reveals the cause of some cryptic cases otherwise showing just "Bad Request" in the HTTP error.
+        /// Also this comes in handy when TeamCity goes into maintenance, and you get back the banner in HTML instead of your data.</para> 
+        /// </summary>
+        private static void ThrowIfHttpError(HttpResponse response, string url)
+        {
+            if(!IsHttpError(response))
+                return;
+            throw new HttpException(response.StatusCode, string.Format("Error: {0}\nHTTP: {3}\nURL: {1}\n{2}", response.StatusDescription, url, response.RawText, response.StatusCode));
         }
 
         private string CreateUrl(string urlPart)

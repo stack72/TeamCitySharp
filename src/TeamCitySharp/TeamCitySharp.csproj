@@ -60,6 +60,8 @@
     <Compile Include="DomainEntities\Parameters.cs" />
     <Compile Include="DomainEntities\Properties.cs" />
     <Compile Include="DomainEntities\Property.cs" />
+    <Compile Include="DomainEntities\SnapshotDependencies.cs" />
+    <Compile Include="DomainEntities\SnapshotDependency.cs" />
     <Compile Include="DomainEntities\VcsRootEntries.cs" />
     <Compile Include="DomainEntities\VcsRootEntry.cs" />
     <Compile Include="DomainEntities\VcsRootField.cs" />
