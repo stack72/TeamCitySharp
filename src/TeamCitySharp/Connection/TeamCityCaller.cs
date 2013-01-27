@@ -102,10 +102,7 @@ namespace TeamCitySharp.Connection
 
             var httpClient = CreateHttpClient(_configuration.UserName, _configuration.Password, HttpContentTypes.TextPlain);
             var response = httpClient.Post(url, null, HttpContentTypes.TextPlain);
-            if (IsHttpError(response))
-            {
-                throw new HttpException(response.StatusCode, string.Format("Error {0}: Thrown with URL {1}", response.StatusDescription, url));
-            }
+            ThrowIfHttpError(response, url);
 
             return response.StatusCode == HttpStatusCode.OK;
         }
@@ -121,10 +118,7 @@ namespace TeamCitySharp.Connection
             var url = CreateUrl(urlPart);
 
             var response = CreateHttpClient(_configuration.UserName, _configuration.Password, HttpContentTypes.ApplicationJson).Get(url);
-            if (IsHttpError(response))
-            {
-                throw new HttpException(response.StatusCode, string.Format("Error {0}: Thrown with URL {1}", response.StatusDescription, url));
-            }
+            ThrowIfHttpError(response, url);
 
             return response.StaticBody<T>();
         }
@@ -174,6 +168,7 @@ namespace TeamCitySharp.Connection
         {
             var client = CreateHttpClient(_configuration.UserName, _configuration.Password, HttpContentTypes.TextPlain);
             client.Delete(CreateUrl(urlPart));
+            ThrowIfHttpError(client.Response, client.Request.Uri);
         }
 
         private HttpClient MakePostRequest(string urlPart, object data, string accept)
@@ -183,6 +178,7 @@ namespace TeamCitySharp.Connection
             client.Request.Accept = accept;
 
             client.Post(CreateUrl(urlPart), data, HttpContentTypes.ApplicationXml);
+            ThrowIfHttpError(client.Response, client.Request.Uri);
 
             return client;
         }
@@ -194,6 +190,7 @@ namespace TeamCitySharp.Connection
             client.Request.Accept = accept;
 
             client.Put(CreateUrl(urlPart), data, HttpContentTypes.TextPlain);
+            ThrowIfHttpError(client.Response, client.Request.Uri);
 
             return client;
         }
