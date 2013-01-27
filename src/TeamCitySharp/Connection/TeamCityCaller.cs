@@ -145,16 +145,16 @@ namespace TeamCitySharp.Connection
             }
         }
 
-        public HttpResponse Post(string urlPart, object data, string accept)
+        public HttpResponse Post(object data, string urlPart, string accept)
         {
-            var client = MakePostRequest(urlPart, data, accept);
+            var client = MakePostRequest(data, urlPart, accept);
 
             return client.Response;
         }
 
-        public HttpResponse Put(string urlPart, object data, string accept)
+        public HttpResponse Put(object data, string urlPart, string accept)
         {
-            var client = MakePutRequest(urlPart, data, accept);
+            var client = MakePutRequest(data, urlPart, accept);
 
             return client.Response;
         }
@@ -171,7 +171,7 @@ namespace TeamCitySharp.Connection
             ThrowIfHttpError(client.Response, client.Request.Uri);
         }
 
-        private HttpClient MakePostRequest(string urlPart, object data, string accept)
+        private HttpClient MakePostRequest(object data, string urlPart, string accept)
         {
             var client = CreateHttpClient(_configuration.UserName, _configuration.Password, string.IsNullOrWhiteSpace(accept) ? GetContentType(data.ToString()) : accept);
 
@@ -183,7 +183,7 @@ namespace TeamCitySharp.Connection
             return client;
         }
 
-        private HttpClient MakePutRequest(string urlPart, object data, string accept)
+        private HttpClient MakePutRequest(object data, string urlPart, string accept)
         {
             var client = CreateHttpClient(_configuration.UserName, _configuration.Password, string.IsNullOrWhiteSpace(accept) ? GetContentType(data.ToString()) : accept);
 
