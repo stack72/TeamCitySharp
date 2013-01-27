@@ -205,6 +205,19 @@ namespace TeamCitySharp.Connection
             return (num == 4 || num == 5);
         }
 
+        /// <summary>
+        /// <para>If the <paramref name="response"/> is OK (see <see cref="IsHttpError"/> for definition), does nothing.</para>
+        /// <para>Otherwise, throws an exception which includes also the response raw text.
+        /// This would often contain a Java exception dump from the TeamCity REST Plugin, which reveals the cause of some cryptic cases otherwise showing just "Bad Request" in the HTTP error.
+        /// Also this comes in handy when TeamCity goes into maintenance, and you get back the banner in HTML instead of your data.</para> 
+        /// </summary>
+        private static void ThrowIfHttpError(HttpResponse response, string url)
+        {
+            if(!IsHttpError(response))
+                return;
+            throw new HttpException(response.StatusCode, string.Format("Error: {0}\nHTTP: {3}\nURL: {1}\n{2}", response.StatusDescription, url, response.RawText, response.StatusCode));
+        }
+
         private string CreateUrl(string urlPart)
         {
             var protocol = _configuration.UseSSL ? "https://" : "http://";
