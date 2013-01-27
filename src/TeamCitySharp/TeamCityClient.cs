@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Xml;
-using System.Xml.XPath;
+
+using EasyHttp.Http;
+
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
 using TeamCitySharp.Locators;
@@ -192,6 +194,13 @@ namespace TeamCitySharp
             return build;
         }
 
+        public BuildConfig BuildType(BuildTypeLocator locator)
+        {
+            var build = _caller.GetFormat<BuildConfig>("/app/rest/buildTypes/{0}", locator);
+
+            return build;
+        }
+
         public BuildConfig BuildConfigByProjectNameAndConfigurationName(string projectName, string buildConfigName)
         {
             var build = _caller.Get<BuildConfig>(string.Format("/app/rest/projects/name:{0}/buildTypes/name:{1}", projectName, buildConfigName));
@@ -244,7 +253,7 @@ namespace TeamCitySharp
 
         public Project CreateProject(string projectName)
         {
-            return _caller.Post<Project>(projectName, "/app/rest/projects/");
+            return _caller.Post<Project>(projectName, HttpContentTypes.ApplicationXml, "/app/rest/projects/", string.Empty);
         }
 
         public void DeleteProject(string projectName)
@@ -254,48 +263,53 @@ namespace TeamCitySharp
 
         public BuildConfig CreateConfiguration(string projectName, string configurationName)
         {
-            return _caller.PostFormat<BuildConfig>(configurationName, "/app/rest/projects/name:{0}/buildTypes", projectName);
+            return _caller.PostFormat<BuildConfig>(configurationName, HttpContentTypes.TextPlain, HttpContentTypes.ApplicationJson, "/app/rest/projects/name:{0}/buildTypes", projectName);
         }
 
         public void SetConfigurationSetting(BuildTypeLocator locator, string settingName, string settingValue)
         {
-            _caller.PutFormat(settingValue, "/app/rest/buildTypes/{0}/settings/{1}", locator, settingName);
+            _caller.PutFormat(settingValue, HttpContentTypes.TextPlain, "/app/rest/buildTypes/{0}/settings/{1}", locator, settingName);
+        }
+
+        public void SetBuildTypeTemplate(BuildTypeLocator locatorBuildType, BuildTypeLocator locatorTemplate)
+        {
+            _caller.PutFormat(locatorTemplate.ToString(), HttpContentTypes.TextPlain, "/app/rest/buildTypes/{0}/template", locatorBuildType);
         }
 
         public VcsRoot AttachVcsRoot(BuildTypeLocator locator, VcsRoot vcsRoot)
         {
             string xml = string.Format(@"<vcs-root-entry><vcs-root id=""{0}""/></vcs-root-entry>", vcsRoot.Id);
-            return _caller.PostFormat<VcsRoot>(xml, "/app/rest/buildTypes/{0}/vcs-root-entries", locator);
+            return _caller.PostFormat<VcsRoot>(xml, HttpContentTypes.ApplicationXml, string.Empty, "/app/rest/buildTypes/{0}/vcs-root-entries", locator);
         }
 
         public void SetVcsRootField(VcsRoot vcsRoot, VcsRootField field, object value)
         {
-            _caller.PutFormat(value, "/app/rest/vcs-roots/id:{0}/{1}", vcsRoot.Id, ToCamelCase(field.ToString()));
+            _caller.PutFormat(value, HttpContentTypes.TextPlain, "/app/rest/vcs-roots/id:{0}/{1}", vcsRoot.Id, ToCamelCase(field.ToString()));
         }
 
         public void PostRawArtifactDependency(BuildTypeLocator locator, string rawXml)
         {
-            _caller.PostFormat<ArtifactDependency>(rawXml, "/app/rest/buildTypes/{0}/artifact-dependencies", locator);
+            _caller.PostFormat<ArtifactDependency>(rawXml, HttpContentTypes.ApplicationXml, string.Empty, "/app/rest/buildTypes/{0}/artifact-dependencies", locator);
         }
 
         public void PostRawBuildStep(BuildTypeLocator locator, string rawXml)
         {
-            _caller.PostFormat<BuildConfig>(rawXml, "/app/rest/buildTypes/{0}/steps", locator);
+            _caller.PostFormat<BuildConfig>(rawXml, HttpContentTypes.ApplicationXml, string.Empty, "/app/rest/buildTypes/{0}/steps", locator);
         }
 
         public void PostRawBuildTrigger(BuildTypeLocator locator, string rawXml)
         {
-            _caller.PostFormat(rawXml, "/app/rest/buildTypes/{0}/triggers", locator);
+            _caller.PostFormat(rawXml, HttpContentTypes.ApplicationXml, "/app/rest/buildTypes/{0}/triggers", locator);
         }
 
         public void SetProjectParameter(string projectName, string settingName, string settingValue)
         {
-            _caller.PutFormat(settingValue, "/app/rest/projects/name:{0}/parameters/{1}", projectName, settingName);
+            _caller.PutFormat(settingValue, HttpContentTypes.TextPlain, "/app/rest/projects/name:{0}/parameters/{1}", projectName, settingName);
         }
 
         public void SetConfigurationParameter(BuildTypeLocator locator, string key, string value)
         {
-            _caller.PutFormat(value, "/app/rest/buildTypes/{0}/parameters/{1}", locator, key);
+            _caller.PutFormat(value, HttpContentTypes.TextPlain, "/app/rest/buildTypes/{0}/parameters/{1}", locator, key);
         }
 
         public void DeleteConfiguration(BuildTypeLocator locator)
@@ -305,7 +319,12 @@ namespace TeamCitySharp
 
         public void PostRawAgentRequirement(BuildTypeLocator locator, string rawXml)
         {
-            _caller.PostFormat(rawXml, "/app/rest/buildTypes/{0}/agent-requirements", locator);
+            _caller.PostFormat(rawXml, HttpContentTypes.ApplicationXml, "/app/rest/buildTypes/{0}/agent-requirements", locator);
+        }
+
+        public void PostRawSnapshotDependency(BuildTypeLocator locator, XmlElement rawXml)
+        {
+            _caller.PostFormat(rawXml.OuterXml, HttpContentTypes.ApplicationXml, "/app/rest/buildTypes/{0}/snapshot-dependencies", locator);
         }
 
         public void DetachVcsRoot(BuildTypeLocator locator, string vcsRootId)
@@ -321,6 +340,11 @@ namespace TeamCitySharp
         public void DeleteArtifactDependency(BuildTypeLocator locator, string artifactDependencyId)
         {
             _caller.DeleteFormat("/app/rest/buildTypes/{0}/artifact-dependencies/{1}", locator, artifactDependencyId);
+        }
+
+        public void DeleteSnapshotDependency(BuildTypeLocator locator, string snapshotDependencyId)
+        {
+            _caller.DeleteFormat("/app/rest/buildTypes/{0}/snapshot-dependencies/{1}", locator, snapshotDependencyId);
         }
 
         public void DeleteAgentRequirement(BuildTypeLocator locator, string agentRequirementId)
@@ -520,7 +544,7 @@ namespace TeamCitySharp
 
             string data = string.Format("<user name=\"{0}\" username=\"{1}\" email=\"{2}\" password=\"{3}\"/>", name, username, email, password);
 
-            var createUserResponse = this._caller.Post("/app/rest/users", data, string.Empty);
+            var createUserResponse = this._caller.Post(data, HttpContentTypes.ApplicationXml, "/app/rest/users", string.Empty);
 
             // Workaround, CreateUser POST request fails to deserialize password field. See http://youtrack.jetbrains.com/issue/TW-23200
             // Also this does not return an accurate representation of whether it has worked or not
@@ -538,7 +562,7 @@ namespace TeamCitySharp
         {
             bool result = false;
 
-            var response = this._caller.Put(string.Format("/app/rest/users/username:{0}/password", username), password, string.Empty);
+            var response = this._caller.Put(password, HttpContentTypes.TextPlain, string.Format("/app/rest/users/username:{0}/password", username), string.Empty);
 
             if (response.StatusCode == HttpStatusCode.OK)
             {

@@ -19,6 +19,7 @@
 
         public Parameters Parameters { get; set; }
         public ArtifactDependencies ArtifactDependencies { get; set; }
+        public SnapshotDependencies SnapshotDependencies { get; set; }
         public VcsRootEntries VcsRootEntries { get; set; }
         public BuildSteps Steps { get; set; }
         public AgentRequirements AgentRequirements { get; set; }
