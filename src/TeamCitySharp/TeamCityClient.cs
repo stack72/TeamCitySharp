@@ -194,6 +194,13 @@ namespace TeamCitySharp
             return build;
         }
 
+        public BuildConfig BuildType(BuildTypeLocator locator)
+        {
+            var build = _caller.GetFormat<BuildConfig>("/app/rest/buildTypes/{0}", locator);
+
+            return build;
+        }
+
         public BuildConfig BuildConfigByProjectNameAndConfigurationName(string projectName, string buildConfigName)
         {
             var build = _caller.Get<BuildConfig>(string.Format("/app/rest/projects/name:{0}/buildTypes/name:{1}", projectName, buildConfigName));
@@ -264,6 +271,11 @@ namespace TeamCitySharp
             _caller.PutFormat(settingValue, HttpContentTypes.TextPlain, "/app/rest/buildTypes/{0}/settings/{1}", locator, settingName);
         }
 
+        public void SetBuildTypeTemplate(BuildTypeLocator locatorBuildType, BuildTypeLocator locatorTemplate)
+        {
+            _caller.PutFormat(locatorTemplate.ToString(), HttpContentTypes.TextPlain, "/app/rest/buildTypes/{0}/template", locatorBuildType);
+        }
+
         public VcsRoot AttachVcsRoot(BuildTypeLocator locator, VcsRoot vcsRoot)
         {
             string xml = string.Format(@"<vcs-root-entry><vcs-root id=""{0}""/></vcs-root-entry>", vcsRoot.Id);
@@ -310,6 +322,11 @@ namespace TeamCitySharp
             _caller.PostFormat(rawXml, HttpContentTypes.ApplicationXml, "/app/rest/buildTypes/{0}/agent-requirements", locator);
         }
 
+        public void PostRawSnapshotDependency(BuildTypeLocator locator, XmlElement rawXml)
+        {
+            _caller.PostFormat(rawXml.OuterXml, HttpContentTypes.ApplicationXml, "/app/rest/buildTypes/{0}/snapshot-dependencies", locator);
+        }
+
         public void DetachVcsRoot(BuildTypeLocator locator, string vcsRootId)
         {
             _caller.DeleteFormat("/app/rest/buildTypes/{0}/vcs-root-entries/{1}", locator, vcsRootId);
@@ -323,6 +340,11 @@ namespace TeamCitySharp
         public void DeleteArtifactDependency(BuildTypeLocator locator, string artifactDependencyId)
         {
             _caller.DeleteFormat("/app/rest/buildTypes/{0}/artifact-dependencies/{1}", locator, artifactDependencyId);
+        }
+
+        public void DeleteSnapshotDependency(BuildTypeLocator locator, string snapshotDependencyId)
+        {
+            _caller.DeleteFormat("/app/rest/buildTypes/{0}/snapshot-dependencies/{1}", locator, snapshotDependencyId);
         }
 
         public void DeleteAgentRequirement(BuildTypeLocator locator, string agentRequirementId)
