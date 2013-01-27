@@ -35,19 +35,19 @@ namespace TeamCitySharp.Connection
             return Get<T>(string.Format(urlPart, parts));
         }
 
-        public T PostFormat<T>(object data, string urlPart, params object[] parts)
+        public T PostFormat<T>(object data, string contenttype, string accept, string urlPart, params object[] parts)
         {
-            return Post<T>(data.ToString(), string.Format(urlPart, parts));
+            return Post<T>(data.ToString(), contenttype, string.Format(urlPart, parts), accept);
         }
 
-        public void PostFormat(object data, string urlPart, params object[] parts)
+        public void PostFormat(object data, string contenttype, string urlPart, params object[] parts)
         {
-            Post(data.ToString(), string.Format(urlPart, parts), string.Empty);
+            Post(data.ToString(), contenttype, string.Format(urlPart, parts), string.Empty);
         }
 
-        public void PutFormat(object data, string urlPart, params object[] parts)
+        public void PutFormat(object data, string contenttype, string urlPart, params object[] parts)
         {
-            Put(data.ToString(), string.Format(urlPart, parts), string.Empty);
+            Put(data.ToString(), contenttype, string.Format(urlPart, parts), string.Empty);
         }
 
         public void DeleteFormat(string urlPart, params object[] parts)
@@ -123,9 +123,9 @@ namespace TeamCitySharp.Connection
             return response.StaticBody<T>();
         }
 
-        public T Post<T>(string data, string urlPart)
+        public T Post<T>(string data, string contenttype, string urlPart, string accept)
         {
-            return Post(data, urlPart, string.Empty).StaticBody<T>();
+            return Post(data, contenttype, urlPart, accept).StaticBody<T>();
         }
 
         public bool Authenticate(string urlPart)
@@ -145,16 +145,16 @@ namespace TeamCitySharp.Connection
             }
         }
 
-        public HttpResponse Post(object data, string urlPart, string accept)
+        public HttpResponse Post(object data, string contenttype, string urlPart, string accept)
         {
-            var client = MakePostRequest(data, urlPart, accept);
+            var client = MakePostRequest(data, contenttype, urlPart, accept);
 
             return client.Response;
         }
 
-        public HttpResponse Put(object data, string urlPart, string accept)
+        public HttpResponse Put(object data, string contenttype, string urlPart, string accept)
         {
-            var client = MakePutRequest(data, urlPart, accept);
+            var client = MakePutRequest(data, contenttype, urlPart, accept);
 
             return client.Response;
         }
@@ -171,25 +171,25 @@ namespace TeamCitySharp.Connection
             ThrowIfHttpError(client.Response, client.Request.Uri);
         }
 
-        private HttpClient MakePostRequest(object data, string urlPart, string accept)
+        private HttpClient MakePostRequest(object data, string contenttype, string urlPart, string accept)
         {
             var client = CreateHttpClient(_configuration.UserName, _configuration.Password, string.IsNullOrWhiteSpace(accept) ? GetContentType(data.ToString()) : accept);
 
             client.Request.Accept = accept;
 
-            client.Post(CreateUrl(urlPart), data, HttpContentTypes.ApplicationXml);
+            client.Post(CreateUrl(urlPart), data, contenttype);
             ThrowIfHttpError(client.Response, client.Request.Uri);
 
             return client;
         }
 
-        private HttpClient MakePutRequest(object data, string urlPart, string accept)
+        private HttpClient MakePutRequest(object data, string contenttype, string urlPart, string accept)
         {
             var client = CreateHttpClient(_configuration.UserName, _configuration.Password, string.IsNullOrWhiteSpace(accept) ? GetContentType(data.ToString()) : accept);
 
             client.Request.Accept = accept;
 
-            client.Put(CreateUrl(urlPart), data, HttpContentTypes.TextPlain);
+            client.Put(CreateUrl(urlPart), data, contenttype);
             ThrowIfHttpError(client.Response, client.Request.Uri);
 
             return client;
