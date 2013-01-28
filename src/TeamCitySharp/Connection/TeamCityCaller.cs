@@ -236,7 +236,8 @@ namespace TeamCitySharp.Connection
             return httpClient;
         }
 
-        public string GetRaw(string urlPart)
+        // only used by the artifact listing methods since i havent found a way to deserialize them into a domain entity
+        internal string GetRaw(string urlPart)
         {
             if (CheckForUserNameAndPassword())
                 throw new ArgumentException("If you are not acting as a guest you must supply userName and password");
@@ -246,7 +247,8 @@ namespace TeamCitySharp.Connection
 
             var url = CreateUrl(urlPart);
 
-            var response = CreateHttpRequest(_configuration.UserName, _configuration.Password, HttpContentTypes.TextPlain).Get(url);
+            var httpClient = CreateHttpClient(_configuration.UserName, _configuration.Password, HttpContentTypes.TextPlain);
+            var response = httpClient.Get(url);
             if (IsHttpError(response))
             {
                 throw new HttpException(response.StatusCode, string.Format("Error {0}: Thrown with URL {1}", response.StatusDescription, url));
@@ -258,19 +260,6 @@ namespace TeamCitySharp.Connection
         private bool CheckForUserNameAndPassword()
         {
             return !_configuration.ActAsGuest && string.IsNullOrEmpty(_configuration.UserName) && string.IsNullOrEmpty(_configuration.Password);
-        }
-
-        HttpClient CreateHttpRequest(string userName, string password, string accept)
-        {
-            var httpClient = new HttpClient(new TeamcityJsonEncoderDecoderConfiguration());
-            httpClient.Request.Accept = accept;
-            if (!_configuration.ActAsGuest)
-            {
-                httpClient.Request.SetBasicAuthentication(userName, password);
-                httpClient.Request.ForceBasicAuth = true;
-            }
-
-            return httpClient;
         }
 
         private string GetContentType(string data)
