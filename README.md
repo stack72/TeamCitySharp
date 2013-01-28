@@ -112,3 +112,4 @@ void DeleteBuildTrigger(BuildTypeLocator locator, string buildTriggerId);
 * Simon Bartlett (@sibartlett)
 * Mike Larah (@MikeLarah)
 * Alexander Fast (@mizipzor)
+* Serge Baltic 
