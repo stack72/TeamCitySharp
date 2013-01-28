@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Xml;
 using EasyHttp.Http;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
@@ -139,6 +140,28 @@ namespace TeamCitySharp.ActionTypes
         public void DeleteBuildTrigger(BuildTypeLocator locator, string buildTriggerId)
         {
             _caller.DeleteFormat("/app/rest/buildTypes/{0}/triggers/{1}", locator, buildTriggerId);
+        }
+
+        public void SetBuildTypeTemplate(BuildTypeLocator locatorBuildType, BuildTypeLocator locatorTemplate)
+        {
+            _caller.PutFormat(locatorTemplate.ToString(), HttpContentTypes.TextPlain, "/app/rest/buildTypes/{0}/template", locatorBuildType);
+        }
+
+        public void DeleteSnapshotDependency(BuildTypeLocator locator, string snapshotDependencyId)
+        {
+            _caller.DeleteFormat("/app/rest/buildTypes/{0}/snapshot-dependencies/{1}", locator, snapshotDependencyId);
+        }
+
+        public void PostRawSnapshotDependency(BuildTypeLocator locator, XmlElement rawXml)
+        {
+            _caller.PostFormat(rawXml.OuterXml, HttpContentTypes.ApplicationXml, "/app/rest/buildTypes/{0}/snapshot-dependencies", locator);
+        }
+
+        public BuildConfig BuildType(BuildTypeLocator locator)
+        {
+            var build = _caller.GetFormat<BuildConfig>("/app/rest/buildTypes/{0}", locator);
+
+            return build;
         }
     }
 }

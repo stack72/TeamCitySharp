@@ -9,107 +9,139 @@ http://www.jetbrains.com/teamcity
 http://stack72.mit-license.org/
 
 ##Installation
-* install-package TeamCitysharp
+There are 2 ways to use TeamCitySharp:
+
+* install-package TeamCitysharp (via Nuget)
 * Download source and compile
 
 ##Build Monitor
-* There is a build monitor build with TeamCitySharp. It can be found at <link>
+* There is a sample build monitor built with TeamCitySharp. It can be found at [TeamCityMonitor](https://github.com/stack72/TeamCityMonitor)
 
 ##Sample Usage
-* To get a list of projects
+To get a list of projects
 
-```c#
-var client = new TeamCityClient("localhost:81");
-client.Connect("admin", "qwerty");
-var projects = client.AllProjects();
-```
+    var client = new TeamCityClient("localhost:81");
+    client.Connect("admin", "qwerty");
+    var projects = client.Projects.All();
 
 
-* To get a list of running builds
+To get a list of running builds
 
-```c#
-var client = new TeamCityClient("localhost:81");
-client.Connect("admin", "qwerty");
-var builds = client.BuildsByBuildLocator(BuildLocator.RunningBuilds());
-```
+    var client = new TeamCityClient("localhost:81");
+    client.Connect("admin", "qwerty");
+    var builds = client.Builds.ByBuildLocator(BuildLocator.RunningBuilds());
+    
+##API Interaction Groups
+There are many tasks that the TeamCity API can do for us. TeamCitySharp groups these tasks into specialist areas
 
+* Builds
+* Projects
+* BuildConfigs
+* ServerInformation
+* Users
+* Agents
+* VcsRoots
+* Changes
+* BuildArtifacts
 
-##Methods Available
-```c#
-List<Project> AllProjects();
-Project ProjectByName(string projectLocatorName);
-Project ProjectById(string projectLocatorId);
-Project ProjectDetails(Project project);
-Server ServerInfo();
-List<Plugin> AllServerPlugins();
-List<Agent> AllAgents();
-Build LastBuildByAgent(string agentName);
-List<VcsRoot> AllVcsRoots();
-VcsRoot VcsRootById(string vcsRootId);
-List<User> AllUsers();
-List<Role> AllRolesByUserName(string userName);
-List<Group> AllGroupsByUserName(string userName);
-List<Group> AllUserGroups();
-List<User> AllUsersByUserGroup(string userGroupName);
-List<Role> AllUserRolesByUserGroup(string userGroupName);
-List<Change> AllChanges();
-Change ChangeDetailsByChangeId(string id);
-Change LastChangeDetailByBuildConfigId(string buildConfigId);
-List<Change> ChangeDetailsByBuildConfigId(string buildConfigId);
-List<BuildConfig> AllBuildConfigs();
-BuildConfig BuildConfigByConfigurationName(string buildConfigName);
-BuildConfig BuildConfigByConfigurationId(string buildConfigId);
-BuildConfig BuildConfigByProjectNameAndConfigurationName(string projectName, string buildConfigName);
-BuildConfig BuildConfigByProjectNameAndConfigurationId(string projectName, string buildConfigId);
-BuildConfig BuildConfigByProjectIdAndConfigurationName(string projectId, string buildConfigName);
-BuildConfig BuildConfigByProjectIdAndConfigurationId(string projectId, string buildConfigId);
-List<BuildConfig> BuildConfigsByProjectId(string projectId);
-List<BuildConfig> BuildConfigsByProjectName(string projectName);
-List<Build> SuccessfulBuildsByBuildConfigId(string buildConfigId);
-Build LastSuccessfulBuildByBuildConfigId(string buildConfigId);
-List<Build> FailedBuildsByBuildConfigId(string buildConfigId);
-Build LastFailedBuildByBuildConfigId(string buildConfigId);
-Build LastBuildByBuildConfigId(string buildConfigId);
-List<Build> ErrorBuildsByBuildConfigId(string buildConfigId);
-Build LastErrorBuildByBuildConfigId(string buildConfigId);
-List<Build> BuildConfigsByBuildConfigId(string buildConfigId);
-List<Build> BuildConfigsByConfigIdAndTag(string buildConfigId, string tag);
-List<Build> BuildsByUserName(string userName);
-List<Build> BuildsByBuildLocator(BuildLocator locator);
-List<Build> AllBuildsSinceDate(DateTime date);
-List<Build> AllBuildsOfStatusSinceDate(DateTime date, BuildStatus buildStatus);
-List<Build> NonSuccessfulBuildsForUser(string userName);
-bool TriggerServerInstanceBackup(string fileName);
-bool CreateUser(string username, string name, string email, string password);
-bool AddPassword(string username, string password);
-Project CreateProject(string projectName);
-void DeleteProject(string projectName);
-BuildConfig CreateConfiguration(string projectName, string configurationName);
-void SetConfigurationSetting(BuildTypeLocator locator, string settingName, string settingValue);
-VcsRoot AttachVcsRoot(BuildTypeLocator locator, VcsRoot vcsRoot);
-void SetVcsRootField(VcsRoot vcsRoot, VcsRootField field, object value);
-void PostRawArtifactDependency(BuildTypeLocator locator, string rawXml);
-void PostRawBuildStep(BuildTypeLocator locator, string rawXml);
-void PostRawBuildTrigger(BuildTypeLocator locator, string rawXml);
-void SetProjectParameter(string projectName, string settingName, string settingValue);
-void SetConfigurationParameter(BuildTypeLocator locator, string key, string value);
-void PostRawAgentRequirement(BuildTypeLocator locator, string rawXml);
-void DetachVcsRoot(BuildTypeLocator locator, string vcsRootId);
-void DeleteBuildStep(BuildTypeLocator locator, string buildStepId);
-void DeleteArtifactDependency(BuildTypeLocator locator, string artifactDependencyId);
-void DeleteAgentRequirement(BuildTypeLocator locator, string agentRequirementId);
-void DeleteParameter(BuildTypeLocator locator, string parameterName);
-void DeleteProjectParameter(string projectName, string parameterName);
-void DeleteBuildTrigger(BuildTypeLocator locator, string buildTriggerId);
+Each area has its own list of methods available
 
-```
+###Builds
+    List<Build> SuccessfulBuildsByBuildConfigId(string buildConfigId);
+	Build LastSuccessfulBuildByBuildConfigId(string buildConfigId);
+	List<Build> FailedBuildsByBuildConfigId(string buildConfigId);
+	Build LastFailedBuildByBuildConfigId(string buildConfigId);
+	Build LastBuildByBuildConfigId(string buildConfigId);
+	List<Build> ErrorBuildsByBuildConfigId(string buildConfigId);
+	Build LastErrorBuildByBuildConfigId(string buildConfigId);
+	List<Build> ByBuildConfigId(string buildConfigId);
+	List<Build> ByConfigIdAndTag(string buildConfigId, string tag);
+	List<Build> ByUserName(string userName);
+	List<Build> ByBuildLocator(BuildLocator locator);
+	List<Build> AllSinceDate(DateTime date);
+	List<Build> AllBuildsOfStatusSinceDate(DateTime date, BuildStatus buildStatus);
+	List<Build> NonSuccessfulBuildsForUser(string userName);
+	Build LastBuildByAgent(string agentName);
+
+###Projects
+	List<Project> All();
+	Project ByName(string projectLocatorName);
+	Project ById(string projectLocatorId);
+	Project Details(Project project);
+	Project Create(string projectName);
+	void Delete(string projectName);
+	void DeleteProjectParameter(string projectName, string parameterName);
+	void SetProjectParameter(string projectName, string settingName, string settingValue);
+
+###BuildConfigs
+	List<BuildConfig> All();
+	BuildConfig ByConfigurationName(string buildConfigName);
+	BuildConfig ByConfigurationId(string buildConfigId);
+	BuildConfig ByProjectNameAndConfigurationName(string projectName, string buildConfigName);
+	BuildConfig ByProjectNameAndConfigurationId(string projectName, string buildConfigId);
+	BuildConfig ByProjectIdAndConfigurationName(string projectId, string buildConfigName);
+	BuildConfig ByProjectIdAndConfigurationId(string projectId, string buildConfigId);
+	List<BuildConfig> ByProjectId(string projectId);
+	List<BuildConfig> ByProjectName(string projectName);
+	BuildConfig CreateConfiguration(string projectName, string configurationName);
+
+	void SetConfigurationSetting(BuildTypeLocator locator, string settingName, string settingValue);
+	void PostRawArtifactDependency(BuildTypeLocator locator, string rawXml);
+	void PostRawBuildStep(BuildTypeLocator locator, string rawXml);
+	void PostRawBuildTrigger(BuildTypeLocator locator, string rawXml);
+	void SetConfigurationParameter(BuildTypeLocator locator, string key, string value);
+	void PostRawAgentRequirement(BuildTypeLocator locator, string rawXml);
+	void DeleteBuildStep(BuildTypeLocator locator, string buildStepId);
+	void DeleteArtifactDependency(BuildTypeLocator locator, string artifactDependencyId);
+	void DeleteAgentRequirement(BuildTypeLocator locator, string agentRequirementId);
+	void DeleteParameter(BuildTypeLocator locator, string parameterName);
+	void DeleteBuildTrigger(BuildTypeLocator locator, string buildTriggerId);
+
+	void SetBuildTypeTemplate(BuildTypeLocator locatorBuildType, BuildTypeLocator locatorTemplate);
+	void DeleteSnapshotDependency(BuildTypeLocator locator, string snapshotDependencyId);
+	void PostRawSnapshotDependency(BuildTypeLocator locator, XmlElement rawXml);
+	BuildConfig BuildType(BuildTypeLocator locator);
+
+###ServerInformation
+    Server ServerInfo();
+    List<Plugin> AllPlugins();
+    bool TriggerServerInstanceBackup(string fileName);
+
+###Users
+    List<User> All();
+    List<Role> AllRolesByUserName(string userName);
+    List<Group> AllGroupsByUserName(string userName);
+    List<Group> AllUserGroups();
+    List<User> AllUsersByUserGroup(string userGroupName);
+    List<Role> AllUserRolesByUserGroup(string userGroupName);
+    bool Create(string username, string name, string email, string password);
+    bool AddPassword(string username, string password);
+
+###Agents
+    List<Agent> All();
+
+###VcsRoots
+    List<VcsRoot> All();
+    VcsRoot ById(string vcsRootId);
+    VcsRoot AttachVcsRoot(BuildTypeLocator locator, VcsRoot vcsRoot);
+    void DetachVcsRoot(BuildTypeLocator locator, string vcsRootId);
+    void SetVcsRootField(VcsRoot vcsRoot, VcsRootField field, object value);
+
+###Changes
+    List<Change> All();
+    Change ByChangeId(string id);
+    Change LastChangeDetailByBuildConfigId(string buildConfigId);
+    List<Change> ByBuildConfigId(string buildConfigId);
+
+###BuildArtifacts
+    void DownloadArtifactsByBuildId(string buildId, Action<string> downloadHandler);
 
 ##Credits
 
-* Copyright (c) 2013 Paul Stack (@stack72)
+* Copyright (c) 2012 Paul Stack (@stack72)
 * Thanks to the following contributors:
 * Barry Mooring (@codingbadger)
 * Simon Bartlett (@sibartlett)
 * Mike Larah (@MikeLarah)
 * Alexander Fast (@mizipzor)
-* Serge Baltic 
+* Serge Baltic

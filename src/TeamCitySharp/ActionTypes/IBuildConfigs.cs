@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Xml;
 using TeamCitySharp.DomainEntities;
 using TeamCitySharp.Locators;
 
@@ -28,5 +29,43 @@ namespace TeamCitySharp.ActionTypes
         void DeleteAgentRequirement(BuildTypeLocator locator, string agentRequirementId);
         void DeleteParameter(BuildTypeLocator locator, string parameterName);
         void DeleteBuildTrigger(BuildTypeLocator locator, string buildTriggerId);
+
+        /// <summary>
+        /// Makes a build type inherit a template.
+        /// </summary>
+        /// <param name="locatorBuildType">Locator for the build type which is to be associated with a template.</param>
+        /// <param name="locatorTemplate">Locator for the template.</param>
+        void SetBuildTypeTemplate(BuildTypeLocator locatorBuildType, BuildTypeLocator locatorTemplate);
+
+        /// <summary>
+        /// Deletes a snapshot dependency from a build type.
+        /// </summary>
+        /// <param name="locator">Locator for the build type.</param>
+        /// <param name="snapshotDependencyId">The <see cref="SnapshotDependency.Id"/> field value of the dependency to be removed.</param>
+        void DeleteSnapshotDependency(BuildTypeLocator locator, string snapshotDependencyId);
+
+        /// <summary>
+        /// <para>Adds a snapshot dependency to a build type. Have to post raw XML data which looks like this:</para>
+        /// <code><![CDATA[
+        /// <snapshot-dependency type="snapshot_dependency">
+        ///        <properties>
+        ///            <property name="source_buildTypeId" value="id-of-the-target-build-type"/>
+        ///            <property name="run-build-if-dependency-failed" value="true"/>
+        ///            <property name="run-build-on-the-same-agent" value="false"/>
+        ///            <property name="take-started-build-with-same-revisions" value="true"/>
+        ///            <property name="take-successful-builds-only" value="true"/>
+        ///        </properties>
+        ///    </snapshot-dependency>
+        /// ]]></code>
+        /// </summary>
+        void PostRawSnapshotDependency(BuildTypeLocator locator, XmlElement rawXml);
+
+        /// <summary>
+        /// <para>Locates a build type by its locator.</para>
+        /// <para>Essentially, it works either like <see cref="BuildConfigByConfigurationId"/> or <see cref="BuildConfigByConfigurationName"/>, whichever is defined in the locator.</para>
+        /// </summary>
+        /// <param name="locator">Locator for the build type.</param>
+        /// <returns>The build type with all its properties.</returns>
+        BuildConfig BuildType(BuildTypeLocator locator);
     }
 }
