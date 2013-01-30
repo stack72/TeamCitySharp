@@ -67,5 +67,7 @@ namespace TeamCitySharp.ActionTypes
         /// <param name="locator">Locator for the build type.</param>
         /// <returns>The build type with all its properties.</returns>
         BuildConfig BuildType(BuildTypeLocator locator);
+
+        void DeleteConfiguration(BuildTypeLocator locator);
     }
 }
