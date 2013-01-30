@@ -38,7 +38,8 @@ namespace TeamCitySharp.Locators
                                                     int? startIndex = null,
                                                     BuildLocator sinceBuild = null,
                                                     DateTime? sinceDate = null,
-                                                    string[] tags = null
+                                                    string[] tags = null,
+                                                    string branch = null
                                                 )
         {
             return new BuildLocator
@@ -55,7 +56,8 @@ namespace TeamCitySharp.Locators
                            StartIndex = startIndex,
                            SinceBuild = sinceBuild,
                            SinceDate = sinceDate,
-                           Tags = tags
+                           Tags = tags,
+                           Branch = branch
                        };
         }
 
@@ -74,6 +76,7 @@ namespace TeamCitySharp.Locators
         public int? MaxResults { get; private set; }
         public int? StartIndex { get; private set; }
         public DateTime? SinceDate { get; private set; }
+        public string Branch { get; private set; }
 
         public override string  ToString()
         {
@@ -153,6 +156,11 @@ namespace TeamCitySharp.Locators
             {
                 locatorFields.Add("sinceDate:" +
                                   SinceDate.Value.ToString("yyyyMMdd'T'HHmmsszzzz").Replace(":", "").Replace("+", "-"));
+            }
+
+            if (Branch != null)
+            {
+                locatorFields.Add("branch:(" + Branch + ")");
             }
 
             return string.Join(",", locatorFields.ToArray());
