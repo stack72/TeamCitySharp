@@ -35,6 +35,11 @@ namespace TeamCitySharp.Connection
             return Get<T>(string.Format(urlPart, parts));
         }
 
+        public void GetFormat(string urlPart, params object[] parts)
+        {
+            Get(string.Format(urlPart, parts));
+        }
+
         public T PostFormat<T>(object data, string contenttype, string accept, string urlPart, params object[] parts)
         {
             return Post<T>(data.ToString(), contenttype, string.Format(urlPart, parts), accept);
@@ -109,6 +114,17 @@ namespace TeamCitySharp.Connection
 
         public T Get<T>(string urlPart)
         {
+            var response = GetResponse(urlPart);
+            return response.StaticBody<T>();
+        }
+        
+        public void Get(string urlPart)
+        {
+            GetResponse(urlPart);
+        }
+
+        private HttpResponse GetResponse(string urlPart)
+        {
             if (CheckForUserNameAndPassword())
                 throw new ArgumentException("If you are not acting as a guest you must supply userName and password");
 
@@ -119,8 +135,7 @@ namespace TeamCitySharp.Connection
 
             var response = CreateHttpClient(_configuration.UserName, _configuration.Password, HttpContentTypes.ApplicationJson).Get(url);
             ThrowIfHttpError(response, url);
-
-            return response.StaticBody<T>();
+            return response;
         }
 
         public T Post<T>(string data, string contenttype, string urlPart, string accept)

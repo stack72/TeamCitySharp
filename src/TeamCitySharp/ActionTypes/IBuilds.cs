@@ -22,5 +22,6 @@ namespace TeamCitySharp.ActionTypes
         List<Build> AllBuildsOfStatusSinceDate(DateTime date, BuildStatus buildStatus);
         List<Build> NonSuccessfulBuildsForUser(string userName);
         Build LastBuildByAgent(string agentName);
+        void Add2QueueBuildByBuildConfigId(string buildConfigId);
     }
 }
