@@ -138,7 +138,7 @@ Each area has its own list of methods available
 
 ##Credits
 
-* Copyright (c) 2012 Paul Stack (@stack72)
+* Copyright (c) 2013 Paul Stack (@stack72)
 * Thanks to the following contributors:
 * Barry Mooring (@codingbadger)
 * Simon Bartlett (@sibartlett)
