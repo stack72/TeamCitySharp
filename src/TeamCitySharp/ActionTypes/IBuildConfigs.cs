@@ -67,5 +67,22 @@ namespace TeamCitySharp.ActionTypes
         /// <param name="locator">Locator for the build type.</param>
         /// <returns>The build type with all its properties.</returns>
         BuildConfig BuildType(BuildTypeLocator locator);
+
+        void DeleteConfiguration(BuildTypeLocator locator);
+
+        /// <summary>
+        /// Deletes all of the parameters defined locally on this build type.
+        /// This spares those parameters inherited from the template, you will still get them when listing all parameters.
+        /// </summary>
+        /// <since>8.0</since>
+        void DeleteAllBuildTypeParameters(BuildTypeLocator locator);
+
+        /// <summary>
+        /// Replaces all of the parameters defined locally on this build type with the new set supplied.
+        /// Same as calling <see cref="DeleteAllBuildTypeParameters"/> and then <see cref="SetConfigurationParameter"/> for each entry.
+        /// </summary>
+        /// <since>8.0</since>
+        void PutAllBuildTypeParameters(BuildTypeLocator locator, IDictionary<string, string> parameters);
+
     }
 }
