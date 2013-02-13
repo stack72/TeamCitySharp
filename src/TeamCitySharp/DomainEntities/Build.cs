@@ -22,6 +22,5 @@ namespace TeamCitySharp.DomainEntities
         {
             return Number;
         }
-        
     }
 }

@@ -8,6 +8,7 @@ namespace TeamCitySharp
         bool Authenticate();
 
         IBuilds Builds { get; }
+        IBuildDetails BuildDetails { get; }
         IBuildConfigs BuildConfigs { get; }
         IProjects Projects { get; }
         IServerInformation ServerInformation { get; }

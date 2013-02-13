@@ -7,6 +7,7 @@ namespace TeamCitySharp
     {
         private readonly TeamCityCaller _caller;
         private IBuilds _builds;
+        private IBuildDetails _buildDetails;
         private IProjects _projects;
         private IBuildConfigs _buildConfigs;
         private IServerInformation _serverInformation;
@@ -34,6 +35,11 @@ namespace TeamCitySharp
         public IBuilds Builds
         {
             get { return _builds ?? (_builds = new Builds(_caller)); }
+        }
+
+        public IBuildDetails BuildDetails
+        {
+            get { return _buildDetails ?? (_buildDetails = new BuildDetails(_caller)); }
         }
 
         public IBuildConfigs BuildConfigs
