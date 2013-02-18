@@ -120,6 +120,11 @@ namespace TeamCitySharp.ActionTypes
             return ByBuildLocator(BuildLocator.WithDimensions(sinceDate: date));
         }
 
+        public List<Build> ByBranch(string branchName)
+        {
+            return ByBuildLocator(BuildLocator.WithDimensions(branch: branchName));
+        } 
+
         public List<Build> AllBuildsOfStatusSinceDate(DateTime date, BuildStatus buildStatus)
         {
             return ByBuildLocator(BuildLocator.WithDimensions(sinceDate: date, status: buildStatus));

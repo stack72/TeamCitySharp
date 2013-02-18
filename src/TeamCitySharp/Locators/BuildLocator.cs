@@ -13,17 +13,17 @@ namespace TeamCitySharp.Locators
     {
         public static BuildLocator WithId(long id)
         {
-            return new BuildLocator {Id = id};
+            return new BuildLocator { Id = id };
         }
-        
+
         public static BuildLocator WithNumber(string number)
         {
-            return new BuildLocator {Number = number};
+            return new BuildLocator { Number = number };
         }
 
         public static BuildLocator RunningBuilds()
         {
-            return new BuildLocator {Running = true};
+            return new BuildLocator { Running = true };
         }
 
         public static BuildLocator WithDimensions(BuildTypeLocator buildType = null,
@@ -38,7 +38,8 @@ namespace TeamCitySharp.Locators
                                                     int? startIndex = null,
                                                     BuildLocator sinceBuild = null,
                                                     DateTime? sinceDate = null,
-                                                    string[] tags = null
+                                                    string[] tags = null,
+                                                    string branch = null
                                                 )
         {
             return new BuildLocator
@@ -55,7 +56,8 @@ namespace TeamCitySharp.Locators
                            StartIndex = startIndex,
                            SinceBuild = sinceBuild,
                            SinceDate = sinceDate,
-                           Tags = tags
+                           Tags = tags,
+                           Branch = branch
                        };
         }
 
@@ -74,8 +76,9 @@ namespace TeamCitySharp.Locators
         public int? MaxResults { get; private set; }
         public int? StartIndex { get; private set; }
         public DateTime? SinceDate { get; private set; }
+        public string Branch { get; private set; }
 
-        public override string  ToString()
+        public override string ToString()
         {
             if (Id != null)
             {
@@ -109,42 +112,42 @@ namespace TeamCitySharp.Locators
                 locatorFields.Add("sinceBuild:(" + SinceBuild + ")");
             }
 
-            if(!string.IsNullOrEmpty(AgentName))
+            if (!string.IsNullOrEmpty(AgentName))
             {
                 locatorFields.Add("agentName:" + AgentName);
             }
 
-            if(Status.HasValue)
+            if (Status.HasValue)
             {
                 locatorFields.Add("status:" + Status.Value.ToString());
             }
 
-            if(Personal.HasValue)
+            if (Personal.HasValue)
             {
                 locatorFields.Add("personal:" + Personal.Value.ToString());
             }
 
-            if(Canceled.HasValue)
+            if (Canceled.HasValue)
             {
                 locatorFields.Add("canceled:" + Canceled.Value.ToString());
             }
 
-            if(Running.HasValue)
+            if (Running.HasValue)
             {
                 locatorFields.Add("running:" + Running.Value.ToString());
             }
 
-            if(Pinned.HasValue)
+            if (Pinned.HasValue)
             {
                 locatorFields.Add("pinned:" + Pinned.Value.ToString());
             }
 
-            if(MaxResults.HasValue)
+            if (MaxResults.HasValue)
             {
                 locatorFields.Add("count:" + MaxResults.Value.ToString());
             }
 
-            if(StartIndex.HasValue)
+            if (StartIndex.HasValue)
             {
                 locatorFields.Add("start:" + StartIndex.Value.ToString());
             }
@@ -153,6 +156,11 @@ namespace TeamCitySharp.Locators
             {
                 locatorFields.Add("sinceDate:" +
                                   SinceDate.Value.ToString("yyyyMMdd'T'HHmmsszzzz").Replace(":", "").Replace("+", "-"));
+            }
+
+            if (!string.IsNullOrWhiteSpace(Branch))
+            {
+                locatorFields.Add("Branch:" + Branch);
             }
 
             return string.Join(",", locatorFields.ToArray());
