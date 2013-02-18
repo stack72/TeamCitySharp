@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net.Mime;
 using System.Xml;
 using EasyHttp.Http;
 using TeamCitySharp.Connection;
@@ -110,6 +113,35 @@ namespace TeamCitySharp.ActionTypes
         public void DeleteConfiguration(BuildTypeLocator locator)
         {
             _caller.DeleteFormat("/app/rest/buildTypes/{0}", locator);
+        }
+
+        public void DeleteAllBuildTypeParameters(BuildTypeLocator locator)
+        {
+            _caller.DeleteFormat("/app/rest/buildTypes/{0}/parameters", locator);
+        }
+
+        public void PutAllBuildTypeParameters(BuildTypeLocator locator, IDictionary<string, string> parameters)
+        {
+            if(locator == null)
+                throw new ArgumentNullException("locator");
+            if(parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            StringWriter sw = new StringWriter();
+            using(XmlTextWriter writer = new XmlTextWriter(sw))
+            {
+                writer.WriteStartElement("properties");
+                foreach(var parameter in parameters)
+                {
+                    writer.WriteStartElement("property");
+                    writer.WriteAttributeString("name", parameter.Key);
+                    writer.WriteAttributeString("value", parameter.Value);
+                    writer.WriteEndElement();
+                }
+                writer.WriteEndElement();
+            }
+
+            _caller.PutFormat(sw.ToString(), HttpContentTypes.ApplicationXml, "/app/rest/buildTypes/{0}/parameters", locator);
         }
 
         public void PostRawAgentRequirement(BuildTypeLocator locator, string rawXml)

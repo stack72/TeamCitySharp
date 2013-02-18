@@ -9,38 +9,39 @@ namespace TeamCitySharp.Locators
         FAILURE,
         ERROR
     }
+
     public class BuildLocator
     {
         public static BuildLocator WithId(long id)
         {
-            return new BuildLocator { Id = id };
+            return new BuildLocator {Id = id};
         }
 
         public static BuildLocator WithNumber(string number)
         {
-            return new BuildLocator { Number = number };
+            return new BuildLocator {Number = number};
         }
 
         public static BuildLocator RunningBuilds()
         {
-            return new BuildLocator { Running = true };
+            return new BuildLocator {Running = true};
         }
 
         public static BuildLocator WithDimensions(BuildTypeLocator buildType = null,
-                                                    UserLocator user = null,
-                                                    string agentName = null,
-                                                    BuildStatus? status = null,
-                                                    bool? personal = null,
-                                                    bool? canceled = null,
-                                                    bool? running = null,
-                                                    bool? pinned = null,
-                                                    int? maxResults = null,
-                                                    int? startIndex = null,
-                                                    BuildLocator sinceBuild = null,
-                                                    DateTime? sinceDate = null,
-                                                    string[] tags = null,
-                                                    string branch = null
-                                                )
+                                                  UserLocator user = null,
+                                                  string agentName = null,
+                                                  BuildStatus? status = null,
+                                                  bool? personal = null,
+                                                  bool? canceled = null,
+                                                  bool? running = null,
+                                                  bool? pinned = null,
+                                                  int? maxResults = null,
+                                                  int? startIndex = null,
+                                                  BuildLocator sinceBuild = null,
+                                                  DateTime? sinceDate = null,
+                                                  string[] tags = null,
+                                                  string branch = null
+            )
         {
             return new BuildLocator
                        {
@@ -158,9 +159,9 @@ namespace TeamCitySharp.Locators
                                   SinceDate.Value.ToString("yyyyMMdd'T'HHmmsszzzz").Replace(":", "").Replace("+", "-"));
             }
 
-            if (!string.IsNullOrWhiteSpace(Branch))
+            if (Branch != null)
             {
-                locatorFields.Add("Branch:" + Branch);
+                locatorFields.Add("branch:(" + Branch + ")");
             }
 
             return string.Join(",", locatorFields.ToArray());
