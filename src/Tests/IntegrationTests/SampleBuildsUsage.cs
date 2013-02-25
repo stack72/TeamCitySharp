@@ -190,5 +190,13 @@ namespace TeamCitySharp.IntegrationTests
             Assert.That(build.Count == 1);
             Assert.IsNull(build[0].StatusText);
         }
+
+        [Test]
+        public void it_returns_build_by_id()
+        {
+            var build = _client.Builds.BuildById("43265");
+
+            Assert.IsNotNull(build);
+        }
     }
 }
