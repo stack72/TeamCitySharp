@@ -1,6 +1,6 @@
 ﻿namespace TeamCitySharp.Locators
 {
-    public class BuildTypeLocator
+    public class BuildTypeLocator : IBuildTypeLocator
     {
         public static BuildTypeLocator WithId(string id)
         {

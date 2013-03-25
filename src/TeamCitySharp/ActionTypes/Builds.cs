@@ -16,7 +16,7 @@ namespace TeamCitySharp.ActionTypes
             _caller = caller;
         }
 
-        public List<Build> ByBuildLocator(BuildLocator locator)
+        public List<Build> ByBuildLocator(IBuildLocator locator)
         {
             var buildWrapper = _caller.GetFormat<BuildWrapper>("/app/rest/builds?locator={0}", locator);
             if (int.Parse(buildWrapper.Count) > 0)

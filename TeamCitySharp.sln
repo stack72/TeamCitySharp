@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamCitySharp.IntegrationTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamCitySharp", "src\TeamCitySharp\TeamCitySharp.csproj", "{87598714-132F-478E-866E-8C1AF3E83057}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamCitySharp.UnitTests", "src\Tests\TeamCitySharp.UnitTests\TeamCitySharp.UnitTests.csproj", "{10D2336D-4C01-4580-ADEB-2DD4B1E15CFA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,11 +39,24 @@ Global
 		{87598714-132F-478E-866E-8C1AF3E83057}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{87598714-132F-478E-866E-8C1AF3E83057}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{87598714-132F-478E-866E-8C1AF3E83057}.Release|x86.ActiveCfg = Release|Any CPU
+		{10D2336D-4C01-4580-ADEB-2DD4B1E15CFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10D2336D-4C01-4580-ADEB-2DD4B1E15CFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10D2336D-4C01-4580-ADEB-2DD4B1E15CFA}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{10D2336D-4C01-4580-ADEB-2DD4B1E15CFA}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{10D2336D-4C01-4580-ADEB-2DD4B1E15CFA}.Debug|x86.ActiveCfg = Debug|x86
+		{10D2336D-4C01-4580-ADEB-2DD4B1E15CFA}.Debug|x86.Build.0 = Debug|x86
+		{10D2336D-4C01-4580-ADEB-2DD4B1E15CFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10D2336D-4C01-4580-ADEB-2DD4B1E15CFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10D2336D-4C01-4580-ADEB-2DD4B1E15CFA}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{10D2336D-4C01-4580-ADEB-2DD4B1E15CFA}.Release|Mixed Platforms.Build.0 = Release|x86
+		{10D2336D-4C01-4580-ADEB-2DD4B1E15CFA}.Release|x86.ActiveCfg = Release|x86
+		{10D2336D-4C01-4580-ADEB-2DD4B1E15CFA}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{BA409A09-CC7B-4A71-A3D4-FE27234A721B} = {263F35DD-20C1-4209-B121-E962C9328C70}
+		{10D2336D-4C01-4580-ADEB-2DD4B1E15CFA} = {263F35DD-20C1-4209-B121-E962C9328C70}
 	EndGlobalSection
 EndGlobal

@@ -3,13 +3,7 @@ using System.Collections.Generic;
 
 namespace TeamCitySharp.Locators
 {
-    public enum BuildStatus
-    {
-        SUCCESS,
-        FAILURE,
-        ERROR
-    }
-    public class BuildLocator
+    public class BuildLocator : IBuildLocator
     {
         public static BuildLocator WithId(long id)
         {

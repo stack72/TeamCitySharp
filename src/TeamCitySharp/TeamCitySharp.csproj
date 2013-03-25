@@ -65,6 +65,25 @@
     <Compile Include="ActionTypes\IVcsRoots.cs" />
     <Compile Include="ActionTypes\Projects.cs" />
     <Compile Include="ActionTypes\ServerInformation.cs" />
+    <Compile Include="Locators\BranchLocatorFlag.cs" />
+    <Compile Include="Locators\BuildLocator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Locators\BuildStatus.cs" />
+    <Compile Include="Locators\BuildTypeLocator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Locators\FluidBranchLocator.cs" />
+    <Compile Include="Locators\FluidBuildLocator.cs" />
+    <Compile Include="Locators\FluidBuildTypeLocator.cs" />
+    <Compile Include="Locators\FluidUserLocator.cs" />
+    <Compile Include="Locators\IBranchLocator.cs" />
+    <Compile Include="Locators\IBuildLocator.cs" />
+    <Compile Include="Locators\IBuildTypeLocator.cs" />
+    <Compile Include="Locators\IUserLocator.cs" />
+    <Compile Include="Locators\UserLocator.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="TeamCityClient.cs" />
     <Compile Include="ActionTypes\Users.cs" />
     <Compile Include="ActionTypes\VcsRoots.cs" />
@@ -84,8 +103,6 @@
     <Compile Include="DomainEntities\VcsRootEntries.cs" />
     <Compile Include="DomainEntities\VcsRootEntry.cs" />
     <Compile Include="DomainEntities\VcsRootField.cs" />
-    <Compile Include="Locators\BuildLocator.cs" />
-    <Compile Include="Locators\BuildTypeLocator.cs" />
     <Compile Include="Connection\IClientConnection.cs" />
     <Compile Include="Connection\TeamCityCaller.cs" />
     <Compile Include="Connection\TeamCityDateFilter.cs" />
@@ -117,7 +134,6 @@
     <Compile Include="DomainEntities\VcsRootWrapper.cs" />
     <Compile Include="ITeamCityClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Locators\UserLocator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

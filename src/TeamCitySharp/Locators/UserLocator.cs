@@ -1,6 +1,6 @@
 ﻿namespace TeamCitySharp.Locators
 {
-    public class UserLocator
+    public class UserLocator : IUserLocator
     {
         public static UserLocator WithId(string id)
         {
