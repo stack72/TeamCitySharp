@@ -26,7 +26,7 @@ namespace TeamCitySharp.UnitTests
             public void ReturnsWithName()
             {
                 var locator = new FluidBranchLocator().WithName("testbranch/name");
-                Assert.AreEqual("name:(testbranch/name)", locator.ToString());
+                Assert.AreEqual("name:testbranch/name", locator.ToString());
             }
 
             [Test]
@@ -110,7 +110,7 @@ namespace TeamCitySharp.UnitTests
             public void ReturnsWithDimensions()
             {
                 var locator = FluidBranchLocator.WithDimensions("testbranch/name", BranchLocatorFlag.True, BranchLocatorFlag.True, BranchLocatorFlag.True);
-                Assert.AreEqual("name:(testbranch/name),default:true,unspecified:true,branched:true", locator.ToString());
+                Assert.AreEqual("name:testbranch/name,default:true,unspecified:true,branched:true", locator.ToString());
             }
 
         }

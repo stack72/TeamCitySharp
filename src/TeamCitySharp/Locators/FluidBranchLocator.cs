@@ -94,7 +94,7 @@ namespace TeamCitySharp.Locators
             
             if (!string.IsNullOrEmpty(this.Name))
             {
-                dimensions.Add("name:(" + this.Name + ")");
+                dimensions.Add("name:" + this.Name);
             }
             
             if (this.Default.HasValue)

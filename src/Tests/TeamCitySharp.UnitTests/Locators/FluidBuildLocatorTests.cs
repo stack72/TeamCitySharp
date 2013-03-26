@@ -143,7 +143,7 @@ namespace TeamCitySharp.UnitTests
                                                                     BranchLocatorFlag.Any,
                                                                     BranchLocatorFlag.Any,
                                                                     BranchLocatorFlag.Any));
-                Assert.AreEqual("branch:(name:(BRANCHNAME),default:any,unspecified:any,branched:any)", locator.ToString());
+                Assert.AreEqual("branch:(name:BRANCHNAME,default:any,unspecified:any,branched:any)", locator.ToString());
             }
 
             [Test]

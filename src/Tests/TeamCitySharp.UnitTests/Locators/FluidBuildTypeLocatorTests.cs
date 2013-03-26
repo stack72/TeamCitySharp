@@ -53,8 +53,8 @@ namespace TeamCitySharp.UnitTests
             [Test]
             public void ReturnsWithName()
             {
-                var locator = FluidBuildTypeLocator.WithName("buildTypeName");
-                Assert.AreEqual("name:(buildTypeName)", locator.ToString());
+                var locator = FluidBuildTypeLocator.WithName("BUILDTYPENAME");
+                Assert.AreEqual("name:BUILDTYPENAME", locator.ToString());
             }
 
         }

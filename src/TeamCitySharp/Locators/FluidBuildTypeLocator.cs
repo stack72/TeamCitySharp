@@ -56,7 +56,7 @@ namespace TeamCitySharp.Locators
             }
             if (!string.IsNullOrEmpty(Name))
             {
-                return "name:(" + Name + ")";
+                return "name:" + Name;
             }
             return string.Empty;
         }
