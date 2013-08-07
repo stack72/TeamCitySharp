@@ -6,6 +6,7 @@ namespace TeamCitySharp.ActionTypes
     public interface IUsers
     {
         List<User> All();
+        User Details(string userName);
         List<Role> AllRolesByUserName(string userName);
         List<Group> AllGroupsByUserName(string userName);
         List<Group> AllUserGroups();
