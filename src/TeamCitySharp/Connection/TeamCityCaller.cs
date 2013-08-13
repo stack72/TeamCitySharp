@@ -10,7 +10,7 @@ using HttpResponse = EasyHttp.Http.HttpResponse;
 
 namespace TeamCitySharp.Connection
 {
-    internal class TeamCityCaller
+    internal class TeamCityCaller : ITeamCityCaller
     {
         private readonly Credentials _configuration = new Credentials();
 
@@ -95,7 +95,7 @@ namespace TeamCitySharp.Connection
             }
         }
 
-        public bool StartBackup(string urlPart)
+        public string StartBackup(string urlPart)
         {
             if (CheckForUserNameAndPassword())
                 throw new ArgumentException("If you are not acting as a guest you must supply userName and password");
@@ -109,7 +109,12 @@ namespace TeamCitySharp.Connection
             var response = httpClient.Post(url, null, HttpContentTypes.TextPlain);
             ThrowIfHttpError(response, url);
 
-            return response.StatusCode == HttpStatusCode.OK;
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return response.RawText;
+            }
+
+            return string.Empty;
         }
 
         public T Get<T>(string urlPart)
@@ -252,7 +257,7 @@ namespace TeamCitySharp.Connection
         }
 
         // only used by the artifact listing methods since i havent found a way to deserialize them into a domain entity
-        internal string GetRaw(string urlPart)
+        public string GetRaw(string urlPart)
         {
             if (CheckForUserNameAndPassword())
                 throw new ArgumentException("If you are not acting as a guest you must supply userName and password");
