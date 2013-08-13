@@ -104,6 +104,15 @@ namespace TeamCitySharp.IntegrationTests
         }
 
         [Test]
+        public void it_returns_user_details_by_user()
+        {
+            string userName = "teamcitysharpuser";
+            User details = _client.Users.Details(userName);
+
+            Assert.That(details.Email.ToLowerInvariant().Equals("teamcitysharp@paulstack.co.uk"), "Incorrect email address");
+        }
+
+        [Test]
         [ExpectedException]
         public void it_should_throw_exception_when_forbidden_status_code_returned()
         {
