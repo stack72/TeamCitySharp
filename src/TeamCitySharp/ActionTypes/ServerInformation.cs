@@ -28,14 +28,6 @@
             return pluginWrapper.Plugin;
         }
 
-        public bool TriggerServerInstanceBackup(string fileName)
-        {
-            var url = string.Format(ServerUrlPrefix + "/backup?fileName={0}&includeConfigs=true&includeDatabase=true&includeBuildLogs=false", fileName);
-            string backupFilename = _caller.StartBackup(url);
-
-            return !string.IsNullOrEmpty(backupFilename);
-        }
-
         public string TriggerServerInstanceBackup(BackupOptions backupOptions)
         {
             var backupOptionsUrlPart = this.BuildBackupOptionsUrl(backupOptions);

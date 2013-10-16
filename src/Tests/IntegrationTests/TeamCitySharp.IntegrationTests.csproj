@@ -60,7 +60,6 @@
     <Compile Include="SampleServerUsage.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SampleSystemFunctions.cs" />
     <Compile Include="SampleUserUsage.cs">
       <SubType>Code</SubType>
     </Compile>
