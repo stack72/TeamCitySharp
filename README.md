@@ -105,7 +105,7 @@ Each area has its own list of methods available
 ###ServerInformation
     Server ServerInfo();
     List<Plugin> AllPlugins();
-    bool TriggerServerInstanceBackup(string fileName);
+    string TriggerServerInstanceBackup(BackupOptions backupOptions);
 
 ###Users
     List<User> All();
