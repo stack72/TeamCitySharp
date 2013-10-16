@@ -30,6 +30,13 @@ namespace TeamCitySharp.ActionTypes
             return user.Roles.Role;
         }
 
+        public User Details(string userName)
+        {
+            var user = _caller.GetFormat<User>("/app/rest/users/username:{0}", userName);
+
+            return user;
+        }
+
         public List<Group> AllGroupsByUserName(string userName)
         {
             var user =

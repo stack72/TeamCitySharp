@@ -109,6 +109,7 @@ Each area has its own list of methods available
 
 ###Users
     List<User> All();
+    User Details(string userName);
     List<Role> AllRolesByUserName(string userName);
     List<Group> AllGroupsByUserName(string userName);
     List<Group> AllUserGroups();
