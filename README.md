@@ -146,3 +146,4 @@ Each area has its own list of methods available
 * Mike Larah (@MikeLarah)
 * Alexander Fast (@mizipzor)
 * Serge Baltic
+* Philipp Dolder
