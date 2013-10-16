@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TeamCitySharpAPI")]
+[assembly: AssemblyTitle("TeamCitySharp.UnitTests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Paul Stack")]
-[assembly: AssemblyProduct("TeamCitySharpAPI")]
-[assembly: AssemblyCopyright("Copyright © Paul Stack 2011")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("TeamCitySharp.UnitTests")]
+[assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("697ed286-c2e7-49b9-8573-d7b06fc5a329")]
+[assembly: Guid("ffe7fbda-d6b9-459f-9b4d-a8d7858bd053")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,8 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.3.3")]
-[assembly: AssemblyFileVersion("0.3.3")]
-
-[assembly: InternalsVisibleTo("TeamCitySharp.UnitTests")]
-[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
