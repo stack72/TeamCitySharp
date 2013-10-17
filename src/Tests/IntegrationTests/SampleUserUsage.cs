@@ -117,7 +117,7 @@ namespace TeamCitySharp.IntegrationTests
         public void it_should_throw_exception_when_forbidden_status_code_returned()
         {
             var client = new TeamCityClient("localhost:81");
-            client.Connect("guest", string.Empty, true);
+            client.ConnectAsGuest();
 
             var users = client.Users.All();
              
