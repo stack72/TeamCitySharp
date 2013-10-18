@@ -10,3 +10,4 @@ output
 *.TeamCitySharp.sln.metaproj*
 *.DotSettings.*
 nuget
+Package
