@@ -5,6 +5,9 @@
 For more information on TeamCity visit:
 http://www.jetbrains.com/teamcity
 
+##Releases
+Please find the release notes [here](https://github.com/stack72/TeamCitySharp/releases)
+
 ##License 
 http://stack72.mit-license.org/
 

@@ -24,5 +24,6 @@
         public BuildSteps Steps { get; set; }
         public AgentRequirements AgentRequirements { get; set; }
         public BuildTriggers Triggers { get; set; } 
+        public Properties Settings { get; set; }
     }
 }
