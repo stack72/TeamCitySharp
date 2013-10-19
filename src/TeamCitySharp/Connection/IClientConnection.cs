@@ -2,6 +2,7 @@
 {
     internal interface IClientConnection
     {
-        void Connect(string userName, string password, bool actAsGuest = false);
+        void Connect(string userName, string password);
+        void ConnectAsGuest();
     }
 }

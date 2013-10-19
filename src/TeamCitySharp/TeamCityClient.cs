@@ -21,9 +21,14 @@ namespace TeamCitySharp
             _caller = new TeamCityCaller(hostName, useSsl);
         }
 
-        public void Connect(string userName, string password, bool actAsGuest = false)
+        public void Connect(string userName, string password)
         {
-            _caller.Connect(userName, password, actAsGuest);
+            _caller.Connect(userName, password, false);
+        }
+
+        public void ConnectAsGuest()
+        {
+            _caller.Connect(string.Empty, string.Empty, true);
         }
 
         public bool Authenticate()
