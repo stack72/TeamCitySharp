@@ -16,6 +16,7 @@ namespace TeamCitySharp
         private IChanges _changes;
         private IBuildArtifacts _artifacts;
         private IBranches _branches;
+        private IBuild _build;
 
         public TeamCityClient(string hostName, bool useSsl = false)
         {
@@ -40,6 +41,11 @@ namespace TeamCitySharp
         public IBuilds Builds
         {
             get { return _builds ?? (_builds = new Builds(_caller)); }
+        }
+
+        public IBuild Build
+        {
+            get { return _build ?? (_build = new BuildI(_caller)); }
         }
 
         public IBuildConfigs BuildConfigs

@@ -52,12 +52,14 @@
     <Compile Include="ActionTypes\Agents.cs" />
     <Compile Include="ActionTypes\BackupOptions.cs" />
     <Compile Include="ActionTypes\Branches.cs" />
+    <Compile Include="ActionTypes\Build.cs" />
     <Compile Include="ActionTypes\BuildArtifacts.cs" />
     <Compile Include="ActionTypes\BuildConfigs.cs" />
     <Compile Include="ActionTypes\Builds.cs" />
     <Compile Include="ActionTypes\Changes.cs" />
     <Compile Include="ActionTypes\IAgents.cs" />
     <Compile Include="ActionTypes\IBranches.cs" />
+    <Compile Include="ActionTypes\IBuild.cs" />
     <Compile Include="ActionTypes\IBuildArtifacts.cs" />
     <Compile Include="ActionTypes\IBuildConfigs.cs" />
     <Compile Include="ActionTypes\IBuilds.cs" />
