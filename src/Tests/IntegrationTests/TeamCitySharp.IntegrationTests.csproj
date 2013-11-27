@@ -47,6 +47,7 @@
     <Compile Include="SampleAgentUsage.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SampleBuildArtifactUsage.cs" />
     <Compile Include="SampleBuildsConfigsUsage.cs">
       <SubType>Code</SubType>
     </Compile>

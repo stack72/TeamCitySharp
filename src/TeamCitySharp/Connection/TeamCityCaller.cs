@@ -238,9 +238,14 @@ namespace TeamCitySharp.Connection
         private string CreateUrl(string urlPart)
         {
             var protocol = _configuration.UseSSL ? "https://" : "http://";
-            var authType = _configuration.ActAsGuest ? "/guestAuth" : "/httpAuth";
+            var authType = UrlMissingAuthType(urlPart) ? (_configuration.ActAsGuest ? "/guestAuth" : "/httpAuth") : string.Empty;
 
             return string.Format("{0}{1}{2}{3}", protocol, _configuration.HostName, authType, urlPart);
+        }
+
+        private static bool UrlMissingAuthType(string urlPart)
+        {
+            return !urlPart.Contains("/guestAuth/") && !urlPart.Contains("/httpAuth/");
         }
 
         private HttpClient CreateHttpClient(string userName, string password, string accept)

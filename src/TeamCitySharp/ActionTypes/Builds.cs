@@ -79,6 +79,15 @@ namespace TeamCitySharp.ActionTypes
             return builds != null ? builds.FirstOrDefault() : new Build();
         }
 
+        public Build LastPinnedBuildByBuildConfigId(string buildConfigId)
+        {
+            var builds = ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
+                                                                          pinned: true,
+                                                                          maxResults: 1
+                                                  ));
+            return builds != null ? builds.FirstOrDefault() : new Build();
+        }
+
         public List<Build> ErrorBuildsByBuildConfigId(string buildConfigId)
         {
             return ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),

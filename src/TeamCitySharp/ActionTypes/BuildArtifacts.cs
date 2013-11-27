@@ -4,16 +4,20 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml;
-
 using TeamCitySharp.Connection;
+using TeamCitySharp.DomainEntities;
+using File = System.IO.File;
 
 namespace TeamCitySharp.ActionTypes
 {
     internal class BuildArtifacts : IBuildArtifacts
     {
-        private readonly TeamCityCaller _caller;
+        private const string TeamCityRestBuildArtifactChildren = "/artifacts/children";
+        private const string TeamCityRestBuildFormat = "/app/rest/builds/id:{0}";
 
-        public BuildArtifacts(TeamCityCaller caller)
+        private readonly ITeamCityCaller _caller;
+
+        public BuildArtifacts(ITeamCityCaller caller)
         {
             _caller = caller;
         }
@@ -27,14 +31,47 @@ namespace TeamCitySharp.ActionTypes
         {
             return new ArtifactWrapper(_caller, buildConfigId);
         }
+
+        /// <summary>
+        /// Retrieves the artifacts associated to the specified <see cref="Build"/>.
+        /// </summary>
+        /// <param name="build">
+        /// The TeamCity <see cref="Build"/> of the desired artifacts.
+        /// </param>
+        /// <param name="artifactRelativeName">
+        /// the relative path and filename of a specific artifact. Supports referencing files under archives using the  &quot;!&quot; delimiter after the archive name.
+        /// </param>
+        /// <remarks>
+        /// This method is only supported by TeamCity 8.x and higher.
+        /// </remarks>
+        public IArtifactWrapper2 ByBuild(Build build, string artifactRelativeName = "")
+        {
+            if (build == null || string.IsNullOrEmpty(build.Id))
+            {
+                throw new ArgumentException("Invalid build specified. Please be sure to use the methods of the IBuilds interface to obtain it.");
+            }
+
+            var receivedBuildHref = string.Format(TeamCityRestBuildFormat, build.Id);
+            if (!build.Href.EndsWith(receivedBuildHref))
+            {
+                throw new ArgumentException("Invalid build specified. Please be sure to use the methods of the IBuilds interface to obtain it.");
+            }
+
+            var artifacts = _caller.GetFormat<Artifacts>("{0}{1}{2}",
+                                                         build.Href,
+                                                         TeamCityRestBuildArtifactChildren,
+                                                         string.IsNullOrEmpty(artifactRelativeName) ? string.Empty : string.Format("/{0}", artifactRelativeName));
+
+            return new ArtifactWrapper2(_caller, artifacts, artifactRelativeName);
+        }
     }
 
     public class ArtifactWrapper
     {
-        private readonly TeamCityCaller _caller;
+        private readonly ITeamCityCaller _caller;
         private readonly string _buildConfigId;
 
-        internal ArtifactWrapper(TeamCityCaller caller, string buildConfigId)
+        internal ArtifactWrapper(ITeamCityCaller caller, string buildConfigId)
         {
             _caller = caller;
             _buildConfigId = buildConfigId;
@@ -93,10 +130,10 @@ namespace TeamCitySharp.ActionTypes
 
     public class ArtifactCollection
     {
-        private readonly TeamCityCaller _caller;
+        private readonly ITeamCityCaller _caller;
         private readonly List<string> _urls;
 
-        internal ArtifactCollection(TeamCityCaller caller, List<string> urls)
+        internal ArtifactCollection(ITeamCityCaller caller, List<string> urls)
         {
             _caller = caller;
             _urls = urls;
