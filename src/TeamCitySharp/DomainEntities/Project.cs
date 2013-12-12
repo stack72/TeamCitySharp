@@ -14,7 +14,9 @@
         public string Name { get; set; }
         public string WebUrl { get; set; }
 
+        public Project ParentProject { get; set; }
         public BuildTypeWrapper BuildTypes { get; set; }
         public Parameters Parameters { get; set; }
+        public ProjectWrapper Projects { get; set; }
     }
 }
