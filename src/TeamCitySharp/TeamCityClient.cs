@@ -5,7 +5,7 @@ namespace TeamCitySharp
 {
     public class TeamCityClient : IClientConnection, ITeamCityClient
     {
-        private readonly TeamCityCaller _caller;
+        private readonly ITeamCityCaller _caller;
         private IBuilds _builds;
         private IProjects _projects;
         private IBuildConfigs _buildConfigs;

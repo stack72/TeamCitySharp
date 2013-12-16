@@ -6,9 +6,9 @@ namespace TeamCitySharp.ActionTypes
 {
     internal class Agents : IAgents
     {
-        private readonly TeamCityCaller _caller;
+        private readonly ITeamCityCaller _caller;
 
-        internal Agents(TeamCityCaller caller)
+        internal Agents(ITeamCityCaller caller)
         {
             _caller = caller;
         }

@@ -2,6 +2,6 @@
 {
     public class File
     {
-        public string relativefile { get; set; }
+        public string Relativefile { get; set; }
     }
 }

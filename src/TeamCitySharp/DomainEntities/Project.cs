@@ -17,6 +17,7 @@
         public Project ParentProject { get; set; }
         public BuildTypeWrapper BuildTypes { get; set; }
         public Parameters Parameters { get; set; }
+        public Templates Templates { get; set; }
         public ProjectWrapper Projects { get; set; }
     }
 }

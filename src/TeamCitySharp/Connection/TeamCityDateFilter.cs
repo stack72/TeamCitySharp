@@ -33,7 +33,7 @@ namespace TeamCitySharp.Connection
 
         public override bool TryWrite(DataWriterSettings settings, DateTime value, out IEnumerable<Token<ModelTokenType>> tokens)
         {
-            tokens = new Token<ModelTokenType>[]
+            tokens = new[]
 				{
 					ModelGrammar.TokenPrimitive(FormatDate(value))
 				};

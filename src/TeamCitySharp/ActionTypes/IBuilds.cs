@@ -15,6 +15,8 @@ namespace TeamCitySharp.ActionTypes
         List<Build> ErrorBuildsByBuildConfigId(string buildConfigId);
         Build LastErrorBuildByBuildConfigId(string buildConfigId);
         List<Build> ByBuildConfigId(string buildConfigId);
+        List<Build> ByBuildConfigId(string buildConfigId, List<String> param);
+        List<Build> ByBuildLocator(BuildLocator locator, List<String> param);
         List<Build> ByConfigIdAndTag(string buildConfigId, string tag);
         List<Build> ByUserName(string userName);
         List<Build> ByBuildLocator(BuildLocator locator);

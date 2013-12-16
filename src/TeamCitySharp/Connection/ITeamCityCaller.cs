@@ -1,8 +1,8 @@
-﻿namespace TeamCitySharp.Connection
-{
-    using System;
-    using EasyHttp.Http;
+﻿using System;
+using EasyHttp.Http;
 
+namespace TeamCitySharp.Connection
+{
     internal interface ITeamCityCaller
     {
         void Connect(string userName, string password, bool actAsGuest);
@@ -38,5 +38,6 @@
         void Delete(string urlPart);
 
         string GetRaw(string urlPart);
+        bool GetBoolean(string urlPart, params object[] parts);
     }
 }

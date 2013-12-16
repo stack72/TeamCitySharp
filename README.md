@@ -70,6 +70,8 @@ Each area has its own list of methods available
 	List<Build> ErrorBuildsByBuildConfigId(string buildConfigId);
 	Build LastErrorBuildByBuildConfigId(string buildConfigId);
 	List<Build> ByBuildConfigId(string buildConfigId);
+	List<Build> ByBuildConfigId(string buildConfigId, List<String> param);
+	List<Build> ByBuildLocator(BuildLocator locator, List<String> param);
 	List<Build> ByConfigIdAndTag(string buildConfigId, string tag);
 	List<Build> ByUserName(string userName);
 	List<Build> ByBuildLocator(BuildLocator locator);
@@ -84,9 +86,15 @@ Each area has its own list of methods available
 	Project ById(string projectLocatorId);
 	Project Details(Project project);
 	Project Create(string projectName);
+	Project Create(string projectName, string sourceId, string projectId ="");
+	Project Move(string projectId, string destinationId);
+	Project Copy(string projectid, string projectName, string newProjectId);
+	string GenerateID(string projectName);
 	void Delete(string projectName);
 	void DeleteProjectParameter(string projectName, string parameterName);
 	void SetProjectParameter(string projectName, string settingName, string settingValue);
+	bool ModifParameters(string projectId, string mainprojectbranch, string variablePath);
+	bool ModifSettings(string projectId, string description, string fullProjectName);
 
 ###BuildConfigs
 	List<BuildConfig> All();
@@ -98,6 +106,9 @@ Each area has its own list of methods available
 	BuildConfig ByProjectIdAndConfigurationId(string projectId, string buildConfigId);
 	List<BuildConfig> ByProjectId(string projectId);
 	List<BuildConfig> ByProjectName(string projectName);
+	bool ModifTrigger(string format, string oldTriggerConfigurationId, string id);
+	bool ModifArtifactDependencies(string format, string oldDendencyConfigurationId, string id);
+	bool ModifSnapshotDependencies(string format, string oldDendencyConfigurationId, string id)
 	BuildConfig CreateConfiguration(string projectName, string configurationName);
 
 	void SetConfigurationSetting(BuildTypeLocator locator, string settingName, string settingValue);
@@ -137,6 +148,7 @@ Each area has its own list of methods available
     List<Role> AllUserRolesByUserGroup(string userGroupName);
     bool Create(string username, string name, string email, string password);
     bool AddPassword(string username, string password);
+    bool IsAdministrator(string username);
 
 ###Agents
     List<Agent> All();
@@ -170,3 +182,4 @@ Thanks to the following contributors:
 * Serge Baltic
 * Philipp Dolder
 * Mark deVilliers
+* Marc-Andre Vezeau (@exfo)

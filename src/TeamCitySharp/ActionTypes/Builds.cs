@@ -9,9 +9,9 @@ namespace TeamCitySharp.ActionTypes
 {
     internal class Builds : IBuilds
     {
-        private readonly TeamCityCaller _caller;
+        private readonly ITeamCityCaller _caller;
 
-        internal Builds(TeamCityCaller caller)
+        internal Builds(ITeamCityCaller caller)
         {
             _caller = caller;
         }
@@ -19,11 +19,18 @@ namespace TeamCitySharp.ActionTypes
         public List<Build> ByBuildLocator(BuildLocator locator)
         {
             var buildWrapper = _caller.GetFormat<BuildWrapper>("/app/rest/builds?locator={0}", locator);
-            if (int.Parse(buildWrapper.Count) > 0)
+            return int.Parse(buildWrapper.Count) > 0 ? buildWrapper.Build : new List<Build>();
+        }
+		public List<Build> ByBuildLocator(BuildLocator locator, List<String> param)
+        {
+            var strParam = "";
+            foreach (var tmpParam in param)
             {
-                return buildWrapper.Build;
+                strParam += ",";
+                strParam += tmpParam;
             }
-            return new List<Build>();
+            var buildWrapper = _caller.Get<BuildWrapper>(string.Format("/app/rest/builds?locator={0}{1}", locator, strParam));
+            return int.Parse(buildWrapper.Count) > 0 ? buildWrapper.Build : new List<Build>();
         }
 
         public Build LastBuildByAgent(string agentName)
@@ -93,6 +100,10 @@ namespace TeamCitySharp.ActionTypes
                                                                           maxResults: 1
                                                   ));
             return builds != null ? builds.FirstOrDefault() : new Build();
+		}
+        public List<Build> ByBuildConfigId(string buildConfigId, List<String> param)
+        {
+            return ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId)), param);
         }
 
         public List<Build> ByBuildConfigId(string buildConfigId)

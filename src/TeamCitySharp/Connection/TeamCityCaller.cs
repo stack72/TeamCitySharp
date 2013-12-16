@@ -288,5 +288,29 @@ namespace TeamCitySharp.Connection
                 return HttpContentTypes.ApplicationXml;
             return HttpContentTypes.TextPlain;
         }
+
+        public bool GetBoolean(string urlPart, params object[] parts)
+        {
+            var urlfull = string.Format(urlPart, parts);
+
+            try
+            {
+                if (CheckForUserNameAndPassword())
+                    throw new ArgumentException("If you are not acting as a guest you must supply userName and password");
+
+                if (string.IsNullOrEmpty(urlfull))
+                    throw new ArgumentException("Url must be specfied");
+
+                var url = CreateUrl(urlfull);
+
+                var response = CreateHttpClient(_configuration.UserName, _configuration.Password, HttpContentTypes.ApplicationJson).Get(url);
+                return !IsHttpError(response);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+        }
     }
 }

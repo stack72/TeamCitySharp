@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.Mime;
+using System.Linq;
+using System.Net;
+using System.Text.RegularExpressions;
 using System.Xml;
 using EasyHttp.Http;
+using JsonFx.Json;
+using JsonFx.Serialization;
+using JsonFx.Serialization.Resolvers;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
 using TeamCitySharp.Locators;
@@ -12,9 +17,9 @@ namespace TeamCitySharp.ActionTypes
 {
     internal class BuildConfigs : IBuildConfigs
     {
-        private readonly TeamCityCaller _caller;
+        private readonly ITeamCityCaller _caller;
 
-        internal BuildConfigs(TeamCityCaller caller)
+        internal BuildConfigs(ITeamCityCaller caller)
         {
             _caller = caller;
         }
@@ -127,8 +132,8 @@ namespace TeamCitySharp.ActionTypes
             if(parameters == null)
                 throw new ArgumentNullException("parameters");
 
-            StringWriter sw = new StringWriter();
-            using(XmlTextWriter writer = new XmlTextWriter(sw))
+            var sw = new StringWriter();
+            using(var writer = new XmlTextWriter(sw))
             {
                 writer.WriteStartElement("properties");
                 foreach(var parameter in parameters)
@@ -146,7 +151,8 @@ namespace TeamCitySharp.ActionTypes
 
         public void DownloadConfiguration(BuildTypeLocator locator, Action<string> downloadHandler)
         {
-            _caller.GetDownloadFormat(downloadHandler, "/app/rest/buildTypes/{0}", locator);
+            var url = string.Format("/app/rest/buildTypes/{0}", locator);
+            _caller.GetDownloadFormat(downloadHandler, url);
         }
 
         public void PostRawAgentRequirement(BuildTypeLocator locator, string rawXml)
@@ -199,6 +205,109 @@ namespace TeamCitySharp.ActionTypes
             var build = _caller.GetFormat<BuildConfig>("/app/rest/buildTypes/{0}", locator);
 
             return build;
+        }
+        public bool ModifTrigger(string buildTypeId, string triggerID, string newBt)
+        {
+            //Get data from the old trigger
+            var urlExtractAllTriggersOld = String.Format("/app/rest/buildTypes/id:{0}/triggers", buildTypeId);
+            var triggers = _caller.GetFormat<BuildTriggers>(urlExtractAllTriggersOld);
+            foreach (var trigger in triggers.Trigger.OrderByDescending(m => m.Id))
+            {
+              if (trigger.Type != "buildDependencyTrigger") continue;
+
+              foreach (var property in trigger.Properties.Property)
+              {
+                if (property.Name != "dependsOn") continue;
+
+                if (triggerID != property.Value) continue;
+
+                property.Value = newBt;
+                var writer = new JsonWriter(new DataWriterSettings(new ConventionResolverStrategy(ConventionResolverStrategy.WordCasing.Lowercase, "-")));
+                var ttt = writer.Write(trigger);
+                var urlNewTrigger = String.Format("/app/rest/buildTypes/id:{0}/triggers", buildTypeId);
+                var response = _caller.Post(ttt, HttpContentTypes.ApplicationJson, urlNewTrigger, HttpContentTypes.ApplicationJson);
+                if (response.StatusCode != HttpStatusCode.OK) continue;
+
+                var urlDeleteOld = String.Format("/app/rest/buildTypes/id:{0}/triggers/{1}", buildTypeId, trigger.Id);
+                _caller.Delete(urlDeleteOld);
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                  return true;
+                }
+              }
+            }
+          return false;
+        }
+
+        public bool ModifSnapshotDependencies(string buildTypeId, string dependencyId, string newBt)
+        {
+
+            var urlExtractOld = String.Format("/app/rest/buildTypes/id:{0}/snapshot-dependencies/{1}",
+                                              buildTypeId, dependencyId);
+            var snapshot = _caller.GetFormat<SnapshotDependency>(urlExtractOld);
+            snapshot.Id = newBt;
+            snapshot.SourceBuildType.Id = newBt;
+
+            var urlNewTrigger = String.Format("/app/rest/buildTypes/id:{0}/snapshot-dependencies",
+                                              buildTypeId);
+            var writer =
+                new JsonWriter(
+                    new DataWriterSettings(
+                        new ConventionResolverStrategy(ConventionResolverStrategy.WordCasing.Lowercase, "-")));
+
+            var ttt = (writer.Write(snapshot));
+            ttt = Regex.Replace(ttt, "source-build-type", "source-buildType");
+
+
+            var response = _caller.Post(ttt, HttpContentTypes.ApplicationJson, urlNewTrigger, HttpContentTypes.ApplicationJson);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var urlDeleteOld = String.Format("/app/rest/buildTypes/id:{0}/snapshot-dependencies/{1}",
+                                                 buildTypeId, dependencyId);
+                _caller.Delete(urlDeleteOld);
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool ModifArtifactDependencies(string buildTypeId, string dependencyId, string newBt)
+        {
+
+            var urlAllExtractOld = String.Format("/app/rest/buildTypes/id:{0}/artifact-dependencies", 
+                                                 buildTypeId);
+            var artifacts = _caller.GetFormat<ArtifactDependencies>(urlAllExtractOld);
+            foreach (var artifact in artifacts.ArtifactDependency.OrderByDescending(m => m.Id))
+            {
+                if (dependencyId != artifact.SourceBuildType.Id) continue;
+                artifact.SourceBuildType.Id = newBt;
+                var writer =
+                    new JsonWriter(
+                        new DataWriterSettings(
+                            new ConventionResolverStrategy(
+                                ConventionResolverStrategy.WordCasing.Lowercase, "-")));
+                var ttt = writer.Write(artifact);
+                ttt = Regex.Replace(ttt, "source-build-type", "source-buildType");
+
+                var urlNewTrigger = String.Format(
+                    "/app/rest/buildTypes/id:{0}/artifact-dependencies", buildTypeId);
+
+                var response = _caller.Post(ttt, HttpContentTypes.ApplicationJson, urlNewTrigger, 
+                                            HttpContentTypes.ApplicationJson);
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    var urlDeleteOld =
+                        String.Format("/app/rest/buildTypes/id:{0}/artifact-dependencies/{1}",
+                                      buildTypeId, artifact.Id);
+                    _caller.Delete(urlDeleteOld);
+                    return response.StatusCode == HttpStatusCode.OK;
+                }
+            }
+
+            return false;
         }
     }
 }

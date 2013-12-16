@@ -7,9 +7,9 @@ namespace TeamCitySharp.ActionTypes
 {
     internal class Changes : IChanges
     {
-        private readonly TeamCityCaller _caller;
+        private readonly ITeamCityCaller _caller;
 
-        internal Changes(TeamCityCaller caller)
+        internal Changes(ITeamCityCaller caller)
         {
             _caller = caller;
         }

@@ -9,9 +9,9 @@ namespace TeamCitySharp.ActionTypes
 {
     internal class VcsRoots: IVcsRoots
     {
-        private readonly TeamCityCaller _caller;
+        private readonly ITeamCityCaller _caller;
 
-        internal VcsRoots(TeamCityCaller caller)
+        internal VcsRoots(ITeamCityCaller caller)
         {
             _caller = caller;
         }

@@ -1,13 +1,12 @@
-﻿namespace TeamCitySharp.ActionTypes
-{
-    using System.Collections.Generic;
-    using System.Text;
-    using TeamCitySharp.Connection;
-    using TeamCitySharp.DomainEntities;
+﻿using System.Collections.Generic;
+using System.Text;
+using TeamCitySharp.Connection;
+using TeamCitySharp.DomainEntities;
 
+namespace TeamCitySharp.ActionTypes
+{
     internal class ServerInformation : IServerInformation
     {
-        private const string ServerUrlPrefix = "/app/rest/server";
         private readonly ITeamCityCaller _caller;
 
         internal ServerInformation(ITeamCityCaller caller)
@@ -17,30 +16,28 @@
 
         public Server ServerInfo()
         {
-            var server = _caller.Get<Server>(ServerUrlPrefix);
+            var server = _caller.Get<Server>("/app/rest/server");
             return server;
         }
 
         public List<Plugin> AllPlugins()
         {
-            var pluginWrapper = _caller.Get<PluginWrapper>(ServerUrlPrefix + "/plugins");
+            var pluginWrapper = _caller.Get<PluginWrapper>("/app/rest/server/plugins");
 
             return pluginWrapper.Plugin;
         }
 
         public string TriggerServerInstanceBackup(BackupOptions backupOptions)
         {
-            var backupOptionsUrlPart = this.BuildBackupOptionsUrl(backupOptions);
-            var url = string.Concat(ServerUrlPrefix, "/backup?", backupOptionsUrlPart);
+            var backupOptionsUrlPart = BuildBackupOptionsUrl(backupOptions);
+            var url = string.Concat("/app/rest/server/backup?", backupOptionsUrlPart);
 
             return _caller.StartBackup(url);
         }
 
         public string GetBackupStatus()
         {
-            var url = string.Concat(ServerUrlPrefix, "/backup");
-
-            return _caller.GetRaw(url);
+            return _caller.GetRaw("/app/rest/server/backup");
         }
 
         private string BuildBackupOptionsUrl(BackupOptions backupOptions)

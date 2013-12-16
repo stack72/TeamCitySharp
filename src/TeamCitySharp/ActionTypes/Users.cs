@@ -8,9 +8,9 @@ namespace TeamCitySharp.ActionTypes
 {
     internal class Users : IUsers
     {
-        private readonly TeamCityCaller _caller;
+        private readonly ITeamCityCaller _caller;
 
-        internal Users(TeamCityCaller caller)
+        internal Users(ITeamCityCaller caller)
         {
             _caller = caller;
         }
@@ -98,6 +98,11 @@ namespace TeamCitySharp.ActionTypes
             }
 
             return result;
+        }
+        public bool IsAdministrator(string username)
+        {
+            var isAdministrator = _caller.GetBoolean(string.Format("/app/rest/users/username:{0}/roles/SYSTEM_ADMIN/g", username));
+            return isAdministrator;
         }
 
     }

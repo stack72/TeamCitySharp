@@ -17,6 +17,9 @@ namespace TeamCitySharp.ActionTypes
         BuildConfig ByProjectIdAndConfigurationId(string projectId, string buildConfigId);
         List<BuildConfig> ByProjectId(string projectId);
         List<BuildConfig> ByProjectName(string projectName);
+        bool ModifTrigger(string format, string oldTriggerConfigurationId, string id);
+        bool ModifArtifactDependencies(string format, string oldDendencyConfigurationId, string id);
+        bool ModifSnapshotDependencies(string format, string oldDendencyConfigurationId, string id);
         BuildConfig CreateConfiguration(string projectName, string configurationName);
 
         void SetConfigurationSetting(BuildTypeLocator locator, string settingName, string settingValue);
@@ -63,7 +66,13 @@ namespace TeamCitySharp.ActionTypes
 
         /// <summary>
         /// <para>Locates a build type by its locator.</para>
-        /// <para>Essentially, it works either like <see cref="BuildConfigByConfigurationId"/> or <see cref="BuildConfigByConfigurationName"/>, whichever is defined in the locator.</para>
+        /// <para>Essentially, it works either like <see>
+        ///                                             <cref>BuildConfigByConfigurationId</cref>
+        ///                                         </see>
+        ///     or <see>
+        ///            <cref>BuildConfigByConfigurationName</cref>
+        ///        </see>
+        ///     , whichever is defined in the locator.</para>
         /// </summary>
         /// <param name="locator">Locator for the build type.</param>
         /// <returns>The build type with all its properties.</returns>
