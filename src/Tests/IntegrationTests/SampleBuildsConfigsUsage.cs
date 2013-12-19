@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Net;
 using NUnit.Framework;
+using TeamCitySharp.Locators;
 
 namespace TeamCitySharp.IntegrationTests
 {
@@ -64,6 +65,26 @@ namespace TeamCitySharp.IntegrationTests
             var buildConfig = _client.BuildConfigs.ByConfigurationId(buildConfigId);
 
             Assert.That(buildConfig != null, "Cannot find a build type for that buildId");
+        }
+
+        [Test]
+        public void it_pauses_configuration()
+        {
+            string buildConfigId = "bt437";
+            var buildLocator = BuildTypeLocator.WithId(buildConfigId);
+            _client.BuildConfigs.SetConfigurationPauseStatus(buildLocator, true);
+            var status = _client.BuildConfigs.GetConfigurationPauseStatus(buildLocator);
+            Assert.That(status == true, "Build not paused");
+        }
+
+        [Test]
+        public void it_unpauses_configuration()
+        {
+            string buildConfigId = "bt437";
+            var buildLocator = BuildTypeLocator.WithId(buildConfigId);
+            _client.BuildConfigs.SetConfigurationPauseStatus(buildLocator, false);
+            var status = _client.BuildConfigs.GetConfigurationPauseStatus(buildLocator);
+            Assert.That(status == false, "Build not unpaused");
         }
 
         [Test]
