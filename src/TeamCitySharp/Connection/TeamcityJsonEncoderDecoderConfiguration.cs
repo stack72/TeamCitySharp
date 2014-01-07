@@ -15,7 +15,7 @@ namespace TeamCitySharp.Connection
     {
         public IEncoder GetEncoder()
         {
-            var jsonWriter = new LowerCaseJsonWriter(new DataWriterSettings(DefaultEncoderDecoderConfiguration.CombinedResolverStrategy()
+            var jsonWriter = new CamelCaseJsonWriter(new DataWriterSettings(DefaultEncoderDecoderConfiguration.CombinedResolverStrategy()
                 , new TeamCityDateFilter()), new[] { "application/.*json", "text/.*json" });
 
             var writers = new List<IDataWriter> { jsonWriter };
@@ -34,25 +34,38 @@ namespace TeamCitySharp.Connection
         }
     }
 
-    public class LowerCaseJsonWriter : JsonWriter
+    public class CamelCaseJsonWriter : JsonWriter
     {
-        public LowerCaseJsonWriter(DataWriterSettings settings, params string[] contentTypes):base(settings, contentTypes)
+        public CamelCaseJsonWriter(DataWriterSettings settings, params string[] contentTypes)
+            : base(settings, contentTypes)
         {}
 
         protected override ITextFormatter<ModelTokenType> GetFormatter()
         {
-            return new LowerCaseJsonFormatter(this.Settings);
+            return new CamelCaseJsonFormatter(this.Settings);
         }
     }
 
-    public class LowerCaseJsonFormatter : JsonWriter.JsonFormatter
+    public class CamelCaseJsonFormatter : JsonWriter.JsonFormatter
     {
-        public LowerCaseJsonFormatter(DataWriterSettings settings) : base(settings)
+        public CamelCaseJsonFormatter(DataWriterSettings settings)
+            : base(settings)
         {}
 
         protected override void WritePropertyName(TextWriter writer, string propertyName)
         {
-            base.WritePropertyName(writer, propertyName.ToLower());
+            base.WritePropertyName(writer, CamelCase(propertyName));
+        }
+
+        private static string CamelCase(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return input;
+
+            var chars = input.ToCharArray();
+            chars[0] = chars[0].ToString().ToLower().ToCharArray()[0];
+
+            return new string(chars);
         }
     }
 }
