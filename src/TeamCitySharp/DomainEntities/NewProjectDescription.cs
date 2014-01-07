@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JsonFx.Json;
+using TeamCitySharp.Locators;
 
 namespace TeamCitySharp.DomainEntities
 {
@@ -10,5 +11,6 @@ namespace TeamCitySharp.DomainEntities
     {
         public string Name { get; set; }
         public string Id { get; set; }
+        public ProjectLocator ParentProjectLocator { get; set; }
     }
 }

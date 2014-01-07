@@ -2,6 +2,7 @@
 using EasyHttp.Http;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
+using TeamCitySharp.Locators;
 
 namespace TeamCitySharp.ActionTypes
 {
@@ -42,7 +43,18 @@ namespace TeamCitySharp.ActionTypes
 
         public Project Create(string projectName)
         {
-            var project = new NewProjectDescription {Name = projectName, Id = projectName};
+            return Create(projectName, "_Root");
+        }
+
+        public Project Create(string projectName, string rootProjectId)
+        {
+            var project = new NewProjectDescription
+            {
+                Name = projectName,
+                Id = projectName,
+                ParentProjectLocator = ProjectLocator.WithId(rootProjectId)
+            };
+
             return _caller.Post<Project>(project, HttpContentTypes.ApplicationJson, "/app/rest/projects/", HttpContentTypes.ApplicationJson);
         }
 
