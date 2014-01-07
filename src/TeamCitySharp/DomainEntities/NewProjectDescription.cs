@@ -11,6 +11,6 @@ namespace TeamCitySharp.DomainEntities
     {
         public string Name { get; set; }
         public string Id { get; set; }
-        public ProjectLocator ParentProjectLocator { get; set; }
+        public ParentProjectWrapper ParentProject { get; set; }
     }
 }

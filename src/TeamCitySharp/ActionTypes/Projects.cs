@@ -52,7 +52,7 @@ namespace TeamCitySharp.ActionTypes
             {
                 Name = projectName,
                 Id = projectName,
-                ParentProjectLocator = ProjectLocator.WithId(rootProjectId)
+                ParentProject = new ParentProjectWrapper(ProjectLocator.WithId(rootProjectId))
             };
 
             return _caller.Post<Project>(project, HttpContentTypes.ApplicationJson, "/app/rest/projects/", HttpContentTypes.ApplicationJson);
