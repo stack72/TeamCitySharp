@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using EasyHttp.Http;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
@@ -51,11 +52,12 @@ namespace TeamCitySharp.ActionTypes
             var project = new NewProjectDescription
             {
                 Name = projectName,
-                Id = projectName,
+                Id = GenerateId(projectName),
                 ParentProject = new ParentProjectWrapper(ProjectLocator.WithId(rootProjectId))
             };
 
-            return _caller.Post<Project>(project, HttpContentTypes.ApplicationJson, "/app/rest/projects/", HttpContentTypes.ApplicationJson);
+            return _caller.Post<Project>(project, HttpContentTypes.ApplicationJson, "/app/rest/projects/",
+                HttpContentTypes.ApplicationJson);
         }
 
         public void Delete(string projectName)
@@ -71,6 +73,12 @@ namespace TeamCitySharp.ActionTypes
         public void SetProjectParameter(string projectName, string settingName, string settingValue)
         {
             _caller.PutFormat(settingValue, "/app/rest/projects/name:{0}/parameters/{1}", projectName, settingName);
+        }
+
+        public string GenerateId(string projectName)
+        {
+            projectName = Regex.Replace(projectName, @"[^\p{L}\p{N}]+", "");
+            return projectName;
         }
     }
 }
