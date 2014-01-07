@@ -42,7 +42,8 @@ namespace TeamCitySharp.ActionTypes
 
         public Project Create(string projectName)
         {
-            return _caller.Post<Project>(projectName, HttpContentTypes.ApplicationXml, "/app/rest/projects/", string.Empty);
+            var project = new NewProjectDescription {Name = projectName, Id = projectName};
+            return _caller.Post<Project>(project, HttpContentTypes.ApplicationJson, "/app/rest/projects/", HttpContentTypes.ApplicationJson);
         }
 
         public void Delete(string projectName)
