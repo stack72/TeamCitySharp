@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
+using System.Runtime.CompilerServices;
 using NUnit.Framework;
 using TeamCitySharp.Locators;
 
@@ -189,6 +190,19 @@ namespace TeamCitySharp.IntegrationTests
                                                                          maxResults: 1));
             Assert.That(build.Count == 1);
             Assert.IsNull(build[0].StatusText);
+        }
+
+        [Test]
+        public void ig_returns_correct_build_when_calling_by_id()
+        {
+            const string buildId = "5726";
+            var client = new TeamCityClient("localhost:81");
+            client.Connect("admin", "qwerty");
+
+            var build = client.Builds.ById(buildId);
+
+            Assert.That(build != null);
+            Assert.That(build.Id == buildId);
         }
     }
 }
