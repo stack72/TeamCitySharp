@@ -19,6 +19,8 @@ namespace TeamCitySharp.DomainEntities
         public ChangeWrapper Changes { get; set; }
         public Properties Properties { get; set; }
         public Running_info Running_info { get; set; }
+        public BuildSnapshotDepencies SnapshotDependencies { get; set; }
+        public BuildArtifactDependencies ArtifactDependencies { get; set; }
 
         public override string ToString()
         {

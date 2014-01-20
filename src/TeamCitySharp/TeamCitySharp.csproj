@@ -69,6 +69,8 @@
     <Compile Include="ActionTypes\ServerInformation.cs" />
     <Compile Include="Connection\ITeamCityCaller.cs" />
     <Compile Include="DomainEntities\NewProjectDescription.cs" />
+    <Compile Include="DomainEntities\BuildArtifactDependencies.cs" />
+    <Compile Include="DomainEntities\BuildSnapshotDepencies.cs" />
     <Compile Include="DomainEntities\Running_info.cs" />
     <Compile Include="DomainEntities\SourceBuildType.cs" />
     <Compile Include="DomainEntities\ParentProjectWrapper.cs" />
