@@ -143,7 +143,7 @@ namespace TeamCitySharp.Connection
             return response;
         }
 
-        public T Post<T>(string data, string contenttype, string urlPart, string accept)
+        public T Post<T>(object data, string contenttype, string urlPart, string accept)
         {
             return Post(data, contenttype, urlPart, accept).StaticBody<T>();
         }

@@ -8,6 +8,7 @@ using JsonFx.Serialization;
 using JsonFx.Serialization.Resolvers;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
+using TeamCitySharp.Locators;
 
 namespace TeamCitySharp.ActionTypes
 {
@@ -46,10 +47,6 @@ namespace TeamCitySharp.ActionTypes
             return ById(project.Id);
         }
 
-        public Project Create(string projectName)
-        {
-            return _caller.Post<Project>(projectName, HttpContentTypes.ApplicationXml, "/app/rest/projects/", string.Empty);
-        }
 
         public Project Create(string projectName, string sourceId, string projectId = "")
         {

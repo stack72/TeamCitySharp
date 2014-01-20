@@ -27,7 +27,7 @@ namespace TeamCitySharp.Connection
 
         void Get(string urlPart);
 
-        T Post<T>(string data, string contenttype, string urlPart, string accept);
+        T Post<T>(object data, string contenttype, string urlPart, string accept);
 
         bool Authenticate(string urlPart);
 
