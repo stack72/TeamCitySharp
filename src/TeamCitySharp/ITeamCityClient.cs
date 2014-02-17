@@ -6,7 +6,7 @@ namespace TeamCitySharp
     {
         void Connect(string userName, string password);
         void ConnectAsGuest();
-        bool Authenticate();
+        bool Authenticate(bool throwExceptionOnHttpError=true);
 
         IBuilds Builds { get; }
         IBuildConfigs BuildConfigs { get; }

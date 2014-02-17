@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Xml;
 
 using TeamCitySharp.Connection;
@@ -170,11 +171,11 @@ namespace TeamCitySharp.ActionTypes
         /// <param name="overwrite">
         /// If <see langword="true"/> files that already exist where a downloaded file is to be placed will be deleted prior to download.
         /// </param>
-        /// <param name="filteredExtensionFiles"></param>
+        /// <param name="filteredFiles"></param>
         /// <returns>
         /// A list of full paths to all downloaded artifacts.
         /// </returns>
-        public List<string> DownloadFiltered(string directory = null, List<string> filteredExtensionFiles = null, bool flatten = false, bool overwrite = true)
+        public List<string> DownloadFiltered(string directory = null, List<string> filteredFiles = null, bool flatten = false, bool overwrite = true)
         {
           if (directory == null)
           {
@@ -183,38 +184,89 @@ namespace TeamCitySharp.ActionTypes
           var downloaded = new List<string>();
           foreach (var url in _urls)
           {
-            // user probably didnt use to artifact url generating functions
-            Debug.Assert(url.StartsWith("/repository/download/"));
-
-            // figure out local filename
-            var parts = url.Split('/').Skip(5).ToArray();
-            var destination = flatten
-                ? parts.Last()
-                : string.Join(Path.DirectorySeparatorChar.ToString(CultureInfo.InvariantCulture), parts);
-            destination = Path.Combine(directory, destination);
-
-            // create directories that doesnt exist
-            var directoryName = Path.GetDirectoryName(destination);
-            if (directoryName != null && !Directory.Exists(directoryName))
-            {
-              Directory.CreateDirectory(directoryName);
-            }
-            bool download = filteredExtensionFiles == null || filteredExtensionFiles.Contains(Path.GetExtension(destination));
-            // add artifact to list regardless if it was downloaded or skipped
-            if (download)
-            {
-              downloaded.Add(Path.GetFullPath(destination));
-
-              // if the file already exists delete it or move to next artifact
-              if (File.Exists(destination))
+            if (filteredFiles != null)
+              foreach (var filteredFile in filteredFiles)
               {
-                if (overwrite) File.Delete(destination);
-                else continue;
+                var currentFilename = new Wildcard(GetFilename(filteredFile), RegexOptions.IgnoreCase);
+                var currentExt = new Wildcard(GetExtension(filteredFile), RegexOptions.IgnoreCase);
+
+                // user probably didnt use to artifact url generating functions
+                Debug.Assert(url.StartsWith("/repository/download/"));
+
+                // figure out local filename
+                var parts = url.Split('/').Skip(5).ToArray();
+                var destination = flatten
+                    ? parts.Last()
+                    : string.Join(Path.DirectorySeparatorChar.ToString(CultureInfo.InvariantCulture), parts);
+                destination = Path.Combine(directory, destination);
+
+               
+                if (currentFilename.IsMatch(Path.GetFileNameWithoutExtension(destination)) &&
+                    currentExt.IsMatch(Path.GetExtension(destination)))
+                {
+                  // create directories that doesnt exist
+                  var directoryName = Path.GetDirectoryName(destination);
+                  if (directoryName != null && !Directory.Exists(directoryName))
+                  {
+                    Directory.CreateDirectory(directoryName);
+                  }
+
+                  downloaded.Add(Path.GetFullPath(destination));
+
+                  // if the file already exists delete it or move to next artifact
+                  if (File.Exists(destination))
+                  {
+                    if (overwrite) File.Delete(destination);
+                    else continue;
+                  }
+                  _caller.GetDownloadFormat(tempfile => File.Move(tempfile, destination), url);
+                  break;
+                }
               }
-              _caller.GetDownloadFormat(tempfile => File.Move(tempfile, destination), url);
-            }
           }
           return downloaded;
         }
+      private static string GetExtension(string path)
+      {
+        return path.Substring(path.LastIndexOf('.') );
+      }
+      private static string GetFilename(string path)
+      {
+        return path.Substring(0, path.LastIndexOf('.'));
+      }
+    }
+    internal class Wildcard : Regex
+    {
+      /// <summary>
+      /// Initializes a wildcard with the given search pattern.
+      /// </summary>
+      /// <param name="pattern">The wildcard pattern to match.</param>
+      public Wildcard(string pattern)
+        : base(WildcardToRegex(pattern))
+      {
+      }
+
+      /// <summary>
+      /// Initializes a wildcard with the given search pattern and options.
+      /// </summary>
+      /// <param name="pattern">The wildcard pattern to match.</param>
+      /// <param name="options">A combination of one or more
+      /// <see cref="RegexOptions"/>.</param>
+      public Wildcard(string pattern, RegexOptions options)
+        : base(WildcardToRegex(pattern), options)
+      {
+      }
+
+      /// <summary>
+      /// Converts a wildcard to a regex.
+      /// </summary>
+      /// <param name="pattern">The wildcard pattern to convert.</param>
+      /// <returns>A regex equivalent of the given wildcard.</returns>
+      public static string WildcardToRegex(string pattern)
+      {
+        return "^" + Regex.Escape(pattern).
+                           Replace("\\*", ".*").
+                           Replace("\\?", ".") + "$";
+      }
     }
 }

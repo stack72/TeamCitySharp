@@ -12,7 +12,7 @@ namespace TeamCitySharp.IntegrationTests
         public void SetUp()
         {
             _client = new TeamCityClient("localhost:81");
-           
+            _client = new TeamCityClient("vmmobuild01");
         }
 
         [Test]
@@ -31,6 +31,23 @@ namespace TeamCitySharp.IntegrationTests
             _client.Authenticate();
 
             //Assert.Throws Exception
+        }
+        [Test]
+        public void it_will_authenticate_a_known_user_throwExceptionOnHttpError()
+        {
+          _client.Connect("admin", "qwerty");
+
+          Assert.That(_client.Authenticate(false));
+        }
+
+        [Test]
+        public void it_will_throw_an_exception_for_an_unknown_user_throwExceptionOnHttpError()
+        {
+          _client.Connect("smithy", "smithy");
+          Assert.IsFalse(_client.Authenticate(false));
+
+
+          //Assert.Throws Exception
         }
 
     }

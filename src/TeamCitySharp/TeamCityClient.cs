@@ -31,9 +31,9 @@ namespace TeamCitySharp
             _caller.Connect(string.Empty, string.Empty, true);
         }
 
-        public bool Authenticate()
+        public bool Authenticate(bool throwExceptionOnHttpError=true)
         {
-            return _caller.Authenticate("/app/rest");
+            return _caller.Authenticate("/app/rest", throwExceptionOnHttpError);
         }
 
         public IBuilds Builds

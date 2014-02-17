@@ -148,12 +148,12 @@ namespace TeamCitySharp.Connection
             return Post(data, contenttype, urlPart, accept).StaticBody<T>();
         }
 
-        public bool Authenticate(string urlPart)
+        public bool Authenticate(string urlPart, bool throwExceptionOnHttpError=true)
         {
             try
             {
                 var httpClient = CreateHttpClient(_configuration.UserName, _configuration.Password, HttpContentTypes.TextPlain);
-                httpClient.ThrowExceptionOnHttpError = true;
+                httpClient.ThrowExceptionOnHttpError = throwExceptionOnHttpError;
                 httpClient.Get(CreateUrl(urlPart));
 
                 var response = httpClient.Response;

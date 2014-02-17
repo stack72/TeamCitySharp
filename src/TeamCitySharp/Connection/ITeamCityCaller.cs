@@ -29,7 +29,7 @@ namespace TeamCitySharp.Connection
 
         T Post<T>(object data, string contenttype, string urlPart, string accept);
 
-        bool Authenticate(string urlPart);
+        bool Authenticate(string urlPart, bool throwExceptionOnHttpError=true);
 
         HttpResponse Post(object data, string contenttype, string urlPart, string accept);
 
