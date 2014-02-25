@@ -95,6 +95,13 @@ namespace TeamCitySharp.ActionTypes
             return builds != null ? builds.FirstOrDefault() : new Build();
         }
 
+        public Build ById(string id)
+        {
+            var build = _caller.GetFormat<Build>("/app/rest/builds/id:{0}", id);
+
+            return build ?? new Build();
+        }
+
         public List<Build> ByBuildConfigId(string buildConfigId)
         {
             return ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId)
