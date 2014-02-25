@@ -1,3 +1,5 @@
+using JsonFx.Json;
+
 namespace TeamCitySharp.DomainEntities
 {
     public class ArtifactDependency
@@ -5,6 +7,7 @@ namespace TeamCitySharp.DomainEntities
         public ArtifactDependency()
         {
             Properties = new Properties();
+            Type = "artifact_dependency";
         }
         public override string ToString()
         {
@@ -13,12 +16,10 @@ namespace TeamCitySharp.DomainEntities
 
         public string Id { get; set; }
         public Properties Properties { get; set; }
-        public Source_BuildType Source_BuildType { get; set; }
-        public string Type
-        {
-            get { return "artifact_dependency"; }
-        }
-
+        [JsonName("source-buildType")]
+        public SourceBuildType SourceBuildType { get; set; }
+        public string Type { get; set; }
+        
         public static ArtifactDependency Default(string dependsOnbuildId)
         {
             var dependency = new ArtifactDependency();
@@ -28,7 +29,7 @@ namespace TeamCitySharp.DomainEntities
             dependency.Properties.Add("revisionName", "sameChainOrLastFinished");
             dependency.Properties.Add("revisionValue", "latest.sameChainOrLastFinished");
 
-            dependency.Source_BuildType = new Source_BuildType
+            dependency.SourceBuildType = new SourceBuildType
             {
                 Id = dependsOnbuildId
             };

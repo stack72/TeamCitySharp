@@ -1,6 +1,6 @@
 ﻿namespace TeamCitySharp.DomainEntities
 {
-    public class Source_BuildType
+    public class SourceBuildType
     {
         public string Id { get; set; }
     }
