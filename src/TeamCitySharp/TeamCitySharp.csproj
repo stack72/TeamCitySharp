@@ -69,6 +69,7 @@
     <Compile Include="Connection\ITeamCityCaller.cs" />
     <Compile Include="DomainEntities\NewProjectDescription.cs" />
     <Compile Include="DomainEntities\ParentProjectWrapper.cs" />
+    <Compile Include="DomainEntities\Source_BuildType.cs" />
     <Compile Include="Locators\ProjectLocator.cs" />
     <Compile Include="TeamCityClient.cs" />
     <Compile Include="ActionTypes\Users.cs" />
