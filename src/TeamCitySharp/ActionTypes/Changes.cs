@@ -34,6 +34,13 @@ namespace TeamCitySharp.ActionTypes
 
             return changeWrapper.Change;
         }
+        
+        public List<Change> ByBuildId(string buildId)
+        {
+            var changeWrapper = _caller.GetFormat<ChangeWrapper>("/app/rest/changes?build=id:{0}", buildId);
+
+            return changeWrapper.Change;
+        }
 
         public Change LastChangeDetailByBuildConfigId(string buildConfigId)
         {
