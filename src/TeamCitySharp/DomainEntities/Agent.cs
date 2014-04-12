@@ -11,5 +11,14 @@
         {
             return Name;
         }
+
+        public override bool Equals(object obj)
+        {
+          return Name.Equals(((Agent)obj).Name);
+        }
+        public override int GetHashCode()
+        {
+          return Name.GetHashCode();
+        }
     }
 }
