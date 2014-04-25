@@ -42,7 +42,7 @@ namespace TeamCitySharp.ActionTypes
 
         public Project Create(string projectName)
         {
-            return _caller.Post<Project>(projectName, HttpContentTypes.ApplicationXml, "/app/rest/projects/", string.Empty);
+            return _caller.Post<Project>(projectName, HttpContentTypes.TextPlain, "/app/rest/projects/", HttpContentTypes.ApplicationJson);
         }
 
         public void Delete(string projectName)
