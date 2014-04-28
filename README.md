@@ -157,6 +157,12 @@ Each area has its own list of methods available
 ###BuildArtifacts
     void DownloadArtifactsByBuildId(string buildId, Action<string> downloadHandler);
 
+###BuildSteps
+```c#
+IList<BuildStep> ByConfigurationId(string buildConfigId)
+void Create(string buildConfigId, BuildStep buildStep);
+```
+
 ##Credits
 
 Copyright (c) 2013 Paul Stack (@stack72)
