@@ -7,5 +7,6 @@ namespace TeamCitySharp.ActionTypes
     public interface IBuildSteps
     {
         IList<BuildStep> ByConfigurationId(string buildConfigId);
+        void Create(string buildConfigId, BuildStep buildStep);
     }
 }
