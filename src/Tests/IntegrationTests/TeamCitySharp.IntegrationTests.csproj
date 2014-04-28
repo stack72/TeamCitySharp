@@ -50,6 +50,7 @@
     <Compile Include="SampleBuildsConfigsUsage.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SampleBuildStepsUsage.cs" />
     <Compile Include="SampleBuildsUsage.cs" />
     <Compile Include="SampleChangeUsage.cs">
       <SubType>Code</SubType>
