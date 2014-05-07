@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using EasyHttp.Http;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
@@ -42,7 +42,7 @@ namespace TeamCitySharp.ActionTypes
 
         public Project Create(string projectName)
         {
-            return _caller.Post<Project>(projectName, HttpContentTypes.TextPlain, "/app/rest/projects/", HttpContentTypes.ApplicationJson);
+            return _caller.Post<Project>(projectName, HttpContentTypes.ApplicationXml, "/app/rest/projects/", string.Empty);
         }
 
         public void Delete(string projectName)
@@ -57,7 +57,7 @@ namespace TeamCitySharp.ActionTypes
 
         public void SetProjectParameter(string projectName, string settingName, string settingValue)
         {
-            _caller.PutFormat(settingValue, "/app/rest/projects/name:{0}/parameters/{1}", projectName, settingName);
+            _caller.PutFormat(settingValue, HttpContentTypes.TextPlain, "/app/rest/projects/name:{0}/parameters/{1}", projectName, settingName);
         }
     }
 }
