@@ -13,5 +13,7 @@ namespace TeamCitySharp.DomainEntities
         public string Comment { get; set; }
 
         public FileWrapper Files { get; set; }
+
+        public User User { get; set; }
     }
 }
