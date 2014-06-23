@@ -38,5 +38,6 @@
         void Delete(string urlPart);
 
         string GetRaw(string urlPart);
+        T GetByFullUrl<T>(string fullUrl);
     }
 }

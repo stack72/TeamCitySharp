@@ -118,6 +118,13 @@ namespace TeamCitySharp.Connection
             return string.Empty;
         }
 
+        public T GetByFullUrl<T>(string fullUrl)
+        {
+            var url = string.Format("{0}{1}{2}", GetProtocol(), _configuration.HostName, fullUrl);
+            var response = GetResponseByFullUrl(url);
+            return response.StaticBody<T>();
+        }
+
         public T Get<T>(string urlPart)
         {
             var response = GetResponse(urlPart);
@@ -139,7 +146,13 @@ namespace TeamCitySharp.Connection
 
             var url = CreateUrl(urlPart);
 
-            var response = CreateHttpClient(_configuration.UserName, _configuration.Password, HttpContentTypes.ApplicationJson).Get(url);
+            return GetResponseByFullUrl(url);
+        }
+
+        private HttpResponse GetResponseByFullUrl(string url)
+        {
+            var response =
+                CreateHttpClient(_configuration.UserName, _configuration.Password, HttpContentTypes.ApplicationJson).Get(url);
             ThrowIfHttpError(response, url);
             return response;
         }
@@ -238,10 +251,15 @@ namespace TeamCitySharp.Connection
 
         private string CreateUrl(string urlPart)
         {
-            var protocol = _configuration.UseSSL ? "https://" : "http://";
+            var protocol = GetProtocol();
             var authType = _configuration.ActAsGuest ? "/guestAuth" : "/httpAuth";
 
             return string.Format("{0}{1}{2}{3}", protocol, _configuration.HostName, authType, urlPart);
+        }
+
+        private string GetProtocol()
+        {
+            return _configuration.UseSSL ? "https://" : "http://";
         }
 
         private HttpClient CreateHttpClient(string userName, string password, string accept)

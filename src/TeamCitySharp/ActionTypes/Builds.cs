@@ -41,7 +41,17 @@ namespace TeamCitySharp.ActionTypes
 
         public Build BuildById(long buildId)
         {
-            return _caller.GetFormat<Build>("/app/rest/builds/id:{0}", buildId);
+            Build build = _caller.GetFormat<Build>("/app/rest/builds/id:{0}", buildId);
+            if (build.LastChanges == null)
+            {
+                if (build.Changes.Count == 0)
+                {
+                    build.LastChanges = new ChangesList();
+                    return build;
+                }
+                build.LastChanges = _caller.GetByFullUrl<ChangesList>(build.Changes.Href);
+            }
+            return build;
         }
 
         public List<Build> SuccessfulBuildsByBuildConfigId(string buildConfigId)

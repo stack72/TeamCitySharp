@@ -15,13 +15,13 @@ namespace TeamCitySharp.DomainEntities
         public DateTime FinishDate { get; set; }
 
         public BuildConfig BuildConfig { get; set; }
-        public Agent Agent { get; set;}
-        public ChangeWrapper LastChanges { get; set; }
+        public Agent Agent { get; set; }
+        public ChangesList LastChanges { get; set; }
+        public ChangesWrapper Changes { get; set; }
 
         public override string ToString()
         {
             return Number;
         }
-        
     }
 }

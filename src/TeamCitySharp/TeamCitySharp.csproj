@@ -70,6 +70,7 @@
     <Compile Include="ActionTypes\Projects.cs" />
     <Compile Include="ActionTypes\ServerInformation.cs" />
     <Compile Include="Connection\ITeamCityCaller.cs" />
+    <Compile Include="DomainEntities\ChangesWrapper.cs" />
     <Compile Include="TeamCityClient.cs" />
     <Compile Include="ActionTypes\Users.cs" />
     <Compile Include="ActionTypes\VcsRoots.cs" />
@@ -102,7 +103,7 @@
     <Compile Include="DomainEntities\BuildTypeWrapper.cs" />
     <Compile Include="DomainEntities\BuildWrapper.cs" />
     <Compile Include="DomainEntities\Change.cs" />
-    <Compile Include="DomainEntities\ChangeWrapper.cs" />
+    <Compile Include="DomainEntities\ChangesList.cs" />
     <Compile Include="DomainEntities\Credentials.cs" />
     <Compile Include="DomainEntities\File.cs" />
     <Compile Include="DomainEntities\FileWrapper.cs" />

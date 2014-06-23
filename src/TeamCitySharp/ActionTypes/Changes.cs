@@ -16,7 +16,7 @@ namespace TeamCitySharp.ActionTypes
 
         public List<Change> All()
         {
-            var changeWrapper = _caller.Get<ChangeWrapper>("/app/rest/changes");
+            var changeWrapper = _caller.Get<ChangesList>("/app/rest/changes");
 
             return changeWrapper.Change;
         }
@@ -30,7 +30,7 @@ namespace TeamCitySharp.ActionTypes
 
         public List<Change> ByBuildConfigId(string buildConfigId)
         {
-            var changeWrapper = _caller.GetFormat<ChangeWrapper>("/app/rest/changes?buildType={0}", buildConfigId);
+            var changeWrapper = _caller.GetFormat<ChangesList>("/app/rest/changes?buildType={0}", buildConfigId);
 
             return changeWrapper.Change;
         }
