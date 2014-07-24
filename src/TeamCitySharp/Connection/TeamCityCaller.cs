@@ -2,7 +2,8 @@
 using System.IO;
 using System.Net;
 using System.Security.Authentication;
-using EasyHttp.Http;
+﻿using System.Web;
+﻿using EasyHttp.Http;
 using TeamCitySharp.DomainEntities;
 using File = System.IO.File;
 using HttpException = EasyHttp.Infrastructure.HttpException;
@@ -67,7 +68,7 @@ namespace TeamCitySharp.Connection
                 throw new ArgumentException("If you are not acting as a guest you must supply userName and password");
             }
 
-            urlPart = System.Web.HttpUtility.UrlEncode(urlPart);
+            urlPart = HttpUtility.UrlEncode(urlPart);
             if (string.IsNullOrEmpty(urlPart))
             {
                 throw new ArgumentException("Url must be specfied");
