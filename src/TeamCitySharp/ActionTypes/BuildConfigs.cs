@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.Mime;
 using System.Xml;
 using EasyHttp.Http;
 using TeamCitySharp.Connection;
@@ -104,9 +103,9 @@ namespace TeamCitySharp.ActionTypes
             _caller.PostFormat<ArtifactDependency>(rawXml, HttpContentTypes.ApplicationXml, string.Empty, "/app/rest/buildTypes/{0}/artifact-dependencies", locator);
         }
 
-        public void PostRawBuildStep(BuildTypeLocator locator, string rawXml)
+        public BuildStep PostRawBuildStep(BuildTypeLocator locator, string rawXml)
         {
-            _caller.PostFormat<BuildConfig>(rawXml, HttpContentTypes.ApplicationXml, string.Empty, "/app/rest/buildTypes/{0}/steps", locator);
+          return _caller.PostFormat<BuildStep>(rawXml, HttpContentTypes.ApplicationXml, HttpContentTypes.ApplicationJson, "/app/rest/buildTypes/{0}/steps", locator);
         }
 
         public void PostRawBuildTrigger(BuildTypeLocator locator, string rawXml)
