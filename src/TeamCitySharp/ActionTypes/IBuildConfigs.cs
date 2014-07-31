@@ -23,7 +23,7 @@ namespace TeamCitySharp.ActionTypes
         bool GetConfigurationPauseStatus(BuildTypeLocator locator);
         void SetConfigurationPauseStatus(BuildTypeLocator locator, bool isPaused);
         void PostRawArtifactDependency(BuildTypeLocator locator, string rawXml);
-        void PostRawBuildStep(BuildTypeLocator locator, string rawXml);
+        BuildStep PostRawBuildStep(BuildTypeLocator locator, string rawXml);
         void PostRawBuildTrigger(BuildTypeLocator locator, string rawXml);
         void SetConfigurationParameter(BuildTypeLocator locator, string key, string value);
         void PostRawAgentRequirement(BuildTypeLocator locator, string rawXml);
