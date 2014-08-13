@@ -74,5 +74,13 @@ namespace TeamCitySharp.IntegrationTests
 
             Assert.That(changeDetails != null, "Cannot find details of that specified change");
         }
+
+		[TestCase("bt113", "42843")]
+		public void it_returns_change_details_since_build_id(string buildConfigId, string changeId)
+		{
+			List<Change> changes = _client.Changes.ByBuildConfigIdSinceChangeId(buildConfigId, changeId);
+
+			Assert.That(changes.Any(), "Cannot find any changes since the change id specified");
+		}
     }
 }

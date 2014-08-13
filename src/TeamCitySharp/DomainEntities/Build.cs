@@ -16,7 +16,12 @@ namespace TeamCitySharp.DomainEntities
 
         public BuildConfig BuildConfig { get; set; }
         public Agent Agent { get; set;}
+
         public ChangeWrapper Changes { get; set; }
+		/// <summary>
+		/// TeamCity 8.* response to build queries fills changes in LastChanges.
+		/// </summary>
+		public ChangeWrapper LastChanges { get; set; }
 
         public override string ToString()
         {
