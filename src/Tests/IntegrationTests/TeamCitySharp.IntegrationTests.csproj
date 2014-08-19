@@ -63,6 +63,7 @@
     <Compile Include="SampleUserUsage.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SampleStatisticsUsage.cs" />
     <Compile Include="SampleVcsUsage.cs">
       <SubType>Code</SubType>
     </Compile>
