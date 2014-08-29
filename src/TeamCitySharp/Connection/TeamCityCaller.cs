@@ -67,6 +67,7 @@ namespace TeamCitySharp.Connection
                 throw new ArgumentException("If you are not acting as a guest you must supply userName and password");
             }
 
+            urlPart = System.Web.HttpUtility.UrlEncode(urlPart);
             if (string.IsNullOrEmpty(urlPart))
             {
                 throw new ArgumentException("Url must be specfied");
