@@ -9,6 +9,7 @@ namespace TeamCitySharp.ActionTypes
         Project ByName(string projectLocatorName);
         Project ById(string projectLocatorId);
         Project Details(Project project);
+        Project Create(string projectName);
         Project Create(string projectName, string sourceId, string projectId ="");
         Project Move(string projectId, string destinationId);
         Project Copy(string projectid, string projectName, string newProjectId);

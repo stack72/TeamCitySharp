@@ -6,16 +6,16 @@ namespace TeamCitySharp.ActionTypes
 {
     public class Statistics : IStatistics
     {
-        private readonly TeamCityCaller _caller;
+        private readonly ITeamCityCaller caller;
 
-        internal Statistics(TeamCityCaller caller)
+        internal Statistics(ITeamCityCaller caller)
         {
-            _caller = caller;
+            this.caller = caller;
         }
 
         public List<Property> GetByBuildId(string buildId)
         {
-            return _caller.GetFormat<Properties>("/app/rest/builds/id:{0}/statistics", buildId).Property;
+            return this.caller.GetFormat<Properties>("/app/rest/builds/id:{0}/statistics", buildId).Property;
         }
     }
 }

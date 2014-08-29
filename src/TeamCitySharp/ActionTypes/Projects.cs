@@ -47,6 +47,10 @@ namespace TeamCitySharp.ActionTypes
             return ById(project.Id);
         }
 
+        public Project Create(string projectName)
+        {
+          return _caller.Post<Project>(projectName, HttpContentTypes.TextPlain, "/app/rest/projects/", HttpContentTypes.ApplicationJson);
+        }
 
         public Project Create(string projectName, string sourceId, string projectId = "")
         {
