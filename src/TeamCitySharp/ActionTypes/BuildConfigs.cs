@@ -89,6 +89,10 @@ namespace TeamCitySharp.ActionTypes
         {
             return _caller.PostFormat<BuildConfig>(configurationName, HttpContentTypes.TextPlain, HttpContentTypes.ApplicationJson, "/app/rest/projects/name:{0}/buildTypes", projectName);
         }
+        public BuildConfig CreateConfigurationByProjectId(string projectId, string configurationName)
+        {
+          return _caller.PostFormat<BuildConfig>(configurationName, HttpContentTypes.TextPlain, HttpContentTypes.ApplicationJson, "/app/rest/projects/id:{0}/buildTypes", projectId);
+        }
 
         public void SetConfigurationSetting(BuildTypeLocator locator, string settingName, string settingValue)
         {
@@ -214,6 +218,11 @@ namespace TeamCitySharp.ActionTypes
             var build = _caller.GetFormat<BuildConfig>("/app/rest/buildTypes/{0}", locator);
 
             return build;
+        }
+
+        public void SetBuildTypeVariable(BuildTypeLocator locatorBuildType ,string nameVariable, string value)
+        {
+          _caller.PutFormat(value, HttpContentTypes.TextPlain, "/app/rest/buildTypes/{0}/{1}", locatorBuildType, nameVariable);
         }
         public bool ModifTrigger(string buildTypeId, string triggerID, string newBt)
         {
