@@ -33,15 +33,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EasyHttp, Version=1.6.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\EasyHttp.1.6.1.0\lib\net40\EasyHttp.dll</HintPath>
+    <Reference Include="EasyHttp">
+      <HintPath>..\..\packages\EasyHttp.1.6.67.0\lib\net40\EasyHttp.dll</HintPath>
     </Reference>
     <Reference Include="JsonFx">
       <HintPath>..\..\packages\JsonFx.2.0.1209.2802\lib\net40\JsonFx.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
