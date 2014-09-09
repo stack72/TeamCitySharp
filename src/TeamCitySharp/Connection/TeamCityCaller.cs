@@ -1,4 +1,4 @@
-﻿﻿using System;
+using System;
 using System.IO;
 using System.Net;
 using System.Security.Authentication;
@@ -12,13 +12,15 @@ namespace TeamCitySharp.Connection
 {
     internal class TeamCityCaller : ITeamCityCaller
     {
+        public int httpTimeOut { get; set; }
         private readonly Credentials _configuration = new Credentials();
 
         public TeamCityCaller(string hostName, bool useSsl)
         {
             if (string.IsNullOrEmpty(hostName))
                 throw new ArgumentNullException("hostName");
-
+            
+            httpTimeOut = 10000;
             _configuration.UseSSL = useSsl;
             _configuration.HostName = hostName;
         }
@@ -67,7 +69,6 @@ namespace TeamCitySharp.Connection
                 throw new ArgumentException("If you are not acting as a guest you must supply userName and password");
             }
 
-            urlPart = System.Web.HttpUtility.UrlEncode(urlPart);
             if (string.IsNullOrEmpty(urlPart))
             {
                 throw new ArgumentException("Url must be specfied");
@@ -123,7 +124,7 @@ namespace TeamCitySharp.Connection
             var response = GetResponse(urlPart);
             return response.StaticBody<T>();
         }
-        
+
         public void Get(string urlPart)
         {
             GetResponse(urlPart);
@@ -248,6 +249,7 @@ namespace TeamCitySharp.Connection
         {
             var httpClient = new HttpClient(new TeamcityJsonEncoderDecoderConfiguration());
             httpClient.Request.Accept = accept;
+            httpClient.Request.Timeout = httpTimeOut;
             if (!_configuration.ActAsGuest)
             {
                 httpClient.Request.SetBasicAuthentication(userName, password);
