@@ -41,6 +41,21 @@ namespace TeamCitySharp.ActionTypes
 
             return changes.FirstOrDefault();
         }
+        
+        public List<Change> ByBuild(Build aBuild)
+        {
+            int buildId;
+            if (!int.TryParse(aBuild.Id, out buildId))
+                buildId = -1;
+            return ByBuildId(buildId);
+        }
+
+        public List<Change> ByBuildId(int aBuildId)
+        {
+            var changeWrapper = _caller.GetFormat<ChangeWrapper>("/app/rest/changes?build=id:{0}", aBuildId);
+
+            return changeWrapper.Change;
+        }
 
     }
 }
