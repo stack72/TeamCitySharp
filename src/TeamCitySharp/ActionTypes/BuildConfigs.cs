@@ -198,9 +198,9 @@ namespace TeamCitySharp.ActionTypes
             _caller.DeleteFormat("/app/rest/buildTypes/{0}/snapshot-dependencies/{1}", locator, snapshotDependencyId);
         }
 
-        public void PostRawSnapshotDependency(BuildTypeLocator locator, XmlElement rawXml)
+        public void PostRawSnapshotDependency(BuildTypeLocator locator, string rawXml)
         {
-            _caller.PostFormat(rawXml.OuterXml, HttpContentTypes.ApplicationXml, "/app/rest/buildTypes/{0}/snapshot-dependencies", locator);
+            _caller.PostFormat(rawXml, HttpContentTypes.ApplicationXml, "/app/rest/buildTypes/{0}/snapshot-dependencies", locator);
         }
 
         public BuildConfig BuildType(BuildTypeLocator locator)

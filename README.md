@@ -114,7 +114,7 @@ Each area has its own list of methods available
 
 	void SetBuildTypeTemplate(BuildTypeLocator locatorBuildType, BuildTypeLocator locatorTemplate);
 	void DeleteSnapshotDependency(BuildTypeLocator locator, string snapshotDependencyId);
-	void PostRawSnapshotDependency(BuildTypeLocator locator, XmlElement rawXml);
+	void PostRawSnapshotDependency(BuildTypeLocator locator, string rawXml);
 	BuildConfig BuildType(BuildTypeLocator locator);
 
     void DeleteConfiguration(BuildTypeLocator locator);
