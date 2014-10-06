@@ -101,6 +101,12 @@ namespace TeamCitySharp.ActionTypes
                                             ));
         }
 
+        public List<Build> AllRunningBuilds()
+        {
+            return ByBuildLocator(BuildLocator.WithDimensions(null, null, null, null, null, null, true
+                                            ));
+        }
+
         public List<Build> ByConfigIdAndTag(string buildConfigId, string tag)
         {
             return ByConfigIdAndTag(buildConfigId, new[] { tag });
