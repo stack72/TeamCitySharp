@@ -18,6 +18,7 @@ namespace TeamCitySharp.ActionTypes
         List<Build> ByConfigIdAndTag(string buildConfigId, string tag);
         List<Build> ByUserName(string userName);
         List<Build> ByBuildLocator(BuildLocator locator);
+        List<Build> AllRunningBuilds();
         List<Build> AllSinceDate(DateTime date);
         List<Build> AllBuildsOfStatusSinceDate(DateTime date, BuildStatus buildStatus);
         List<Build> NonSuccessfulBuildsForUser(string userName);
