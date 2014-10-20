@@ -33,7 +33,7 @@ namespace TeamCitySharp.ActionTypes
         void DeleteParameter(BuildTypeLocator locator, string parameterName);
         void DeleteBuildTrigger(BuildTypeLocator locator, string buildTriggerId);
 
-        void CopyConfiguration(BuildTypeLocator locatorToCopy, BuildTypeLocator locator, string newName);
+        string CopyConfiguration(BuildTypeLocator locatorToCopy, BuildTypeLocator locator, string newName);
 
         /// <summary>
         /// Makes a build type inherit a template.
