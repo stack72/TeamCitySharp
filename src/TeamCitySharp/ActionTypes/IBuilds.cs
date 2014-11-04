@@ -26,5 +26,6 @@ namespace TeamCitySharp.ActionTypes
         List<Build> ByBranch(string branchName);
         Build LastBuildByAgent(string agentName);
         void Add2QueueBuildByBuildConfigId(string buildConfigId);
+        void PinBuildByBuildNumber(string buildConfigId, string buildNumber, string message);
     }
 }

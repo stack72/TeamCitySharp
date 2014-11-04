@@ -159,5 +159,11 @@ namespace TeamCitySharp.ActionTypes
 
             return builds.Where(b => b.Status != "SUCCESS").ToList();
         }
+
+        public void PinBuildByBuildNumber(string buildConfigId, string buildNumber, string message)
+        {
+            message = message == null ? string.Empty : message;
+            _caller.Put(message, "text/plain", string.Format("/app/rest/builds/buildType:{0},number:{1}/{2}/", buildConfigId, buildNumber, "pin"), null);
+        }
     }
 }
