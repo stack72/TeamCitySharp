@@ -5,6 +5,6 @@ namespace TeamCitySharp.ActionTypes
 {
     public interface IAgents
     {
-        List<Agent> All();
+        List<Agent> All(bool includeDisconnected = false, bool includeUnauthorized = false);
     }
 }

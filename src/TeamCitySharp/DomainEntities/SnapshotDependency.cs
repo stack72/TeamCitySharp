@@ -1,13 +1,41 @@
+using JsonFx.Json;
+
 namespace TeamCitySharp.DomainEntities
 {
 	public class SnapshotDependency
 	{
+	    public SnapshotDependency()
+	    {
+	        Properties = new Properties();
+	        Type = "snapshot_dependency";
+	    }
+
 		public override string ToString()
 		{
-			return "snapshot_dependency";
+		    return Type;
 		}
 
 		public string Id { get; set; }
-		public Properties Properties { get; set; }
+	    public Properties Properties { get; set; }
+        [JsonName("source-buildType")]
+        public SourceBuildType SourceBuildType { get; set; }
+        public string Type { get; set; }
+
+        public static SnapshotDependency Default(string dependsOnbuildId)
+        {
+            var dependency = new SnapshotDependency();
+
+            dependency.Properties.Add("run-build-if-dependency-failed", "false");
+            dependency.Properties.Add("run-build-on-the-same-agent", "false");
+            dependency.Properties.Add("take-started-build-with-same-revisions", "true");
+            dependency.Properties.Add("take-successful-builds-only", "true");
+
+            dependency.SourceBuildType = new SourceBuildType
+            {
+                Id = dependsOnbuildId
+            };
+
+            return dependency;
+        }
 	}
 }
