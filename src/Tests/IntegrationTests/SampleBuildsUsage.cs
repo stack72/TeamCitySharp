@@ -178,6 +178,19 @@ namespace TeamCitySharp.IntegrationTests
             Assert.IsNotNull(builds);
         }
 
+		[TestCase("bt5")]
+		public void it_returns_a_build_from_id(string buildConfigId)
+		{
+			var builds = _client.Builds.ByBuildConfigId(buildConfigId);
+
+			Assert.IsTrue(builds.Any(), "There are no builds from config id " + buildConfigId + ".  Cannot test retrieving one!");
+
+			var build = _client.Builds.ByBuildInternalId(builds.First().Id);
+
+			Assert.IsNotNull(build, "Did not return with a build!");
+			Assert.IsNotNullOrEmpty(build.Id, "Did not return with a build!");
+		}
+
         [Test]
         public void it_does_not_populate_the_status_text_field_of_the_build_object()
         {

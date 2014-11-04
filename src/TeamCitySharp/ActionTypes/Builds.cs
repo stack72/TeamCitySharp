@@ -16,6 +16,13 @@ namespace TeamCitySharp.ActionTypes
             _caller = caller;
         }
 
+		public Build ByBuildInternalId(string buildInternalId)
+		{
+			var build = _caller.GetFormat<Build>("/app/rest/builds/id:{0}", buildInternalId);
+
+			return build;
+		}
+
         public List<Build> ByBuildLocator(BuildLocator locator)
         {
             var buildWrapper = _caller.GetFormat<BuildWrapper>("/app/rest/builds?locator={0}", locator);
