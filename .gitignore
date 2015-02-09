@@ -11,3 +11,4 @@ output
 *.DotSettings.*
 nuget
 Package
+/TeamCitySharp.sln.ide

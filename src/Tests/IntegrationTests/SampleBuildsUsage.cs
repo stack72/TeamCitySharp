@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
+using System.Runtime.CompilerServices;
 using NUnit.Framework;
 using TeamCitySharp.Locators;
 
@@ -177,6 +178,19 @@ namespace TeamCitySharp.IntegrationTests
             Assert.IsNotNull(builds);
         }
 
+		[TestCase("bt5")]
+		public void it_returns_a_build_from_id(string buildConfigId)
+		{
+			var builds = _client.Builds.ByBuildConfigId(buildConfigId);
+
+			Assert.IsTrue(builds.Any(), "There are no builds from config id " + buildConfigId + ".  Cannot test retrieving one!");
+
+			var build = _client.Builds.ByBuildInternalId(builds.First().Id);
+
+			Assert.IsNotNull(build, "Did not return with a build!");
+			Assert.IsNotNullOrEmpty(build.Id, "Did not return with a build!");
+		}
+
         [Test]
         public void it_does_not_populate_the_status_text_field_of_the_build_object()
         {
@@ -189,6 +203,19 @@ namespace TeamCitySharp.IntegrationTests
                                                                          maxResults: 1));
             Assert.That(build.Count == 1);
             Assert.IsNull(build[0].StatusText);
+        }
+
+        [Test]
+        public void ig_returns_correct_build_when_calling_by_id()
+        {
+            const string buildId = "5726";
+            var client = new TeamCityClient("localhost:81");
+            client.Connect("admin", "qwerty");
+
+            var build = client.Builds.ById(buildId);
+
+            Assert.That(build != null);
+            Assert.That(build.Id == buildId);
         }
     }
 }

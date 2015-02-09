@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
@@ -30,10 +31,17 @@ namespace TeamCitySharp.ActionTypes
 
         public List<Change> ByBuildConfigId(string buildConfigId)
         {
-            var changeWrapper = _caller.GetFormat<ChangeWrapper>("/app/rest/changes?buildType={0}", buildConfigId);
+            var changeWrapper = _caller.GetFormat<ChangeWrapper>("/app/rest/changes?buildType=id:{0}", buildConfigId);
 
             return changeWrapper.Change;
         }
+
+		public List<Change> ByBuildConfigIdSinceChangeId(string buildConfigId, string sinceChangeId)
+		{
+			var changeWrapper = _caller.GetFormat<ChangeWrapper>("/app/rest/changes?buildType=id:{0}&sinceChange=id:{1}", buildConfigId, sinceChangeId);
+
+			return changeWrapper.Change;
+		}
 
         public Change LastChangeDetailByBuildConfigId(string buildConfigId)
         {
@@ -41,6 +49,5 @@ namespace TeamCitySharp.ActionTypes
 
             return changes.FirstOrDefault();
         }
-
     }
 }

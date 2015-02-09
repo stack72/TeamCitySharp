@@ -114,6 +114,24 @@ namespace TeamCitySharp.ActionTypes
             _caller.PostFormat(rawXml, HttpContentTypes.ApplicationXml, "/app/rest/buildTypes/{0}/triggers", locator);
         }
 
+        public void SetArtifactDependency(BuildTypeLocator locator, ArtifactDependency dependency)
+        {
+            _caller.PostFormat<ArtifactDependency>(dependency, HttpContentTypes.ApplicationJson,
+                HttpContentTypes.ApplicationJson, "/app/rest/buildTypes/{0}/artifact-dependencies", locator);
+        }
+
+        public void SetSnapshotDependency(BuildTypeLocator locator, SnapshotDependency dependency)
+        {
+            _caller.PostFormat<SnapshotDependency>(dependency, HttpContentTypes.ApplicationJson,
+                HttpContentTypes.ApplicationJson, "/app/rest/buildTypes/{0}/snapshot-dependencies", locator);
+        }
+
+        public void SetTrigger(BuildTypeLocator locator, BuildTrigger trigger)
+        {
+            _caller.PostFormat<BuildTrigger>(trigger, HttpContentTypes.ApplicationJson, HttpContentTypes.ApplicationJson,
+                "/app/rest/buildTypes/{0}/triggers", locator);
+        }
+
         public void SetConfigurationParameter(BuildTypeLocator locator, string key, string value)
         {
             _caller.PutFormat(value, HttpContentTypes.TextPlain, "/app/rest/buildTypes/{0}/parameters/{1}", locator, key);
@@ -208,6 +226,12 @@ namespace TeamCitySharp.ActionTypes
             var build = _caller.GetFormat<BuildConfig>("/app/rest/buildTypes/{0}", locator);
 
             return build;
+        }
+
+        public string CopyConfiguration(BuildTypeLocator projectLocator, BuildTypeLocator locatorToCopy, string newName)
+        {
+            _caller.PostFormat(string.Format("<newBuildTypeDescription name='{0}' sourceBuildTypeLocator='{1}' copyAllAssociatedSettings='true' shareVCSRoots='false'/>", newName, locatorToCopy), HttpContentTypes.ApplicationXml, "/app/rest/projects/{0}/buildTypes", projectLocator);
+            return ByConfigurationName(newName).Id;
         }
     }
 }

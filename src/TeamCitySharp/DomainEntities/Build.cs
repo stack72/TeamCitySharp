@@ -11,12 +11,18 @@ namespace TeamCitySharp.DomainEntities
         public string Href { get; set; }
         public string WebUrl { get; set; }
         public string StatusText { get; set; }
+        public string BranchName { get; set; }
         public DateTime StartDate { get; set; }
-        public DateTime FinishDate { get; set; }
+        public DateTime FinishDate { get; set; } 
 
         public BuildConfig BuildConfig { get; set; }
         public Agent Agent { get; set;}
+
         public ChangeWrapper Changes { get; set; }
+		/// <summary>
+		/// TeamCity 8.* response to build queries fills changes in LastChanges.
+		/// </summary>
+		public ChangeWrapper LastChanges { get; set; }
 
         public override string ToString()
         {

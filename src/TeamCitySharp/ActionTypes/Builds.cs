@@ -16,6 +16,13 @@ namespace TeamCitySharp.ActionTypes
             _caller = caller;
         }
 
+		public Build ByBuildInternalId(string buildInternalId)
+		{
+			var build = _caller.GetFormat<Build>("/app/rest/builds/id:{0}", buildInternalId);
+
+			return build;
+		}
+
         public List<Build> ByBuildLocator(BuildLocator locator)
         {
             var buildWrapper = _caller.GetFormat<BuildWrapper>("/app/rest/builds?locator={0}", locator);
@@ -95,6 +102,13 @@ namespace TeamCitySharp.ActionTypes
             return builds != null ? builds.FirstOrDefault() : new Build();
         }
 
+        public Build ById(string id)
+        {
+            var build = _caller.GetFormat<Build>("/app/rest/builds/id:{0}", id);
+
+            return build ?? new Build();
+        }
+
         public List<Build> ByBuildConfigId(string buildConfigId)
         {
             return ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId)
@@ -144,6 +158,12 @@ namespace TeamCitySharp.ActionTypes
             }
 
             return builds.Where(b => b.Status != "SUCCESS").ToList();
+        }
+
+        public void PinBuildByBuildNumber(string buildConfigId, string buildNumber, string message)
+        {
+            message = message == null ? string.Empty : message;
+            _caller.Put(message, "text/plain", string.Format("/app/rest/builds/buildType:{0},number:{1}/{2}/", buildConfigId, buildNumber, "pin"), null);
         }
     }
 }
