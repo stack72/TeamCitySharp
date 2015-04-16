@@ -16,6 +16,7 @@ namespace TeamCitySharp
         private IChanges _changes;
         private IBuildArtifacts _artifacts;
         private ITestOccurrences _testOccurrences;
+        private IStatistics _statistics;
 
         public TeamCityClient(string hostName, bool useSsl = false)
         {
@@ -85,6 +86,11 @@ namespace TeamCitySharp
         public ITestOccurrences TestOccurrences
         {
             get { return _testOccurrences ?? (_testOccurrences = new TestOccurrences(_caller)); }
+        }
+
+        public IStatistics Statistics
+        {
+            get { return _statistics ?? (_statistics = new Statistics(_caller)); }
         }
     }
 }
