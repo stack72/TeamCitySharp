@@ -1,4 +1,5 @@
 ﻿using System;
+using JsonFx.Json;
 
 namespace TeamCitySharp.DomainEntities
 {
@@ -11,6 +12,7 @@ namespace TeamCitySharp.DomainEntities
         public string Version { get; set; }
         public DateTime Date { get; set; }
         public string Comment { get; set; }
+        public User User { get; set; }
 
         public FileWrapper Files { get; set; }
     }
