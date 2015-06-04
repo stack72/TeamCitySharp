@@ -6,6 +6,7 @@ namespace TeamCitySharp.ActionTypes
     public interface IProjects
     {
         List<Project> All();
+        List<DomainEntities.CCTray.Project> CruiseControlTray();
         Project ByName(string projectLocatorName);
         Project ById(string projectLocatorId);
         Project Details(Project project);

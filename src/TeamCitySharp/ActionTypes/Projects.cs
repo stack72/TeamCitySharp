@@ -21,6 +21,12 @@ namespace TeamCitySharp.ActionTypes
             return projectWrapper.Project;
         }
 
+        public List<DomainEntities.CCTray.Project> CruiseControlTray()
+        {
+            var projectWrapper = _caller.Get<DomainEntities.CCTray.ProjectWrapper>("/app/rest/cctray");
+            return projectWrapper.Project;
+        }
+
         public Project ByName(string projectLocatorName)
         {
             var project = _caller.GetFormat<Project>("/app/rest/projects/name:{0}", projectLocatorName);
