@@ -87,9 +87,12 @@ namespace TeamCitySharp.Connection
 
             try
             {
-                CreateHttpClient(_configuration.UserName, _configuration.Password, HttpContentTypes.ApplicationJson).GetAsFile(url, tempFileName);
+                var httpResponse = CreateHttpClient(_configuration.UserName, _configuration.Password, HttpContentTypes.ApplicationJson).GetAsFile(url, tempFileName);
+                if (httpResponse.StatusCode != HttpStatusCode.OK)
+                {
+                    throw new HttpException(httpResponse.StatusCode, httpResponse.StatusDescription);
+                }
                 downloadHandler.Invoke(tempFileName);
-
             }
             finally
             {
