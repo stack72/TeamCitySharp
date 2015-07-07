@@ -40,7 +40,8 @@ namespace TeamCitySharp.Locators
                                                   BuildLocator sinceBuild = null,
                                                   DateTime? sinceDate = null,
                                                   string[] tags = null,
-                                                  string branch = null
+                                                  string branch = null,
+                                                  string buildNumber = null
             )
         {
             return new BuildLocator
@@ -58,7 +59,8 @@ namespace TeamCitySharp.Locators
                            SinceBuild = sinceBuild,
                            SinceDate = sinceDate,
                            Tags = tags,
-                           Branch = branch
+                           Branch = branch,
+                           Number = buildNumber
                        };
         }
 
