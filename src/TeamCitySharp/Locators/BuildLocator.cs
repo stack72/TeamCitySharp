@@ -88,12 +88,12 @@ namespace TeamCitySharp.Locators
                 return "id:" + Id;
             }
 
+            var locatorFields = new List<string>();
+
             if (Number != null)
             {
-                return "number:" + Number;
+                locatorFields.Add("number:" + Number);
             }
-
-            var locatorFields = new List<string>();
 
             if (BuildType != null)
             {
