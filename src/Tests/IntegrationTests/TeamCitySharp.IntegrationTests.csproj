@@ -68,6 +68,7 @@
     <Compile Include="SampleVcsUsage.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="when_team_city_client_is_asked_to_return_tests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
