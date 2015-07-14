@@ -25,7 +25,8 @@ namespace TeamCitySharp.DomainEntities
         {
             var dependency = new SnapshotDependency();
 
-            dependency.Properties.Add("run-build-if-dependency-failed", "false");
+            dependency.Properties.Add("run-build-if-dependency-failed", "RUN_ADD_PROBLEM");
+            dependency.Properties.Add("run-build-if-dependency-failed-to-start", "MAKE_FAILED_TO_START");
             dependency.Properties.Add("run-build-on-the-same-agent", "false");
             dependency.Properties.Add("take-started-build-with-same-revisions", "true");
             dependency.Properties.Add("take-successful-builds-only", "true");
