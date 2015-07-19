@@ -9,6 +9,13 @@ namespace TeamCitySharp.ActionTypes
     {
         List<TestOccurrence> TestOccurrencesByBuildId(long buildId, int? indexStart = 0, int? maxResults = 100);
         List<TestOccurrence> FailedTestOccurrencesByBuildId(long buildId, int? indexStart = 0, int? maxResults = 100);
+
+        /// <summary>
+        /// Retrieves an instance of TestOccurence by Id as received from TeamCity API 
+        /// </summary>
+        /// <param name="testOccurenceLocator">In the format id=build:(id:181203),id:305</param>
+        /// <returns></returns>
+        TestOccurrence TestOccurrenceById(string testOccurenceLocator);
     }
 
     public class TestOccurrences : ITestOccurrences
@@ -44,6 +51,13 @@ namespace TeamCitySharp.ActionTypes
             }
 
             return new List<TestOccurrence>();
+        }
+
+        public TestOccurrence TestOccurrenceById(string testOccurenceLocator)
+        {
+            var testOccurrence = _caller.GetFormat<TestOccurrence>("/app/rest/testOccurrences/{0}", testOccurenceLocator);
+
+            return testOccurrence;
         }
 
         private static BuildLocator CreateBuildLocator(long buildId, int? indexStart, int? maxResults)

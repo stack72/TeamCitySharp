@@ -1,4 +1,7 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using System.Linq;
+using NUnit.Framework;
+using TeamCitySharp.DomainEntities;
 
 namespace TeamCitySharp.IntegrationTests
 {
@@ -28,6 +31,15 @@ namespace TeamCitySharp.IntegrationTests
             var createUserResult = _client.TestOccurrences.FailedTestOccurrencesByBuildId(181203, 0, 10);
 
             Assert.That(createUserResult.Count,Is.EqualTo(0));
+        }
+
+        [Test]
+        public void it_gets_test_occurences_details()
+        {
+            List<TestOccurrence> createUserResult = _client.TestOccurrences.TestOccurrencesByBuildId(181203, 0, 10);
+            var testOccurrence = _client.TestOccurrences.TestOccurrenceById(createUserResult.First().Id);
+
+            Assert.That(testOccurrence, Is.Not.Null);
         }
     }
 }
