@@ -21,18 +21,25 @@ namespace TeamCitySharp.ActionTypes
             return changeWrapper.Change;
         }
 
-        public Change ByChangeId(string id)
+        public Change ByChangeId(long id)
         {
             var change = _caller.GetFormat<Change>("/app/rest/changes/id:{0}", id);
 
             return change;
         }
 
-        public List<Change> ByBuildId(string buildId)
+        public List<Change> ByBuildId(long buildId)
         {
-            var changeWrapper = _caller.GetFormat<ChangesList>("/app/rest/changes?buildId={0}", buildId);
+            var changeWrapper = _caller.GetFormat<ChangesList>("/app/rest/changes?locator=build:(id:{0})", buildId);
 
-            return changeWrapper.Change.Select(c => ByChangeId(c.Id)).ToList();
+            return changeWrapper.Change;
+        }
+
+        public List<Change> ByBuildIdWithDetails(long buildId)
+        {
+            var changes = ByBuildId(buildId);
+
+            return changes.Select(c => ByChangeId(c.Id)).ToList();
         }
 
         public List<Change> ByBuildConfigId(string buildConfigId)

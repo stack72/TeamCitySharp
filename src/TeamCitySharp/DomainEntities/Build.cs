@@ -4,7 +4,7 @@ namespace TeamCitySharp.DomainEntities
 {
     public class Build
     {
-        public string Id { get; set; }
+        public long Id { get; set; }
         public string Number { get; set; }
         public string Status { get; set; }
         public string BuildTypeId { get; set; }
