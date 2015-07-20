@@ -1,24 +1,17 @@
-#TeamCitySharp
+#TeamCitySharp fork by @borismod
 
-*.NET Library to access TeamCity via their REST API.
+* Fork of Paul Slack's original .NET Library to access TeamCity via their REST API. This fork has some additional features, bug fixes and breaking changes. Tested on TeamCity 8.0.5 and 9.1
 
 For more information on TeamCity visit:
-http://www.jetbrains.com/teamcity
-
-##Releases
-Please find the release notes [here](https://github.com/stack72/TeamCitySharp/releases)
+[TeamCity REST API v9](https://confluence.jetbrains.com/display/TCD9/REST+API)
 
 ##License 
 http://stack72.mit-license.org/
 
 ##Installation
-There are 2 ways to use TeamCitySharp:
+Currently there is one way of using TeamCitySharp:
 
-* install-package TeamCitysharp (via Nuget)
 * Download source and compile
-
-##Build Monitor
-* There is a sample build monitor built with TeamCitySharp. It can be found at [TeamCityMonitor](https://github.com/stack72/TeamCityMonitor)
 
 ##Sample Usage
 To get a list of projects
@@ -58,6 +51,7 @@ There are many tasks that the TeamCity API can do for us. TeamCitySharp groups t
 * VcsRoots
 * Changes
 * BuildArtifacts
+* TestOccurrences
 
 Each area has its own list of methods available
 
@@ -153,10 +147,23 @@ Each area has its own list of methods available
     Change ByChangeId(string id);
     Change LastChangeDetailByBuildConfigId(string buildConfigId);
     List<Change> ByBuildConfigId(string buildConfigId);
+    
+    // Return list of changes with basic information
+    List<Change> ByBuildId(long buildId);
+    
+    /// Returns list of changes with their details
+    List<Change> ByBuildIdWithDetails(long buildId);
 
 ###BuildArtifacts
     void DownloadArtifactsByBuildId(string buildId, Action<string> downloadHandler);
 
+###TestOccurrences
+    List<TestOccurrence> TestOccurrencesByBuildId(long buildId, int? indexStart = 0, int? maxResults = 100);
+    List<TestOccurrence> FailedTestOccurrencesByBuildId(long buildId, int? indexStart = 0, int? maxResults = 100);
+    
+    /// Retrieves an instance of TestOccurence by Id as received from TeamCity API 
+    TestOccurrence TestOccurrenceById(string testOccurenceLocator);
+    
 ##Credits
 
 Copyright (c) 2013 Paul Stack (@stack72)
