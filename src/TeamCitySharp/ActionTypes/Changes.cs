@@ -39,7 +39,7 @@ namespace TeamCitySharp.ActionTypes
         {
             var changes = ByBuildId(buildId);
 
-            return changes.Select(c => ByChangeId(c.Id)).ToList();
+            return changes == null ? new List<Change>() : changes.Select(c => ByChangeId(c.Id)).ToList();
         }
 
         public List<Change> ByBuildConfigId(string buildConfigId)
