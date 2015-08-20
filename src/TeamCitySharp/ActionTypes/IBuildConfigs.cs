@@ -88,5 +88,14 @@ namespace TeamCitySharp.ActionTypes
         void PutAllBuildTypeParameters(BuildTypeLocator locator, IDictionary<string, string> parameters);
 
         void DownloadConfiguration(BuildTypeLocator locator, Action<string> downloadHandler);
+
+        /// <summary>
+        /// Copies given build configuration to another project
+        /// </summary>
+        /// <param name="buildTypeLocator"></param>
+        /// <param name="destinationProjectLocator"></param>
+        /// <param name="newConfigurationName"></param>
+        void CopyBuildConfiguration(BuildTypeLocator buildTypeLocator, ProjectLocator destinationProjectLocator,
+            string newConfigurationName);
     }
 }

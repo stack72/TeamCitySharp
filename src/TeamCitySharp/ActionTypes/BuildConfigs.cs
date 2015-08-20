@@ -158,6 +158,13 @@ namespace TeamCitySharp.ActionTypes
             _caller.GetDownloadFormat(downloadHandler, "/app/rest/buildTypes/{0}", locator);
         }
 
+        public void CopyBuildConfiguration(BuildTypeLocator buildTypeLocator, ProjectLocator destinationProjectLocator, string newConfigurationName)
+        {
+            var data = string.Format(@"<newBuildTypeDescription name='{0}' sourceBuildTypeLocator='{1}' copyAllAssociatedSettings='true' shareVCSRoots='false'/>", newConfigurationName, buildTypeLocator);
+
+            _caller.PostFormat(data, HttpContentTypes.ApplicationXml, "/app/rest/projects/{0}/buildTypes", destinationProjectLocator);
+        }
+
         public void PostRawAgentRequirement(BuildTypeLocator locator, string rawXml)
         {
             _caller.PostFormat(rawXml, HttpContentTypes.ApplicationXml, "/app/rest/buildTypes/{0}/agent-requirements", locator);

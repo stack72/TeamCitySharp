@@ -6,6 +6,7 @@ using TeamCitySharp.DomainEntities;
 namespace TeamCitySharp.IntegrationTests
 {
     [TestFixture]
+    // ReSharper disable once TestClassNameSuffixWarning
     public class when_team_city_client_is_asked_to_return_tests
     {
         [SetUp]

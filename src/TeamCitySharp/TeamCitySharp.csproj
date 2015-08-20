@@ -68,6 +68,7 @@
     <Compile Include="ActionTypes\ITestOccurrences.cs" />
     <Compile Include="ActionTypes\IUsers.cs" />
     <Compile Include="ActionTypes\IVcsRoots.cs" />
+    <Compile Include="ActionTypes\ProjectLocator.cs" />
     <Compile Include="ActionTypes\Projects.cs" />
     <Compile Include="ActionTypes\ServerInformation.cs" />
     <Compile Include="Connection\ITeamCityCaller.cs" />

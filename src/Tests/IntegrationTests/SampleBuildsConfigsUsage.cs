@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using System.Net;
 using NUnit.Framework;
+using TeamCitySharp.ActionTypes;
+using TeamCitySharp.DomainEntities;
 using TeamCitySharp.Locators;
 
 namespace TeamCitySharp.IntegrationTests
@@ -112,6 +114,16 @@ namespace TeamCitySharp.IntegrationTests
             var buildConfigs = _client.BuildConfigs.ByProjectName(projectName);
 
             Assert.That(buildConfigs.Any(), "Cannot find a build type for that projectName");
+        }      
+        
+        [Test]
+        public void it_copies_build_configuration()
+        {
+            _client.BuildConfigs.CopyBuildConfiguration(BuildTypeLocator.WithId("Misc_Playground"), ProjectLocator.WithId("Misc_Tryout"), "Misc_Playground_Copied");
+            var newConfig = _client.BuildConfigs.ByConfigurationName("Misc_Playground_Copied");
+            _client.BuildConfigs.DeleteConfiguration(BuildTypeLocator.WithName("Misc_Playground_Copied"));
+
+            Assert.That(newConfig, Is.Not.Null);
         }
     }
 }
