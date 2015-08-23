@@ -124,6 +124,12 @@ namespace TeamCitySharp.IntegrationTests
             _client.BuildConfigs.DeleteConfiguration(BuildTypeLocator.WithName("Misc_Playground_Copied"));
 
             Assert.That(newConfig, Is.Not.Null);
+        }        
+        
+        [Test]
+        public void it_triggers_build_configuration()
+        {
+            _client.BuildConfigs.TriggerBuildConfiguration("Misc_Playground"); 
         }
     }
 }

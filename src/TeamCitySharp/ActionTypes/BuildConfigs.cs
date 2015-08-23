@@ -165,6 +165,13 @@ namespace TeamCitySharp.ActionTypes
             _caller.PostFormat(data, HttpContentTypes.ApplicationXml, "/app/rest/projects/{0}/buildTypes", destinationProjectLocator);
         }
 
+        public void TriggerBuildConfiguration(string buildConfigId)
+        {
+            var data = string.Format(@"<build><buildType id=""{0}""/></build>", buildConfigId);
+
+            _caller.PostFormat(data, HttpContentTypes.ApplicationXml, "/app/rest/buildQueue");
+        }
+
         public void PostRawAgentRequirement(BuildTypeLocator locator, string rawXml)
         {
             _caller.PostFormat(rawXml, HttpContentTypes.ApplicationXml, "/app/rest/buildTypes/{0}/agent-requirements", locator);

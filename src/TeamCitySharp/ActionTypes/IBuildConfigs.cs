@@ -97,5 +97,11 @@ namespace TeamCitySharp.ActionTypes
         /// <param name="newConfigurationName"></param>
         void CopyBuildConfiguration(BuildTypeLocator buildTypeLocator, ProjectLocator destinationProjectLocator,
             string newConfigurationName);
+
+        /// <summary>
+        /// Triggers build configuration by ID
+        /// </summary>
+        /// <param name="buildConfigId"></param>
+        void TriggerBuildConfiguration(string buildConfigId);
     }
 }
