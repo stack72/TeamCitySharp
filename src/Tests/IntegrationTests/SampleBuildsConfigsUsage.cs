@@ -119,17 +119,35 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_copies_build_configuration()
         {
-            _client.BuildConfigs.CopyBuildConfiguration(BuildTypeLocator.WithId("Misc_Playground"), ProjectLocator.WithId("Misc_Tryout"), "Misc_Playground_Copied");
-            var newConfig = _client.BuildConfigs.ByConfigurationName("Misc_Playground_Copied");
-            _client.BuildConfigs.DeleteConfiguration(BuildTypeLocator.WithName("Misc_Playground_Copied"));
+            var client = CreateTeamCityClient();
 
-            Assert.That(newConfig, Is.Not.Null);
-        }        
-        
+            var buildConfig = client.BuildConfigs.CopyBuildConfiguration(BuildTypeLocator.WithId("Misc_Playground"), ProjectLocator.WithId("Misc_Tryout"), "Misc Playground Copied");
+            client.BuildConfigs.DeleteConfiguration(BuildTypeLocator.WithId(buildConfig.Id));
+
+            Assert.That(buildConfig.Name, Is.EqualTo("Misc Playground Copied"));
+        }
+
+        [Test]
+        public void it_creates_build_configuration_and_attaches_tp_template()
+        {
+            var client = CreateTeamCityClient();
+
+            var buildConfig = client.BuildConfigs.CreateConfiguration(ProjectLocator.WithId("Misc_Tryout"), "Misc Playground Copied");
+            client.BuildConfigs.AttachToTemplate(BuildTypeLocator.WithId(buildConfig.Id), "Misc_Tryout_PlaygroundTemplate");
+            client.BuildConfigs.DeleteConfiguration(BuildTypeLocator.WithId(buildConfig.Id));
+
+            Assert.That(buildConfig.Name, Is.EqualTo("Misc Playground Copied"));
+        }
+
         [Test]
         public void it_triggers_build_configuration()
         {
             _client.BuildConfigs.TriggerBuildConfiguration("Misc_Playground"); 
+        }
+
+        private ITeamCityClient CreateTeamCityClient()
+        {
+            return _client;
         }
     }
 }

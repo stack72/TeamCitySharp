@@ -18,6 +18,7 @@ namespace TeamCitySharp.ActionTypes
         List<BuildConfig> ByProjectId(string projectId);
         List<BuildConfig> ByProjectName(string projectName);
         BuildConfig CreateConfiguration(string projectName, string configurationName);
+        BuildConfig CreateConfiguration(ProjectLocator projectLocator, string configurationName);
 
         void SetConfigurationSetting(BuildTypeLocator locator, string settingName, string settingValue);
         bool GetConfigurationPauseStatus(BuildTypeLocator locator);
@@ -95,13 +96,14 @@ namespace TeamCitySharp.ActionTypes
         /// <param name="buildTypeLocator"></param>
         /// <param name="destinationProjectLocator"></param>
         /// <param name="newConfigurationName"></param>
-        void CopyBuildConfiguration(BuildTypeLocator buildTypeLocator, ProjectLocator destinationProjectLocator,
-            string newConfigurationName);
+        BuildConfig CopyBuildConfiguration(BuildTypeLocator buildTypeLocator, ProjectLocator destinationProjectLocator, string newConfigurationName);
 
         /// <summary>
         /// Triggers build configuration by ID
         /// </summary>
         /// <param name="buildConfigId"></param>
         void TriggerBuildConfiguration(string buildConfigId);
+
+        void AttachToTemplate(BuildTypeLocator buildTypeLocator, string buildTemplateId);
     }
 }

@@ -85,6 +85,16 @@ namespace TeamCitySharp.ActionTypes
             return _caller.PostFormat<BuildConfig>(configurationName, HttpContentTypes.TextPlain, HttpContentTypes.ApplicationJson, "/app/rest/projects/name:{0}/buildTypes", projectName);
         }
 
+        public BuildConfig CreateConfiguration(ProjectLocator projectLocator, string configurationName)
+        {
+            return _caller.PostFormat<BuildConfig>(configurationName, HttpContentTypes.TextPlain, HttpContentTypes.ApplicationJson, "/app/rest/projects/{0}/buildTypes", projectLocator);
+        }
+
+        public void AttachToTemplate(BuildTypeLocator buildTypeLocator, string buildTemplateId)
+        {
+            _caller.PutFormat(buildTemplateId, HttpContentTypes.TextPlain, "/app/rest/buildTypes/{0}/template", buildTypeLocator);
+        }
+
         public void SetConfigurationSetting(BuildTypeLocator locator, string settingName, string settingValue)
         {
             _caller.PutFormat(settingValue, HttpContentTypes.TextPlain, "/app/rest/buildTypes/{0}/settings/{1}", locator, settingName);
@@ -158,11 +168,11 @@ namespace TeamCitySharp.ActionTypes
             _caller.GetDownloadFormat(downloadHandler, "/app/rest/buildTypes/{0}", locator);
         }
 
-        public void CopyBuildConfiguration(BuildTypeLocator buildTypeLocator, ProjectLocator destinationProjectLocator, string newConfigurationName)
+        public BuildConfig CopyBuildConfiguration(BuildTypeLocator buildTypeLocator, ProjectLocator destinationProjectLocator, string newConfigurationName)
         {
             var data = string.Format(@"<newBuildTypeDescription name='{0}' sourceBuildTypeLocator='{1}' copyAllAssociatedSettings='true' shareVCSRoots='false'/>", newConfigurationName, buildTypeLocator);
 
-            _caller.PostFormat(data, HttpContentTypes.ApplicationXml, "/app/rest/projects/{0}/buildTypes", destinationProjectLocator);
+            return _caller.PostFormat<BuildConfig>(data, HttpContentTypes.ApplicationXml, HttpContentTypes.ApplicationJson, "/app/rest/projects/{0}/buildTypes", destinationProjectLocator);
         }
 
         public void TriggerBuildConfiguration(string buildConfigId)
