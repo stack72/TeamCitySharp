@@ -105,5 +105,12 @@ namespace TeamCitySharp.ActionTypes
         void TriggerBuildConfiguration(string buildConfigId);
 
         void AttachToTemplate(BuildTypeLocator buildTypeLocator, string buildTemplateId);
+
+        /// <summary>
+        /// Triggers build configuration by ID and sends parameters to the build
+        /// </summary>
+        /// <param name="buildConfigId"></param>
+        /// <param name="properties"></param>
+        void TriggerBuildConfiguration(string buildConfigId, Property[] properties);
     }
 }

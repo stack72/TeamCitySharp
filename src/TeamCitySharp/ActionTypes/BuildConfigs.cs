@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Mime;
+using System.Text;
 using System.Xml;
 using EasyHttp.Http;
 using TeamCitySharp.Connection;
@@ -12,9 +13,9 @@ namespace TeamCitySharp.ActionTypes
 {
     internal class BuildConfigs : IBuildConfigs
     {
-        private readonly TeamCityCaller _caller;
+        private readonly ITeamCityCaller _caller;
 
-        internal BuildConfigs(TeamCityCaller caller)
+        internal BuildConfigs(ITeamCityCaller caller)
         {
             _caller = caller;
         }
@@ -180,6 +181,24 @@ namespace TeamCitySharp.ActionTypes
             var data = string.Format(@"<build><buildType id=""{0}""/></build>", buildConfigId);
 
             _caller.PostFormat(data, HttpContentTypes.ApplicationXml, "/app/rest/buildQueue");
+        }
+
+        public void TriggerBuildConfiguration(string buildConfigId, Property[] properties)
+        {
+            var bodyBuilder = new StringBuilder();
+            bodyBuilder.Append(@"<build>").AppendLine()
+                .AppendFormat(@"<buildType id=""{0}""/>",buildConfigId).AppendLine()
+                .Append(@"<properties>").AppendLine();
+
+            foreach (var property in properties)
+            {
+                bodyBuilder.AppendFormat(@"<property name=""{0}"" value=""{1}""/>", property.Name, property.Value).AppendLine();
+            }
+
+            bodyBuilder.Append(@"</properties>").AppendLine()
+                .Append("</build>").AppendLine();
+
+            _caller.PostFormat(bodyBuilder.ToString(), HttpContentTypes.ApplicationXml, "/app/rest/buildQueue");
         }
 
         public void PostRawAgentRequirement(BuildTypeLocator locator, string rawXml)

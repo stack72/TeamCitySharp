@@ -35,5 +35,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("0.3.3")]
 [assembly: AssemblyFileVersion("0.3.3")]
 
-[assembly: InternalsVisibleTo("TeamCitySharp.UnitTests")]
+[assembly: InternalsVisibleTo("TeamCitySharp.Tests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]

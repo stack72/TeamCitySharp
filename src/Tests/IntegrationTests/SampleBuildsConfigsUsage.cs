@@ -145,6 +145,18 @@ namespace TeamCitySharp.IntegrationTests
             _client.BuildConfigs.TriggerBuildConfiguration("Misc_Playground"); 
         }
 
+        [Test]
+        public void it_triggers_build_configuration_sends_parametes()
+        {
+            var client = CreateTeamCityClient();
+            client.BuildConfigs.TriggerBuildConfiguration("Misc_Tryout_02GeneralTestsAnalyzer", new[]
+            {
+                new Property { Name = "build.vcs.number", Value = "139209"}, 
+                new Property { Name = "conf.ci.build.config.id", Value = "Trunk_Green_Ci_Compile"}, 
+                new Property { Name = "conf.failing.build.id", Value = "500996"}
+            });
+        }
+
         private ITeamCityClient CreateTeamCityClient()
         {
             return _client;
