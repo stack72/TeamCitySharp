@@ -252,5 +252,10 @@ namespace TeamCitySharp.ActionTypes
 
             return build;
         }
+
+        public void UpdateName(BuildTypeLocator buildTypeLocator, string newName)
+        {
+            _caller.PutFormat(newName, HttpContentTypes.TextPlain, "/app/rest/buildTypes/{0}/name", buildTypeLocator);
+        }
     }
 }

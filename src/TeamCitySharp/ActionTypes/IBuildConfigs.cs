@@ -112,5 +112,12 @@ namespace TeamCitySharp.ActionTypes
         /// <param name="buildConfigId"></param>
         /// <param name="properties"></param>
         void TriggerBuildConfiguration(string buildConfigId, Property[] properties);
+
+        /// <summary>
+        /// Update name of build configuration
+        /// </summary>
+        /// <param name="buildTypeLocator">Build Type locator</param>
+        /// <param name="newName">New build configuration name</param>
+        void UpdateName(BuildTypeLocator buildTypeLocator, string newName);
     }
 }
