@@ -114,6 +114,14 @@ namespace TeamCitySharp.ActionTypes
         void TriggerBuildConfiguration(string buildConfigId, Property[] properties);
 
         /// <summary>
+        /// Triggers build configuration by ID on specific agent and sends parameters to the build
+        /// </summary>
+        /// <param name="buildConfigId"></param>
+        /// <param name="agentId"></param>
+        /// <param name="properties"></param>
+        void TriggerBuildConfiguration(string buildConfigId, int agentId, Property[] properties);
+
+        /// <summary>
         /// Update name of build configuration
         /// </summary>
         /// <param name="buildTypeLocator">Build Type locator</param>
