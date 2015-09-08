@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Mime;
 using System.Text;
 using System.Xml;
@@ -178,27 +179,51 @@ namespace TeamCitySharp.ActionTypes
 
         public void TriggerBuildConfiguration(string buildConfigId)
         {
-            var data = string.Format(@"<build><buildType id=""{0}""/></build>", buildConfigId);
+            var data = CreateTriggerBody(buildConfigId, null, new Property[0]);
 
             _caller.PostFormat(data, HttpContentTypes.ApplicationXml, "/app/rest/buildQueue");
         }
 
         public void TriggerBuildConfiguration(string buildConfigId, Property[] properties)
         {
+            var triggerBody = CreateTriggerBody(buildConfigId, null, properties);
+
+            _caller.PostFormat(triggerBody, HttpContentTypes.ApplicationXml, "/app/rest/buildQueue");
+        }
+
+        public void TriggerBuildConfiguration(string buildConfigId, int agentId, Property[] properties)
+        {
+            var bodyBuilder = CreateTriggerBody(buildConfigId, agentId, properties);
+
+            _caller.PostFormat(bodyBuilder, HttpContentTypes.ApplicationXml, "/app/rest/buildQueue");
+        }
+
+        private static string CreateTriggerBody(string buildConfigId, int? agentId, Property[] properties)
+        {
             var bodyBuilder = new StringBuilder();
             bodyBuilder.Append(@"<build>").AppendLine()
-                .AppendFormat(@"<buildType id=""{0}""/>",buildConfigId).AppendLine()
-                .Append(@"<properties>").AppendLine();
+                .AppendFormat(@"<buildType id=""{0}""/>", buildConfigId).AppendLine();
 
-            foreach (var property in properties)
+            if (agentId.HasValue)
             {
-                bodyBuilder.AppendFormat(@"<property name=""{0}"" value=""{1}""/>", property.Name, property.Value).AppendLine();
+                bodyBuilder.AppendFormat(@"<agent id=""{0}""/>", agentId).AppendLine();
             }
 
-            bodyBuilder.Append(@"</properties>").AppendLine()
-                .Append("</build>").AppendLine();
+            if (properties.Any())
+            {
+                bodyBuilder.Append(@"<properties>").AppendLine();
 
-            _caller.PostFormat(bodyBuilder.ToString(), HttpContentTypes.ApplicationXml, "/app/rest/buildQueue");
+                foreach (var property in properties)
+                {
+                    bodyBuilder.AppendFormat(@"<property name=""{0}"" value=""{1}""/>", property.Name, property.Value).AppendLine();
+                }
+
+                bodyBuilder.Append(@"</properties>").AppendLine();
+            }
+
+            bodyBuilder.Append("</build>").AppendLine();
+
+            return bodyBuilder.ToString();
         }
 
         public void PostRawAgentRequirement(BuildTypeLocator locator, string rawXml)

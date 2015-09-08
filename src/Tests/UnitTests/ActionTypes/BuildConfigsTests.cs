@@ -12,6 +12,24 @@ namespace TeamCitySharp.Tests.ActionTypes
     public class BuildConfigsTests
     {
         [Test]
+        public void TriggerBuildConfiguration_BuildConfigId_PostFormatCalledWithProperBody()
+        {
+            // Arrange
+            var teamCityCaller = A.Fake<ITeamCityCaller>();
+            var buildConfigs = new BuildConfigs(teamCityCaller);
+
+            // Act
+            buildConfigs.TriggerBuildConfiguration("buildConfigId");
+
+            // Assert
+            A.CallTo(() => teamCityCaller.PostFormat(@"<build>
+<buildType id=""buildConfigId""/>
+</build>
+", HttpContentTypes.ApplicationXml, "/app/rest/buildQueue"))
+                .MustHaveHappened(Repeated.Exactly.Once);
+        }        
+
+        [Test]
         public void TriggerBuildConfiguration_OneProperty_PostFormatCalledWithProperBody()
         {
             // Arrange
@@ -24,6 +42,28 @@ namespace TeamCitySharp.Tests.ActionTypes
             // Assert
             A.CallTo(() => teamCityCaller.PostFormat(@"<build>
 <buildType id=""buildConfigId""/>
+<properties>
+<property name=""att1"" value=""val1""/>
+</properties>
+</build>
+", HttpContentTypes.ApplicationXml, "/app/rest/buildQueue"))
+                .MustHaveHappened(Repeated.Exactly.Once);
+        }        
+
+        [Test]
+        public void TriggerBuildConfiguration_OnePropertyAgent_PostFormatCalledWithProperBody()
+        {
+            // Arrange
+            var teamCityCaller = A.Fake<ITeamCityCaller>();
+            var buildConfigs = new BuildConfigs(teamCityCaller);
+
+            // Act
+            buildConfigs.TriggerBuildConfiguration("buildConfigId", 9, new[]{ new Property { Name ="att1", Value = "val1"} });
+
+            // Assert
+            A.CallTo(() => teamCityCaller.PostFormat(@"<build>
+<buildType id=""buildConfigId""/>
+<agent id=""9""/>
 <properties>
 <property name=""att1"" value=""val1""/>
 </properties>
