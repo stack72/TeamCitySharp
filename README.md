@@ -115,6 +115,8 @@ Each area has its own list of methods available
     void DeleteAllBuildTypeParameters(BuildTypeLocator locator);
     void PutAllBuildTypeParameters(BuildTypeLocator locator, IDictionary<string, string> parameters);
     void DownloadConfiguration(BuildTypeLocator locator, Action<string> downloadHandler);
+    void TriggerBuildConfiguration(string buildConfigId, Property[] properties);
+    void UpdateName(BuildtypeLocator buildTypeLocator, string newName);
 
 ###ServerInformation
     Server ServerInfo();
