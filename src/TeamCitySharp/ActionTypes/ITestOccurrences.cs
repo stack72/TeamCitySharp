@@ -18,7 +18,7 @@ namespace TeamCitySharp.ActionTypes
         TestOccurrence TestOccurrenceById(string testOccurenceLocator);
 
         /// <summary>
-        /// Retrieve test history by id property on the test element from TestOccurrenceById API
+        /// Retrieve test history by id property on the test element from InvestigationsById API
         /// </summary>
         /// <param name="testId">In the format 8191545283982494536</param>
         /// <returns></returns>
@@ -73,7 +73,7 @@ namespace TeamCitySharp.ActionTypes
         }
 
         /// <summary>
-        /// Retrieve test history by id property on the test element from TestOccurrenceById API
+        /// Retrieve test history by id property on the test element from InvestigationsById API
         /// </summary>
         /// <param name="testId">In the format 8191545283982494536</param>
         /// <returns></returns>

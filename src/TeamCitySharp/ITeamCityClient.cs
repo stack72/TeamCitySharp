@@ -18,5 +18,6 @@ namespace TeamCitySharp
         IChanges Changes { get; }
         IBuildArtifacts Artifacts { get; }
         ITestOccurrences TestOccurrences { get; }
+        IInvestigations Investigations { get; }
     }
 }
