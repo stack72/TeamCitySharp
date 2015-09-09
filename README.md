@@ -170,6 +170,10 @@ Each area has its own list of methods available
     /// Retrieves an instance of TestOccurence by Id as received from TeamCity API 
     TestOccurrence TestOccurrenceById(string testOccurenceLocator);
     
+###Investigations
+    List<Investigation> InvestigationsById(string testId);
+    List<Investigation> InvestigationsByName(string testName);
+    
 ##Credits
 
 Copyright (c) 2013 Paul Stack (@stack72)
