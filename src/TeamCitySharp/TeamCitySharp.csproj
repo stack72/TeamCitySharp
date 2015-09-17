@@ -80,6 +80,7 @@
     <Compile Include="DomainEntities\ResolutionWrapper.cs" />
     <Compile Include="DomainEntities\TestOccurrence.cs" />
     <Compile Include="DomainEntities\TestOccurrenceWrapper.cs" />
+    <Compile Include="Locators\TestLocator.cs" />
     <Compile Include="TeamCityClient.cs" />
     <Compile Include="ActionTypes\Users.cs" />
     <Compile Include="ActionTypes\VcsRoots.cs" />

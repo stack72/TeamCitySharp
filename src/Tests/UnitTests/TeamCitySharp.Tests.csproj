@@ -62,6 +62,7 @@
     <Compile Include="ActionTypes\BuildConfigsTests.cs" />
     <Compile Include="ActionTypes\InvestigationsTests.cs" />
     <Compile Include="ActionTypes\ServerInformationTest.cs" />
+    <Compile Include="Locators\TestLocatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

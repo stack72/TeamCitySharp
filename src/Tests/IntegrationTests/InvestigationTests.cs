@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NUnit.Framework;
-using TeamCitySharp.DomainEntities;
+﻿using NUnit.Framework;
+using TeamCitySharp.Locators;
 
 namespace TeamCitySharp.IntegrationTests
 {
@@ -23,18 +21,26 @@ namespace TeamCitySharp.IntegrationTests
         [Test]
         public void it_gets_test_investigation_by_name()
         {
-            List<Investigation> investigations = _client.Investigations.InvestigationsByName("full test name");
-            var investigation = investigations.Single();
+            var investigation = _client.Investigations.InvestigationByTest(TestLocator.WithName("full test name"));
 
         }
 
         [Test]
         public void it_gets_test_investigation_by_id()
         {
-            List<Investigation> investigations = _client.Investigations.InvestigationsById("2559068633008576270");
+            var investigation = _client.Investigations.InvestigationByTest(TestLocator.WithId("2559068633008576270"));
+        }        
+        
+        [Test]
+        public void it_gets_investigations_by_build_configuration()
+        {
+            var investigations = _client.Investigations.InvestigationsByBuildConfiguration(BuildTypeLocator.WithId("bt936"));
+        }
 
-            var investigation = investigations.Single();
-
+        [Test]
+        public void it_gets_investigations_by_user()
+        {
+            var investigations = _client.Investigations.InvestinationsByUser(UserLocator.WithUserName("borismod"));
         }
     }
 }

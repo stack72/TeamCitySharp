@@ -1,25 +1,33 @@
 using System.Collections.Generic;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
+using TeamCitySharp.Locators;
 
 namespace TeamCitySharp.ActionTypes
 {
     public interface IInvestigations
     {
         /// <summary>
-        /// Get investigation details about the test by its full name. 
-        /// </summary>
-        /// <param name="testId">Id in the long numberic format. TestOccurence.Test.Id</param>
-        /// <returns></returns>
-        List<Investigation> InvestigationsById(string testId);
-
-        /// <summary>
-        /// Get investigation details about the test by its full name. In the format:
+        /// Returns investigation details about the test by its full name. In the format:
         /// MSTest: TestingNamespace.TestingClass.TestMethodName
         /// </summary>
-        /// <param name="testName">Test name in the format: 'MSTest: TestingNamespace.TestingClass.TestMethodName'</param>
+        /// <param name="testLocator">TestLocator to indicate the test to get investigations for</param>
         /// <returns></returns>
-        List<Investigation> InvestigationsByName(string testName);
+        Investigation InvestigationByTest(TestLocator testLocator);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userLocator"></param>
+        /// <returns></returns>
+        IList<Investigation> InvestinationsByUser(UserLocator userLocator);
+
+        /// <summary>
+        /// Returns investigation details for build configuration
+        /// </summary>
+        /// <param name="buildTypeLocator"></param>
+        /// <returns></returns>
+        IList<Investigation> InvestigationsByBuildConfiguration(BuildTypeLocator buildTypeLocator);
     }
 
     public class Investigations : IInvestigations
@@ -31,29 +39,31 @@ namespace TeamCitySharp.ActionTypes
             _caller = caller;
         }
 
-        /// <summary>
-        /// Get investigation details about the test by its full name. 
-        /// </summary>
-        /// <param name="testId">Id in the long numberic format. TestOccurence.Test.Id</param>
-        /// <returns></returns>
-        public List<Investigation> InvestigationsById(string testId)
+        public Investigation InvestigationByTest(TestLocator testLocator)
         {
-            var investigationWrapper = _caller.GetFormat<InvestigationWrapper>("/app/rest/investigations?locator=test:(id:{0})", testId);
+            var investigationWrapper = _caller.GetFormat<InvestigationWrapper>("/app/rest/investigations?locator=test:({0})", testLocator);
 
-            return investigationWrapper.Investigation;
+            if (investigationWrapper.Investigation == null || investigationWrapper.Investigation.Count == 0)
+            {
+                return null;
+            }
+            return investigationWrapper.Investigation[0];
         }
 
-        /// <summary>
-        /// Get investigation details about the test by its full name. In the format:
-        /// MSTest: TestingNamespace.TestingClass.TestMethodName
-        /// </summary>
-        /// <param name="testName">Test name in the format: 'MSTest: TestingNamespace.TestingClass.TestMethodName'</param>
-        /// <returns></returns>
-        public List<Investigation> InvestigationsByName(string testName)
+        public IList<Investigation> InvestinationsByUser(UserLocator userLocator)
         {
-            var investigation = _caller.GetFormat<InvestigationWrapper>("/app/rest/investigations?locator=test:(name:{0})", testName);
+            var investigationWrapper = _caller.GetFormat<InvestigationWrapper>("/app/rest/investigations?locator=assignee:({0})",
+                userLocator);
 
-            return investigation.Investigation;
+            return investigationWrapper.Investigation ?? new List<Investigation>();
+        }
+
+        public IList<Investigation> InvestigationsByBuildConfiguration(BuildTypeLocator buildTypeLocator)
+        {
+            var investigationWrapper = _caller.GetFormat<InvestigationWrapper>("/app/rest/investigations?locator=buildType:({0})",
+                buildTypeLocator);
+
+            return investigationWrapper.Investigation ?? new List<Investigation>();
         }
     }
 }
