@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
 using TeamCitySharp.Locators;
@@ -9,9 +11,9 @@ namespace TeamCitySharp.ActionTypes
 {
     internal class Builds : IBuilds
     {
-        private readonly TeamCityCaller _caller;
+        private readonly ITeamCityCaller _caller;
 
-        internal Builds(TeamCityCaller caller)
+        internal Builds(ITeamCityCaller caller)
         {
             _caller = caller;
         }
@@ -19,6 +21,20 @@ namespace TeamCitySharp.ActionTypes
         public List<Build> ByBuildLocator(BuildLocator locator)
         {
             var buildWrapper = _caller.GetFormat<BuildWrapper>("/app/rest/builds?locator={0}", locator);
+            if (int.Parse(buildWrapper.Count) > 0)
+            {
+                return buildWrapper.Build;
+            }
+            return new List<Build>();
+        }
+
+        public List<Build> ByBuildLocator(BuildLocator locator, Action<BuildPropertyBuilder> buildProperties)
+        {
+            var buildPropertyBuilder = new BuildPropertyBuilder();
+            buildProperties.Invoke(buildPropertyBuilder);
+            var buildPropertiesList = buildPropertyBuilder.GetBuildPropertiesList();
+
+            var buildWrapper = _caller.GetFormat<BuildWrapper>("/app/rest/builds?locator={0}&fields=count,build({1})", locator.ToString(), buildPropertiesList);
             if (int.Parse(buildWrapper.Count) > 0)
             {
                 return buildWrapper.Build;
@@ -159,6 +175,41 @@ namespace TeamCitySharp.ActionTypes
             }
 
             return builds.Where(b => b.Status != "SUCCESS").ToList();
+        }
+    }
+
+    public class BuildPropertyBuilder
+    {
+        readonly IList<string> m_Properties = new List<string>(new[]
+        {
+            "buildTypeId", "href", "id", "number", "state", "status","webUrl"
+        });
+
+        internal string GetBuildPropertiesList()
+        {
+            return string.Join(",", m_Properties);
+        }
+
+        public BuildPropertyBuilder IncludeStartDate()
+        {
+            return IncludeProperty();
+        }
+
+        public BuildPropertyBuilder IncludeFinishDate()
+        {
+            return IncludeProperty();
+        }
+
+        public BuildPropertyBuilder IncludeStatusText()
+        {
+            return IncludeProperty();
+        }
+
+        private BuildPropertyBuilder IncludeProperty()
+        {
+            var methodName = new StackFrame(1).GetMethod().Name.Remove(0,7);
+            m_Properties.Add(methodName.FirstCharacterToLower());
+            return this;
         }
     }
 }
