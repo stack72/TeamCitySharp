@@ -30,7 +30,7 @@ namespace TeamCitySharp.ActionTypes
 
         public Project ById(string projectLocatorId)
         {
-            var project = _caller.GetFormat<Project>("/app/rest/projects/id:{0}", projectLocatorId);
+            var project = _caller.GetFormat<Project>("/app/rest/projects/{0}", projectLocatorId);
 
             return project;
         }
@@ -43,6 +43,19 @@ namespace TeamCitySharp.ActionTypes
         public Project Create(string projectName)
         {
             return _caller.Post<Project>(projectName, HttpContentTypes.TextPlain, "/app/rest/projects/", HttpContentTypes.ApplicationJson);
+        }
+
+        public Project Create(string projectName, string projectId)
+        {
+
+            var content = string.Format
+                (@"<newProjectDescription name='{0}' id='{1}' copyAllAssociatedSettings='true'> </newProjectDescription>"
+                , projectName, projectId);
+            /* extended xml version:
+             * <newProjectDescription name='New Project Name' id='newProjectId' copyAllAssociatedSettings='true'><parentProject locator='id:project1'/><sourceProject locator='id:project2'/></newProjectDescription>
+             * more details could be found in documentation: https://confluence.jetbrains.com/display/TCD9/REST+API#RESTAPI-ProjectSettings
+             */
+            return _caller.Post<Project>(content, HttpContentTypes.ApplicationXml, "/app/rest/projects/", HttpContentTypes.ApplicationJson);
         }
 
         public void Delete(string projectName)
