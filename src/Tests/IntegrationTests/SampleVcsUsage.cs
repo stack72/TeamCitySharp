@@ -2,7 +2,9 @@ using System;
 using System.Net;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Xml.Serialization;
 using TeamCitySharp.DomainEntities;
 
 namespace TeamCitySharp.IntegrationTests
@@ -66,5 +68,24 @@ namespace TeamCitySharp.IntegrationTests
 
             Assert.That(rootDetails != null, "Cannot find the specific VCSRoot");
         }
+
+        [TestCase("1")]
+        public void it_serializes_vcs_root_to_xml(string vcsRootId)
+        {
+            VcsRoot rootDetails = _client.VcsRoots.ById(vcsRootId);
+
+
+            rootDetails.Id += "_new_kii";
+            rootDetails.Name+= "_new_kii";
+
+            var vcsRoot = _client.VcsRoots.Create(rootDetails);
+
+            Assert.NotNull(vcsRootId);
+
+            Assert.Equals(vcsRoot.Id, vcsRootId);
+
+        }
+
+        
     }
 }

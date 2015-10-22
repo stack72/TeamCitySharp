@@ -11,5 +11,6 @@ namespace TeamCitySharp.ActionTypes
         VcsRoot AttachVcsRoot(BuildTypeLocator locator, VcsRoot vcsRoot);
         void DetachVcsRoot(BuildTypeLocator locator, string vcsRootId);
         void SetVcsRootField(VcsRoot vcsRoot, VcsRootField field, object value);
+        VcsRoot Create(VcsRoot root);
     }
 }
