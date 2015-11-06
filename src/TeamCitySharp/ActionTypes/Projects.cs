@@ -112,6 +112,7 @@ namespace TeamCitySharp.ActionTypes
         {
             _caller.PutFormat(settingValue, "/app/rest/projects/name:{0}/parameters/{1}", projectName, settingName);
         }
+
         public string GenerateID(string projectName)
         {
             projectName = Regex.Replace(projectName, @"[^\p{L}\p{N}]+", "");

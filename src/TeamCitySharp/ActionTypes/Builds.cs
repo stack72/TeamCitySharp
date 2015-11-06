@@ -21,7 +21,7 @@ namespace TeamCitySharp.ActionTypes
             var buildWrapper = _caller.GetFormat<BuildWrapper>("/app/rest/builds?locator={0}", locator);
             return int.Parse(buildWrapper.Count) > 0 ? buildWrapper.Build : new List<Build>();
         }
-		public List<Build> ByBuildLocator(BuildLocator locator, List<String> param)
+            public List<Build> ByBuildLocator(BuildLocator locator, List<String> param)
         {
             var strParam = "";
             foreach (var tmpParam in param)
@@ -100,7 +100,7 @@ namespace TeamCitySharp.ActionTypes
                                                                           maxResults: 1
                                                   ));
             return builds != null ? builds.FirstOrDefault() : new Build();
-		}
+        }
         public List<Build> ByBuildConfigId(string buildConfigId, List<String> param)
         {
             return ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId)), param);
