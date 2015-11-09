@@ -14,7 +14,6 @@ namespace TeamCitySharp.DomainEntities
 
       public override string ToString()
       {
-        return "snapshot_dependency";
         return Type;
       }
         [DataMember(Name = "id")]

@@ -57,11 +57,11 @@ namespace TeamCitySharp.ActionTypes
             return build;
         }
 
-        public BuildConfig ByProjectIdAndConfigurationName(string projectId, string buildConfigName)
-        {
-            var build = _caller.Get<BuildConfig>(string.Format("/app/rest/projects/id:{0}/buildTypes/name:{1}", projectId, buildConfigName));
-            return build;
-        }
+    public BuildConfig ByProjectIdAndConfigurationName(string projectId, string buildConfigName)
+    {
+      var build = _caller.Get<BuildConfig>(string.Format("/app/rest/projects/id:{0}/buildTypes/name:{1}", projectId, Uri.EscapeDataString(buildConfigName)));
+      return build;
+    }
 
         public BuildConfig ByProjectIdAndConfigurationId(string projectId, string buildConfigId)
         {
@@ -94,10 +94,64 @@ namespace TeamCitySharp.ActionTypes
           return _caller.PostFormat<BuildConfig>(configurationName, HttpContentTypes.TextPlain, HttpContentTypes.ApplicationJson, "/app/rest/projects/id:{0}/buildTypes", projectId);
         }
 
-        public void SetConfigurationSetting(BuildTypeLocator locator, string settingName, string settingValue)
-        {
-            _caller.PutFormat(settingValue, HttpContentTypes.TextPlain, "/app/rest/buildTypes/{0}/settings/{1}", locator, settingName);
-        }
+    internal HttpResponse CopyBuildConfig(string buildConfigId, string buildConfigName, string destinationProjectId, string newBuildTypeId = "")
+    {
+      string xmlData;
+      if (newBuildTypeId != "")
+      {
+        xmlData = String.Format("<newBuildTypeDescription name='{0}' id='{2}' sourceBuildTypeLocator='id:{1}' copyAllAssociatedSettings='true' shareVCSRoots='false'/>", buildConfigName, buildConfigId, newBuildTypeId);
+      }
+      else
+      {
+        xmlData = String.Format("<newBuildTypeDescription name='{0}' sourceBuildTypeLocator='id:{1}' copyAllAssociatedSettings='true' shareVCSRoots='false'/>", buildConfigName, buildConfigId);
+      }
+      var response = _caller.Post(xmlData, HttpContentTypes.ApplicationXml, string.Format("/app/rest/projects/id:{0}/buildTypes", destinationProjectId), HttpContentTypes.ApplicationJson);
+      return response;
+    }
+
+    public BuildConfig Copy(string buildConfigId, string buildConfigName, string destinationProjectId, string newBuildTypeId = "")
+    {
+      var response = CopyBuildConfig(buildConfigId, buildConfigName, destinationProjectId, newBuildTypeId);
+      if (response.StatusCode == HttpStatusCode.OK)
+      {
+        var reader = new JsonReader(new DataReaderSettings(new ConventionResolverStrategy(ConventionResolverStrategy.WordCasing.Lowercase, "-")));
+        var buildConfig = reader.Read<BuildConfig>(response.RawText);
+        return buildConfig;
+      }
+      return new BuildConfig();
+    }
+
+    public Template CopyTemplate(string templateId, string templateName, string destinationProjectId, string newTemplateId = "")
+    {
+      var response = CopyTemplateQuery(templateId, templateName, destinationProjectId, newTemplateId);
+      if (response.StatusCode == HttpStatusCode.OK)
+      {
+        var reader = new JsonReader(new DataReaderSettings(new ConventionResolverStrategy(ConventionResolverStrategy.WordCasing.Lowercase, "-")));
+        var template = reader.Read<Template>(response.RawText);
+        return template;
+      }
+      return new Template();
+    }
+
+    private HttpResponse CopyTemplateQuery(string templateId, string templateName, string destinationProjectId, string newTemplateId)
+    {
+      string xmlData;
+      if (newTemplateId != "")
+      {
+        xmlData = String.Format("<newBuildTypeDescription name='{0}' id='{2}' sourceBuildTypeLocator='id:{1}' copyAllAssociatedSettings='true' shareVCSRoots='false'/>", templateName, templateId, newTemplateId);
+      }
+      else
+      {
+        xmlData = String.Format("<newBuildTypeDescription name='{0}' sourceBuildTypeLocator='id:{1}' copyAllAssociatedSettings='true' shareVCSRoots='false'/>", templateName, templateId);
+      }
+      var response = _caller.Post(xmlData, HttpContentTypes.ApplicationXml, string.Format("/app/rest/projects/id:{0}/templates", destinationProjectId), HttpContentTypes.ApplicationJson);
+      return response;
+    }
+
+    public void SetConfigurationSetting(BuildTypeLocator locator, string settingName, string settingValue)
+    {
+      _caller.PutFormat(settingValue, HttpContentTypes.TextPlain, "/app/rest/buildTypes/{0}/settings/{1}", locator, settingName);
+    }
 
         public bool GetConfigurationPauseStatus(BuildTypeLocator locator)
         {
@@ -158,10 +212,8 @@ namespace TeamCitySharp.ActionTypes
 
         public void PutAllBuildTypeParameters(BuildTypeLocator locator, IDictionary<string, string> parameters)
         {
-            if(locator == null)
-                throw new ArgumentNullException("locator");
-            if(parameters == null)
-                throw new ArgumentNullException("parameters");
+            if (locator == null) throw new ArgumentNullException("locator");
+            if (parameters == null) throw new ArgumentNullException("parameters");
 
             var sw = new StringWriter();
             using(var writer = new XmlTextWriter(sw))
@@ -238,11 +290,11 @@ namespace TeamCitySharp.ActionTypes
             return build;
         }
 
-        public void SetBuildTypeVariable(BuildTypeLocator locatorBuildType ,string nameVariable, string value)
+        public void SetBuildTypeVariable(BuildTypeLocator locatorBuildType, string nameVariable, string value)
         {
           _caller.PutFormat(value, HttpContentTypes.TextPlain, "/app/rest/buildTypes/{0}/{1}", locatorBuildType, nameVariable);
         }
-        public bool ModifTrigger(string buildTypeId, string triggerID, string newBt)
+        public bool ModifTrigger(string buildTypeId, string triggerId, string newBt)
         {
             //Get data from the old trigger
             var urlExtractAllTriggersOld = String.Format("/app/rest/buildTypes/id:{0}/triggers", buildTypeId);
@@ -255,7 +307,7 @@ namespace TeamCitySharp.ActionTypes
               {
                 if (property.Name != "dependsOn") continue;
 
-                if (triggerID != property.Value) continue;
+                if (triggerId != property.Value) continue;
 
                 property.Value = newBt;
                 var writer = new JsonWriter(new DataWriterSettings(new ConventionResolverStrategy(ConventionResolverStrategy.WordCasing.Lowercase, "-")));
@@ -278,18 +330,13 @@ namespace TeamCitySharp.ActionTypes
         public bool ModifSnapshotDependencies(string buildTypeId, string dependencyId, string newBt)
         {
 
-            var urlExtractOld = String.Format("/app/rest/buildTypes/id:{0}/snapshot-dependencies/{1}",
-                                              buildTypeId, dependencyId);
+            var urlExtractOld = String.Format("/app/rest/buildTypes/id:{0}/snapshot-dependencies/{1}", buildTypeId, dependencyId);
             var snapshot = _caller.GetFormat<SnapshotDependency>(urlExtractOld);
             snapshot.Id = newBt;
             snapshot.SourceBuildType.Id = newBt;
 
-            var urlNewTrigger = String.Format("/app/rest/buildTypes/id:{0}/snapshot-dependencies",
-                                              buildTypeId);
-            var writer =
-                new JsonWriter(
-                    new DataWriterSettings(
-                        new ConventionResolverStrategy(ConventionResolverStrategy.WordCasing.Lowercase, "-")));
+            var urlNewTrigger = String.Format("/app/rest/buildTypes/id:{0}/snapshot-dependencies", buildTypeId);
+            var writer = new JsonWriter(new DataWriterSettings(new ConventionResolverStrategy(ConventionResolverStrategy.WordCasing.Lowercase, "-")));
 
             var ttt = (writer.Write(snapshot));
             ttt = Regex.Replace(ttt, "source-build-type", "source-buildType");
@@ -298,8 +345,7 @@ namespace TeamCitySharp.ActionTypes
             var response = _caller.Post(ttt, HttpContentTypes.ApplicationJson, urlNewTrigger, HttpContentTypes.ApplicationJson);
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                var urlDeleteOld = String.Format("/app/rest/buildTypes/id:{0}/snapshot-dependencies/{1}",
-                                                 buildTypeId, dependencyId);
+                var urlDeleteOld = String.Format("/app/rest/buildTypes/id:{0}/snapshot-dependencies/{1}", buildTypeId, dependencyId);
                 _caller.Delete(urlDeleteOld);
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
@@ -313,37 +359,51 @@ namespace TeamCitySharp.ActionTypes
         public bool ModifArtifactDependencies(string buildTypeId, string dependencyId, string newBt)
         {
 
-            var urlAllExtractOld = String.Format("/app/rest/buildTypes/id:{0}/artifact-dependencies", 
-                                                 buildTypeId);
+            var urlAllExtractOld = String.Format("/app/rest/buildTypes/id:{0}/artifact-dependencies", buildTypeId);
             var artifacts = _caller.GetFormat<ArtifactDependencies>(urlAllExtractOld);
             foreach (var artifact in artifacts.ArtifactDependency.OrderByDescending(m => m.Id))
             {
                 if (dependencyId != artifact.SourceBuildType.Id) continue;
                 artifact.SourceBuildType.Id = newBt;
-                var writer =
-                    new JsonWriter(
-                        new DataWriterSettings(
-                            new ConventionResolverStrategy(
-                                ConventionResolverStrategy.WordCasing.Lowercase, "-")));
+                var writer = new JsonWriter(new DataWriterSettings(new ConventionResolverStrategy(ConventionResolverStrategy.WordCasing.Lowercase, "-")));
                 var ttt = writer.Write(artifact);
                 ttt = Regex.Replace(ttt, "source-build-type", "source-buildType");
 
-                var urlNewTrigger = String.Format(
-                    "/app/rest/buildTypes/id:{0}/artifact-dependencies", buildTypeId);
+                var urlNewTrigger = String.Format("/app/rest/buildTypes/id:{0}/artifact-dependencies", buildTypeId);
 
-                var response = _caller.Post(ttt, HttpContentTypes.ApplicationJson, urlNewTrigger, 
-                                            HttpContentTypes.ApplicationJson);
+                var response = _caller.Post(ttt, HttpContentTypes.ApplicationJson, urlNewTrigger, HttpContentTypes.ApplicationJson);
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    var urlDeleteOld =
-                        String.Format("/app/rest/buildTypes/id:{0}/artifact-dependencies/{1}",
-                                      buildTypeId, artifact.Id);
+                    var urlDeleteOld = String.Format("/app/rest/buildTypes/id:{0}/artifact-dependencies/{1}",                                      buildTypeId, artifact.Id);
                     _caller.Delete(urlDeleteOld);
                     return response.StatusCode == HttpStatusCode.OK;
                 }
             }
 
-            return false;
-        }
+      return false;
     }
+    public Template GetTemplate(BuildTypeLocator locator)
+    {
+      try
+      {
+        var templatedWrapper = _caller.GetFormat<Template>("/app/rest/buildTypes/{0}/template", locator);
+        return templatedWrapper;
+      }
+      catch
+      {
+        return null;
+      }
+    }
+
+    public void AttachTemplate(BuildTypeLocator locator, string templateId)
+    {
+      _caller.PutFormat(templateId, HttpContentTypes.TextPlain, "/app/rest/buildTypes/{0}/template", locator);
+    }
+
+
+    public void DetachTemplate(BuildTypeLocator locator)
+    {
+      _caller.DeleteFormat("/app/rest/buildTypes/{0}/template", locator);
+    }
+  }
 }

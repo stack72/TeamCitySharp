@@ -15,6 +15,7 @@ namespace TeamCitySharp
         private IVcsRoots _vcsRoots;
         private IChanges _changes;
         private IBuildArtifacts _artifacts;
+        private IBuildInvestigations _investigations;
         private IStatistics _statistics;
 
         public TeamCityClient(string hostName, bool useSsl = false)
@@ -80,6 +81,11 @@ namespace TeamCitySharp
         public IBuildArtifacts Artifacts
         {
             get { return _artifacts ?? (_artifacts = new BuildArtifacts(_caller)); }
+        }
+
+        public IBuildInvestigations Investigations
+        {
+          get { return _investigations ?? (_investigations = new BuildInvestigations(_caller)); }
         }
 
         public IStatistics Statistics

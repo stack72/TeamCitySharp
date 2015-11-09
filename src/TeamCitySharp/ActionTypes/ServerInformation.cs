@@ -2,8 +2,8 @@
 {
     using System.Collections.Generic;
     using System.Text;
-    using TeamCitySharp.Connection;
-    using TeamCitySharp.DomainEntities;
+    using Connection;
+    using DomainEntities;
 
     internal class ServerInformation : IServerInformation
     {
@@ -38,7 +38,7 @@
 
         public string GetBackupStatus()
         {
-            return _caller.GetRaw(ServerUrlPrefix, "/backup");
+            return _caller.GetRaw(string.Concat(ServerUrlPrefix, "/backup"));
         }
 
         private string BuildBackupOptionsUrl(BackupOptions backupOptions)

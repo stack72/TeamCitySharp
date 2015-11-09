@@ -16,6 +16,7 @@ namespace TeamCitySharp.ActionTypes
         Build LastErrorBuildByBuildConfigId(string buildConfigId);
         Build ById(string id);
         List<Build> ByBuildConfigId(string buildConfigId);
+        List<Build> RunningByBuildConfigId(string buildConfigId);
         List<Build> ByBuildConfigId(string buildConfigId, List<String> param);
         List<Build> ByBuildLocator(BuildLocator locator, List<String> param);
         List<Build> ByConfigIdAndTag(string buildConfigId, string tag);
@@ -27,5 +28,6 @@ namespace TeamCitySharp.ActionTypes
         List<Build> ByBranch(string branchName);
         Build LastBuildByAgent(string agentName);
         void Add2QueueBuildByBuildConfigId(string buildConfigId);
+        List<Build> AllRunningBuild();
     }
 }

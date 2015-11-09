@@ -55,6 +55,7 @@
     <Compile Include="ActionTypes\BackupOptions.cs" />
     <Compile Include="ActionTypes\BuildArtifacts.cs" />
     <Compile Include="ActionTypes\BuildConfigs.cs" />
+    <Compile Include="ActionTypes\BuildInvestigations.cs" />
     <Compile Include="ActionTypes\Builds.cs" />
     <Compile Include="ActionTypes\Changes.cs" />
     <Compile Include="ActionTypes\IAgents.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="ActionTypes\IBuildConfigs.cs" />
     <Compile Include="ActionTypes\IBuilds.cs" />
     <Compile Include="ActionTypes\IChanges.cs" />
+    <Compile Include="ActionTypes\IBuildInvestigations.cs" />
     <Compile Include="ActionTypes\IProjects.cs" />
     <Compile Include="ActionTypes\IServerInformation.cs" />
     <Compile Include="ActionTypes\IStatistics.cs" />
@@ -71,6 +73,12 @@
     <Compile Include="ActionTypes\ServerInformation.cs" />
     <Compile Include="ActionTypes\Statistics.cs" />
     <Compile Include="Connection\ITeamCityCaller.cs" />
+    <Compile Include="DomainEntities\InvesigationResolution.cs" />
+    <Compile Include="DomainEntities\InvesigationTarget.cs" />
+    <Compile Include="DomainEntities\Investigation.cs" />
+    <Compile Include="DomainEntities\InvestigationAssignment.cs" />
+    <Compile Include="DomainEntities\InvestigationScope.cs" />
+    <Compile Include="DomainEntities\InvestigationWrapper.cs" />
     <Compile Include="DomainEntities\NewProjectDescription.cs" />
     <Compile Include="DomainEntities\BuildArtifactDependencies.cs" />
     <Compile Include="DomainEntities\BuildSnapshotDepencies.cs" />
@@ -78,6 +86,8 @@
     <Compile Include="DomainEntities\SourceBuildType.cs" />
     <Compile Include="DomainEntities\ParentProjectWrapper.cs" />
     <Compile Include="DomainEntities\Template.cs" />
+    <Compile Include="DomainEntities\Test.cs" />
+    <Compile Include="DomainEntities\Tests.cs" />
     <Compile Include="Locators\ProjectLocator.cs" />
     <Compile Include="DomainEntities\Templates.cs" />
     <Compile Include="TeamCityClient.cs" />

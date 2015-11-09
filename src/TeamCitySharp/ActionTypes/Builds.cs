@@ -118,6 +118,10 @@ namespace TeamCitySharp.ActionTypes
             return ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId)
                                             ));
         }
+        public List<Build> RunningByBuildConfigId(string buildConfigId)
+        {
+          return ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId)),new List<string>{"running:true"});
+        }
 
         public List<Build> ByConfigIdAndTag(string buildConfigId, string tag)
         {
@@ -141,6 +145,12 @@ namespace TeamCitySharp.ActionTypes
         public List<Build> AllSinceDate(DateTime date)
         {
             return ByBuildLocator(BuildLocator.WithDimensions(sinceDate: date));
+        }
+
+        public List<Build> AllRunningBuild()
+        {
+          var buildWrapper = _caller.GetFormat<BuildWrapper>("/app/rest/builds?locator=running:true");
+          return int.Parse(buildWrapper.Count) > 0 ? buildWrapper.Build : new List<Build>();
         }
 
         public List<Build> ByBranch(string branchName)

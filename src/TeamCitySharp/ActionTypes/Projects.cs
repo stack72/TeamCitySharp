@@ -69,7 +69,7 @@ namespace TeamCitySharp.ActionTypes
 
         public Project Move(string projectId, string destinationId)
         {
-            var xmlData = String.Format("<project-ref locator='id:{0}'/>", destinationId);
+            var xmlData = String.Format("<project id='{0}' />", destinationId);
             var url = String.Format("/app/rest/projects/id:{0}/parentProject",  projectId);
             var response = _caller.Put(xmlData, HttpContentTypes.ApplicationXml, url, HttpContentTypes.ApplicationJson);
             if (response.StatusCode == HttpStatusCode.OK)
@@ -81,15 +81,20 @@ namespace TeamCitySharp.ActionTypes
             return new Project();
         }
 
-        internal HttpResponse CopyProject(string projectid, string projectName, string newProjectId)
+        internal HttpResponse CopyProject(string projectid, string projectName, string newProjectId, string parentProjectId="")
         {
-          var xmlData = String.Format("<newProjectDescription name='{0}' id='{1}' copyAllAssociatedSettings='true'><sourceProject locator='id:{2}'/></newProjectDescription>", projectName, newProjectId, projectid);
+          var parentString = "";
+          if (parentProjectId != "")
+          {
+            parentString = String.Format("<parentProject locator='id:{0}'/>", parentProjectId);
+          }
+          var xmlData = String.Format("<newProjectDescription name='{0}' id='{1}' copyAllAssociatedSettings='true'><sourceProject locator='id:{2}'/>{3}</newProjectDescription>", projectName, newProjectId, projectid, parentString);
             var response = _caller.Post(xmlData, HttpContentTypes.ApplicationXml, "/app/rest/projects", HttpContentTypes.ApplicationJson);
             return response;
         }
-        public Project Copy(string projectid, string projectName, string newProjectId)
+        public Project Copy(string projectid, string projectName, string newProjectId, string parentProjectId = "")
         {
-          var response = CopyProject(projectid, projectName, newProjectId);
+          var response = CopyProject(projectid, projectName, newProjectId, parentProjectId);
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var reader = new JsonReader(new DataReaderSettings(new ConventionResolverStrategy(ConventionResolverStrategy.WordCasing.Lowercase, "-")));
@@ -102,7 +107,10 @@ namespace TeamCitySharp.ActionTypes
         {
             _caller.DeleteFormat("/app/rest/projects/name:{0}", projectName);
         }
-
+        public void DeleteById(string projectId)
+        {
+            _caller.DeleteFormat("/app/rest/projects/id:{0}", projectId);
+        }
         public void DeleteProjectParameter(string projectName, string parameterName)
         {
             _caller.DeleteFormat("/app/rest/projects/name:{0}/parameters/{1}", projectName, parameterName);

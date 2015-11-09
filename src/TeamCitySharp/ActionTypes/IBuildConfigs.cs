@@ -17,11 +17,13 @@ namespace TeamCitySharp.ActionTypes
     BuildConfig ByProjectIdAndConfigurationId(string projectId, string buildConfigId);
     List<BuildConfig> ByProjectId(string projectId);
     List<BuildConfig> ByProjectName(string projectName);
-    bool ModifTrigger(string format, string oldTriggerConfigurationId, string id);
+    bool ModifTrigger(string format, string triggerId, string id);
     bool ModifArtifactDependencies(string format, string oldDendencyConfigurationId, string id);
     bool ModifSnapshotDependencies(string format, string oldDendencyConfigurationId, string id);
     BuildConfig CreateConfiguration(string projectName, string configurationName);
     BuildConfig CreateConfigurationByProjectId(string projectId, string configurationName);
+    BuildConfig Copy(string buildConfigId, string buildConfigName, string destinationProjectId, string newBuildTypeId = "");
+    
 
     void SetConfigurationSetting(BuildTypeLocator locator, string settingName, string settingValue);
     bool GetConfigurationPauseStatus(BuildTypeLocator locator);
@@ -99,5 +101,11 @@ namespace TeamCitySharp.ActionTypes
     void PutAllBuildTypeParameters(BuildTypeLocator locator, IDictionary<string, string> parameters);
 
     void DownloadConfiguration(BuildTypeLocator locator, Action<string> downloadHandler);
+
+    //Template
+    Template CopyTemplate(string templateId, string templateName, string destinationProjectId, string newTemplateId = "");
+    Template GetTemplate(BuildTypeLocator locator); 
+    void AttachTemplate(BuildTypeLocator locator, string templateId);
+    void DetachTemplate(BuildTypeLocator locator);
   }
 }

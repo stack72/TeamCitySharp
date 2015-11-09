@@ -59,7 +59,7 @@ namespace TeamCitySharp.ActionTypes
 
         public ArtifactCollection Tag(string tag)
         {
-            return Specification(tag + ".tcbuildtag");
+            return Specification(tag + ".tcbuildid");
         }
 
         public ArtifactCollection Specification(string buildSpecification)
