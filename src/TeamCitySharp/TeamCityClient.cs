@@ -11,6 +11,7 @@ namespace TeamCitySharp
         private IBuildConfigs _buildConfigs;
         private IServerInformation _serverInformation;
         private IUsers _users;
+        private IUserGroups _userGroups;
         private IAgents _agents;
         private IVcsRoots _vcsRoots;
         private IChanges _changes;
@@ -59,6 +60,11 @@ namespace TeamCitySharp
         public IUsers Users
         {
             get { return _users ?? (_users = new Users(_caller)); }
+        }
+
+        public IUserGroups UserGroups
+        {
+            get { return _userGroups ?? (_userGroups = new UserGroups(_caller)); }
         }
 
         public IAgents Agents
