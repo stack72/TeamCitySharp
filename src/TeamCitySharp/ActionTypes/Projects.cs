@@ -5,6 +5,10 @@ using TeamCitySharp.DomainEntities;
 
 namespace TeamCitySharp.ActionTypes
 {
+    using System.Net;
+
+    using EasyHttp.Infrastructure;
+
     internal class Projects : IProjects
     {
         private readonly TeamCityCaller _caller;
@@ -23,16 +27,12 @@ namespace TeamCitySharp.ActionTypes
 
         public Project ByName(string projectLocatorName)
         {
-            var project = _caller.GetFormat<Project>("/app/rest/projects/name:{0}", projectLocatorName);
-
-            return project;
+            return GetProject(string.Format("name:{0}", projectLocatorName));
         }
 
         public Project ById(string projectLocatorId)
         {
-            var project = _caller.GetFormat<Project>("/app/rest/projects/{0}", projectLocatorId);
-
-            return project;
+            return GetProject(projectLocatorId);
         }
 
         public Project Details(Project project)
@@ -71,6 +71,24 @@ namespace TeamCitySharp.ActionTypes
         public void SetProjectParameter(string projectName, string settingName, string settingValue)
         {
             _caller.PutFormat(settingValue, "/app/rest/projects/name:{0}/parameters/{1}", projectName, settingName);
+        }
+
+        private Project GetProject(string locator)
+        {
+            try
+            {
+                var project = _caller.GetFormat<Project>("/app/rest/projects/{0}", locator);
+                return project;
+            }
+            catch (HttpException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return null;
+                }
+
+                throw;
+            }
         }
     }
 }

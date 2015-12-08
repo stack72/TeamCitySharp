@@ -9,6 +9,8 @@ using TeamCitySharp.Util;
 
 namespace TeamCitySharp.ActionTypes
 {
+    using EasyHttp.Infrastructure;
+
     internal class Users : IUsers
     {
         private readonly TeamCityCaller _caller;
@@ -109,9 +111,25 @@ namespace TeamCitySharp.ActionTypes
 
             var attributesDictionary = new Dictionary<string, string> { { "key", groupKey } };
             var payload = XmlUtil.SingleElementDocument("group", attributesDictionary);
-            var response = _caller.Post(payload, HttpContentTypes.ApplicationXml, string.Format("/app/rest/users/{0}/groups", UserLocator.WithUserName(username)), null);
 
-            return response.StatusCode == HttpStatusCode.OK;
+            try
+            {
+                var response = _caller.Post(
+                    payload,
+                    HttpContentTypes.ApplicationXml,
+                    string.Format("/app/rest/users/{0}/groups", UserLocator.WithUserName(username)),
+                    null);
+                return response.StatusCode == HttpStatusCode.OK;
+            }
+            catch (HttpException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return false;
+                }
+
+                throw;
+            }
         }
     }
 }
