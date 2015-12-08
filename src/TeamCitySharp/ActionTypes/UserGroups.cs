@@ -23,7 +23,7 @@ namespace TeamCitySharp.ActionTypes
             ArgumentUtil.CheckNotNull(() => groupKey, () => groupName);
 
             var attributesDictionary = new Dictionary<string, string> { { "key", groupKey }, { "name", groupName } };
-            var payload = XmlUtil.SingleElementDocument("role", attributesDictionary);
+            var payload = XmlUtil.SingleElementDocument("group", attributesDictionary);
             var response = _caller.Post(payload, HttpContentTypes.ApplicationXml, "/app/rest/userGroups", null);
 
             return response.StatusCode == HttpStatusCode.OK;

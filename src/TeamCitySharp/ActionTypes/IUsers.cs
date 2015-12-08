@@ -3,6 +3,8 @@ using TeamCitySharp.DomainEntities;
 
 namespace TeamCitySharp.ActionTypes
 {
+    using System.Net;
+
     public interface IUsers
     {
         List<User> All();
@@ -14,6 +16,6 @@ namespace TeamCitySharp.ActionTypes
         List<Role> AllUserRolesByUserGroup(string userGroupName);
         bool Create(string username, string name, string email, string password);
         bool AddPassword(string username, string password);
-        bool AddUserToGroup(string groupKey, string userId);
+        bool AddUserToGroup(string username, string groupKey);
     }
 }
