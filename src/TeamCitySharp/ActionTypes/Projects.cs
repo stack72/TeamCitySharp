@@ -45,6 +45,24 @@ namespace TeamCitySharp.ActionTypes
             return _caller.Post<Project>(projectName, HttpContentTypes.TextPlain, "/app/rest/projects/", HttpContentTypes.ApplicationJson);
         }
 
+        public bool SetName(string projectCode, string name)
+        {
+            try
+            {
+                var response = _caller.Put(name, HttpContentTypes.TextPlain, string.Format("/app/rest/projects/{0}/name", projectCode), null);
+                return response.StatusCode == HttpStatusCode.OK;
+            }
+            catch (HttpException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return false;
+                }
+
+                throw;
+            }
+        }
+
         public Project Create(string projectName, string projectId)
         {
 

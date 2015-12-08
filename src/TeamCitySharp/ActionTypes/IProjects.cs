@@ -14,5 +14,6 @@ namespace TeamCitySharp.ActionTypes
         void Delete(string projectName);
         void DeleteProjectParameter(string projectName, string parameterName);
         void SetProjectParameter(string projectName, string settingName, string settingValue);
+        bool SetName(string projectCode, string name);
     }
 }

@@ -3,8 +3,6 @@ using TeamCitySharp.DomainEntities;
 
 namespace TeamCitySharp.ActionTypes
 {
-    using System.Net;
-
     public interface IUsers
     {
         List<User> All();

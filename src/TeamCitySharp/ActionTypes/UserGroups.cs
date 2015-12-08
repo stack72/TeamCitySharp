@@ -8,6 +8,7 @@ using TeamCitySharp.Util;
 
 namespace TeamCitySharp.ActionTypes
 {
+    using EasyHttp.Infrastructure;
 
     internal class UserGroups : IUserGroups
     {
@@ -27,6 +28,26 @@ namespace TeamCitySharp.ActionTypes
             var response = _caller.Post(payload, HttpContentTypes.ApplicationXml, "/app/rest/userGroups", null);
 
             return response.StatusCode == HttpStatusCode.OK;
+        }
+
+        public bool RemoveGroup(string groupKey)
+        {
+            ArgumentUtil.CheckNotNull(() => groupKey);
+
+            try
+            {
+                _caller.Delete(string.Format("/app/rest/userGroups/key:{0}", groupKey));
+                return true;
+            }
+            catch (HttpException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return false;
+                }
+
+                throw;
+            }
         }
 
         public bool AddRoleToGroup(string groupKey, string roleId, string projectKey)
