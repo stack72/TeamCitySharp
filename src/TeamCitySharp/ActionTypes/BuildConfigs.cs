@@ -80,9 +80,14 @@ namespace TeamCitySharp.ActionTypes
             return buildWrapper.BuildType;
         }
 
-        public BuildConfig CreateConfiguration(string projectName, string configurationName)
+        public BuildConfig CreateConfigurationByName(string projectName, string configurationName)
         {
             return _caller.PostFormat<BuildConfig>(configurationName, HttpContentTypes.TextPlain, HttpContentTypes.ApplicationJson, "/app/rest/projects/name:{0}/buildTypes", projectName);
+        }
+
+        public BuildConfig CreateConfigurationById(string projectId, string configurationName)
+        {
+            return _caller.PostFormat<BuildConfig>(configurationName, HttpContentTypes.TextPlain, HttpContentTypes.ApplicationJson, "/app/rest/projects/id:{0}/buildTypes", projectId);
         }
 
         public void SetConfigurationSetting(BuildTypeLocator locator, string settingName, string settingValue)
