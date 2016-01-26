@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
 
@@ -32,5 +33,17 @@ namespace TeamCitySharp.ActionTypes
 
       return agentWrapper.Agent;
     }
+
+        private string AddqueryString(string url, string queryString)
+        {
+            if (url.Contains("?"))
+                url += "&";
+            else
+                url += "?";
+
+            url += queryString;
+
+            return url;
   }
+    }
 }

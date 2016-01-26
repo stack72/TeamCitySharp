@@ -31,10 +31,12 @@ namespace TeamCitySharp.ActionTypes
     void SetConfigurationSetting(BuildTypeLocator locator, string settingName, string settingValue);
     bool GetConfigurationPauseStatus(BuildTypeLocator locator);
     void SetConfigurationPauseStatus(BuildTypeLocator locator, bool isPaused);
+
     void PostRawArtifactDependency(BuildTypeLocator locator, string rawXml);
     void SetArtifactDependency(BuildTypeLocator locator, ArtifactDependency dependency);
 
     void PostRawBuildStep(BuildTypeLocator locator, string rawXml);
+
     void PostRawBuildTrigger(BuildTypeLocator locator, string rawXml);
     void SetTrigger(BuildTypeLocator locator, BuildTrigger trigger);
 
@@ -75,6 +77,7 @@ namespace TeamCitySharp.ActionTypes
     /// ]]></code>
     /// </summary>
     void PostRawSnapshotDependency(BuildTypeLocator locator, XmlElement rawXml);
+        void SetSnapshotDependency(BuildTypeLocator locator, SnapshotDependency dependency);
 
     void SetSnapshotDependency(BuildTypeLocator locator, SnapshotDependency dependency);
 

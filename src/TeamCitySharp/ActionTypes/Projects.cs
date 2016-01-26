@@ -8,6 +8,7 @@ using JsonFx.Serialization;
 using JsonFx.Serialization.Resolvers;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
+using TeamCitySharp.Locators;
 
 namespace TeamCitySharp.ActionTypes
 {
