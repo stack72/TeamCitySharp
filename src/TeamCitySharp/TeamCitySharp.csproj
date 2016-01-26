@@ -33,9 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EasyHttp, Version=1.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="EasyHttp, Version=1.6.80.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\EasyHttp.1.6.1.0\lib\net40\EasyHttp.dll</HintPath>
+      <HintPath>..\..\packages\EasyHttp.1.6.80.0\lib\net40\EasyHttp.dll</HintPath>
     </Reference>
     <Reference Include="JsonFx">
       <HintPath>..\..\packages\JsonFx.2.0.1209.2802\lib\net40\JsonFx.dll</HintPath>
@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionTypes\ActionHelper.cs" />
     <Compile Include="ActionTypes\Agents.cs" />
     <Compile Include="ActionTypes\BackupOptions.cs" />
     <Compile Include="ActionTypes\BuildArtifacts.cs" />
@@ -88,6 +89,31 @@
     <Compile Include="DomainEntities\Template.cs" />
     <Compile Include="DomainEntities\Test.cs" />
     <Compile Include="DomainEntities\Tests.cs" />
+    <Compile Include="Fields\AgentField.cs" />
+    <Compile Include="Fields\BuildArtifactDependenciesField.cs" />
+    <Compile Include="Fields\BuildTypeField.cs" />
+    <Compile Include="Fields\BuildField.cs" />
+    <Compile Include="Fields\BuildsField.cs" />
+    <Compile Include="Fields\BuildSnapshotDepenciesField.cs" />
+    <Compile Include="Fields\BuildStepField.cs" />
+    <Compile Include="Fields\BuildStepsField.cs" />
+    <Compile Include="Fields\BuildTriggerField.cs" />
+    <Compile Include="Fields\BuildTriggersField.cs" />
+    <Compile Include="Fields\BuildTypeWrapperField.cs" />
+    <Compile Include="Fields\StatisticsField.cs" />
+    <Compile Include="Fields\FieldHelper.cs" />
+    <Compile Include="Fields\IField.cs" />
+    <Compile Include="Fields\ParametersField.cs" />
+    <Compile Include="Fields\ParentProjectField.cs" />
+    <Compile Include="Fields\ProjectField.cs" />
+    <Compile Include="Fields\ProjectWrapperField.cs" />
+    <Compile Include="Fields\PropertiesField.cs" />
+    <Compile Include="Fields\PropertyField.cs" />
+    <Compile Include="Fields\TemplateField.cs" />
+    <Compile Include="Fields\TemplatesField.cs" />
+    <Compile Include="Fields\VcsRootEntriesField.cs" />
+    <Compile Include="Fields\VcsRootEntryField.cs" />
+    <Compile Include="Fields\VcsRootField.cs" />
     <Compile Include="Locators\ProjectLocator.cs" />
     <Compile Include="DomainEntities\Templates.cs" />
     <Compile Include="TeamCityClient.cs" />

@@ -2,13 +2,13 @@ using System.Collections.Generic;
 
 namespace TeamCitySharp.DomainEntities
 {
-    public class AgentRequirements
+  public class AgentRequirements
+  {
+    public override string ToString()
     {
-        public override string ToString()
-        {
-            return "agent-requirements";
-        }
-
-        public List<AgentRequirement> AgentRequirement { get; set; }    
+      return "agent-requirements";
     }
+
+    public List<AgentRequirement> AgentRequirement { get; set; }
+  }
 }

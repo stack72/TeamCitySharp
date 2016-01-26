@@ -3,8 +3,8 @@ using TeamCitySharp.DomainEntities;
 
 namespace TeamCitySharp.ActionTypes
 {
-    public interface IStatistics
-    {
-        List<Property> GetByBuildId(string buildId);
-    }
+  public interface IStatistics
+  {
+    List<Property> GetByBuildId(string buildId);
+  }
 }

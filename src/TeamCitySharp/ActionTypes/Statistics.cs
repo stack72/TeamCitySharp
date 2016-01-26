@@ -4,18 +4,26 @@ using TeamCitySharp.DomainEntities;
 
 namespace TeamCitySharp.ActionTypes
 {
-    public class Statistics : IStatistics
+  public class Statistics : IStatistics
+  {
+    private readonly ITeamCityCaller _caller;
+    private string _fields;
+
+    internal Statistics(ITeamCityCaller caller)
     {
-        private readonly ITeamCityCaller caller;
-
-        internal Statistics(ITeamCityCaller caller)
-        {
-            this.caller = caller;
-        }
-
-        public List<Property> GetByBuildId(string buildId)
-        {
-            return this.caller.GetFormat<Properties>("/app/rest/builds/id:{0}/statistics", buildId).Property;
-        }
+      _caller = caller;
     }
+
+    public Statistics GetFields(string fields)
+    {
+      var newInstance = (Statistics) MemberwiseClone();
+      newInstance._fields = fields;
+      return newInstance;
+    }
+
+    public List<Property> GetByBuildId(string buildId)
+    {
+      return _caller.GetFormat<Properties>("/app/rest/builds/id:{0}/statistics", buildId).Property;
+    }
+  }
 }

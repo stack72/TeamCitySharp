@@ -9,6 +9,7 @@ namespace TeamCitySharp.ActionTypes
   public interface IBuildConfigs
   {
     List<BuildConfig> All();
+    BuildConfigs GetFields(string fields);
     BuildConfig ByConfigurationName(string buildConfigName);
     BuildConfig ByConfigurationId(string buildConfigId);
     BuildConfig ByProjectNameAndConfigurationName(string projectName, string buildConfigName);
@@ -22,8 +23,10 @@ namespace TeamCitySharp.ActionTypes
     bool ModifSnapshotDependencies(string format, string oldDendencyConfigurationId, string id);
     BuildConfig CreateConfiguration(string projectName, string configurationName);
     BuildConfig CreateConfigurationByProjectId(string projectId, string configurationName);
-    BuildConfig Copy(string buildConfigId, string buildConfigName, string destinationProjectId, string newBuildTypeId = "");
-    
+
+    BuildConfig Copy(string buildConfigId, string buildConfigName, string destinationProjectId,
+                     string newBuildTypeId = "");
+
 
     void SetConfigurationSetting(BuildTypeLocator locator, string settingName, string settingValue);
     bool GetConfigurationPauseStatus(BuildTypeLocator locator);
@@ -72,6 +75,7 @@ namespace TeamCitySharp.ActionTypes
     /// ]]></code>
     /// </summary>
     void PostRawSnapshotDependency(BuildTypeLocator locator, XmlElement rawXml);
+
     void SetSnapshotDependency(BuildTypeLocator locator, SnapshotDependency dependency);
 
     /// <summary>
@@ -104,7 +108,7 @@ namespace TeamCitySharp.ActionTypes
 
     //Template
     Template CopyTemplate(string templateId, string templateName, string destinationProjectId, string newTemplateId = "");
-    Template GetTemplate(BuildTypeLocator locator); 
+    Template GetTemplate(BuildTypeLocator locator);
     void AttachTemplate(BuildTypeLocator locator, string templateId);
     void DetachTemplate(BuildTypeLocator locator);
   }

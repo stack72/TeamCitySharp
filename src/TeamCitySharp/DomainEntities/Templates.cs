@@ -2,8 +2,8 @@
 
 namespace TeamCitySharp.DomainEntities
 {
-    public class Templates
-    {
-       public List<Template> BuildType { get; set; }
-    }
+  public class Templates
+  {
+    public List<Template> BuildType { get; set; }
+  }
 }

@@ -2,8 +2,8 @@
 
 namespace TeamCitySharp.DomainEntities
 {
-    public class UserGroupWrapper
-    {
-        public List<Group> Group { get; set; }
-    }
+  public class UserGroupWrapper
+  {
+    public List<Group> Group { get; set; }
+  }
 }

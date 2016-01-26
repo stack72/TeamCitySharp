@@ -45,7 +45,14 @@ To connect as a Guest:
 
     var client = new TeamCityClient("localhost:81");
     client.ConnectAsGuest();
-    
+
+Use fields specializations: Extract complex objects for specified Fields
+
+    // For each builds get only the Id, Number, Status and StartDate
+    var buildField = BuildField.WithFields(id: true,number:true, status: true, startDate: true);
+    var buildsFields = BuildsField.WithFields( buildField: buildField);
+    var currentListBuild = client.Builds.GetFields(buildsFields.ToString()).ByBuildConfigId(currentProjectId);
+
 ##API Interaction Groups
 There are many tasks that the TeamCity API can do for us. TeamCitySharp groups these tasks into specialist areas
 
@@ -65,7 +72,9 @@ Each area has its own list of methods available
 
 ###Builds
 
+    Builds GetFields(string fields);
     List<Build> SuccessfulBuildsByBuildConfigId(string buildConfigId);
+    List<Build> SuccessfulBuildsByBuildConfigId(string buildConfigId, List<String> param);
     Build LastSuccessfulBuildByBuildConfigId(string buildConfigId);
     List<Build> FailedBuildsByBuildConfigId(string buildConfigId);
     Build LastFailedBuildByBuildConfigId(string buildConfigId);
@@ -87,10 +96,13 @@ Each area has its own list of methods available
     Build LastBuildByAgent(string agentName);
     void Add2QueueBuildByBuildConfigId(string buildConfigId);
     List<Build> AllRunningBuild();
+    List<Build> RetrieveEntireBuildChainFrom(string buildConfigId);
+    List<Build> RetrieveEntireBuildChainTo(string buildConfigId);
 
 ###Projects
 
     List<Project> All();
+    Projects GetFields(string fields);
     Project ByName(string projectLocatorName);
     Project ById(string projectLocatorId);
     Project Details(Project project);
@@ -108,6 +120,7 @@ Each area has its own list of methods available
 ###BuildConfigs
     
     List<BuildConfig> All();
+    BuildConfigs GetFields(string fields);
     BuildConfig ByConfigurationName(string buildConfigName);
     BuildConfig ByConfigurationId(string buildConfigId);
     BuildConfig ByProjectNameAndConfigurationName(string projectName, string buildConfigName);
@@ -176,6 +189,7 @@ Each area has its own list of methods available
 ###Agents
 
     List<Agent> All(bool includeDisconnected = false, bool includeUnauthorized = false);
+    Agents GetFields(string fields);
 
 ###VcsRoots
 

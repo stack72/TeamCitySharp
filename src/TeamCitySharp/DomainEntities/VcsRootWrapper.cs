@@ -2,8 +2,8 @@
 
 namespace TeamCitySharp.DomainEntities
 {
-    public class VcsRootWrapper
-    {
-        public List<VcsRoot> VcsRoot { get; set; }
-    }
+  public class VcsRootWrapper
+  {
+    public List<VcsRoot> VcsRoot { get; set; }
+  }
 }

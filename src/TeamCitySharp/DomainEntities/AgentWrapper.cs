@@ -2,8 +2,8 @@
 
 namespace TeamCitySharp.DomainEntities
 {
-    public class AgentWrapper
-    {
-        public List<Agent> Agent { get; set; }
-    }
+  public class AgentWrapper
+  {
+    public List<Agent> Agent { get; set; }
+  }
 }

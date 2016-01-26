@@ -8,6 +8,7 @@ namespace TeamCitySharp.DomainEntities
     {
       return "snapshot-dependencies";
     }
+
     public List<Build> Build { get; set; }
   }
 }

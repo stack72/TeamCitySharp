@@ -2,13 +2,13 @@ using System.Collections.Generic;
 
 namespace TeamCitySharp.DomainEntities
 {
-    public class Parameters
+  public class Parameters
+  {
+    public override string ToString()
     {
-        public override string ToString()
-        {
-            return "parameters";
-        }
-
-        public List<Property> Property { get; set; }
+      return "parameters";
     }
+
+    public List<Property> Property { get; set; }
+  }
 }
