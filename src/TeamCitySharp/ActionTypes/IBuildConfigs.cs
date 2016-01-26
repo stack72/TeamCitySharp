@@ -77,7 +77,6 @@ namespace TeamCitySharp.ActionTypes
     /// ]]></code>
     /// </summary>
     void PostRawSnapshotDependency(BuildTypeLocator locator, XmlElement rawXml);
-        void SetSnapshotDependency(BuildTypeLocator locator, SnapshotDependency dependency);
 
     void SetSnapshotDependency(BuildTypeLocator locator, SnapshotDependency dependency);
 
