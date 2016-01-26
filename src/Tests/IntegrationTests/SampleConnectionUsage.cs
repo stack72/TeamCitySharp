@@ -24,13 +24,10 @@ namespace TeamCitySharp.IntegrationTests
     }
 
     [Test]
-    [ExpectedException(typeof (AuthenticationException))]
     public void it_will_throw_an_exception_for_an_unknown_user()
     {
       _client.Connect("smithy", "smithy");
-      _client.Authenticate();
-
-      //Assert.Throws Exception
+      Assert.Throws<AuthenticationException>(() => _client.Authenticate());
     }
 
     [Test]
