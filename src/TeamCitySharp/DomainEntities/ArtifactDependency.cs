@@ -13,7 +13,7 @@ namespace TeamCitySharp.DomainEntities
 
     public override string ToString()
     {
-            return Type;
+      return "artifact_dependency";
     }
 
     [DataMember(Name = "id")]
