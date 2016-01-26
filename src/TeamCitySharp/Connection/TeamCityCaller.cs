@@ -53,17 +53,17 @@ namespace TeamCitySharp.Connection
 
     public T PostFormat<T>(object data, string contenttype, string accept, string urlPart, params object[] parts)
     {
-            return Post<T>(data, contenttype, string.Format(urlPart, parts), accept);
+      return Post<T>(data.ToString(), contenttype, string.Format(urlPart, parts), accept);
     }
 
     public void PostFormat(object data, string contenttype, string urlPart, params object[] parts)
     {
-            Post(data, contenttype, string.Format(urlPart, parts), string.Empty);
+      Post(data.ToString(), contenttype, string.Format(urlPart, parts), string.Empty);
     }
 
     public void PutFormat(object data, string contenttype, string urlPart, params object[] parts)
     {
-            Put(data, contenttype, string.Format(urlPart, parts), string.Empty);
+      Put(data.ToString(), contenttype, string.Format(urlPart, parts), string.Empty);
     }
 
     public void DeleteFormat(string urlPart, params object[] parts)
