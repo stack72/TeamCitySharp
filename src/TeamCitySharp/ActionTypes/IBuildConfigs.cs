@@ -18,6 +18,7 @@ namespace TeamCitySharp.ActionTypes
         List<BuildConfig> ByProjectId(string projectId);
         List<BuildConfig> ByProjectName(string projectName);
         BuildConfig CreateConfiguration(string projectName, string configurationName);
+        BuildConfig CreateConfiguration(ProjectLocator projectLocator, string configurationName);
 
         void SetConfigurationSetting(BuildTypeLocator locator, string settingName, string settingValue);
         bool GetConfigurationPauseStatus(BuildTypeLocator locator);
@@ -88,5 +89,43 @@ namespace TeamCitySharp.ActionTypes
         void PutAllBuildTypeParameters(BuildTypeLocator locator, IDictionary<string, string> parameters);
 
         void DownloadConfiguration(BuildTypeLocator locator, Action<string> downloadHandler);
+
+        /// <summary>
+        /// Copies given build configuration to another project
+        /// </summary>
+        /// <param name="buildTypeLocator"></param>
+        /// <param name="destinationProjectLocator"></param>
+        /// <param name="newConfigurationName"></param>
+        BuildConfig CopyBuildConfiguration(BuildTypeLocator buildTypeLocator, ProjectLocator destinationProjectLocator, string newConfigurationName);
+
+        /// <summary>
+        /// Triggers build configuration by ID
+        /// </summary>
+        /// <param name="buildConfigId"></param>
+        void TriggerBuildConfiguration(string buildConfigId);
+
+        void AttachToTemplate(BuildTypeLocator buildTypeLocator, string buildTemplateId);
+
+        /// <summary>
+        /// Triggers build configuration by ID and sends parameters to the build
+        /// </summary>
+        /// <param name="buildConfigId"></param>
+        /// <param name="properties"></param>
+        void TriggerBuildConfiguration(string buildConfigId, Property[] properties);
+
+        /// <summary>
+        /// Triggers build configuration by ID on specific agent and sends parameters to the build
+        /// </summary>
+        /// <param name="buildConfigId"></param>
+        /// <param name="agentId"></param>
+        /// <param name="properties"></param>
+        void TriggerBuildConfiguration(string buildConfigId, int agentId, Property[] properties);
+
+        /// <summary>
+        /// Update name of build configuration
+        /// </summary>
+        /// <param name="buildTypeLocator">Build Type locator</param>
+        /// <param name="newName">New build configuration name</param>
+        void UpdateName(BuildTypeLocator buildTypeLocator, string newName);
     }
 }

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using NUnit.Framework;
+using TeamCitySharp.DomainEntities;
 using TeamCitySharp.Locators;
 
 namespace TeamCitySharp.IntegrationTests
@@ -189,6 +190,26 @@ namespace TeamCitySharp.IntegrationTests
                                                                          maxResults: 1));
             Assert.That(build.Count == 1);
             Assert.IsNull(build[0].StatusText);
+        }
+
+        [Test]
+        public void GetBuildById_ReturnsChanges()
+        {
+            var client = new TeamCityClient("teamcity.codebetter.com");
+            client.ConnectAsGuest();
+
+            var build = client.Builds.BuildById(123177);
+            foreach (var change in build.LastChanges.Change)
+            {
+                if (String.IsNullOrEmpty(change.Comment))
+                {
+                    Change changeWithComments = client.Changes.ByChangeId(change.Id);
+                    Assert.That(changeWithComments.Comment, Is.Not.Empty);
+                }
+            }
+
+            Assert.That(build.LastChanges.Change.Count(), Is.GreaterThan(0));
+
         }
     }
 }

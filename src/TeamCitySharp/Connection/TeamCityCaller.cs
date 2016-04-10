@@ -67,10 +67,14 @@ namespace TeamCitySharp.Connection
                 throw new ArgumentException("If you are not acting as a guest you must supply userName and password");
             }
 
-            urlPart = System.Web.HttpUtility.UrlEncode(urlPart);
             if (string.IsNullOrEmpty(urlPart))
             {
                 throw new ArgumentException("Url must be specfied");
+            }
+
+            if (urlPart.Contains("+"))
+            {
+                urlPart = System.Web.HttpUtility.UrlEncode(urlPart);
             }
 
             if (downloadHandler == null)
@@ -83,9 +87,12 @@ namespace TeamCitySharp.Connection
 
             try
             {
-                CreateHttpClient(_configuration.UserName, _configuration.Password, HttpContentTypes.ApplicationJson).GetAsFile(url, tempFileName);
+                var httpResponse = CreateHttpClient(_configuration.UserName, _configuration.Password, HttpContentTypes.ApplicationJson).GetAsFile(url, tempFileName);
+                if (httpResponse.StatusCode != HttpStatusCode.OK)
+                {
+                    throw new HttpException(httpResponse.StatusCode, httpResponse.StatusDescription);
+                }
                 downloadHandler.Invoke(tempFileName);
-
             }
             finally
             {
@@ -118,6 +125,13 @@ namespace TeamCitySharp.Connection
             return string.Empty;
         }
 
+        public T GetByFullUrl<T>(string fullUrl)
+        {
+            var url = string.Format("{0}{1}{2}", GetProtocol(), _configuration.HostName, fullUrl);
+            var response = GetResponseByFullUrl(url);
+            return response.StaticBody<T>();
+        }
+
         public T Get<T>(string urlPart)
         {
             var response = GetResponse(urlPart);
@@ -139,7 +153,13 @@ namespace TeamCitySharp.Connection
 
             var url = CreateUrl(urlPart);
 
-            var response = CreateHttpClient(_configuration.UserName, _configuration.Password, HttpContentTypes.ApplicationJson).Get(url);
+            return GetResponseByFullUrl(url);
+        }
+
+        private HttpResponse GetResponseByFullUrl(string url)
+        {
+            var response =
+                CreateHttpClient(_configuration.UserName, _configuration.Password, HttpContentTypes.ApplicationJson).Get(url);
             ThrowIfHttpError(response, url);
             return response;
         }
@@ -238,15 +258,23 @@ namespace TeamCitySharp.Connection
 
         private string CreateUrl(string urlPart)
         {
-            var protocol = _configuration.UseSSL ? "https://" : "http://";
+            var protocol = GetProtocol();
             var authType = _configuration.ActAsGuest ? "/guestAuth" : "/httpAuth";
 
             return string.Format("{0}{1}{2}{3}", protocol, _configuration.HostName, authType, urlPart);
         }
 
+        private string GetProtocol()
+        {
+            return _configuration.UseSSL ? "https://" : "http://";
+        }
+
         private HttpClient CreateHttpClient(string userName, string password, string accept)
         {
-            var httpClient = new HttpClient(new TeamcityJsonEncoderDecoderConfiguration());
+            var httpClient = new HttpClient(new TeamcityJsonEncoderDecoderConfiguration())
+            {
+                ShouldRemoveAtSign = false
+            };
             httpClient.Request.Accept = accept;
             if (!_configuration.ActAsGuest)
             {

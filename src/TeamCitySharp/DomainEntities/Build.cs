@@ -4,7 +4,7 @@ namespace TeamCitySharp.DomainEntities
 {
     public class Build
     {
-        public string Id { get; set; }
+        public long Id { get; set; }
         public string Number { get; set; }
         public string Status { get; set; }
         public string BuildTypeId { get; set; }
@@ -15,13 +15,13 @@ namespace TeamCitySharp.DomainEntities
         public DateTime FinishDate { get; set; }
 
         public BuildConfig BuildConfig { get; set; }
-        public Agent Agent { get; set;}
-        public ChangeWrapper Changes { get; set; }
+        public Agent Agent { get; set; }
+        public ChangesList LastChanges { get; set; }
+        public ChangesWrapper Changes { get; set; }
 
         public override string ToString()
         {
             return Number;
         }
-        
     }
 }

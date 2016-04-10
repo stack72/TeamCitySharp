@@ -14,6 +14,8 @@
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,15 +35,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EasyHttp, Version=1.6.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\EasyHttp.1.6.1.0\lib\net40\EasyHttp.dll</HintPath>
+    <Reference Include="EasyHttp, Version=1.6.86.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EasyHttp.1.6.86.0\lib\net40\EasyHttp.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="JsonFx">
       <HintPath>..\..\packages\JsonFx.2.0.1209.2802\lib\net40\JsonFx.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -60,13 +63,25 @@
     <Compile Include="ActionTypes\IBuildConfigs.cs" />
     <Compile Include="ActionTypes\IBuilds.cs" />
     <Compile Include="ActionTypes\IChanges.cs" />
+    <Compile Include="ActionTypes\Investigations.cs" />
     <Compile Include="ActionTypes\IProjects.cs" />
     <Compile Include="ActionTypes\IServerInformation.cs" />
+    <Compile Include="ActionTypes\ITestOccurrences.cs" />
     <Compile Include="ActionTypes\IUsers.cs" />
     <Compile Include="ActionTypes\IVcsRoots.cs" />
+    <Compile Include="ActionTypes\ProjectLocator.cs" />
     <Compile Include="ActionTypes\Projects.cs" />
     <Compile Include="ActionTypes\ServerInformation.cs" />
+    <Compile Include="ActionTypes\StringExtensions.cs" />
     <Compile Include="Connection\ITeamCityCaller.cs" />
+    <Compile Include="DomainEntities\Assignment.cs" />
+    <Compile Include="DomainEntities\ChangesWrapper.cs" />
+    <Compile Include="DomainEntities\Investigation.cs" />
+    <Compile Include="DomainEntities\InvestigationWrapper.cs" />
+    <Compile Include="DomainEntities\ResolutionWrapper.cs" />
+    <Compile Include="DomainEntities\TestOccurrence.cs" />
+    <Compile Include="DomainEntities\TestOccurrenceWrapper.cs" />
+    <Compile Include="Locators\TestLocator.cs" />
     <Compile Include="TeamCityClient.cs" />
     <Compile Include="ActionTypes\Users.cs" />
     <Compile Include="ActionTypes\VcsRoots.cs" />
@@ -99,7 +114,7 @@
     <Compile Include="DomainEntities\BuildTypeWrapper.cs" />
     <Compile Include="DomainEntities\BuildWrapper.cs" />
     <Compile Include="DomainEntities\Change.cs" />
-    <Compile Include="DomainEntities\ChangeWrapper.cs" />
+    <Compile Include="DomainEntities\ChangesList.cs" />
     <Compile Include="DomainEntities\Credentials.cs" />
     <Compile Include="DomainEntities\File.cs" />
     <Compile Include="DomainEntities\FileWrapper.cs" />
@@ -125,6 +140,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
 

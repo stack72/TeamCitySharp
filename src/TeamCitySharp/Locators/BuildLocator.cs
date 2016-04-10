@@ -40,11 +40,14 @@ namespace TeamCitySharp.Locators
                                                   BuildLocator sinceBuild = null,
                                                   DateTime? sinceDate = null,
                                                   string[] tags = null,
-                                                  string branch = null
+                                                  string branch = null,
+                                                  string buildNumber = null, 
+                                                  long? buildId = null
             )
         {
             return new BuildLocator
                        {
+                           Id = buildId,
                            BuildType = buildType,
                            User = user,
                            AgentName = agentName,
@@ -58,7 +61,8 @@ namespace TeamCitySharp.Locators
                            SinceBuild = sinceBuild,
                            SinceDate = sinceDate,
                            Tags = tags,
-                           Branch = branch
+                           Branch = branch,
+                           Number = buildNumber
                        };
         }
 
@@ -81,17 +85,17 @@ namespace TeamCitySharp.Locators
 
         public override string ToString()
         {
+            var locatorFields = new List<string>();
+
             if (Id != null)
             {
-                return "id:" + Id;
+                locatorFields.Add("id:" + Id);
             }
 
             if (Number != null)
             {
-                return "number:" + Number;
+                locatorFields.Add("number:" + Number);
             }
-
-            var locatorFields = new List<string>();
 
             if (BuildType != null)
             {

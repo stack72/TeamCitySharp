@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using System.Net;
 using NUnit.Framework;
+using TeamCitySharp.ActionTypes;
+using TeamCitySharp.DomainEntities;
 using TeamCitySharp.Locators;
 
 namespace TeamCitySharp.IntegrationTests
@@ -112,6 +114,57 @@ namespace TeamCitySharp.IntegrationTests
             var buildConfigs = _client.BuildConfigs.ByProjectName(projectName);
 
             Assert.That(buildConfigs.Any(), "Cannot find a build type for that projectName");
+        }      
+        
+        [Test]
+        public void it_copies_build_configuration()
+        {
+            var client = CreateTeamCityClient();
+
+            var buildConfig = client.BuildConfigs.CopyBuildConfiguration(BuildTypeLocator.WithId("Misc_Playground"), ProjectLocator.WithId("Misc_Tryout"), "Misc Playground Copied");
+            client.BuildConfigs.DeleteConfiguration(BuildTypeLocator.WithId(buildConfig.Id));
+
+            Assert.That(buildConfig.Name, Is.EqualTo("Misc Playground Copied"));
+        }
+
+        [Test]
+        public void it_creates_build_configuration_and_attaches_tp_template()
+        {
+            var client = CreateTeamCityClient();
+
+            var buildConfig = client.BuildConfigs.CreateConfiguration(ProjectLocator.WithId("Misc_Tryout"), "Misc Playground Copied");
+            client.BuildConfigs.AttachToTemplate(BuildTypeLocator.WithId(buildConfig.Id), "Misc_Tryout_PlaygroundTemplate");
+            client.BuildConfigs.DeleteConfiguration(BuildTypeLocator.WithId(buildConfig.Id));
+
+            Assert.That(buildConfig.Name, Is.EqualTo("Misc Playground Copied"));
+        }
+
+        [Test]
+        public void it_triggers_build_configuration()
+        {
+            _client.BuildConfigs.TriggerBuildConfiguration("Misc_Playground"); 
+        }        
+        
+        [Test]
+        public void it_updates_build_configuration_name()
+        {
+            var teamCityClient = CreateTeamCityClient();
+            teamCityClient.BuildConfigs.UpdateName(BuildTypeLocator.WithId("Misc_Playground"), "The new playground"); 
+        }
+
+        [Test]
+        public void it_triggers_build_configuration_sends_parametes()
+        {
+            var client = CreateTeamCityClient();
+            client.BuildConfigs.TriggerBuildConfiguration("Misc_Tryout_02GeneralTestsAnalyzer", new[]
+            {
+                new Property { Name = "build.vcs.number", Value = "139209"}
+            });
+        }
+
+        private ITeamCityClient CreateTeamCityClient()
+        {
+            return _client;
         }
     }
 }
