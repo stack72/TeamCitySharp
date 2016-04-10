@@ -33,9 +33,9 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EasyHttp, Version=1.6.67.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\EasyHttp.1.6.67.0\lib\net40\EasyHttp.dll</HintPath>
+    <Reference Include="EasyHttp, Version=1.6.86.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\EasyHttp.1.6.86.0\lib\net40\EasyHttp.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="FakeItEasy">
       <HintPath>..\..\..\packages\FakeItEasy.1.10.0\lib\net40\FakeItEasy.dll</HintPath>

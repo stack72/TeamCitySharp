@@ -271,7 +271,10 @@ namespace TeamCitySharp.Connection
 
         private HttpClient CreateHttpClient(string userName, string password, string accept)
         {
-            var httpClient = new HttpClient(new TeamcityJsonEncoderDecoderConfiguration());
+            var httpClient = new HttpClient(new TeamcityJsonEncoderDecoderConfiguration())
+            {
+                ShouldRemoveAtSign = false
+            };
             httpClient.Request.Accept = accept;
             if (!_configuration.ActAsGuest)
             {
