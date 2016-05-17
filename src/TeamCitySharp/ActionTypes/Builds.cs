@@ -214,5 +214,21 @@ namespace TeamCitySharp.ActionTypes
           buildConfigId);
       return int.Parse(buildWrapper.Count) > 0 ? buildWrapper.Build : new List<Build>();
     }
+
+    /// <summary>
+    /// Retrieves the list of build after a build id. 
+    /// 
+    /// IMPORTANT NOTE: The list starts from the latest build to oldest  (Descending)
+    /// </summary>
+    /// <param name="buildid"></param>
+    /// <param name="count"></param>
+    /// <returns></returns>
+    public List<Build> NextBuilds(string buildid, int count = 100)
+    {
+      var buildWrapper =
+        _caller.GetFormat<BuildWrapper>(
+          ActionHelper.CreateFieldUrl("/app/rest/builds?locator=sinceBuild:(id:{0}),count({1})", _fields),buildid,count);
+      return int.Parse(buildWrapper.Count) > 0 ? buildWrapper.Build : new List<Build>();
+    }
   }
 }

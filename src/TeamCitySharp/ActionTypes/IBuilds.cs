@@ -33,5 +33,6 @@ namespace TeamCitySharp.ActionTypes
     List<Build> AllRunningBuild();
     List<Build> RetrieveEntireBuildChainFrom(string buildConfigId);
     List<Build> RetrieveEntireBuildChainTo(string buildConfigId);
+    List<Build> NextBuilds(string buildid, int count = 100);
   }
 }

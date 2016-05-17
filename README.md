@@ -98,6 +98,7 @@ Each area has its own list of methods available
     List<Build> AllRunningBuild();
     List<Build> RetrieveEntireBuildChainFrom(string buildConfigId);
     List<Build> RetrieveEntireBuildChainTo(string buildConfigId);
+    List<Build> NextBuilds(string buildid, int count = 100);
 
 ###Projects
 
@@ -230,3 +231,4 @@ Thanks to the following contributors:
 * Philipp Dolder
 * Mark deVilliers
 * Marc-Andre Vezeau (@exfo)
+* Bassem Mawassi (@exfo)

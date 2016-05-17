@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
 using NUnit.Framework;
+using TeamCitySharp.Fields;
 using TeamCitySharp.Locators;
 
 namespace TeamCitySharp.IntegrationTests
@@ -16,7 +17,7 @@ namespace TeamCitySharp.IntegrationTests
     public void SetUp()
     {
       _client = new TeamCityClient("teamcity.codebetter.com");
-      _client.Connect("teamcitysharpuser", "qwerty");
+      _client.Connect("testteamcitysharp", "testteamcitysharp");
     }
 
     [Test]
@@ -84,7 +85,7 @@ namespace TeamCitySharp.IntegrationTests
     [Test]
     public void it_returns_last_error_build_by_config_id()
     {
-      const string buildConfigId = "bt437";
+      const string buildConfigId = "bt464";
       var buildDetails = _client.Builds.LastErrorBuildByBuildConfigId(buildConfigId);
 
       Assert.That(buildDetails != null, "No errored builds have been found");
@@ -93,7 +94,7 @@ namespace TeamCitySharp.IntegrationTests
     [Test]
     public void it_returns_all_error_builds_by_config_id()
     {
-      const string buildId = "bt437";
+      const string buildId = "bt464";
       var builds = _client.Builds.ErrorBuildsByBuildConfigId(buildId);
 
       Assert.That(builds.Any(), "No errored builds have been found");
@@ -174,8 +175,8 @@ namespace TeamCitySharp.IntegrationTests
     public void it_does_not_populate_the_status_text_field_of_the_build_object()
     {
       const string buildConfigId = "bt5";
-      var client = new TeamCityClient("localhost:81");
-      client.Connect("admin", "qwerty");
+      var client = new TeamCityClient("teamcity.codebetter.com");
+      client.ConnectAsGuest();
 
       var build =
         client.Builds.ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
@@ -185,16 +186,51 @@ namespace TeamCitySharp.IntegrationTests
     }
 
     [Test]
-    public void ig_returns_correct_build_when_calling_by_id()
+    public void it_returns_correct_build_when_calling_by_id()
     {
-      const string buildId = "5726";
-      var client = new TeamCityClient("localhost:81");
-      client.Connect("admin", "qwerty");
+      const string buildId = "53642";
+      var client = new TeamCityClient("teamcity.codebetter.com");
+      client.ConnectAsGuest();
 
       var build = client.Builds.ById(buildId);
 
       Assert.That(build != null);
       Assert.That(build.Id == buildId);
+    }
+    [Test]
+    public void it_returns_correct_next_builds()
+    {
+      const string buildId = "5726";
+      var client = new TeamCityClient("teamcity.codebetter.com");
+      client.ConnectAsGuest();
+
+      var builds = client.Builds.NextBuilds(buildId, 10);
+
+      Assert.That(builds != null);
+      Assert.That(builds.Count == 10);
+      
+    }
+    [Test]
+    public void it_returns_correct_next_builds_with_filter()
+    {
+      const string buildId = "5726";
+      var client = new TeamCityClient("teamcity.codebetter.com");
+      client.ConnectAsGuest();
+
+      BuildField buildField = BuildField.WithFields(id: true, number: true, finishDate: true);
+      BuildsField buildsField = BuildsField.WithFields(buildField);
+      var builds = client.Builds.GetFields(buildsField.ToString()).NextBuilds(buildId, 10);
+
+      Assert.That(builds != null);
+      Assert.That(builds.Count == 10);
+      int i = 0;
+      foreach (var build in builds)
+      {
+        Assert.That(build.FinishDate != new DateTime());
+        Console.WriteLine("{0} => BuildId => {1} FinishDate => {2}",i,build.Id,build.FinishDate);
+        i++;
+      }
+
     }
   }
 }

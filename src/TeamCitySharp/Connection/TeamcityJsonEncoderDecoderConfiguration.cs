@@ -46,7 +46,7 @@ namespace TeamCitySharp.Connection
 
     protected override ITextFormatter<ModelTokenType> GetFormatter()
     {
-      return new CamelCaseJsonFormatter(this.Settings);
+      return new CamelCaseJsonFormatter(Settings);
     }
   }
 
