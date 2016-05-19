@@ -2,8 +2,8 @@
 
 namespace TeamCitySharp.DomainEntities
 {
-    public class FileWrapper
-    {
-        public List<File> File { get; set; }
-    }
+  public class FileWrapper
+  {
+    public List<File> File { get; set; }
+  }
 }

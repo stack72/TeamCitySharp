@@ -2,8 +2,8 @@
 
 namespace TeamCitySharp.DomainEntities
 {
-    public class RoleWrapper
-    {
-        public List<Role> Role { get; set; }
-    }
+  public class RoleWrapper
+  {
+    public List<Role> Role { get; set; }
+  }
 }

@@ -1,9 +1,9 @@
 namespace TeamCitySharp.DomainEntities
 {
-    public enum VcsRootField
-    {
-        Name,
-        Shared,
-        ProjectId
-    }
+  public enum VcsRootField
+  {
+    Name,
+    Shared,
+    ProjectId
+  }
 }

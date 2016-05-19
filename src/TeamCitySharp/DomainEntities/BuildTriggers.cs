@@ -2,13 +2,13 @@ using System.Collections.Generic;
 
 namespace TeamCitySharp.DomainEntities
 {
-    public class BuildTriggers
+  public class BuildTriggers
+  {
+    public override string ToString()
     {
-        public override string ToString()
-        {
-            return "triggers";
-        }
-
-        public List<BuildTrigger> Trigger { get; set; }
+      return "triggers";
     }
+
+    public List<BuildTrigger> Trigger { get; set; }
+  }
 }

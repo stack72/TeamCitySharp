@@ -2,8 +2,8 @@
 
 namespace TeamCitySharp.DomainEntities
 {
-    public class PluginWrapper
-    {
-        public List<Plugin> Plugin { get; set; }
-    }
+  public class PluginWrapper
+  {
+    public List<Plugin> Plugin { get; set; }
+  }
 }
