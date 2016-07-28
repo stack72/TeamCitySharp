@@ -62,6 +62,15 @@ namespace TeamCitySharp.IntegrationTests
         }
 
         [Test]
+        public void it_returns_last_pinned_build_by_build_config_id()
+        {
+            const string buildConfigId = "bt210";
+            var build = _client.Builds.LastPinnedBuildByBuildConfigId(buildConfigId);
+
+            Assert.That(build != null, "No successful builds have been found");
+        }
+
+        [Test]
         public void it_returns_last_successful_builds_by_build_config_id()
         {
             const string buildConfigId = "bt437";

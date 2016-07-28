@@ -156,6 +156,7 @@ Each area has its own list of methods available
 
 ###BuildArtifacts
     void DownloadArtifactsByBuildId(string buildId, Action<string> downloadHandler);
+    void ByBuild(Build build, string artifactRelativeName = "");
 
 ##Credits
 
