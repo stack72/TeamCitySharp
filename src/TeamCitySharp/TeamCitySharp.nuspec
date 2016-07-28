@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>TeamCitySharp-forked</id>
+    <version>1.0.0.5</version>
+    <title>TeamCitySharp-forked</title>
+    <authors>Yury Timofeev</authors>
+    <owners>Yury Timofeev</owners>
+    <licenseUrl>http://stack72.mit-license.org/</licenseUrl>
+    <projectUrl>https://github.com/y-gagar1n/TeamCitySharp</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Fork of TeamCitySharp project, which allows access to TeamCity via their REST API</description>
+    <copyright>Copyright 2015</copyright>
+    <tags>teamcity</tags>
+    <dependencies>
+      <dependency id="JsonFx" version="2.0.1209.2802" />
+      <dependency id="EasyHttp" version="1.6.1.0" />
+    </dependencies>
+  </metadata>
+</package>

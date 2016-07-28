@@ -2,6 +2,7 @@
 using System.Linq;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
+using TeamCitySharp.Locators;
 
 namespace TeamCitySharp.ActionTypes
 {
@@ -42,5 +43,14 @@ namespace TeamCitySharp.ActionTypes
             return changes.FirstOrDefault();
         }
 
+        public List<Change> ByLocator(ChangeLocator locator)
+        {
+            var changeWrapper = _caller.GetFormat<ChangeWrapper>("/app/rest/changes?locator={0}", locator);
+            if (changeWrapper.Change.Count > 0)
+            {
+                return changeWrapper.Change;
+            }
+            return new List<Change>();
+        }
     }
 }
