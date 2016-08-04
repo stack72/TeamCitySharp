@@ -153,6 +153,7 @@ Each area has its own list of methods available
     Change ByChangeId(string id);
     Change LastChangeDetailByBuildConfigId(string buildConfigId);
     List<Change> ByBuildConfigId(string buildConfigId);
+    List<Change> ByBuildId(string buildId);       
 
 ###BuildArtifacts
     void DownloadArtifactsByBuildId(string buildId, Action<string> downloadHandler);

@@ -67,6 +67,14 @@ namespace TeamCitySharp.IntegrationTests
             Assert.That(changeDetails != null, "Cannot find details of that specified change");
         }
 
+        [TestCase("104726")]
+        public void it_returns_change_details_by_build_id(string buildId)
+        {
+            var changes = _client.Changes.ByBuildId(buildId);
+
+            Assert.That(changes != null, string.Format("Cannot find any changes for build id {0}", buildId));
+        }
+
         [TestCase("bt113")]
         public void it_returns_change_details_for_build_config(string buildConfigId)
         {
