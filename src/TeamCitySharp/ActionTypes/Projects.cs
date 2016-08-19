@@ -50,14 +50,14 @@ namespace TeamCitySharp.ActionTypes
             _caller.DeleteFormat("/app/rest/projects/name:{0}", projectName);
         }
 
-        public void DeleteProjectParameter(string projectName, string parameterName)
+        public void DeleteProjectParameter(string projectIdOrName, string parameterName)
         {
-            _caller.DeleteFormat("/app/rest/projects/name:{0}/parameters/{1}", projectName, parameterName);
+            _caller.DeleteFormat("/app/rest/projects/name:{0}/parameters/{1}", projectIdOrName, parameterName);
         }
 
-        public void SetProjectParameter(string projectName, string settingName, string settingValue)
+        public void SetProjectParameter(string projectIdOrName, string settingName, string settingValue)
         {
-            _caller.PutFormat(settingValue, "/app/rest/projects/name:{0}/parameters/{1}", projectName, settingName);
+            _caller.PutFormat(settingValue, "text/plain", "/app/rest/projects/{0}/parameters/{1}", projectIdOrName, settingName);
         }
     }
 }
