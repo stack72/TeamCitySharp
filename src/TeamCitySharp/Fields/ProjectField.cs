@@ -69,6 +69,7 @@ namespace TeamCitySharp.Fields
       FieldHelper.AddField(Href, ref currentFields, "href");
       FieldHelper.AddField(Id, ref currentFields, "id");
       FieldHelper.AddField(Name, ref currentFields, "name");
+      FieldHelper.AddField(WebUrl, ref currentFields, "webUrl");
 
       FieldHelper.AddFieldGroup(ParentProject, ref currentFields);
       FieldHelper.AddFieldGroup(Parameters, ref currentFields);

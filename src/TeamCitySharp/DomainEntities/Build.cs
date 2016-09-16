@@ -16,14 +16,19 @@ namespace TeamCitySharp.DomainEntities
     public string State { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime FinishDate { get; set; }
+    public DateTime QueuedDate { get; set; }
     public BuildConfig BuildType { get; set; }
     public BuildConfig BuildConfig { get; set; }
     public Agent Agent { get; set; }
+    public Tags Tags { get; set; }
     public ChangeWrapper Changes { get; set; }
     public Properties Properties { get; set; }
     public Running_info Running_info { get; set; }
     public BuildSnapshotDepencies SnapshotDependencies { get; set; }
     public BuildArtifactDependencies ArtifactDependencies { get; set; }
+    public ChangeWrapper LastChanges { get; set; }
+    public Triggered Triggered { get; set; }
+    public Revisions Revisions { get; set; }
 
     public override string ToString()
     {

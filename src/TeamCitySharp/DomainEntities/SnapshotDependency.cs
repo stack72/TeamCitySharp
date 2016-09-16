@@ -20,13 +20,13 @@ namespace TeamCitySharp.DomainEntities
     [DataMember(Name = "id")]
     public string Id { get; set; }
 
-    [DataMember(Name = "properties")]
+    [DataMember]
     public Properties Properties { get; set; }
 
     [DataMember(Name = "type")]
     public string Type { get; set; }
 
-    [DataMember(Name = "source-buildType")]
+    [DataMember]
     public SourceBuildType SourceBuildType { get; set; }
 
     public static SnapshotDependency Default(string dependsOnbuildId)

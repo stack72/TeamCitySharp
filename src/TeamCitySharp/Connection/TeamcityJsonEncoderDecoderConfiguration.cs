@@ -3,11 +3,9 @@ using System.IO;
 using EasyHttp.Codecs;
 using EasyHttp.Codecs.JsonFXExtensions;
 using EasyHttp.Configuration;
-using JsonFx.IO;
 using JsonFx.Json;
 using JsonFx.Model;
 using JsonFx.Serialization;
-using JsonFx.Serialization.Filters;
 
 namespace TeamCitySharp.Connection
 {

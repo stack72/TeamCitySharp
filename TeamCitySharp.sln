@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+Microsoft Visual Studio Solution File, Format Version 14.00
+# Visual Studio 2015
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{263F35DD-20C1-4209-B121-E962C9328C70}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamCitySharp.IntegrationTests", "src\Tests\IntegrationTests\TeamCitySharp.IntegrationTests.csproj", "{BA409A09-CC7B-4A71-A3D4-FE27234A721B}"

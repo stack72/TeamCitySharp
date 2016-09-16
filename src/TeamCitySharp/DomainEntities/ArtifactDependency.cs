@@ -22,10 +22,10 @@ namespace TeamCitySharp.DomainEntities
     [DataMember(Name = "type")]
     public string Type { get; set; }
 
-    [DataMember(Name = "properties")]
+    [DataMember]
     public Properties Properties { get; set; }
 
-    [DataMember(Name = "source-buildType")]
+    [DataMember]
     public SourceBuildType SourceBuildType { get; set; }
 
     public static ArtifactDependency Default(string dependsOnbuildId)

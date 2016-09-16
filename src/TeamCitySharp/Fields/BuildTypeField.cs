@@ -17,6 +17,7 @@ namespace TeamCitySharp.Fields
     public bool WebUrl { get; private set; }
     public bool Personal { get; private set; }
     public bool History { get; private set; }
+    public bool Cancelled { get; private set; }
     public bool Pinned { get; private set; }
     public bool Running { get; private set; }
 
@@ -52,6 +53,7 @@ namespace TeamCitySharp.Fields
                                             bool webUrl = false,
                                             bool personal = false,
                                             bool history = false,
+                                            bool cancelled = false,
                                             bool pinned = false,
                                             bool running = false,
                                             ProjectField project = null,
@@ -66,6 +68,7 @@ namespace TeamCitySharp.Fields
           Running = running,
           Pinned = pinned,
           History = history,
+          Cancelled = cancelled,
           Personal = personal,
           WebUrl = webUrl,
           Description = description,
@@ -101,6 +104,7 @@ namespace TeamCitySharp.Fields
       FieldHelper.AddField(Running, ref currentFields, "running");
       FieldHelper.AddField(Pinned, ref currentFields, "pinned");
       FieldHelper.AddField(History, ref currentFields, "history");
+      FieldHelper.AddField(Cancelled, ref currentFields, "cancelled");
       FieldHelper.AddField(Personal, ref currentFields, "personal");
       FieldHelper.AddField(WebUrl, ref currentFields, "webUrl");
       FieldHelper.AddField(Description, ref currentFields, "description");

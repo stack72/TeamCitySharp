@@ -2,7 +2,7 @@
 
 *.NET Library to access TeamCity via their REST API.
 
-For more information on TeamCity visit:
+For more information on TeamCity visit: 
 http://www.jetbrains.com/teamcity
 
 ##Releases
@@ -64,6 +64,8 @@ There are many tasks that the TeamCity API can do for us. TeamCitySharp groups t
 * Agents
 * VcsRoots
 * Changes
+* Triggered
+* LastChange
 * BuildArtifacts
 * Statistics
 * Investigations
@@ -98,7 +100,8 @@ Each area has its own list of methods available
     List<Build> AllRunningBuild();
     List<Build> RetrieveEntireBuildChainFrom(string buildConfigId);
     List<Build> RetrieveEntireBuildChainTo(string buildConfigId);
-    List<Build> NextBuilds(string buildid, int count = 100);
+    List<Build> NextBuilds(string buildId, int count = 100, List<String> param);
+    List<Build> AffectedProject(string productId, int count = 100, List<String> param);
 
 ###Projects
 
@@ -231,4 +234,4 @@ Thanks to the following contributors:
 * Philipp Dolder
 * Mark deVilliers
 * Marc-Andre Vezeau (@exfo)
-* Bassem Mawassi (@exfo)
+* Bassem Mawassi (@exfo) 

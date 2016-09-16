@@ -9,13 +9,23 @@ namespace TeamCitySharp.ActionTypes
 {
   public class Builds : IBuilds
   {
+    #region Attributes
+
     private readonly ITeamCityCaller _caller;
     private string _fields;
+
+    #endregion
+
+    #region Constructor
 
     internal Builds(ITeamCityCaller caller)
     {
       _caller = caller;
     }
+
+    #endregion
+
+    #region Public Methods
 
     public Builds GetFields(string fields)
     {
@@ -33,13 +43,7 @@ namespace TeamCitySharp.ActionTypes
 
     public List<Build> ByBuildLocator(BuildLocator locator, List<String> param)
     {
-      var strParam = "";
-      foreach (var tmpParam in param)
-      {
-        strParam += ",";
-        strParam += tmpParam;
-      }
-
+      var strParam = GetParamLocator(param);
       var buildWrapper =
         _caller.Get<BuildWrapper>(
           ActionHelper.CreateFieldUrl(string.Format("/app/rest/builds?locator={0}{1}", locator, strParam), _fields));
@@ -47,9 +51,9 @@ namespace TeamCitySharp.ActionTypes
       return int.Parse(buildWrapper.Count) > 0 ? buildWrapper.Build : new List<Build>();
     }
 
-    public Build LastBuildByAgent(string agentName)
+    public Build LastBuildByAgent(string agentName, List<String> param = null)
     {
-      return ByBuildLocator(BuildLocator.WithDimensions(agentName: agentName, maxResults: 1)).SingleOrDefault();
+      return ByBuildLocator(BuildLocator.WithDimensions(agentName: agentName, maxResults: 1),param).SingleOrDefault();
     }
 
     public void Add2QueueBuildByBuildConfigId(string buildConfigId)
@@ -57,67 +61,61 @@ namespace TeamCitySharp.ActionTypes
       _caller.GetFormat("/action.html?add2Queue={0}", buildConfigId);
     }
 
-    public List<Build> SuccessfulBuildsByBuildConfigId(string buildConfigId)
-    {
-      return ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
-                                                        status: BuildStatus.SUCCESS
-                              ));
-    }
 
-    public List<Build> SuccessfulBuildsByBuildConfigId(string buildConfigId, List<String> param)
+    public List<Build> SuccessfulBuildsByBuildConfigId(string buildConfigId, List<String> param = null)
     {
       return ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
-                                                        status: BuildStatus.SUCCESS
-                              ), param);
+          status: BuildStatus.SUCCESS
+          ), param);
     }
 
 
-    public Build LastSuccessfulBuildByBuildConfigId(string buildConfigId)
+    public Build LastSuccessfulBuildByBuildConfigId(string buildConfigId, List<String> param = null)
     {
       var builds = ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
                                                               status: BuildStatus.SUCCESS,
                                                               maxResults: 1
-                                    ));
+                                    ),param);
       return builds != null ? builds.FirstOrDefault() : new Build();
     }
 
-    public List<Build> FailedBuildsByBuildConfigId(string buildConfigId)
+    public List<Build> FailedBuildsByBuildConfigId(string buildConfigId, List<String> param = null)
     {
       return ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
                                                         status: BuildStatus.FAILURE
-                              ));
+                              ),param);
     }
 
-    public Build LastFailedBuildByBuildConfigId(string buildConfigId)
+    public Build LastFailedBuildByBuildConfigId(string buildConfigId, List<String> param = null)
     {
       var builds = ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
                                                               status: BuildStatus.FAILURE,
                                                               maxResults: 1
-                                    ));
+                                    ),param);
       return builds != null ? builds.FirstOrDefault() : new Build();
     }
 
-    public Build LastBuildByBuildConfigId(string buildConfigId)
+    public Build LastBuildByBuildConfigId(string buildConfigId, List<String> param = null)
     {
       var builds = ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
                                                               maxResults: 1
-                                    ));
+                                    ),param);
       return builds != null ? builds.FirstOrDefault() : new Build();
     }
 
-    public List<Build> ErrorBuildsByBuildConfigId(string buildConfigId)
+    public List<Build> ErrorBuildsByBuildConfigId(string buildConfigId, List<String> param = null)
     {
       return ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
                                                         status: BuildStatus.ERROR
-                              ));
+                              ),param);
     }
 
-    public Build LastErrorBuildByBuildConfigId(string buildConfigId)
+    public Build LastErrorBuildByBuildConfigId(string buildConfigId, List<String> param = null)
     {
       var builds = ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
                                                               status: BuildStatus.ERROR,
                                                               maxResults: 1
-                                    ));
+                                    ),param);
       return builds != null ? builds.FirstOrDefault() : new Build();
     }
 
@@ -164,9 +162,15 @@ namespace TeamCitySharp.ActionTypes
                               ));
     }
 
-    public List<Build> AllSinceDate(DateTime date)
+    public List<Build> AllSinceDate(DateTime date, long count = 100, List<string> param = null)
     {
-      return ByBuildLocator(BuildLocator.WithDimensions(sinceDate: date));
+      if (param == null)
+      {
+        param = new List<string> {"defaultFilter:false"};
+      }
+      param.Add($"count({count})");
+
+      return ByBuildLocator(BuildLocator.WithDimensions(sinceDate: date), param);
     }
 
     public List<Build> AllRunningBuild()
@@ -195,24 +199,24 @@ namespace TeamCitySharp.ActionTypes
       return builds.Where(b => b.Status != "SUCCESS").ToList();
     }
 
-    public List<Build> RetrieveEntireBuildChainFrom(string buildConfigId)
+    public List<Build> RetrieveEntireBuildChainFrom(string buildId, bool includeInitial=true, List<string> param = null)
     {
-      var buildWrapper =
-        _caller.GetFormat<BuildWrapper>(
-          ActionHelper.CreateFieldUrl(
-            "/app/rest/builds?locator=snapshotDependency:(from:(id:{0}),includeInitial:true),defaultFilter:false",
-            _fields), buildConfigId);
-      return int.Parse(buildWrapper.Count) > 0 ? buildWrapper.Build : new List<Build>();
+      var strIncludeInitial = includeInitial ? "true" : "false";
+      if (param == null)
+      {
+        param = new List<string> { "defaultFilter:false" };
+      }
+      return GetBuildListQuery("/app/rest/builds?locator=snapshotDependency:(from:(id:{0}),includeInitial:"+ strIncludeInitial + "){1}", buildId, param);
     }
 
-    public List<Build> RetrieveEntireBuildChainTo(string buildConfigId)
+    public List<Build> RetrieveEntireBuildChainTo(string buildId, bool includeInitial = true, List<string> param = null)
     {
-      var buildWrapper =
-        _caller.GetFormat<BuildWrapper>(
-          ActionHelper.CreateFieldUrl(
-            "/app/rest/builds?locator=snapshotDependency:(to:(id:{0}),includeInitial:true),defaultFilter:false", _fields),
-          buildConfigId);
-      return int.Parse(buildWrapper.Count) > 0 ? buildWrapper.Build : new List<Build>();
+      var strIncludeInitial = includeInitial ? "true" : "false";
+      if (param == null)
+      {
+        param = new List<string> { "defaultFilter:false" };
+      }
+      return GetBuildListQuery("/app/rest/builds?locator=snapshotDependency:(to:(id:{0}),includeInitial:" + strIncludeInitial + "){1}", buildId, param);
     }
 
     /// <summary>
@@ -220,15 +224,60 @@ namespace TeamCitySharp.ActionTypes
     /// 
     /// IMPORTANT NOTE: The list starts from the latest build to oldest  (Descending)
     /// </summary>
-    /// <param name="buildid"></param>
+    /// <param name="buildId"></param>
     /// <param name="count"></param>
+    /// <param name="param"></param>
     /// <returns></returns>
-    public List<Build> NextBuilds(string buildid, int count = 100)
+    public List<Build> NextBuilds(string buildId, long count = 100, List<string> param = null)
     {
+      return GetBuildListQuery("/app/rest/builds?locator=sinceBuild:(id:{0}),count(" + count + "){1}",
+        buildId, param);
+    }
+
+    /// <summary>
+    /// Retrieves the list of build affected by a project. 
+    /// 
+    /// IMPORTANT NOTE: The list starts from the latest build to oldest  (Descending)
+    /// </summary>
+    /// <param name="projectId"></param>
+    /// <param name="count"></param>
+    /// <param name="param"></param>
+    /// <returns></returns>
+    public List<Build> AffectedProject(string projectId, long count = 100, List<string> param = null)
+    {
+      return GetBuildListQuery("/app/rest/builds?locator=affectedProject:(id:{0}),count(" + count + "){1}",
+        projectId, param);   
+    }
+
+    #endregion
+
+    #region Private Methods
+
+    private static string GetParamLocator(List<string> param)
+    {
+      var strParam = "";
+      if (param != null)
+      {
+        foreach (var tmpParam in param)
+        {
+          strParam += ",";
+          strParam += tmpParam;
+        }
+      }
+      return strParam;
+    }
+
+    private List<Build> GetBuildListQuery(string url, string id,  List<string> param = null)
+    {
+      var strParam = GetParamLocator(param);
       var buildWrapper =
         _caller.GetFormat<BuildWrapper>(
-          ActionHelper.CreateFieldUrl("/app/rest/builds?locator=sinceBuild:(id:{0}),count({1})", _fields),buildid,count);
+          ActionHelper.CreateFieldUrl(
+            url, _fields),
+          id, strParam);
       return int.Parse(buildWrapper.Count) > 0 ? buildWrapper.Build : new List<Build>();
     }
+
+    #endregion
   }
 }

@@ -17,6 +17,7 @@
     public string Description { get; set; }
     public string WebUrl { get; set; }
     public bool? Personal { get; set; }
+    public bool? Cancelled { get; set; }
     public bool? History { get; set; }
     public bool? Pinned { get; set; }
     public bool? Running { get; set; }

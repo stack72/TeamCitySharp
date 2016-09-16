@@ -51,7 +51,7 @@ namespace TeamCitySharp.ActionTypes
       _caller.DeleteFormat("/app/rest/buildTypes/{0}/vcs-root-entries/{1}", locator, vcsRootId);
     }
 
-    public void SetVcsRootField(VcsRoot vcsRoot, VcsRootField field, object value)
+    public void SetVcsRootValue(VcsRoot vcsRoot, VcsRootValue field, object value)
     {
       _caller.PutFormat(value, "/app/rest/vcs-roots/id:{0}/{1}", vcsRoot.Id, ToCamelCase(field.ToString()));
     }

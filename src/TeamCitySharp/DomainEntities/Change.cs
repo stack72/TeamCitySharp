@@ -6,12 +6,16 @@ namespace TeamCitySharp.DomainEntities
   {
     public string Username { get; set; }
     public string WebLink { get; set; }
+    public string WebUrl { get; set; }
     public string Href { get; set; }
     public string Id { get; set; }
     public string Version { get; set; }
+    public bool Personal { get; set; }
     public DateTime Date { get; set; }
     public string Comment { get; set; }
 
     public FileWrapper Files { get; set; }
+    public User User { get; set; }
+    public VcsRoot VcsRootInstance { get; set; }
   }
 }
