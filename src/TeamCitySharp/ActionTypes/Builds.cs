@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EasyHttp.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TeamCitySharp.Connection;
@@ -34,9 +35,9 @@ namespace TeamCitySharp.ActionTypes
                                             )).SingleOrDefault();
         }
 
-        public void Add2QueueBuildByBuildConfigId(string buildConfigId)
+        public BuildDetails Add2QueueBuildByBuildConfigId(string buildConfigId)
         {
-            _caller.GetFormat("/action.html?add2Queue={0}", buildConfigId);
+            return _caller.Post<BuildDetails>($@"<build><buildType id='{buildConfigId}'/></build>", HttpContentTypes.ApplicationXml, "/app/rest/buildQueue", HttpContentTypes.ApplicationJson);
         }
 
         public List<Build> SuccessfulBuildsByBuildConfigId(string buildConfigId)

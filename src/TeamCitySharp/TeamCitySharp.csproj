@@ -70,6 +70,12 @@
     <Compile Include="ActionTypes\Projects.cs" />
     <Compile Include="ActionTypes\ServerInformation.cs" />
     <Compile Include="Connection\ITeamCityCaller.cs" />
+    <Compile Include="DomainEntities\Artifacts.cs" />
+    <Compile Include="DomainEntities\BuildDetails.cs" />
+    <Compile Include="DomainEntities\BuildType.cs" />
+    <Compile Include="DomainEntities\CompatibleAgents.cs" />
+    <Compile Include="DomainEntities\Revisions.cs" />
+    <Compile Include="DomainEntities\TriggeredInfo.cs" />
     <Compile Include="TeamCityClient.cs" />
     <Compile Include="ActionTypes\Users.cs" />
     <Compile Include="ActionTypes\VcsRoots.cs" />
