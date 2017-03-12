@@ -46,7 +46,7 @@ namespace TeamCitySharp.ActionTypes
             var projects = _client.AgentPools.ProjectsByAgentPoolId("23");
             foreach (var project in projects)
             {
-                Debug.WriteLine(project.Name + " Id:" + project.Id + " ParentProj:" + project);
+                Debug.WriteLine(project.Name + " Id:" + project.Id + " ParentProjId:" + project.ParentProjectId);
             }
             Assert.That(projects.Count, Is.GreaterThan(0));
         }
