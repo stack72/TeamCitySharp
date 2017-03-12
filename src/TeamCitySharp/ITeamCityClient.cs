@@ -14,6 +14,7 @@ namespace TeamCitySharp
         IServerInformation ServerInformation { get; }
         IUsers Users { get; }
         IAgents Agents { get; }
+        IAgentPools AgentPools { get; }
         IVcsRoots VcsRoots { get; }
         IChanges Changes { get; }
         IBuildArtifacts Artifacts { get; }

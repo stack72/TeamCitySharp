@@ -12,6 +12,7 @@ namespace TeamCitySharp
         private IServerInformation _serverInformation;
         private IUsers _users;
         private IAgents _agents;
+        private IAgentPools _agentPools;
         private IVcsRoots _vcsRoots;
         private IChanges _changes;
         private IBuildArtifacts _artifacts;
@@ -66,6 +67,10 @@ namespace TeamCitySharp
             get { return _agents ?? (_agents = new Agents(_caller)); }
         }
 
+        public IAgentPools AgentPools
+        {
+            get { return _agentPools ?? (_agentPools = new AgentPools(_caller)); }
+        }
         public IVcsRoots VcsRoots
         {
             get { return _vcsRoots ?? (_vcsRoots = new VcsRoots(_caller)); }
