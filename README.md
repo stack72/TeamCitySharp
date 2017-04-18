@@ -1,26 +1,26 @@
-#TeamCitySharp
+# TeamCitySharp
 
 *.NET Library to access TeamCity via their REST API.
 
 For more information on TeamCity visit:
 http://www.jetbrains.com/teamcity
 
-##Releases
+## Releases
 Please find the release notes [here](https://github.com/stack72/TeamCitySharp/releases)
 
-##License 
+## License 
 http://stack72.mit-license.org/
 
-##Installation
+## Installation
 There are 2 ways to use TeamCitySharp:
 
 * install-package TeamCitysharp (via Nuget)
 * Download source and compile
 
-##Build Monitor
+## Build Monitor
 * There is a sample build monitor built with TeamCitySharp. It can be found at [TeamCityMonitor](https://github.com/stack72/TeamCityMonitor)
 
-##Sample Usage
+## Sample Usage
 To get a list of projects
 
     var client = new TeamCityClient("localhost:81");
@@ -34,7 +34,7 @@ To get a list of running builds
     client.Connect("admin", "qwerty");
     var builds = client.Builds.ByBuildLocator(BuildLocator.RunningBuilds());
 
-##Connecting to a server
+## Connecting to a server
 
 To connect as an authenticated user:
 
@@ -46,7 +46,7 @@ To connect as a Guest:
     var client = new TeamCityClient("localhost:81");
     client.ConnectAsGuest();
     
-##API Interaction Groups
+## API Interaction Groups
 There are many tasks that the TeamCity API can do for us. TeamCitySharp groups these tasks into specialist areas
 
 * Builds
@@ -61,8 +61,8 @@ There are many tasks that the TeamCity API can do for us. TeamCitySharp groups t
 
 Each area has its own list of methods available
 
-###Builds
-    List<Build> SuccessfulBuildsByBuildConfigId(string buildConfigId);
+### Builds
+	List<Build> SuccessfulBuildsByBuildConfigId(string buildConfigId);
 	Build LastSuccessfulBuildByBuildConfigId(string buildConfigId);
 	List<Build> FailedBuildsByBuildConfigId(string buildConfigId);
 	Build LastFailedBuildByBuildConfigId(string buildConfigId);
@@ -78,7 +78,7 @@ Each area has its own list of methods available
 	List<Build> NonSuccessfulBuildsForUser(string userName);
 	Build LastBuildByAgent(string agentName);
 
-###Projects
+### Projects
 	List<Project> All();
 	Project ByName(string projectLocatorName);
 	Project ById(string projectLocatorId);
@@ -88,7 +88,7 @@ Each area has its own list of methods available
 	void DeleteProjectParameter(string projectName, string parameterName);
 	void SetProjectParameter(string projectName, string settingName, string settingValue);
 
-###BuildConfigs
+### BuildConfigs
 	List<BuildConfig> All();
 	BuildConfig ByConfigurationName(string buildConfigName);
 	BuildConfig ByConfigurationId(string buildConfigId);
@@ -122,12 +122,12 @@ Each area has its own list of methods available
     void PutAllBuildTypeParameters(BuildTypeLocator locator, IDictionary<string, string> parameters);
     void DownloadConfiguration(BuildTypeLocator locator, Action<string> downloadHandler);
 
-###ServerInformation
+### ServerInformation
     Server ServerInfo();
     List<Plugin> AllPlugins();
     string TriggerServerInstanceBackup(BackupOptions backupOptions);
 
-###Users
+### Users
     List<User> All();
     User Details(string userName);
     List<Role> AllRolesByUserName(string userName);
@@ -138,26 +138,26 @@ Each area has its own list of methods available
     bool Create(string username, string name, string email, string password);
     bool AddPassword(string username, string password);
 
-###Agents
+### Agents
     List<Agent> All();
 
-###VcsRoots
+### VcsRoots
     List<VcsRoot> All();
     VcsRoot ById(string vcsRootId);
     VcsRoot AttachVcsRoot(BuildTypeLocator locator, VcsRoot vcsRoot);
     void DetachVcsRoot(BuildTypeLocator locator, string vcsRootId);
     void SetVcsRootField(VcsRoot vcsRoot, VcsRootField field, object value);
 
-###Changes
+### Changes
     List<Change> All();
     Change ByChangeId(string id);
     Change LastChangeDetailByBuildConfigId(string buildConfigId);
     List<Change> ByBuildConfigId(string buildConfigId);
 
-###BuildArtifacts
+### BuildArtifacts
     void DownloadArtifactsByBuildId(string buildId, Action<string> downloadHandler);
 
-##Credits
+## Credits
 
 Copyright (c) 2013 Paul Stack (@stack72)
 
