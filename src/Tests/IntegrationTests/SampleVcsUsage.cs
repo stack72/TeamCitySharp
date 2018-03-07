@@ -4,6 +4,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using TeamCitySharp.DomainEntities;
+using TeamCitySharp.Fields;
 
 namespace TeamCitySharp.IntegrationTests
 {
@@ -55,6 +56,20 @@ namespace TeamCitySharp.IntegrationTests
       VcsRoot rootDetails = _client.VcsRoots.ById(vcsRootId);
 
       Assert.That(rootDetails != null, "Cannot find the specific VCSRoot");
+    }
+
+    [Test]
+    public void it_returns_correct_next_builds_with_filter()
+    {
+      
+      var client = new TeamCityClient("teamcity.codebetter.com");
+      client.ConnectAsGuest();
+
+      VcsRootField vcsRootField = VcsRootField.WithFields(id: true, href: true, lastChecked: true, name:true, status:true, vcsName: true, version:true );
+      VcsRootsField vcsRootsField = VcsRootsField.WithFields(vcsRootField);
+      var vcsRoots = client.VcsRoots.GetFields(vcsRootsField.ToString()).All();
+
+      Assert.That(vcsRoots != null);
     }
   }
 }

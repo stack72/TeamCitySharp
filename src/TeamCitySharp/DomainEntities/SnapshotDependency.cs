@@ -26,8 +26,8 @@ namespace TeamCitySharp.DomainEntities
     [DataMember(Name = "type")]
     public string Type { get; set; }
 
-    [DataMember]
-    public SourceBuildType SourceBuildType { get; set; }
+    [DataMember(Name = "source-buildType")]
+    public BuildConfig SourceBuildType { get; set; }
 
     public static SnapshotDependency Default(string dependsOnbuildId)
     {
@@ -38,7 +38,7 @@ namespace TeamCitySharp.DomainEntities
       dependency.Properties.Add("take-started-build-with-same-revisions", "true");
       dependency.Properties.Add("take-successful-builds-only", "true");
 
-      dependency.SourceBuildType = new SourceBuildType
+      dependency.SourceBuildType = new BuildConfig
         {
           Id = dependsOnbuildId
         };

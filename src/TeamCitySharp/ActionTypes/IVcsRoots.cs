@@ -6,6 +6,7 @@ namespace TeamCitySharp.ActionTypes
 {
   public interface IVcsRoots
   {
+    VcsRoots GetFields(string fields);
     List<VcsRoot> All();
     VcsRoot ById(string vcsRootId);
     VcsRoot AttachVcsRoot(BuildTypeLocator locator, VcsRoot vcsRoot);

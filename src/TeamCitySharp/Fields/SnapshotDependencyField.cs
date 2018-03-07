@@ -2,31 +2,31 @@
 
 namespace TeamCitySharp.Fields
 {
-  public class BuildTriggerField : IField
+  public class SnapshotDependencyField : IField
   {
     #region Properties
 
+    public SourceBuildTypeField SourceBuildType { get; private set; }
     public PropertiesField Properties { get; private set; }
     public bool Id { get; private set; }
     public bool Type { get; private set; }
-    public bool Disabled { get; private set; }
 
     #endregion
 
     #region Public Methods
 
-    public static BuildTriggerField WithFields(PropertiesField properties = null,
-                                               bool id = false,
-                                               bool type = false,
-                                               bool disabled = false)
+    public static SnapshotDependencyField WithFields(SourceBuildTypeField sourceBuildType = null,
+      PropertiesField properties = null,
+      bool id = false,
+      bool type = false)
     {
-      return new BuildTriggerField
-        {
-          Properties = properties,
-          Id = id,
-          Type = type,
-          Disabled = disabled
-        };
+      return new SnapshotDependencyField
+      {
+        SourceBuildType = sourceBuildType,
+        Properties = properties,
+        Id = id,
+        Type = type,
+      };
     }
 
     #endregion
@@ -35,7 +35,7 @@ namespace TeamCitySharp.Fields
 
     public string FieldId
     {
-      get { return "trigger"; }
+      get { return "snapshot-dependency"; }
     }
 
     public override string ToString()
@@ -44,8 +44,8 @@ namespace TeamCitySharp.Fields
 
       FieldHelper.AddField(Id, ref currentFields, "id");
       FieldHelper.AddField(Type, ref currentFields, "type");
-      FieldHelper.AddField(Disabled, ref currentFields, "disabled");
 
+      FieldHelper.AddFieldGroup(SourceBuildType, ref currentFields);
       FieldHelper.AddFieldGroup(Properties, ref currentFields);
 
       return currentFields;

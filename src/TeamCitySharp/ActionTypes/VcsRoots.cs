@@ -7,7 +7,7 @@ using TeamCitySharp.Locators;
 
 namespace TeamCitySharp.ActionTypes
 {
-  internal class VcsRoots : IVcsRoots
+  public class VcsRoots : IVcsRoots
   {
     private readonly ITeamCityCaller _caller;
     private string _fields;

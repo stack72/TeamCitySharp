@@ -25,8 +25,8 @@ namespace TeamCitySharp.DomainEntities
     [DataMember]
     public Properties Properties { get; set; }
 
-    [DataMember]
-    public SourceBuildType SourceBuildType { get; set; }
+    [DataMember(Name = "source-buildType")]
+    public BuildConfig SourceBuildType { get; set; }
 
     public static ArtifactDependency Default(string dependsOnbuildId)
     {
@@ -37,7 +37,7 @@ namespace TeamCitySharp.DomainEntities
       dependency.Properties.Add("revisionName", "sameChainOrLastFinished");
       dependency.Properties.Add("revisionValue", "latest.sameChainOrLastFinished");
 
-      dependency.SourceBuildType = new SourceBuildType
+      dependency.SourceBuildType = new BuildConfig
         {
           Id = dependsOnbuildId
         };

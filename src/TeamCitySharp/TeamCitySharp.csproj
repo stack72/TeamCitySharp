@@ -19,7 +19,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -27,15 +27,15 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EasyHttp, Version=1.6.86.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="EasyHttp, Version=1.7.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\EasyHttp.1.6.86.0\lib\net40\EasyHttp.dll</HintPath>
+      <HintPath>..\..\packages\EasyHttp.1.7.0\lib\net40\EasyHttp.dll</HintPath>
     </Reference>
     <Reference Include="JsonFx">
       <HintPath>..\..\packages\JsonFx.2.0.1209.2802\lib\net40\JsonFx.dll</HintPath>
@@ -86,7 +86,6 @@
     <Compile Include="DomainEntities\Revision.cs" />
     <Compile Include="DomainEntities\Revisions.cs" />
     <Compile Include="DomainEntities\Running_info.cs" />
-    <Compile Include="DomainEntities\SourceBuildType.cs" />
     <Compile Include="DomainEntities\ParentProjectWrapper.cs" />
     <Compile Include="DomainEntities\Tag.cs" />
     <Compile Include="DomainEntities\Tags.cs" />
@@ -96,6 +95,7 @@
     <Compile Include="DomainEntities\Triggered.cs" />
     <Compile Include="Fields\AgentField.cs" />
     <Compile Include="Fields\BuildArtifactDependenciesField.cs" />
+    <Compile Include="Fields\SourceBuildTypeField.cs" />
     <Compile Include="Fields\BuildTypeField.cs" />
     <Compile Include="Fields\BuildField.cs" />
     <Compile Include="Fields\BuildsField.cs" />
@@ -112,6 +112,8 @@
     <Compile Include="Fields\LastChangesField.cs" />
     <Compile Include="Fields\RevisionField.cs" />
     <Compile Include="Fields\RevisionsField.cs" />
+    <Compile Include="Fields\ArtifactDependenciesField.cs" />
+    <Compile Include="Fields\ArtifactDependencyField.cs" />
     <Compile Include="Fields\StatisticsField.cs" />
     <Compile Include="Fields\FieldHelper.cs" />
     <Compile Include="Fields\IField.cs" />
@@ -127,6 +129,9 @@
     <Compile Include="Fields\TemplatesField.cs" />
     <Compile Include="Fields\TriggeredField.cs" />
     <Compile Include="Fields\UserField.cs" />
+    <Compile Include="Fields\SnapshotDependenciesField.cs" />
+    <Compile Include="Fields\SnapshotDependencyField.cs" />
+    <Compile Include="Fields\VcsRoots.cs" />
     <Compile Include="Fields\VcsRootEntriesField.cs" />
     <Compile Include="Fields\VcsRootEntryField.cs" />
     <Compile Include="Fields\ChangeVcsRootInstanceField.cs" />

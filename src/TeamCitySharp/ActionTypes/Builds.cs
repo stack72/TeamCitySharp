@@ -249,6 +249,20 @@ namespace TeamCitySharp.ActionTypes
         projectId, param);   
     }
 
+    /// <summary>
+    /// Download log
+    /// 
+    /// </summary>
+    /// <param name="projectId"></param>
+    /// <param name="zipped"></param>
+    /// <param name="downloadHandler"></param>
+    /// <returns></returns>
+    public void DownloadLogs(string projectId, bool zipped, Action<string> downloadHandler)
+    {
+      var url = string.Format("/downloadBuildLog.html?buildId={0}&archived={1}", projectId, zipped);
+      _caller.GetDownloadFormat(downloadHandler, url);
+    }
+
     #endregion
 
     #region Private Methods

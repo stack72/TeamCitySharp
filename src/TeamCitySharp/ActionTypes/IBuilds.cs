@@ -34,5 +34,6 @@ namespace TeamCitySharp.ActionTypes
     List<Build> RetrieveEntireBuildChainTo(string buildConfigId, bool includeInitial = true, List<string> param = null);
     List<Build> NextBuilds(string buildid, long count = 100, List<string> param = null);
     List<Build> AffectedProject(string projectId, long count = 100, List<string> param = null);
+    void DownloadLogs(string projectId, bool zipped, Action<string> downloadHandler);
   }
 }

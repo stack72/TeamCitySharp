@@ -2,7 +2,7 @@
 
 namespace TeamCitySharp.Fields
 {
-  public class BuildTypeField : IField
+  public class SourceBuildTypeField : IField
   {
     #region Properties
 
@@ -35,7 +35,7 @@ namespace TeamCitySharp.Fields
 
     #region Public Methods
 
-    public static BuildTypeField WithFields(bool id = false,
+    public static SourceBuildTypeField WithFields(bool id = false,
                                             bool name = false,
                                             bool number = false,
                                             bool status = false,
@@ -58,8 +58,8 @@ namespace TeamCitySharp.Fields
                                             ArtifactDependenciesField artifactDependencies = null,
                                             SnapshotDependenciesField snapshotDependencies = null)
     {
-      return new BuildTypeField
-        {
+      return new SourceBuildTypeField
+      {
           Running = running,
           Pinned = pinned,
           History = history,
@@ -92,7 +92,7 @@ namespace TeamCitySharp.Fields
 
     public string FieldId
     {
-      get { return "buildType"; }
+      get { return "source-buildType"; }
     }
 
     public override string ToString()

@@ -14,6 +14,7 @@ namespace TeamCitySharp.DomainEntities
 
     public string Id { get; set; }
     public string Type { get; set; }
+    public bool Disabled { get; set; }
     public Properties Properties { get; set; }
 
     public static BuildTrigger FinishBuildTrigger(string dependsOnbuildId)
