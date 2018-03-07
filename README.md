@@ -1,3 +1,5 @@
+[![NuGet version (TeamCitySharp-forked-mavezeau)](https://img.shields.io/nuget/v/TeamCitySharp-forked-mavezeau.svg?style=flat-square)](https://www.nuget.org/packages/TeamCitySharp-forked-mavezeau/)
+
 #TeamCitySharp
 
 *.NET Library to access TeamCity via their REST API.
