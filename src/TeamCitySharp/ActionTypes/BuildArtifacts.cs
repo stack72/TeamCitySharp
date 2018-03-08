@@ -12,33 +12,33 @@ namespace TeamCitySharp.ActionTypes
 {
   internal class BuildArtifacts : IBuildArtifacts
   {
-    private readonly ITeamCityCaller _caller;
+    private readonly ITeamCityCaller m_caller;
 
     public BuildArtifacts(ITeamCityCaller caller)
     {
-      _caller = caller;
+      m_caller = caller;
     }
 
     public void DownloadArtifactsByBuildId(string buildId, Action<string> downloadHandler)
     {
-      _caller.GetDownloadFormat(downloadHandler, "/downloadArtifacts.html?buildId={0}", buildId);
+      m_caller.GetDownloadFormat(downloadHandler, "/downloadArtifacts.html?buildId={0}", buildId);
     }
 
     public ArtifactWrapper ByBuildConfigId(string buildConfigId)
     {
-      return new ArtifactWrapper(_caller, buildConfigId);
+      return new ArtifactWrapper(m_caller, buildConfigId);
     }
   }
 
   public class ArtifactWrapper
   {
-    private readonly ITeamCityCaller _caller;
-    private readonly string _buildConfigId;
+    private readonly ITeamCityCaller m_caller;
+    private readonly string m_buildConfigId;
 
     internal ArtifactWrapper(ITeamCityCaller caller, string buildConfigId)
     {
-      _caller = caller;
-      _buildConfigId = buildConfigId;
+      m_caller = caller;
+      m_buildConfigId = buildConfigId;
     }
 
     public ArtifactCollection LastFinished()
@@ -64,7 +64,7 @@ namespace TeamCitySharp.ActionTypes
     public ArtifactCollection Specification(string buildSpecification)
     {
       var xml =
-        _caller.GetRaw(string.Format("/repository/download/{0}/{1}/teamcity-ivy.xml", _buildConfigId, buildSpecification));
+        m_caller.GetRaw($"/repository/download/{m_buildConfigId}/{buildSpecification}/teamcity-ivy.xml");
 
       var document = new XmlDocument();
       document.LoadXml(xml);
@@ -81,21 +81,21 @@ namespace TeamCitySharp.ActionTypes
           artifact = nameNode.Value;
         if (extensionNode != null)
           artifact += "." + extensionNode.Value;
-        list.Add(string.Format("/repository/download/{0}/{1}/{2}", _buildConfigId, buildSpecification, artifact));
+        list.Add($"/repository/download/{m_buildConfigId}/{buildSpecification}/{artifact}");
       }
-      return new ArtifactCollection(_caller, list);
+      return new ArtifactCollection(m_caller, list);
     }
   }
 
   public class ArtifactCollection
   {
-    private readonly ITeamCityCaller _caller;
-    private readonly List<string> _urls;
+    private readonly ITeamCityCaller m_caller;
+    private readonly List<string> m_urls;
 
     internal ArtifactCollection(ITeamCityCaller caller, List<string> urls)
     {
-      _caller = caller;
-      _urls = urls;
+      m_caller = caller;
+      m_urls = urls;
     }
 
     /// <summary>
@@ -118,7 +118,7 @@ namespace TeamCitySharp.ActionTypes
       if (directory == null)
         directory = Directory.GetCurrentDirectory();
       var downloaded = new List<string>();
-      foreach (var url in _urls)
+      foreach (var url in m_urls)
       {
         // user probably didnt use to artifact url generating functions
         Debug.Assert(url.StartsWith("/repository/download/"));
@@ -144,7 +144,7 @@ namespace TeamCitySharp.ActionTypes
           if (overwrite) File.Delete(destination);
           else continue;
         }
-        _caller.GetDownloadFormat(tempfile => File.Move(tempfile, destination), url);
+        m_caller.GetDownloadFormat(tempfile => File.Move(tempfile, destination), url);
       }
       return downloaded;
     }
@@ -171,7 +171,7 @@ namespace TeamCitySharp.ActionTypes
       if (directory == null)
         directory = Directory.GetCurrentDirectory();
       var downloaded = new List<string>();
-      foreach (var url in _urls)
+      foreach (var url in m_urls)
       {
         if (filteredFiles != null)
         {
@@ -207,7 +207,7 @@ namespace TeamCitySharp.ActionTypes
                 if (overwrite) File.Delete(destination);
                 else continue;
               }
-              _caller.GetDownloadFormat(tempfile => File.Move(tempfile, destination), url);
+              m_caller.GetDownloadFormat(tempfile => File.Move(tempfile, destination), url);
               break;
             }
           }
@@ -256,7 +256,7 @@ namespace TeamCitySharp.ActionTypes
     /// <returns>A regex equivalent of the given wildcard.</returns>
     public static string WildcardToRegex(string pattern)
     {
-      return "^" + Regex.Escape(pattern).
+      return "^" + Escape(pattern).
                          Replace("\\*", ".*").
                          Replace("\\?", ".") + "$";
     }

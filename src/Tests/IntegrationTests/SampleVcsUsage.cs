@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using TeamCitySharp.DomainEntities;
 using TeamCitySharp.Fields;
@@ -11,13 +12,25 @@ namespace TeamCitySharp.IntegrationTests
   [TestFixture]
   public class when_interacting_to_get_vcs_details
   {
-    private ITeamCityClient _client;
+    private ITeamCityClient m_client;
+    private readonly string m_server;
+    private readonly bool m_useSsl;
+    private readonly string m_username;
+    private readonly string m_password;
 
+
+    public when_interacting_to_get_vcs_details()
+    {
+      m_server = ConfigurationManager.AppSettings["Server"];
+      bool.TryParse(ConfigurationManager.AppSettings["UseSsl"], out m_useSsl);
+      m_username = ConfigurationManager.AppSettings["Username"];
+      m_password = ConfigurationManager.AppSettings["Password"];
+    }
     [SetUp]
     public void SetUp()
     {
-      _client = new TeamCityClient("teamcity.codebetter.com");
-      _client.Connect("teamcitysharpuser", "qwerty");
+      m_client = new TeamCityClient(m_server, m_useSsl);
+      m_client.Connect(m_username, m_password);
     }
 
     [Test]
@@ -38,22 +51,22 @@ namespace TeamCitySharp.IntegrationTests
     [Test]
     public void it_returns_exception_when_no_connection_formed()
     {
-      var client = new TeamCityClient("teamcity.codebetter.com");
+      var client = new TeamCityClient(m_server, m_useSsl);
       Assert.Throws<ArgumentException>(() => client.VcsRoots.All());
     }
 
     [Test]
     public void it_returns_all_vcs_roots()
     {
-      List<VcsRoot> vcsRoots = _client.VcsRoots.All();
+      List<VcsRoot> vcsRoots = m_client.VcsRoots.All();
 
       Assert.That(vcsRoots.Any(), "No VCS Roots were found for the installation");
     }
 
-    [TestCase("1")]
+    [TestCase("TestDrive_ReactApp_HttpsGithubComHypnosphiTeamcityReactDemoRefsHeadsMaster")]
     public void it_returns_vcs_details_when_passing_vcs_root_id(string vcsRootId)
     {
-      VcsRoot rootDetails = _client.VcsRoots.ById(vcsRootId);
+      VcsRoot rootDetails = m_client.VcsRoots.ById(vcsRootId);
 
       Assert.That(rootDetails != null, "Cannot find the specific VCSRoot");
     }
@@ -62,7 +75,7 @@ namespace TeamCitySharp.IntegrationTests
     public void it_returns_correct_next_builds_with_filter()
     {
       
-      var client = new TeamCityClient("teamcity.codebetter.com");
+      var client = new TeamCityClient(m_server, m_useSsl);
       client.ConnectAsGuest();
 
       VcsRootField vcsRootField = VcsRootField.WithFields(id: true, href: true, lastChecked: true, name:true, status:true, vcsName: true, version:true );

@@ -15,8 +15,7 @@ namespace TeamCitySharp.Connection
     {
       var jsonWriter =
         new CamelCaseJsonWriter(new DataWriterSettings(DefaultEncoderDecoderConfiguration.CombinedResolverStrategy()
-                                                       , new TeamCityDateFilter()),
-                                new[] {"application/.*json", "text/.*json"});
+                                                       , new TeamCityDateFilter()), "application/.*json", "text/.*json");
 
       var writers = new List<IDataWriter> {jsonWriter};
       var dataWriterProvider = new RegExBasedDataWriterProvider(new List<IDataWriter> {jsonWriter});
@@ -27,7 +26,7 @@ namespace TeamCitySharp.Connection
     {
       var jsonReader =
         new JsonReader(new DataReaderSettings(DefaultEncoderDecoderConfiguration.CombinedResolverStrategy()
-                                              , new TeamCityDateFilter()), new[] {"application/.*json", "text/.*json"});
+                                              , new TeamCityDateFilter()), "application/.*json", "text/.*json");
 
       var readers = new List<IDataReader> {jsonReader};
       var dataReaderProvider = new RegExBasedDataReaderProvider(readers);

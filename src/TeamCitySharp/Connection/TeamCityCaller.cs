@@ -12,33 +12,33 @@ namespace TeamCitySharp.Connection
 {
   internal class TeamCityCaller : ITeamCityCaller
   {
-    private readonly Credentials _configuration = new Credentials();
-    private bool _useNoCache;
+    private readonly Credentials m_configuration = new Credentials();
+    private bool m_useNoCache;
 
     public TeamCityCaller(string hostName, bool useSsl)
     {
       if (string.IsNullOrEmpty(hostName))
         throw new ArgumentNullException("hostName");
 
-      _configuration.UseSSL = useSsl;
-      _configuration.HostName = hostName;
+      m_configuration.UseSSL = useSsl;
+      m_configuration.HostName = hostName;
     }
 
     public void DisableCache()
     {
-      _useNoCache = true;
+      m_useNoCache = true;
     }
 
     public void EnableCache()
     {
-      _useNoCache = false;
+      m_useNoCache = false;
     }
 
     public void Connect(string userName, string password, bool actAsGuest)
     {
-      _configuration.Password = password;
-      _configuration.UserName = userName;
-      _configuration.ActAsGuest = actAsGuest;
+      m_configuration.Password = password;
+      m_configuration.UserName = userName;
+      m_configuration.ActAsGuest = actAsGuest;
     }
 
     public T GetFormat<T>(string urlPart, params object[] parts)
@@ -86,7 +86,7 @@ namespace TeamCitySharp.Connection
 
       try
       {
-        CreateHttpClient(_configuration.UserName, _configuration.Password, HttpContentTypes.ApplicationJson)
+        CreateHttpClient(m_configuration.UserName, m_configuration.Password, HttpContentTypes.ApplicationJson)
           .GetAsFile(url, tempFileName);
         downloadHandler.Invoke(tempFileName);
       }
@@ -107,7 +107,7 @@ namespace TeamCitySharp.Connection
 
       var url = CreateUrl(urlPart);
 
-      var httpClient = CreateHttpClient(_configuration.UserName, _configuration.Password, HttpContentTypes.TextPlain);
+      var httpClient = CreateHttpClient(m_configuration.UserName, m_configuration.Password, HttpContentTypes.TextPlain);
       var response = httpClient.Post(url, null, HttpContentTypes.TextPlain);
       ThrowIfHttpError(response, url);
 
@@ -139,7 +139,7 @@ namespace TeamCitySharp.Connection
       var url = CreateUrl(urlPart);
 
       var response =
-        CreateHttpClient(_configuration.UserName, _configuration.Password, HttpContentTypes.ApplicationJson).Get(url);
+        CreateHttpClient(m_configuration.UserName, m_configuration.Password, HttpContentTypes.ApplicationJson).Get(url);
       ThrowIfHttpError(response, url);
       return response;
     }
@@ -153,7 +153,7 @@ namespace TeamCitySharp.Connection
     {
       try
       {
-        var httpClient = CreateHttpClient(_configuration.UserName, _configuration.Password, HttpContentTypes.TextPlain);
+        var httpClient = CreateHttpClient(m_configuration.UserName, m_configuration.Password, HttpContentTypes.TextPlain);
         httpClient.ThrowExceptionOnHttpError = throwExceptionOnHttpError;
         httpClient.Get(CreateUrl(urlPart));
 
@@ -187,14 +187,14 @@ namespace TeamCitySharp.Connection
 
     private void MakeDeleteRequest(string urlPart)
     {
-      var client = CreateHttpClient(_configuration.UserName, _configuration.Password, HttpContentTypes.TextPlain);
+      var client = CreateHttpClient(m_configuration.UserName, m_configuration.Password, HttpContentTypes.TextPlain);
       client.Delete(CreateUrl(urlPart));
       ThrowIfHttpError(client.Response, client.Request.Uri);
     }
 
     private HttpClient MakePostRequest(object data, string contenttype, string urlPart, string accept)
     {
-      var client = CreateHttpClient(_configuration.UserName, _configuration.Password,
+      var client = CreateHttpClient(m_configuration.UserName, m_configuration.Password,
                                     string.IsNullOrWhiteSpace(accept) ? GetContentType(data.ToString()) : accept);
 
       client.Request.Accept = accept;
@@ -207,7 +207,7 @@ namespace TeamCitySharp.Connection
 
     private HttpClient MakePutRequest(object data, string contenttype, string urlPart, string accept)
     {
-      var client = CreateHttpClient(_configuration.UserName, _configuration.Password,
+      var client = CreateHttpClient(m_configuration.UserName, m_configuration.Password,
                                     string.IsNullOrWhiteSpace(accept) ? GetContentType(data.ToString()) : accept);
 
       client.Request.Accept = accept;
@@ -236,25 +236,23 @@ namespace TeamCitySharp.Connection
       if (!IsHttpError(response))
         return;
       throw new HttpException(response.StatusCode,
-                              string.Format("Error: {0}\nHTTP: {3}\nURL: {1}\n{2}", response.StatusDescription, url,
-                                            response.RawText, response.StatusCode));
+        $"Error: {response.StatusDescription}\nHTTP: {response.StatusCode}\nURL: {url}\n{response.RawText}");
     }
 
     private string CreateUrl(string urlPart)
     {
-      var protocol = _configuration.UseSSL ? "https://" : "http://";
-      var authType = _configuration.ActAsGuest ? "/guestAuth" : "/httpAuth";
+      var protocol = m_configuration.UseSSL ? "https://" : "http://";
+      var authType = m_configuration.ActAsGuest ? "/guestAuth" : "/httpAuth";
 
-      return string.Format("{0}{1}{2}{3}", protocol, _configuration.HostName, authType, urlPart);
+      return $"{protocol}{m_configuration.HostName}{authType}{urlPart}";
     }
 
     private HttpClient CreateHttpClient(string userName, string password, string accept)
     {
-      var httpClient = new HttpClient(new TeamcityJsonEncoderDecoderConfiguration());
-      httpClient.Request.Accept = accept;
-      if (_useNoCache)
+      var httpClient = new HttpClient(new TeamcityJsonEncoderDecoderConfiguration()) {Request = {Accept = accept}};
+      if (m_useNoCache)
         httpClient.Request.SetCacheControlToNoCache();
-      if (!_configuration.ActAsGuest)
+      if (!m_configuration.ActAsGuest)
       {
         httpClient.Request.SetBasicAuthentication(userName, password);
         httpClient.Request.ForceBasicAuth = true;
@@ -274,12 +272,12 @@ namespace TeamCitySharp.Connection
 
       var url = CreateUrl(urlPart);
 
-      var httpClient = CreateHttpClient(_configuration.UserName, _configuration.Password, HttpContentTypes.TextPlain);
+      var httpClient = CreateHttpClient(m_configuration.UserName, m_configuration.Password, HttpContentTypes.TextPlain);
       var response = httpClient.Get(url);
       if (IsHttpError(response))
       {
         throw new HttpException(response.StatusCode,
-                                string.Format("Error {0}: Thrown with URL {1}", response.StatusDescription, url));
+          $"Error {response.StatusDescription}: Thrown with URL {url}");
       }
 
       return response.RawText;
@@ -287,8 +285,8 @@ namespace TeamCitySharp.Connection
 
     private bool CheckForUserNameAndPassword()
     {
-      return !_configuration.ActAsGuest && string.IsNullOrEmpty(_configuration.UserName) &&
-             string.IsNullOrEmpty(_configuration.Password);
+      return !m_configuration.ActAsGuest && string.IsNullOrEmpty(m_configuration.UserName) &&
+             string.IsNullOrEmpty(m_configuration.Password);
     }
 
     private string GetContentType(string data)
@@ -313,7 +311,7 @@ namespace TeamCitySharp.Connection
         var url = CreateUrl(urlfull);
 
         var response =
-          CreateHttpClient(_configuration.UserName, _configuration.Password, HttpContentTypes.ApplicationJson).Get(url);
+          CreateHttpClient(m_configuration.UserName, m_configuration.Password, HttpContentTypes.ApplicationJson).Get(url);
         return !IsHttpError(response);
       }
       catch (Exception)

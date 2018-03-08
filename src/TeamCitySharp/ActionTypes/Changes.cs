@@ -7,31 +7,31 @@ namespace TeamCitySharp.ActionTypes
 {
   internal class Changes : IChanges
   {
-    private readonly ITeamCityCaller _caller;
-    private string _fields;
+    private readonly ITeamCityCaller m_caller;
+    private string m_fields;
 
     internal Changes(ITeamCityCaller caller)
     {
-      _caller = caller;
+      m_caller = caller;
     }
 
     public Changes GetFields(string fields)
     {
       var newInstance = (Changes) MemberwiseClone();
-      newInstance._fields = fields;
+      newInstance.m_fields = fields;
       return newInstance;
     }
 
     public List<Change> All()
     {
-      var changeWrapper = _caller.Get<ChangeWrapper>(ActionHelper.CreateFieldUrl("/app/rest/changes", _fields));
+      var changeWrapper = m_caller.Get<ChangeWrapper>(ActionHelper.CreateFieldUrl("/app/rest/changes", m_fields));
 
       return changeWrapper.Change;
     }
 
     public Change ByChangeId(string id)
     {
-      var change = _caller.GetFormat<Change>(ActionHelper.CreateFieldUrl("/app/rest/changes/id:{0}", _fields), id);
+      var change = m_caller.GetFormat<Change>(ActionHelper.CreateFieldUrl("/app/rest/changes/id:{0}", m_fields), id);
 
       return change;
     }
@@ -39,7 +39,7 @@ namespace TeamCitySharp.ActionTypes
     public List<Change> ByBuildConfigId(string buildConfigId)
     {
       var changeWrapper =
-        _caller.GetFormat<ChangeWrapper>(ActionHelper.CreateFieldUrl("/app/rest/changes?buildType={0}", _fields),
+        m_caller.GetFormat<ChangeWrapper>(ActionHelper.CreateFieldUrl("/app/rest/changes?buildType={0}", m_fields),
                                          buildConfigId);
 
       return changeWrapper.Change;

@@ -8,7 +8,7 @@ For more information on TeamCity visit:
 http://www.jetbrains.com/teamcity
 
 ##Releases
-Please find the release notes [here](https://github.com/stack72/TeamCitySharp/releases)
+Please find the release notes [here](https://github.com/mavezeau/TeamCitySharp/releases)
 
 ##License 
 http://stack72.mit-license.org/
@@ -16,7 +16,7 @@ http://stack72.mit-license.org/
 ##Installation
 There are 2 ways to use TeamCitySharp:
 
-* install-package TeamCitysharp (via Nuget)
+* install-package TeamCitySharp-forked-mavezeau (via Nuget)
 * Download source and compile
 
 ##Build Monitor
@@ -77,14 +77,14 @@ Each area has its own list of methods available
 ###Builds
 
     Builds GetFields(string fields);
-    List<Build> SuccessfulBuildsByBuildConfigId(string buildConfigId);
-    List<Build> SuccessfulBuildsByBuildConfigId(string buildConfigId, List<String> param);
-    Build LastSuccessfulBuildByBuildConfigId(string buildConfigId);
-    List<Build> FailedBuildsByBuildConfigId(string buildConfigId);
-    Build LastFailedBuildByBuildConfigId(string buildConfigId);
-    Build LastBuildByBuildConfigId(string buildConfigId);
-    List<Build> ErrorBuildsByBuildConfigId(string buildConfigId);
-    Build LastErrorBuildByBuildConfigId(string buildConfigId);
+    List<Build> SuccessfulBuildsByBuildConfigId(string buildConfigId, List<String> param = null);
+    Build LastSuccessfulBuildByBuildConfigId(string buildConfigId, List<String> param = null);
+    List<Build> FailedBuildsByBuildConfigId(string buildConfigId, List<String> param = null);
+    Build LastFailedBuildByBuildConfigId(string buildConfigId, List<String> param = null);
+    Build LastBuildByBuildConfigId(string buildConfigId, List<String> param = null);
+    List<Build> ErrorBuildsByBuildConfigId(string buildConfigId, List<String> param = null);
+    Build LastErrorBuildByBuildConfigId(string buildConfigId, List<String> param = null);
+    Build LastBuildByAgent(string agentName, List<String> param = null);
     Build ById(string id);
     List<Build> ByBuildConfigId(string buildConfigId);
     List<Build> RunningByBuildConfigId(string buildConfigId);
@@ -93,17 +93,17 @@ Each area has its own list of methods available
     List<Build> ByConfigIdAndTag(string buildConfigId, string tag);
     List<Build> ByUserName(string userName);
     List<Build> ByBuildLocator(BuildLocator locator);
-    List<Build> AllSinceDate(DateTime date);
+    List<Build> AllSinceDate(DateTime date, long count = 100, List<string> param = null);
     List<Build> AllBuildsOfStatusSinceDate(DateTime date, BuildStatus buildStatus);
     List<Build> NonSuccessfulBuildsForUser(string userName);
     List<Build> ByBranch(string branchName);
-    Build LastBuildByAgent(string agentName);
     void Add2QueueBuildByBuildConfigId(string buildConfigId);
     List<Build> AllRunningBuild();
-    List<Build> RetrieveEntireBuildChainFrom(string buildConfigId);
-    List<Build> RetrieveEntireBuildChainTo(string buildConfigId);
-    List<Build> NextBuilds(string buildId, int count = 100, List<String> param);
-    List<Build> AffectedProject(string productId, int count = 100, List<String> param);
+    List<Build> RetrieveEntireBuildChainFrom(string buildConfigId, bool includeInitial = true, List<string> param = null);
+    List<Build> RetrieveEntireBuildChainTo(string buildConfigId, bool includeInitial = true, List<string> param = null);
+    List<Build> NextBuilds(string buildid, long count = 100, List<string> param = null);
+    List<Build> AffectedProject(string projectId, long count = 100, List<string> param = null);
+    void DownloadLogs(string projectId, bool zipped, Action<string> downloadHandler);
 
 ###Projects
 
@@ -112,9 +112,10 @@ Each area has its own list of methods available
     Project ByName(string projectLocatorName);
     Project ById(string projectLocatorId);
     Project Details(Project project);
-    Project Create(string projectName, string sourceId, string projectId ="");
+    Project Create(string projectName);
+    Project Create(string projectName, string sourceId, string projectId = "");
     Project Move(string projectId, string destinationId);
-    Project Copy(string projectid, string projectName, string newProjectId, string parentProjectId="");
+    Project Copy(string projectid, string projectName, string newProjectId, string parentProjectId = "");
     string GenerateID(string projectName);
     void Delete(string projectName);
     void DeleteById(string projectId);
@@ -136,8 +137,6 @@ Each area has its own list of methods available
     List<BuildConfig> ByProjectId(string projectId);
     List<BuildConfig> ByProjectName(string projectName);
     bool ModifTrigger(string format, string oldTriggerConfigurationId, string id);
-    bool ModifArtifactDependencies(string format, string oldDendencyConfigurationId, string id);
-    bool ModifSnapshotDependencies(string format, string oldDendencyConfigurationId, string id);
     BuildConfig CreateConfiguration(string projectName, string configurationName);
     BuildConfig CreateConfigurationByProjectId(string projectId, string configurationName);
     BuildConfig Copy(string buildConfigId, string buildConfigName, string destinationProjectId, string newBuildTypeId = "");
@@ -167,6 +166,11 @@ Each area has its own list of methods available
     Template GetTemplate(BuildTypeLocator locator); 
     void AttachTemplate(BuildTypeLocator locator, string templateId);
     void DetachTemplate(BuildTypeLocator locator);
+    ArtifactDependencies GetArtifactDependencies(string buildTypeId);
+    SnapshotDependencies GetSnapshotDependencies(string buildTypeId);
+    bool ModifArtifactDependencies(string format, string oldDendencyConfigurationId, string id);
+    bool ModifSnapshotDependencies(string format, string oldDendencyConfigurationId, string id);
+    
 
     /// <since>8.0</since>
     void DeleteAllBuildTypeParameters(BuildTypeLocator locator);
@@ -216,6 +220,10 @@ Each area has its own list of methods available
 
     void DownloadArtifactsByBuildId(string buildId, Action<string> downloadHandler);
     ArtifactWrapper ByBuildConfigId(string buildConfigId);
+
+###Statistics
+
+    List<Property> GetByBuildId(string buildId);
 
 ###BuildInvestigations
 

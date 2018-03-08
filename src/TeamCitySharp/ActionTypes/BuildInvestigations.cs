@@ -6,18 +6,18 @@ namespace TeamCitySharp.ActionTypes
 {
   internal class BuildInvestigations : IBuildInvestigations
   {
-    private readonly ITeamCityCaller _caller;
-    private string _fields;
+    private readonly ITeamCityCaller m_caller;
+    private string m_fields;
 
     internal BuildInvestigations(ITeamCityCaller caller)
     {
-      _caller = caller;
+      m_caller = caller;
     }
 
     public BuildInvestigations GetFields(string fields)
     {
       var newInstance = (BuildInvestigations) MemberwiseClone();
-      newInstance._fields = fields;
+      newInstance.m_fields = fields;
       return newInstance;
     }
 
@@ -25,9 +25,9 @@ namespace TeamCitySharp.ActionTypes
 
     public List<Investigation> All()
     {
-      var url = ActionHelper.CreateFieldUrl("/app/rest/investigations", _fields);
+      var url = ActionHelper.CreateFieldUrl("/app/rest/investigations", m_fields);
 
-      var wrapper = _caller.Get<InvestigationWrapper>(url);
+      var wrapper = m_caller.Get<InvestigationWrapper>(url);
 
       return wrapper.Investigation;
     }
@@ -39,7 +39,7 @@ namespace TeamCitySharp.ActionTypes
 
       foreach (var investigation in investigations)
       {
-        if (investigation.Scope != null && investigation.Scope.BuildTypes != null)
+        if (investigation.Scope?.BuildTypes != null)
         {
           foreach (var buildType in investigation.Scope.BuildTypes.BuildType)
           {

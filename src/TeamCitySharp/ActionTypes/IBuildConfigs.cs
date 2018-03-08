@@ -19,8 +19,6 @@ namespace TeamCitySharp.ActionTypes
     List<BuildConfig> ByProjectId(string projectId);
     List<BuildConfig> ByProjectName(string projectName);
     bool ModifTrigger(string format, string triggerId, string id);
-    bool ModifArtifactDependencies(string format, string oldDendencyConfigurationId, string id);
-    bool ModifSnapshotDependencies(string format, string oldDendencyConfigurationId, string id);
     BuildConfig CreateConfiguration(string projectName, string configurationName);
     BuildConfig CreateConfigurationByProjectId(string projectId, string configurationName);
 
@@ -31,8 +29,7 @@ namespace TeamCitySharp.ActionTypes
     void SetConfigurationSetting(BuildTypeLocator locator, string settingName, string settingValue);
     bool GetConfigurationPauseStatus(BuildTypeLocator locator);
     void SetConfigurationPauseStatus(BuildTypeLocator locator, bool isPaused);
-    void PostRawArtifactDependency(BuildTypeLocator locator, string rawXml);
-    void SetArtifactDependency(BuildTypeLocator locator, ArtifactDependency dependency);
+
 
     void PostRawBuildStep(BuildTypeLocator locator, string rawXml);
     void PostRawBuildTrigger(BuildTypeLocator locator, string rawXml);
@@ -41,7 +38,7 @@ namespace TeamCitySharp.ActionTypes
     void SetConfigurationParameter(BuildTypeLocator locator, string key, string value);
     void PostRawAgentRequirement(BuildTypeLocator locator, string rawXml);
     void DeleteBuildStep(BuildTypeLocator locator, string buildStepId);
-    void DeleteArtifactDependency(BuildTypeLocator locator, string artifactDependencyId);
+
     void DeleteAgentRequirement(BuildTypeLocator locator, string agentRequirementId);
     void DeleteParameter(BuildTypeLocator locator, string parameterName);
     void DeleteBuildTrigger(BuildTypeLocator locator, string buildTriggerId);
@@ -53,30 +50,6 @@ namespace TeamCitySharp.ActionTypes
     /// <param name="locatorTemplate">Locator for the template.</param>
     void SetBuildTypeTemplate(BuildTypeLocator locatorBuildType, BuildTypeLocator locatorTemplate);
 
-    /// <summary>
-    /// Deletes a snapshot dependency from a build type.
-    /// </summary>
-    /// <param name="locator">Locator for the build type.</param>
-    /// <param name="snapshotDependencyId">The <see cref="SnapshotDependency.Id"/> field value of the dependency to be removed.</param>
-    void DeleteSnapshotDependency(BuildTypeLocator locator, string snapshotDependencyId);
-
-    /// <summary>
-    /// <para>Adds a snapshot dependency to a build type. Have to post raw XML data which looks like this:</para>
-    /// <code><![CDATA[
-    /// <snapshot-dependency type="snapshot_dependency">
-    ///        <properties>
-    ///            <property name="source_buildTypeId" value="id-of-the-target-build-type"/>
-    ///            <property name="run-build-if-dependency-failed" value="true"/>
-    ///            <property name="run-build-on-the-same-agent" value="false"/>
-    ///            <property name="take-started-build-with-same-revisions" value="true"/>
-    ///            <property name="take-successful-builds-only" value="true"/>
-    ///        </properties>
-    ///    </snapshot-dependency>
-    /// ]]></code>
-    /// </summary>
-    void PostRawSnapshotDependency(BuildTypeLocator locator, XmlElement rawXml);
-
-    void SetSnapshotDependency(BuildTypeLocator locator, SnapshotDependency dependency);
 
     /// <summary>
     /// <para>Locates a build type by its locator.</para>
@@ -111,5 +84,32 @@ namespace TeamCitySharp.ActionTypes
     Template GetTemplate(BuildTypeLocator locator);
     void AttachTemplate(BuildTypeLocator locator, string templateId);
     void DetachTemplate(BuildTypeLocator locator);
+
+    // Dependencies
+    ArtifactDependencies GetArtifactDependencies(string buildTypeId);
+    SnapshotDependencies GetSnapshotDependencies(string buildTypeId);
+    
+    /// <summary>
+    /// <para>Adds a snapshot dependency to a build type. Have to post raw XML data which looks like this:</para>
+    /// <code><![CDATA[
+    /// <snapshot-dependency type="snapshot_dependency">
+    ///        <properties>
+    ///            <property name="source_buildTypeId" value="id-of-the-target-build-type"/>
+    ///            <property name="run-build-if-dependency-failed" value="true"/>
+    ///            <property name="run-build-on-the-same-agent" value="false"/>
+    ///            <property name="take-started-build-with-same-revisions" value="true"/>
+    ///            <property name="take-successful-builds-only" value="true"/>
+    ///        </properties>
+    ///    </snapshot-dependency>
+    /// ]]></code>
+    /// </summary>
+    void PostRawSnapshotDependency(BuildTypeLocator locator, XmlElement rawXml);
+    void PostRawArtifactDependency(BuildTypeLocator locator, string rawXml);
+    void SetArtifactDependency(BuildTypeLocator locator, ArtifactDependency dependency);
+    void SetSnapshotDependency(BuildTypeLocator locator, SnapshotDependency dependency);
+    void DeleteArtifactDependency(BuildTypeLocator locator, string artifactDependencyId);
+    void DeleteSnapshotDependency(BuildTypeLocator locator, string snapshotDependencyId);
+    bool ModifArtifactDependencies(string format, string oldDendencyConfigurationId, string id);
+    bool ModifSnapshotDependencies(string format, string oldDendencyConfigurationId, string id);
   }
 }

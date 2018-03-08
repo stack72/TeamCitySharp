@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using NUnit.Framework;
@@ -10,13 +11,29 @@ namespace TeamCitySharp.IntegrationTests
   [TestFixture]
   public class when_interacting_to_get_project_details
   {
-    private ITeamCityClient _client;
+    private ITeamCityClient m_client;
+    private readonly string m_server;
+    private readonly bool m_useSsl;
+    private readonly string m_username;
+    private readonly string m_password;
+    private readonly string m_goodBuildConfigId;
+    private readonly string m_goodProjectId;
 
+
+    public when_interacting_to_get_project_details()
+    {
+      m_server = ConfigurationManager.AppSettings["Server"];
+      bool.TryParse(ConfigurationManager.AppSettings["UseSsl"], out m_useSsl);
+      m_username = ConfigurationManager.AppSettings["Username"];
+      m_password = ConfigurationManager.AppSettings["Password"];
+      m_goodBuildConfigId = ConfigurationManager.AppSettings["GoodBuildConfigId"];
+      m_goodProjectId = ConfigurationManager.AppSettings["GoodProjectId"];
+    }
     [SetUp]
     public void SetUp()
     {
-      _client = new TeamCityClient("teamcity.codebetter.com");
-      _client.Connect("teamcitysharpuser", "qwerty");
+      m_client = new TeamCityClient(m_server, m_useSsl);
+      m_client.Connect(m_username, m_password);
     }
 
     [Test]
@@ -38,7 +55,7 @@ namespace TeamCitySharp.IntegrationTests
     [Test]
     public void it_throws_exception_when_no_connection_formed()
     {
-      var client = new TeamCityClient("teamcity.codebetter.com");
+      var client = new TeamCityClient(m_server, m_useSsl);
 
       Assert.Throws<ArgumentException>(() => client.Projects.All());
 
@@ -48,23 +65,25 @@ namespace TeamCitySharp.IntegrationTests
     [Test]
     public void it_returns_all_projects()
     {
-      List<Project> projects = _client.Projects.All();
+      List<Project> projects = m_client.Projects.All();
 
       Assert.That(projects.Any(), "No projects were found for this server");
     }
 
-    [TestCase("project137")]
-    public void it_returns_project_details_when_passing_a_project_id(string projectId)
+    [Test]
+    public void it_returns_project_details_when_passing_a_project_id()
     {
-      Project projectDetails = _client.Projects.ById(projectId);
+      string projectId = m_goodProjectId;
+      Project projectDetails = m_client.Projects.ById(projectId);
 
       Assert.That(projectDetails != null, "No details found for that specific project");
     }
 
-    [TestCase("YouTrackSharp")]
-    public void it_returns_project_details_when_passing_a_project_name(string projectName)
+    [Test]
+    public void it_returns_project_details_when_passing_a_project_name()
     {
-      Project projectDetails = _client.Projects.ByName(projectName);
+      string projectName = m_goodProjectId;
+      Project projectDetails = m_client.Projects.ByName(projectName);
 
       Assert.That(projectDetails != null, "No details found for that specific project");
     }
@@ -72,14 +91,15 @@ namespace TeamCitySharp.IntegrationTests
     [Test]
     public void it_returns_project_details_when_passing_project()
     {
-      var project = new Project {Id = "project137"};
-      Project projectDetails = _client.Projects.Details(project);
+      var project = new Project {Id = m_goodProjectId };
+      Project projectDetails = m_client.Projects.Details(project);
 
       Assert.That(!string.IsNullOrWhiteSpace(projectDetails.Id));
     }
 
 
     [Test]
+    [Ignore("Modify guid...")]
     public void it_returns_project_details_when_creating_project()
     {
       var client = new TeamCityClient("localhost:81");

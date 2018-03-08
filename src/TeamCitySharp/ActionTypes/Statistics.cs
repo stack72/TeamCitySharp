@@ -6,24 +6,24 @@ namespace TeamCitySharp.ActionTypes
 {
   public class Statistics : IStatistics
   {
-    private readonly ITeamCityCaller _caller;
-    private string _fields;
+    private readonly ITeamCityCaller m_caller;
+    private string m_fields;
 
     internal Statistics(ITeamCityCaller caller)
     {
-      _caller = caller;
+      m_caller = caller;
     }
 
     public Statistics GetFields(string fields)
     {
       var newInstance = (Statistics) MemberwiseClone();
-      newInstance._fields = fields;
+      newInstance.m_fields = fields;
       return newInstance;
     }
 
     public List<Property> GetByBuildId(string buildId)
     {
-      return _caller.GetFormat<Properties>("/app/rest/builds/id:{0}/statistics", buildId).Property;
+      return m_caller.GetFormat<Properties>("/app/rest/builds/id:{0}/statistics", buildId).Property;
     }
   }
 }

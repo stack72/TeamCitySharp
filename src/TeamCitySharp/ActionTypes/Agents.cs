@@ -6,18 +6,18 @@ namespace TeamCitySharp.ActionTypes
 {
   public class Agents : IAgents
   {
-    private readonly ITeamCityCaller _caller;
-    private string _fields;
+    private readonly ITeamCityCaller m_caller;
+    private string m_fields;
 
     internal Agents(ITeamCityCaller caller)
     {
-      _caller = caller;
+      m_caller = caller;
     }
 
     public Agents GetFields(string fields)
     {
       var newInstance = (Agents) MemberwiseClone();
-      newInstance._fields = fields;
+      newInstance.m_fields = fields;
       return newInstance;
     }
 
@@ -25,10 +25,10 @@ namespace TeamCitySharp.ActionTypes
     {
       var url =
         string.Format(
-          ActionHelper.CreateFieldUrl("/app/rest/agents?includeDisconnected={0}&includeUnauthorized={1}", _fields),
+          ActionHelper.CreateFieldUrl("/app/rest/agents?includeDisconnected={0}&includeUnauthorized={1}", m_fields),
           includeDisconnected.ToString().ToLower(), includeUnauthorized.ToString().ToLower());
 
-      var agentWrapper = _caller.Get<AgentWrapper>(url);
+      var agentWrapper = m_caller.Get<AgentWrapper>(url);
 
       return agentWrapper.Agent;
     }

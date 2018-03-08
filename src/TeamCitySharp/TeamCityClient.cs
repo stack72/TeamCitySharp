@@ -5,102 +5,102 @@ namespace TeamCitySharp
 {
   public class TeamCityClient : IClientConnection, ITeamCityClient
   {
-    private readonly ITeamCityCaller _caller;
-    private IBuilds _builds;
-    private IProjects _projects;
-    private IBuildConfigs _buildConfigs;
-    private IServerInformation _serverInformation;
-    private IUsers _users;
-    private IAgents _agents;
-    private IVcsRoots _vcsRoots;
-    private IChanges _changes;
-    private IBuildArtifacts _artifacts;
-    private IBuildInvestigations _investigations;
-    private IStatistics _statistics;
+    private readonly ITeamCityCaller m_caller;
+    private IBuilds m_builds;
+    private IProjects m_projects;
+    private IBuildConfigs m_buildConfigs;
+    private IServerInformation m_serverInformation;
+    private IUsers m_users;
+    private IAgents m_agents;
+    private IVcsRoots m_vcsRoots;
+    private IChanges m_changes;
+    private IBuildArtifacts m_artifacts;
+    private IBuildInvestigations m_investigations;
+    private IStatistics m_statistics;
 
     public TeamCityClient(string hostName, bool useSsl = false)
     {
-      _caller = new TeamCityCaller(hostName, useSsl);
+      m_caller = new TeamCityCaller(hostName, useSsl);
     }
 
     public void Connect(string userName, string password)
     {
-      _caller.Connect(userName, password, false);
+      m_caller.Connect(userName, password, false);
     }
 
     public void EnableCache()
     {
-      _caller.EnableCache();
+      m_caller.EnableCache();
     }
 
     public void DisableCache()
     {
-      _caller.DisableCache();
+      m_caller.DisableCache();
     }
 
     public void ConnectAsGuest()
     {
-      _caller.Connect(string.Empty, string.Empty, true);
+      m_caller.Connect(string.Empty, string.Empty, true);
     }
 
     public bool Authenticate(bool throwExceptionOnHttpError = true)
     {
-      return _caller.Authenticate("/app/rest", throwExceptionOnHttpError);
+      return m_caller.Authenticate("/app/rest", throwExceptionOnHttpError);
     }
 
     public IBuilds Builds
     {
-      get { return _builds ?? (_builds = new Builds(_caller)); }
+      get { return m_builds ?? (m_builds = new Builds(m_caller)); }
     }
 
     public IBuildConfigs BuildConfigs
     {
-      get { return _buildConfigs ?? (_buildConfigs = new BuildConfigs(_caller)); }
+      get { return m_buildConfigs ?? (m_buildConfigs = new BuildConfigs(m_caller)); }
     }
 
     public IProjects Projects
     {
-      get { return _projects ?? (_projects = new Projects(_caller)); }
+      get { return m_projects ?? (m_projects = new Projects(m_caller)); }
     }
 
     public IServerInformation ServerInformation
     {
-      get { return _serverInformation ?? (_serverInformation = new ServerInformation(_caller)); }
+      get { return m_serverInformation ?? (m_serverInformation = new ServerInformation(m_caller)); }
     }
 
     public IUsers Users
     {
-      get { return _users ?? (_users = new Users(_caller)); }
+      get { return m_users ?? (m_users = new Users(m_caller)); }
     }
 
     public IAgents Agents
     {
-      get { return _agents ?? (_agents = new Agents(_caller)); }
+      get { return m_agents ?? (m_agents = new Agents(m_caller)); }
     }
 
     public IVcsRoots VcsRoots
     {
-      get { return _vcsRoots ?? (_vcsRoots = new VcsRoots(_caller)); }
+      get { return m_vcsRoots ?? (m_vcsRoots = new VcsRoots(m_caller)); }
     }
 
     public IChanges Changes
     {
-      get { return _changes ?? (_changes = new Changes(_caller)); }
+      get { return m_changes ?? (m_changes = new Changes(m_caller)); }
     }
 
     public IBuildArtifacts Artifacts
     {
-      get { return _artifacts ?? (_artifacts = new BuildArtifacts(_caller)); }
+      get { return m_artifacts ?? (m_artifacts = new BuildArtifacts(m_caller)); }
     }
 
     public IBuildInvestigations Investigations
     {
-      get { return _investigations ?? (_investigations = new BuildInvestigations(_caller)); }
+      get { return m_investigations ?? (m_investigations = new BuildInvestigations(m_caller)); }
     }
 
     public IStatistics Statistics
     {
-      get { return _statistics ?? (_statistics = new Statistics(_caller)); }
+      get { return m_statistics ?? (m_statistics = new Statistics(m_caller)); }
     }
   }
 }

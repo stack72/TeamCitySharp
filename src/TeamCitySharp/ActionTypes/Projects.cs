@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Text.RegularExpressions;
 using EasyHttp.Http;
@@ -13,31 +12,31 @@ namespace TeamCitySharp.ActionTypes
 {
   public class Projects : IProjects
   {
-    private readonly ITeamCityCaller _caller;
-    private string _fields;
+    private readonly ITeamCityCaller m_caller;
+    private string m_fields;
 
     internal Projects(ITeamCityCaller caller)
     {
-      _caller = caller;
+      m_caller = caller;
     }
 
     public Projects GetFields(string fields)
     {
       var newInstance = (Projects) MemberwiseClone();
-      newInstance._fields = fields;
+      newInstance.m_fields = fields;
       return newInstance;
     }
 
     public List<Project> All()
     {
-      var projectWrapper = _caller.Get<ProjectWrapper>(ActionHelper.CreateFieldUrl("/app/rest/projects", _fields));
+      var projectWrapper = m_caller.Get<ProjectWrapper>(ActionHelper.CreateFieldUrl("/app/rest/projects", m_fields));
 
       return projectWrapper.Project;
     }
 
     public Project ByName(string projectLocatorName)
     {
-      var project = _caller.GetFormat<Project>(ActionHelper.CreateFieldUrl("/app/rest/projects/name:{0}", _fields),
+      var project = m_caller.GetFormat<Project>(ActionHelper.CreateFieldUrl("/app/rest/projects/name:{0}", m_fields),
                                                projectLocatorName);
 
       return project;
@@ -45,7 +44,7 @@ namespace TeamCitySharp.ActionTypes
 
     public Project ById(string projectLocatorId)
     {
-      var project = _caller.GetFormat<Project>(ActionHelper.CreateFieldUrl("/app/rest/projects/id:{0}", _fields),
+      var project = m_caller.GetFormat<Project>(ActionHelper.CreateFieldUrl("/app/rest/projects/id:{0}", m_fields),
                                                projectLocatorId);
 
       return project;
@@ -58,7 +57,7 @@ namespace TeamCitySharp.ActionTypes
 
     public Project Create(string projectName)
     {
-      return _caller.Post<Project>(projectName, HttpContentTypes.TextPlain, "/app/rest/projects/",
+      return m_caller.Post<Project>(projectName, HttpContentTypes.TextPlain, "/app/rest/projects/",
                                    HttpContentTypes.ApplicationJson);
     }
 
@@ -66,10 +65,8 @@ namespace TeamCitySharp.ActionTypes
     {
       var id = projectId == "" ? GenerateID(projectName) : projectId;
       var xmlData =
-        String.Format(
-          "<newProjectDescription name='{0}' id='{1}'><parentProject locator='id:{2}'/></newProjectDescription>",
-          projectName, id, sourceId);
-      var response = _caller.Post(xmlData, HttpContentTypes.ApplicationXml, "/app/rest/projects",
+        $"<newProjectDescription name='{projectName}' id='{id}'><parentProject locator='id:{sourceId}'/></newProjectDescription>";
+      var response = m_caller.Post(xmlData, HttpContentTypes.ApplicationXml, "/app/rest/projects",
                                   HttpContentTypes.ApplicationJson);
       if (response.StatusCode == HttpStatusCode.OK)
       {
@@ -84,9 +81,9 @@ namespace TeamCitySharp.ActionTypes
 
     public Project Move(string projectId, string destinationId)
     {
-      var xmlData = String.Format("<project id='{0}' />", destinationId);
-      var url = String.Format("/app/rest/projects/id:{0}/parentProject", projectId);
-      var response = _caller.Put(xmlData, HttpContentTypes.ApplicationXml, url, HttpContentTypes.ApplicationJson);
+      var xmlData = $"<project id='{destinationId}' />";
+      var url = $"/app/rest/projects/id:{projectId}/parentProject";
+      var response = m_caller.Put(xmlData, HttpContentTypes.ApplicationXml, url, HttpContentTypes.ApplicationJson);
       if (response.StatusCode == HttpStatusCode.OK)
       {
         var reader =
@@ -103,12 +100,10 @@ namespace TeamCitySharp.ActionTypes
     {
       var parentString = "";
       if (parentProjectId != "")
-        parentString = String.Format("<parentProject locator='id:{0}'/>", parentProjectId);
+        parentString = $"<parentProject locator='id:{parentProjectId}'/>";
       var xmlData =
-        String.Format(
-          "<newProjectDescription name='{0}' id='{1}' copyAllAssociatedSettings='true'><sourceProject locator='id:{2}'/>{3}</newProjectDescription>",
-          projectName, newProjectId, projectid, parentString);
-      var response = _caller.Post(xmlData, HttpContentTypes.ApplicationXml, "/app/rest/projects",
+        $"<newProjectDescription name='{projectName}' id='{newProjectId}' copyAllAssociatedSettings='true'><sourceProject locator='id:{projectid}'/>{parentString}</newProjectDescription>";
+      var response = m_caller.Post(xmlData, HttpContentTypes.ApplicationXml, "/app/rest/projects",
                                   HttpContentTypes.ApplicationJson);
       return response;
     }
@@ -129,22 +124,22 @@ namespace TeamCitySharp.ActionTypes
 
     public void Delete(string projectName)
     {
-      _caller.DeleteFormat("/app/rest/projects/name:{0}", projectName);
+      m_caller.DeleteFormat("/app/rest/projects/name:{0}", projectName);
     }
 
     public void DeleteById(string projectId)
     {
-      _caller.DeleteFormat("/app/rest/projects/id:{0}", projectId);
+      m_caller.DeleteFormat("/app/rest/projects/id:{0}", projectId);
     }
 
     public void DeleteProjectParameter(string projectName, string parameterName)
     {
-      _caller.DeleteFormat("/app/rest/projects/name:{0}/parameters/{1}", projectName, parameterName);
+      m_caller.DeleteFormat("/app/rest/projects/name:{0}/parameters/{1}", projectName, parameterName);
     }
 
     public void SetProjectParameter(string projectName, string settingName, string settingValue)
     {
-      _caller.PutFormat(settingValue, "/app/rest/projects/name:{0}/parameters/{1}", projectName, settingName);
+      m_caller.PutFormat(settingValue, "/app/rest/projects/name:{0}/parameters/{1}", projectName, settingName);
     }
 
     public string GenerateID(string projectName)
@@ -155,16 +150,16 @@ namespace TeamCitySharp.ActionTypes
 
     public bool ModifParameters(string buildTypeId, string param, string value)
     {
-      var url = String.Format("/app/rest/projects/id:{0}/parameters/{1}", buildTypeId, param);
+      var url = $"/app/rest/projects/id:{buildTypeId}/parameters/{param}";
 
-      var response = _caller.Put(value, HttpContentTypes.TextPlain, url, string.Empty);
+      var response = m_caller.Put(value, HttpContentTypes.TextPlain, url, string.Empty);
       return response.StatusCode == HttpStatusCode.OK;
     }
 
     public bool ModifSettings(string projectId, string setting, string value)
     {
-      var url = String.Format("/app/rest/projects/{0}/{1}", projectId, setting);
-      var response = _caller.Put(value, HttpContentTypes.TextPlain, url, string.Empty);
+      var url = $"/app/rest/projects/{projectId}/{setting}";
+      var response = m_caller.Put(value, HttpContentTypes.TextPlain, url, string.Empty);
       return response.StatusCode == HttpStatusCode.OK;
     }
   }

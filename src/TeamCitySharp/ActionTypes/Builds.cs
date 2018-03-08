@@ -11,8 +11,8 @@ namespace TeamCitySharp.ActionTypes
   {
     #region Attributes
 
-    private readonly ITeamCityCaller _caller;
-    private string _fields;
+    private readonly ITeamCityCaller m_caller;
+    private string m_fields;
 
     #endregion
 
@@ -20,7 +20,7 @@ namespace TeamCitySharp.ActionTypes
 
     internal Builds(ITeamCityCaller caller)
     {
-      _caller = caller;
+      m_caller = caller;
     }
 
     #endregion
@@ -30,14 +30,14 @@ namespace TeamCitySharp.ActionTypes
     public Builds GetFields(string fields)
     {
       var newInstance = (Builds) MemberwiseClone();
-      newInstance._fields = fields;
+      newInstance.m_fields = fields;
       return newInstance;
     }
 
     public List<Build> ByBuildLocator(BuildLocator locator)
     {
       var buildWrapper =
-        _caller.GetFormat<BuildWrapper>(ActionHelper.CreateFieldUrl("/app/rest/builds?locator={0}", _fields), locator);
+        m_caller.GetFormat<BuildWrapper>(ActionHelper.CreateFieldUrl("/app/rest/builds?locator={0}", m_fields), locator);
       return int.Parse(buildWrapper.Count) > 0 ? buildWrapper.Build : new List<Build>();
     }
 
@@ -45,8 +45,8 @@ namespace TeamCitySharp.ActionTypes
     {
       var strParam = GetParamLocator(param);
       var buildWrapper =
-        _caller.Get<BuildWrapper>(
-          ActionHelper.CreateFieldUrl(string.Format("/app/rest/builds?locator={0}{1}", locator, strParam), _fields));
+        m_caller.Get<BuildWrapper>(
+          ActionHelper.CreateFieldUrl($"/app/rest/builds?locator={locator}{strParam}", m_fields));
 
       return int.Parse(buildWrapper.Count) > 0 ? buildWrapper.Build : new List<Build>();
     }
@@ -58,7 +58,7 @@ namespace TeamCitySharp.ActionTypes
 
     public void Add2QueueBuildByBuildConfigId(string buildConfigId)
     {
-      _caller.GetFormat("/action.html?add2Queue={0}", buildConfigId);
+      m_caller.GetFormat("/action.html?add2Queue={0}", buildConfigId);
     }
 
 
@@ -126,7 +126,7 @@ namespace TeamCitySharp.ActionTypes
 
     public Build ById(string id)
     {
-      var build = _caller.GetFormat<Build>(ActionHelper.CreateFieldUrl("/app/rest/builds/id:{0}", _fields), id);
+      var build = m_caller.GetFormat<Build>(ActionHelper.CreateFieldUrl("/app/rest/builds/id:{0}", m_fields), id);
 
       return build ?? new Build();
     }
@@ -176,7 +176,7 @@ namespace TeamCitySharp.ActionTypes
     public List<Build> AllRunningBuild()
     {
       var buildWrapper =
-        _caller.GetFormat<BuildWrapper>(ActionHelper.CreateFieldUrl("/app/rest/builds?locator=running:true", _fields));
+        m_caller.GetFormat<BuildWrapper>(ActionHelper.CreateFieldUrl("/app/rest/builds?locator=running:true", m_fields));
       return int.Parse(buildWrapper.Count) > 0 ? buildWrapper.Build : new List<Build>();
     }
 
@@ -193,10 +193,8 @@ namespace TeamCitySharp.ActionTypes
     public List<Build> NonSuccessfulBuildsForUser(string userName)
     {
       var builds = ByUserName(userName);
-      if (builds == null)
-        return null;
 
-      return builds.Where(b => b.Status != "SUCCESS").ToList();
+      return builds?.Where(b => b.Status != "SUCCESS").ToList();
     }
 
     public List<Build> RetrieveEntireBuildChainFrom(string buildId, bool includeInitial=true, List<string> param = null)
@@ -259,8 +257,8 @@ namespace TeamCitySharp.ActionTypes
     /// <returns></returns>
     public void DownloadLogs(string projectId, bool zipped, Action<string> downloadHandler)
     {
-      var url = string.Format("/downloadBuildLog.html?buildId={0}&archived={1}", projectId, zipped);
-      _caller.GetDownloadFormat(downloadHandler, url);
+      var url = $"/downloadBuildLog.html?buildId={projectId}&archived={zipped}";
+      m_caller.GetDownloadFormat(downloadHandler, url);
     }
 
     #endregion
@@ -285,9 +283,9 @@ namespace TeamCitySharp.ActionTypes
     {
       var strParam = GetParamLocator(param);
       var buildWrapper =
-        _caller.GetFormat<BuildWrapper>(
+        m_caller.GetFormat<BuildWrapper>(
           ActionHelper.CreateFieldUrl(
-            url, _fields),
+            url, m_fields),
           id, strParam);
       return int.Parse(buildWrapper.Count) > 0 ? buildWrapper.Build : new List<Build>();
     }

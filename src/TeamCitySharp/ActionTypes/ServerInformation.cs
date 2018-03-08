@@ -8,22 +8,22 @@
   internal class ServerInformation : IServerInformation
   {
     private const string ServerUrlPrefix = "/app/rest/server";
-    private readonly ITeamCityCaller _caller;
+    private readonly ITeamCityCaller m_caller;
 
     internal ServerInformation(ITeamCityCaller caller)
     {
-      _caller = caller;
+      m_caller = caller;
     }
 
     public Server ServerInfo()
     {
-      var server = _caller.Get<Server>(ServerUrlPrefix);
+      var server = m_caller.Get<Server>(ServerUrlPrefix);
       return server;
     }
 
     public List<Plugin> AllPlugins()
     {
-      var pluginWrapper = _caller.Get<PluginWrapper>(ServerUrlPrefix + "/plugins");
+      var pluginWrapper = m_caller.Get<PluginWrapper>(ServerUrlPrefix + "/plugins");
 
       return pluginWrapper.Plugin;
     }
@@ -33,12 +33,12 @@
       var backupOptionsUrlPart = BuildBackupOptionsUrl(backupOptions);
       var url = string.Concat(ServerUrlPrefix, "/backup?", backupOptionsUrlPart);
 
-      return _caller.StartBackup(url);
+      return m_caller.StartBackup(url);
     }
 
     public string GetBackupStatus()
     {
-      return _caller.GetRaw(string.Concat(ServerUrlPrefix, "/backup"));
+      return m_caller.GetRaw(string.Concat(ServerUrlPrefix, "/backup"));
     }
 
     private string BuildBackupOptionsUrl(BackupOptions backupOptions)
