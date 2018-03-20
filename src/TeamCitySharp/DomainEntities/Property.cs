@@ -6,10 +6,11 @@ namespace TeamCitySharp.DomainEntities
     {
     }
 
-    public Property(string name, string value)
+    public Property(string name, string value, bool inherited = false)
     {
       Name = name;
       Value = value;
+      Inherited = inherited;
     }
 
     public override string ToString()
@@ -19,5 +20,6 @@ namespace TeamCitySharp.DomainEntities
 
     public string Name { get; set; }
     public string Value { get; set; }
+    public bool Inherited { get; set; }
   }
 }

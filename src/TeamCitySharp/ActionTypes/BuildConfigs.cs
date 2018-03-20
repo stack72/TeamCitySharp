@@ -206,13 +206,13 @@ namespace TeamCitySharp.ActionTypes
 
     public void PostRawArtifactDependency(BuildTypeLocator locator, string rawXml)
     {
-      m_caller.PostFormat<ArtifactDependency>(rawXml, HttpContentTypes.ApplicationXml, string.Empty,
+      m_caller.PostFormat<ArtifactDependency>(rawXml, HttpContentTypes.ApplicationXml, HttpContentTypes.ApplicationJson,
                                              "/app/rest/buildTypes/{0}/artifact-dependencies", locator);
     }
 
     public void PostRawBuildStep(BuildTypeLocator locator, string rawXml)
     {
-      m_caller.PostFormat<BuildConfig>(rawXml, HttpContentTypes.ApplicationXml, string.Empty,
+      m_caller.PostFormat<BuildConfig>(rawXml, HttpContentTypes.ApplicationXml, HttpContentTypes.ApplicationJson,
                                       "/app/rest/buildTypes/{0}/steps", locator);
     }
 

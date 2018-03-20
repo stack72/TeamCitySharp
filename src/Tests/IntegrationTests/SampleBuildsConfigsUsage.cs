@@ -141,5 +141,21 @@ namespace TeamCitySharp.IntegrationTests
       var snapshotDependencies = m_client.BuildConfigs.GetSnapshotDependencies(buildConfigId);
       Assert.That(snapshotDependencies != null, "Cannot find a snapshot dependencies for that buildConfigId");
     }
+
+    [Test]
+    public void it_create_build_config_step()
+    {
+      var bt = m_client.BuildConfigs.CreateConfigurationByProjectId(m_goodProjectId,
+        "testNewConfig");
+      var xml= "<step type=\"simpleRunner\">" +
+               "<properties>" +
+               "<property name=\"script.content\" value=\"@echo off&#xA;echo Step1&#xA;touch step1.txt\" />" +
+               "<property name=\"teamcity.step.mode\" value=\"default\" />" +
+               "<property name=\"use.custom.script\" value=\"true\" />" +
+               "</properties>" +
+               "</step>";
+      m_client.BuildConfigs.PostRawBuildStep(BuildTypeLocator.WithId(bt.Id), xml);
+      m_client.BuildConfigs.DeleteConfiguration(BuildTypeLocator.WithId(bt.Id));
+    }
   }
 }
