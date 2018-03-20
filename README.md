@@ -1,3 +1,6 @@
+**No longer maintained! Please use https://github.com/mavezeau/TeamCitySharp**
+
+
 #TeamCitySharp
 
 *.NET Library to access TeamCity via their REST API.
