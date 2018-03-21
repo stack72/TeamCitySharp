@@ -4,10 +4,10 @@ using TeamCitySharp.Locators;
 
 namespace TeamCitySharp.ActionTypes
 {
-    public interface IBuildQueue
-    {
-        List<Build> ByBuildTypeLocator(BuildTypeLocator locator);
+  public interface IBuildQueue
+  {
+    List<Build> ByBuildTypeLocator(BuildTypeLocator locator);
 
-        List<Build> ByProjectLocater(ProjectLocator projectLocator);
-    }
+    List<Build> ByProjectLocater(ProjectLocator projectLocator);
+  }
 }
