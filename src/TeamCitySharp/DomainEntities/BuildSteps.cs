@@ -8,7 +8,7 @@ namespace TeamCitySharp.DomainEntities
     {
       return "steps";
     }
-
+    [JsonFx.Json.JsonName("step")]
     public List<BuildStep> Step { get; set; }
   }
 }

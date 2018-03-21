@@ -1,6 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
 using EasyHttp.Http;
+using JsonFx.Json;
+using JsonFx.Json.Resolvers;
+using JsonFx.Serialization;
+using JsonFx.Serialization.Resolvers;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
 using TeamCitySharp.Locators;
@@ -53,7 +61,35 @@ namespace TeamCitySharp.ActionTypes
 
     public void SetVcsRootValue(VcsRoot vcsRoot, VcsRootValue field, object value)
     {
-      m_caller.PutFormat(value, "/app/rest/vcs-roots/id:{0}/{1}", vcsRoot.Id, ToCamelCase(field.ToString()));
+      m_caller.PutFormat(value, HttpContentTypes.TextPlain, "/app/rest/vcs-roots/id:{0}/{1}", vcsRoot.Id,
+        ToCamelCase(field.ToString()));
+    }
+
+    public void SetConfigurationProperties(VcsRoot vcsRoot, string key, string value)
+    {
+      m_caller.PutFormat(value, HttpContentTypes.TextPlain, "/app/rest/vcs-roots/id:{0}/properties/{1}", vcsRoot.Id, key);
+    }
+
+    public void DeleteProperties(VcsRoot vcsRoot, string parameterName)
+    {
+      m_caller.DeleteFormat("/app/rest/vcs-roots/id:{0}/properties/{1}", vcsRoot.Id, parameterName);
+    }
+
+    public VcsRoot CreateVcsRoot(VcsRoot vcsRoot, string projectId )
+    {
+      var writer =
+        new JsonWriter(
+          new DataWriterSettings(new JsonResolverStrategy()));
+      var data = writer.Write(vcsRoot);
+
+      return m_caller.PostFormat<VcsRoot>(data, HttpContentTypes.ApplicationJson,
+          HttpContentTypes.ApplicationJson, "/app/rest/vcs-roots",
+          projectId);
+     
+    }
+    public void DeleteVcsRoot(VcsRoot vcsRoot)
+    {
+      m_caller.DeleteFormat("/app/rest/vcs-roots/id:{0}", vcsRoot.Id);
     }
 
     private static string ToCamelCase(string s)

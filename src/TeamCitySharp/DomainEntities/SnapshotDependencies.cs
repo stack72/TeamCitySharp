@@ -8,7 +8,7 @@ namespace TeamCitySharp.DomainEntities
     {
       return "snapshot-dependencies";
     }
-
+    [JsonFx.Json.JsonName("snapshot-dependency")]
     public List<SnapshotDependency> SnapshotDependency { get; set; }
   }
 }

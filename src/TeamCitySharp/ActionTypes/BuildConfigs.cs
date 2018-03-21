@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using EasyHttp.Http;
 using JsonFx.Json;
+using JsonFx.Json.Resolvers;
 using JsonFx.Serialization;
 using JsonFx.Serialization.Resolvers;
 using TeamCitySharp.Connection;
@@ -363,7 +364,7 @@ namespace TeamCitySharp.ActionTypes
           property.Value = newBt;
           var writer =
             new JsonWriter(
-              new DataWriterSettings(new ConventionResolverStrategy(ConventionResolverStrategy.WordCasing.Lowercase, "-")));
+              new DataWriterSettings(new JsonResolverStrategy()));
           var ttt = writer.Write(trigger);
           var urlNewTrigger = $"/app/rest/buildTypes/id:{buildTypeId}/triggers";
           var response = m_caller.Post(ttt, HttpContentTypes.ApplicationJson, urlNewTrigger,
@@ -389,7 +390,7 @@ namespace TeamCitySharp.ActionTypes
       var urlNewTrigger = $"/app/rest/buildTypes/id:{buildTypeId}/snapshot-dependencies";
       var writer =
         new JsonWriter(
-          new DataWriterSettings(new ConventionResolverStrategy(ConventionResolverStrategy.WordCasing.Lowercase, "-")));
+          new DataWriterSettings(new JsonResolverStrategy()));
 
       var tmpArtifact = (writer.Write(snapshot));
       tmpArtifact = Regex.Replace(tmpArtifact, "source-build-type", "source-buildType");
@@ -417,7 +418,7 @@ namespace TeamCitySharp.ActionTypes
         artifact.SourceBuildType.Id = newBt;
         var writer =
           new JsonWriter(
-            new DataWriterSettings(new ConventionResolverStrategy(ConventionResolverStrategy.WordCasing.Lowercase, "-")));
+            new DataWriterSettings(new JsonResolverStrategy()));
         var tmpArtifact = writer.Write(artifact);
         tmpArtifact = Regex.Replace(tmpArtifact, "source-build-type", "source-buildType");
 

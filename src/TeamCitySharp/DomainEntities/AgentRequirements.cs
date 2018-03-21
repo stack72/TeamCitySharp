@@ -8,7 +8,7 @@ namespace TeamCitySharp.DomainEntities
     {
       return "agent-requirements";
     }
-
+    [JsonFx.Json.JsonName("agent-requirement")]
     public List<AgentRequirement> AgentRequirement { get; set; }
   }
 }

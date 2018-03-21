@@ -18,8 +18,11 @@ namespace TeamCitySharp.DomainEntities
       return Name;
     }
 
+    [JsonFx.Json.JsonName("name")]
     public string Name { get; set; }
+    [JsonFx.Json.JsonName("value")]
     public string Value { get; set; }
+    [JsonFx.Json.JsonName("inherited")]
     public bool Inherited { get; set; }
   }
 }

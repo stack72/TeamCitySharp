@@ -17,7 +17,7 @@ namespace TeamCitySharp.IntegrationTests
     private readonly bool m_useSsl;
     private readonly string m_username;
     private readonly string m_password;
-
+    private readonly string m_goodProjectId;
 
     public when_interacting_to_get_vcs_details()
     {
@@ -25,6 +25,8 @@ namespace TeamCitySharp.IntegrationTests
       bool.TryParse(ConfigurationManager.AppSettings["UseSsl"], out m_useSsl);
       m_username = ConfigurationManager.AppSettings["Username"];
       m_password = ConfigurationManager.AppSettings["Password"];
+      m_goodProjectId = ConfigurationManager.AppSettings["GoodProjectId"];
+
     }
     [SetUp]
     public void SetUp()
@@ -83,6 +85,34 @@ namespace TeamCitySharp.IntegrationTests
       var vcsRoots = client.VcsRoots.GetFields(vcsRootsField.ToString()).All();
 
       Assert.That(vcsRoots != null);
+    }
+
+    [Test]
+    public void it_create_new_vsc()
+    {
+      var project = m_client.Projects.ById(m_goodProjectId);
+
+      VcsRoot vcsroot = new VcsRoot();
+      vcsroot.Id = project.Id + "_vcsroot1_01";
+      vcsroot.Name = project.Name + "_vcsroot1";
+      vcsroot.VcsName = "jetbrains.git";
+      vcsroot.Project = new Project();
+      vcsroot.Project.Id = project.Id;
+
+      Properties properties = new Properties();
+
+      properties.Add("agentCleanFilesPolicy", "IGNORED_ONLY");
+      vcsroot.Properties = properties;
+
+      var vcsroot2 = m_client.VcsRoots.CreateVcsRoot(vcsroot, project.Id);
+     
+      m_client.VcsRoots.SetVcsRootValue(vcsroot2, VcsRootValue.Name, "TestChangeName");
+
+      m_client.VcsRoots.SetConfigurationProperties(vcsroot2, "agentCleanFilesPolicy", "ALL_UNTRACKED");
+      m_client.VcsRoots.SetConfigurationProperties(vcsroot2, "tt", "tt2");
+      m_client.VcsRoots.DeleteProperties(vcsroot2,"tt");
+      m_client.VcsRoots.DeleteVcsRoot(vcsroot2);
+
     }
   }
 }

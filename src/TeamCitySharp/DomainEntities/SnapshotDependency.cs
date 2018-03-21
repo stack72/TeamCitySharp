@@ -1,4 +1,3 @@
-using JsonFx.Json;
 using System.Runtime.Serialization;
 
 namespace TeamCitySharp.DomainEntities
@@ -18,15 +17,19 @@ namespace TeamCitySharp.DomainEntities
     }
 
     [DataMember(Name = "id")]
+    [JsonFx.Json.JsonName("id")]
     public string Id { get; set; }
 
     [DataMember]
+    [JsonFx.Json.JsonName("properties")]
     public Properties Properties { get; set; }
 
     [DataMember(Name = "type")]
+    [JsonFx.Json.JsonName("type")]
     public string Type { get; set; }
 
     [DataMember(Name = "source-buildType")]
+    [JsonFx.Json.JsonName("source-buildType")]
     public BuildConfig SourceBuildType { get; set; }
 
     public static SnapshotDependency Default(string dependsOnbuildId)

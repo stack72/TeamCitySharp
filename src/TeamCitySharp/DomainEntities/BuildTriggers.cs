@@ -8,7 +8,7 @@ namespace TeamCitySharp.DomainEntities
     {
       return "triggers";
     }
-
+    [JsonFx.Json.JsonName("trigger")]
     public List<BuildTrigger> Trigger { get; set; }
   }
 }

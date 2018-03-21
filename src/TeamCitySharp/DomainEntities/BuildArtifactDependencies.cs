@@ -8,7 +8,7 @@ namespace TeamCitySharp.DomainEntities
     {
       return "artifact-dependencies";
     }
-
+    [JsonFx.Json.JsonName("build")]
     public List<Build> Build { get; set; }
   }
 }

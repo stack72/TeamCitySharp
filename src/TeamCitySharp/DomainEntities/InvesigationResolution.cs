@@ -2,6 +2,7 @@
 {
   public class InvesigationResolution
   {
+    [JsonFx.Json.JsonName("type")]
     public string Type { get; set; }
   }
 

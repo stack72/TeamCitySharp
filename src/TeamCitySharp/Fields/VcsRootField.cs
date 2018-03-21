@@ -14,6 +14,7 @@ namespace TeamCitySharp.Fields
     public bool Status { get; private set; }
     public bool LastChecked { get; private set; }
 
+    public ProjectField Project { get; set; }
     public PropertiesField Properties { get; set; }
 
     #endregion
@@ -21,6 +22,7 @@ namespace TeamCitySharp.Fields
     #region Public Methods
 
     public static VcsRootField WithFields(PropertiesField properties = null,
+                                          ProjectField project =null,
                                           bool id = false,
                                           bool vcsName = false,
                                           bool href = false,
@@ -63,6 +65,7 @@ namespace TeamCitySharp.Fields
       FieldHelper.AddField(Status, ref currentFields, "status");
       FieldHelper.AddField(LastChecked, ref currentFields, "lastChecked");
 
+      FieldHelper.AddFieldGroup(Project, ref currentFields);
       FieldHelper.AddFieldGroup(Properties, ref currentFields);
 
       return currentFields;

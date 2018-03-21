@@ -7,6 +7,7 @@
       return "tag";
     }
 
+    [JsonFx.Json.JsonName("name")]
     public string Name { get; set; }
   }
 }

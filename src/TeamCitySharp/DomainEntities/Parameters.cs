@@ -8,7 +8,7 @@ namespace TeamCitySharp.DomainEntities
     {
       return "parameters";
     }
-
+    [JsonFx.Json.JsonName("property")]
     public List<Property> Property { get; set; }
   }
 }
