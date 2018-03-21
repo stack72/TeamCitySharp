@@ -43,7 +43,7 @@ namespace TeamCitySharp.IntegrationTests
     [Test]
     public void it_returns_the_builds_queued_by_build_config_id()
     {
-      var result = this.m_client.BuildQueue.ByBuildTypeLocator(BuildTypeLocator.WithId(m_goodBuildConfigId));
+      var result = m_client.BuildQueue.ByBuildTypeLocator(BuildTypeLocator.WithId(m_goodBuildConfigId));
 
       Assert.IsNotEmpty(result);
     }
@@ -51,7 +51,7 @@ namespace TeamCitySharp.IntegrationTests
     [Test]
     public void it_returns_the_builds_queued_by_project_id()
     {
-      var result = this.m_client.BuildQueue.ByProjectLocater(ProjectLocator.WithId(m_goodProjectId));
+      var result = m_client.BuildQueue.ByProjectLocater(ProjectLocator.WithId(m_goodProjectId));
 
       Assert.IsNotEmpty(result);
     }

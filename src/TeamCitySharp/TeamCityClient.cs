@@ -56,7 +56,7 @@ namespace TeamCitySharp
 
     public IBuildQueue BuildQueue
     {
-      get { return m_buildQueue ?? (m_buildQueue = new BuildQueue(this.m_caller)); }
+      get { return m_buildQueue ?? (m_buildQueue = new BuildQueue(m_caller)); }
     }
 
     public IBuildConfigs BuildConfigs
