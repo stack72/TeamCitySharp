@@ -7,6 +7,7 @@ namespace TeamCitySharp
   {
     private readonly ITeamCityCaller m_caller;
     private IBuilds m_builds;
+    private IBuildQueue m_buildQueue;
     private IProjects m_projects;
     private IBuildConfigs m_buildConfigs;
     private IServerInformation m_serverInformation;
@@ -51,6 +52,11 @@ namespace TeamCitySharp
     public IBuilds Builds
     {
       get { return m_builds ?? (m_builds = new Builds(m_caller)); }
+    }
+
+    public IBuildQueue BuildQueue
+    {
+      get { return m_buildQueue ?? (m_buildQueue = new BuildQueue(m_caller)); }
     }
 
     public IBuildConfigs BuildConfigs

@@ -11,6 +11,7 @@ namespace TeamCitySharp
     bool Authenticate(bool throwExceptionOnHttpError = true);
 
     IBuilds Builds { get; }
+    IBuildQueue BuildQueue { get; }
     IBuildConfigs BuildConfigs { get; }
     IProjects Projects { get; }
     IServerInformation ServerInformation { get; }
