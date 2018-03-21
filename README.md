@@ -175,7 +175,12 @@ Each area has its own list of methods available
     /// <since>8.0</since>
     void DeleteAllBuildTypeParameters(BuildTypeLocator locator);
     void PutAllBuildTypeParameters(BuildTypeLocator locator, IDictionary<string, string> parameters);
-    
+
+###BuildQueue
+
+    List<Build> ByBuildTypeLocator(BuildTypeLocator locator);
+    List<Build> ByProjectLocater(ProjectLocator projectLocator);
+
 ###ServerInformation
 
     Server ServerInfo();
@@ -249,3 +254,4 @@ Thanks to the following contributors:
 * Mark deVilliers
 * Marc-Andre Vezeau (@exfo)
 * Bassem Mawassi (@exfo) 
+* 
