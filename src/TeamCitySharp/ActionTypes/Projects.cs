@@ -3,6 +3,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using EasyHttp.Http;
 using JsonFx.Json;
+using JsonFx.Json.Resolvers;
 using JsonFx.Serialization;
 using JsonFx.Serialization.Resolvers;
 using TeamCitySharp.Connection;
@@ -161,6 +162,38 @@ namespace TeamCitySharp.ActionTypes
       var url = $"/app/rest/projects/{projectId}/{setting}";
       var response = m_caller.Put(value, HttpContentTypes.TextPlain, url, string.Empty);
       return response.StatusCode == HttpStatusCode.OK;
+    }
+
+    public ProjectFeatures GetProjectFeatures(string projectLocatorId)
+    {
+      var projectFeatures = m_caller.GetFormat<ProjectFeatures>(ActionHelper.CreateFieldUrl("/app/rest/projects/id:{0}/projectFeatures", m_fields),
+        projectLocatorId);
+
+      return projectFeatures;
+    }
+
+    public ProjectFeature GetProjectFeatureByProjectFeature(string projectLocatorId, string projectFeatureId)
+    {
+      var projectFeature = m_caller.GetFormat<ProjectFeature>(ActionHelper.CreateFieldUrl("/app/rest/projects/id:{0}/projectFeatures/id:{1}", m_fields),
+        projectLocatorId, projectFeatureId);
+
+      return projectFeature;
+    }
+    
+    public ProjectFeature CreateProjectFeature(string projectId, ProjectFeature projectFeature)
+    {
+      var writer =
+        new JsonWriter(
+          new DataWriterSettings(new JsonResolverStrategy()));
+      var data = writer.Write(projectFeature);
+
+      return m_caller.PostFormat<ProjectFeature>(data, HttpContentTypes.ApplicationJson,
+        HttpContentTypes.ApplicationJson, "/app/rest/projects/id:{0}/projectFeatures",
+        projectId);
+    }
+    public void DeleteProjectFeature(string projectId, string projectFeatureId)
+    {
+      m_caller.DeleteFormat("/app/rest/projects/id:{0}/projectFeatures/id:{1}", projectId, projectFeatureId);
     }
   }
 }

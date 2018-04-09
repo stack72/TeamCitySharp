@@ -30,5 +30,8 @@
     public Templates Templates { get; set; }
     [JsonFx.Json.JsonName("projects")]
     public ProjectWrapper Projects { get; set; }
+    [JsonFx.Json.JsonName("projectFeatures")]
+    public ProjectFeatures ProjectFeatures { get; set; }
+
   }
 }

@@ -18,6 +18,7 @@ namespace TeamCitySharp.Fields
     public ParametersField Parameters { get; private set; }
     public TemplatesField Templates { get; private set; }
     public ProjectWrapperField ProjectWrapper { get; private set; }
+    public ProjectFeaturesField ProjectFeatures { get; private set; }
 
     #endregion
 
@@ -33,7 +34,8 @@ namespace TeamCitySharp.Fields
                                           ParentProjectField parentProject = null,
                                           BuildTypeWrapperField buildTypeWrapper = null,
                                           TemplatesField templates = null,
-                                          ProjectWrapperField projectWrapper = null)
+                                          ProjectWrapperField projectWrapper = null,
+                                          ProjectFeaturesField projectFeatures = null)
     {
       return new ProjectField
         {
@@ -47,7 +49,8 @@ namespace TeamCitySharp.Fields
           ParentProject = parentProject,
           BuildTypeWrapper = buildTypeWrapper,
           Templates = templates,
-          ProjectWrapper = projectWrapper
+          ProjectWrapper = projectWrapper,
+          ProjectFeatures = projectFeatures
         };
     }
 
@@ -76,6 +79,7 @@ namespace TeamCitySharp.Fields
       FieldHelper.AddFieldGroup(BuildTypeWrapper, ref currentFields);
       FieldHelper.AddFieldGroup(Templates, ref currentFields);
       FieldHelper.AddFieldGroup(ProjectWrapper, ref currentFields);
+      FieldHelper.AddFieldGroup(ProjectFeatures, ref currentFields);
 
       return currentFields;
     }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using NUnit.Framework;
 using TeamCitySharp.DomainEntities;
+using TeamCitySharp.Fields;
 
 namespace TeamCitySharp.IntegrationTests
 {
@@ -109,6 +110,68 @@ namespace TeamCitySharp.IntegrationTests
 
       Assert.That(project, Is.Not.Null);
       Assert.That(project.Name, Is.EqualTo(projectName));
+    }
+
+    [Test]
+    public void it_returns_projectFeatures_when_passing_a_project_id()
+    {
+      string projectId = "_Root";
+      ProjectFeatures projectFeatures = m_client.Projects.GetProjectFeatures(projectId);
+
+      Assert.That(projectFeatures != null, "No project features found for that specific project");
+    }
+    [Test]
+    public void it_returns_projectFeatures_when_passing_a_project_id_and_feature_id()
+    {
+      string projectId = "_Root";
+      string featureId = "PROJECT_EXT_1";
+      ProjectFeature projectFeature = m_client.Projects.GetProjectFeatureByProjectFeature(projectId, featureId);
+
+      Assert.That(projectFeature != null, "No project feature found for that specific project");
+    }
+
+    [Test]
+    public void it_returns_projectFeatures_create_modify_delete()
+    {
+      string projectId = "_Root";
+      ProjectFeature pf = new ProjectFeature
+      {
+        Id = "Test_TTT",
+        Type = "ReportTab",
+        Properties = new Properties
+        {
+          Property = new List<Property>
+          {
+            new Property {Name = "startPage", Value = "javadoc.zip!index.html"},
+            new Property {Name = "title", Value = "javadoc.zip!index.html"},
+            new Property {Name = "type", Value = "BuildReportTab"},
+          }
+        }
+      };
+
+      ProjectFeature projectFeature = m_client.Projects.CreateProjectFeature(projectId, pf);
+      Assert.That(projectFeature != null, "No project features found for that specific project");
+
+      m_client.Projects.DeleteProjectFeature(projectId,projectFeature.Id);
+     
+    }
+    [Test]
+    public void it_returns_projectFeatures_field()
+    {
+      string projectId = "_Root";
+      string featureId = "PROJECT_EXT_1";
+      
+      PropertyField propertyField = PropertyField.WithFields(name:true,value:true,inherited:true);
+      PropertiesField propertiesField = PropertiesField.WithFields(propertyField: propertyField);
+      ProjectFeatureField projectFeatureField = ProjectFeatureField.WithFields(type:true,properties: propertiesField);
+
+      ProjectFeature projectFeature = m_client.Projects.GetFields(projectFeatureField.ToString()).GetProjectFeatureByProjectFeature(projectId, featureId);
+
+      Assert.That(projectFeature != null, "No project feature found for that specific project");
+      Assert.That(projectFeature.Type != null, "Bad Value type");
+      Assert.That(projectFeature.Properties != null, "Bad Value type");
+      Assert.That(projectFeature.Href == null, "Bad Value type");
+      Assert.That(projectFeature.Id == null, "Bad Value type");
     }
   }
 }

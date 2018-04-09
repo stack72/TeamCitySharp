@@ -123,6 +123,10 @@ Each area has its own list of methods available
     void SetProjectParameter(string projectName, string settingName, string settingValue);
     bool ModifParameters(string projectId, string mainprojectbranch, string variablePath);
     bool ModifSettings(string projectId, string description, string fullProjectName);
+    ProjectFeatures GetProjectFeatures(string projectLocatorId);
+    ProjectFeature GetProjectFeatureByProjectFeature(string projectLocatorId, string projectFeatureId);
+    ProjectFeature CreateProjectFeature(string projectId, ProjectFeature projectFeature);
+    void DeleteProjectFeature(string projectId, string projectFeatureId);
 
 ###BuildConfigs
     

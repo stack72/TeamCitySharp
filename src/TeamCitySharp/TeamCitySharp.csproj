@@ -85,6 +85,8 @@
     <Compile Include="DomainEntities\NewProjectDescription.cs" />
     <Compile Include="DomainEntities\BuildArtifactDependencies.cs" />
     <Compile Include="DomainEntities\BuildSnapshotDepencies.cs" />
+    <Compile Include="DomainEntities\ProjectFeature.cs" />
+    <Compile Include="DomainEntities\ProjectFeatures.cs" />
     <Compile Include="DomainEntities\Revision.cs" />
     <Compile Include="DomainEntities\Revisions.cs" />
     <Compile Include="DomainEntities\Running_info.cs" />
@@ -127,7 +129,9 @@
     <Compile Include="Fields\PropertyField.cs" />
     <Compile Include="Fields\TagField.cs" />
     <Compile Include="Fields\TagsField.cs" />
+    <Compile Include="Fields\ProjectFeatureField.cs" />
     <Compile Include="Fields\TemplateField.cs" />
+    <Compile Include="Fields\ProjectFeaturesField.cs" />
     <Compile Include="Fields\TemplatesField.cs" />
     <Compile Include="Fields\TriggeredField.cs" />
     <Compile Include="Fields\UserField.cs" />
