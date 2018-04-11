@@ -1,28 +1,28 @@
 [![NuGet version (TeamCitySharp-forked-mavezeau)](https://img.shields.io/nuget/v/TeamCitySharp-forked-mavezeau.svg?style=flat-square)](https://www.nuget.org/packages/TeamCitySharp-forked-mavezeau/)
 
-#TeamCitySharp
+# TeamCitySharp
 
-*.NET Library to access TeamCity via their REST API.
+* .NET Library to access TeamCity via their REST API.
 
 For more information on TeamCity visit: 
 http://www.jetbrains.com/teamcity
 
-##Releases
+## Releases
 Please find the release notes [here](https://github.com/mavezeau/TeamCitySharp/releases)
 
-##License 
+## License 
 http://stack72.mit-license.org/
 
-##Installation
+## Installation
 There are 2 ways to use TeamCitySharp:
 
 * install-package TeamCitySharp-forked-mavezeau (via Nuget)
 * Download source and compile
 
-##Build Monitor
+## Build Monitor
 * There is a sample build monitor built with TeamCitySharp. It can be found at [TeamCityMonitor](https://github.com/stack72/TeamCityMonitor)
 
-##Sample Usage
+## Sample Usage
 To get a list of projects
 
     var client = new TeamCityClient("localhost:81");
@@ -36,7 +36,7 @@ To get a list of running builds
     client.Connect("admin", "qwerty");
     var builds = client.Builds.ByBuildLocator(BuildLocator.RunningBuilds());
 
-##Connecting to a server
+## Connecting to a server
 
 To connect as an authenticated user:
 
@@ -55,7 +55,7 @@ Use fields specializations: Extract complex objects for specified Fields
     var buildsFields = BuildsField.WithFields( buildField: buildField);
     var currentListBuild = client.Builds.GetFields(buildsFields.ToString()).ByBuildConfigId(currentProjectId);
 
-##API Interaction Groups
+## API Interaction Groups
 There are many tasks that the TeamCity API can do for us. TeamCitySharp groups these tasks into specialist areas
 
 * Builds
@@ -74,7 +74,7 @@ There are many tasks that the TeamCity API can do for us. TeamCitySharp groups t
 
 Each area has its own list of methods available
 
-###Builds
+### Builds
 
     Builds GetFields(string fields);
     List<Build> SuccessfulBuildsByBuildConfigId(string buildConfigId, List<String> param = null);
@@ -105,7 +105,7 @@ Each area has its own list of methods available
     List<Build> AffectedProject(string projectId, long count = 100, List<string> param = null);
     void DownloadLogs(string projectId, bool zipped, Action<string> downloadHandler);
 
-###Projects
+### Projects
 
     List<Project> All();
     Projects GetFields(string fields);
@@ -128,7 +128,7 @@ Each area has its own list of methods available
     ProjectFeature CreateProjectFeature(string projectId, ProjectFeature projectFeature);
     void DeleteProjectFeature(string projectId, string projectFeatureId);
 
-###BuildConfigs
+### BuildConfigs
     
     List<BuildConfig> All();
     BuildConfigs GetFields(string fields);
@@ -180,19 +180,19 @@ Each area has its own list of methods available
     void DeleteAllBuildTypeParameters(BuildTypeLocator locator);
     void PutAllBuildTypeParameters(BuildTypeLocator locator, IDictionary<string, string> parameters);
 
-###BuildQueue
+### BuildQueue
 
     List<Build> ByBuildTypeLocator(BuildTypeLocator locator);
     List<Build> ByProjectLocater(ProjectLocator projectLocator);
 
-###ServerInformation
+### ServerInformation
 
     Server ServerInfo();
     List<Plugin> AllPlugins();
     string TriggerServerInstanceBackup(BackupOptions backupOptions);
     string GetBackupStatus();
 
-###Users
+### Users
 
     List<User> All();
     User Details(string userName);
@@ -205,12 +205,12 @@ Each area has its own list of methods available
     bool AddPassword(string username, string password);
     bool IsAdministrator(string username);
 
-###Agents
+### Agents
 
     List<Agent> All(bool includeDisconnected = false, bool includeUnauthorized = false);
     Agents GetFields(string fields);
 
-###VcsRoots
+### VcsRoots
 
     List<VcsRoot> All();
     VcsRoot ById(string vcsRootId);
@@ -222,28 +222,28 @@ Each area has its own list of methods available
     void DeleteProperties(VcsRoot vcsRootId, string parameterName);
     void DeleteVcsRoot(VcsRoot vcsRoot);
 
-###Changes
+### Changes
 
     List<Change> All();
     Change ByChangeId(string id);
     Change LastChangeDetailByBuildConfigId(string buildConfigId);
     List<Change> ByBuildConfigId(string buildConfigId);
 
-###BuildArtifacts
+### BuildArtifacts
 
     void DownloadArtifactsByBuildId(string buildId, Action<string> downloadHandler);
     ArtifactWrapper ByBuildConfigId(string buildConfigId);
 
-###Statistics
+### Statistics
 
     List<Property> GetByBuildId(string buildId);
 
-###BuildInvestigations
+### BuildInvestigations
 
     List<Investigation> All();
     List<Investigation> InvestigationsByBuildTypeId(string buildTypeId);
 
-##Credits
+## Credits
 
 Copyright (c) 2013 Paul Stack (@stack72)
 
