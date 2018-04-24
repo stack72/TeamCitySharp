@@ -209,5 +209,11 @@ namespace TeamCitySharp.ActionTypes
 
             return build;
         }
+
+        public string CopyConfiguration(BuildTypeLocator projectLocator, BuildTypeLocator locatorToCopy, string newName)
+        {
+            _caller.PostFormat(string.Format("<newBuildTypeDescription name='{0}' sourceBuildTypeLocator='{1}' copyAllAssociatedSettings='true' shareVCSRoots='false'/>", newName, locatorToCopy), HttpContentTypes.ApplicationXml, "/app/rest/projects/{0}/buildTypes", projectLocator);
+            return ByConfigurationName(newName).Id;
+        }
     }
 }
