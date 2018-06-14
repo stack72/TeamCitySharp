@@ -9,6 +9,7 @@ namespace TeamCitySharp
         bool Authenticate();
 
         IBuilds Builds { get; }
+        IBuild Build { get; }
         IBuildConfigs BuildConfigs { get; }
         IProjects Projects { get; }
         IServerInformation ServerInformation { get; }
@@ -17,5 +18,6 @@ namespace TeamCitySharp
         IVcsRoots VcsRoots { get; }
         IChanges Changes { get; }
         IBuildArtifacts Artifacts { get; }
+        IBranches Branches { get; }
     }
 }
