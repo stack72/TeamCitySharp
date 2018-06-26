@@ -26,7 +26,7 @@ namespace TeamCitySharp.DomainEntities
 
     [DataMember(Name = "inherited")]
     [JsonFx.Json.JsonName("inherited")]
-    public string Inherited { get; set; }
+    public bool Inherited { get; set; }
 
     [DataMember]
     [JsonFx.Json.JsonName("properties")]
