@@ -28,6 +28,10 @@ namespace TeamCitySharp.DomainEntities
     [JsonFx.Json.JsonName("type")]
     public string Type { get; set; }
 
+    [DataMember(Name = "inherited")]
+    [JsonFx.Json.JsonName("inherited")]
+    public string Inherited { get; set; }
+
     [DataMember(Name = "source-buildType")]
     [JsonFx.Json.JsonName("source-buildType")]
     public BuildConfig SourceBuildType { get; set; }

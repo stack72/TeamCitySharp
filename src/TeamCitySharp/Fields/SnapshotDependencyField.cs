@@ -10,6 +10,7 @@ namespace TeamCitySharp.Fields
     public PropertiesField Properties { get; private set; }
     public bool Id { get; private set; }
     public bool Type { get; private set; }
+    public bool Inherited { get; private set; }
 
     #endregion
 
@@ -18,7 +19,8 @@ namespace TeamCitySharp.Fields
     public static SnapshotDependencyField WithFields(SourceBuildTypeField sourceBuildType = null,
       PropertiesField properties = null,
       bool id = false,
-      bool type = false)
+      bool type = false,
+      bool inherited = false)
     {
       return new SnapshotDependencyField
       {
@@ -26,6 +28,7 @@ namespace TeamCitySharp.Fields
         Properties = properties,
         Id = id,
         Type = type,
+        Inherited = inherited
       };
     }
 
@@ -44,6 +47,7 @@ namespace TeamCitySharp.Fields
 
       FieldHelper.AddField(Id, ref currentFields, "id");
       FieldHelper.AddField(Type, ref currentFields, "type");
+      FieldHelper.AddField(Inherited, ref currentFields, "inherited");
 
       FieldHelper.AddFieldGroup(SourceBuildType, ref currentFields);
       FieldHelper.AddFieldGroup(Properties, ref currentFields);
