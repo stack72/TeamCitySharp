@@ -45,6 +45,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -65,10 +66,12 @@
     <Compile Include="ActionTypes\IChanges.cs" />
     <Compile Include="ActionTypes\IProjects.cs" />
     <Compile Include="ActionTypes\IServerInformation.cs" />
+    <Compile Include="ActionTypes\IStatistics.cs" />
     <Compile Include="ActionTypes\IUsers.cs" />
     <Compile Include="ActionTypes\IVcsRoots.cs" />
     <Compile Include="ActionTypes\Projects.cs" />
     <Compile Include="ActionTypes\ServerInformation.cs" />
+    <Compile Include="ActionTypes\Statistics.cs" />
     <Compile Include="Connection\ITeamCityCaller.cs" />
     <Compile Include="TeamCityClient.cs" />
     <Compile Include="ActionTypes\Users.cs" />
