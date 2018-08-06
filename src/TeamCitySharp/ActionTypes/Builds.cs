@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using EasyHttp.Http;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
 using TeamCitySharp.Locators;
@@ -259,6 +260,29 @@ namespace TeamCitySharp.ActionTypes
     {
       var url = $"/downloadBuildLog.html?buildId={projectId}&archived={zipped}";
       m_caller.GetDownloadFormat(downloadHandler, url);
+    }
+
+    /// <summary>
+    /// Pin a build by build number
+    /// </summary>
+    /// <param name="buildConfigId"></param>
+    /// <param name="buildNumber"></param>
+    /// <param name="comment"></param>
+    public void PinBuildByBuildNumber(string buildConfigId, string buildNumber, string comment)
+    {
+      const string urlPart = "/app/rest/builds/buildType:{0},number:{1}/pin/";
+      m_caller.PutFormat(comment, HttpContentTypes.TextPlain, urlPart, buildConfigId, buildNumber );
+    }
+
+    /// <summary>
+    /// Unpin a build by build number
+    /// </summary>
+    /// <param name="buildConfigId"></param>
+    /// <param name="buildNumber"></param>
+    public void UnPinBuildByBuildNumber(string buildConfigId, string buildNumber)
+    {
+      var urlPart = $"/app/rest/builds/buildType:{buildConfigId},number:{buildNumber}/pin/";
+      m_caller.Delete(urlPart);
     }
 
     #endregion

@@ -19,6 +19,7 @@ namespace TeamCitySharp.IntegrationTests
     private readonly string m_password;
     private readonly string m_goodBuildConfigId;
     private readonly string m_goodProjectId;
+    private readonly string m_goodNumber;
 
 
     public when_interacting_to_get_build_status_info()
@@ -29,6 +30,7 @@ namespace TeamCitySharp.IntegrationTests
       m_password = ConfigurationManager.AppSettings["Password"];
       m_goodBuildConfigId = ConfigurationManager.AppSettings["GoodBuildConfigId"];
       m_goodProjectId = ConfigurationManager.AppSettings["GoodProjectId"];
+      m_goodNumber = ConfigurationManager.AppSettings["GoodNumber"];
     }
     [SetUp]
     public void SetUp()
@@ -248,6 +250,17 @@ namespace TeamCitySharp.IntegrationTests
         i++;
       }
 
+    }
+    [Test]
+    public void it_pin_by_config()
+    {
+      m_client.Builds.PinBuildByBuildNumber(m_goodBuildConfigId, m_goodNumber, "Automated Comment");
+
+    }
+    [Test]
+    public void it_unpin_by_config()
+    {
+     m_client.Builds.UnPinBuildByBuildNumber(m_goodBuildConfigId, m_goodNumber);
     }
   }
 }
