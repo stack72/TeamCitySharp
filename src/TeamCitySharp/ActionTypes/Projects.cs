@@ -5,6 +5,10 @@ using TeamCitySharp.DomainEntities;
 
 namespace TeamCitySharp.ActionTypes
 {
+    using System.Net;
+
+    using EasyHttp.Infrastructure;
+
     internal class Projects : IProjects
     {
         private readonly TeamCityCaller _caller;
@@ -23,16 +27,12 @@ namespace TeamCitySharp.ActionTypes
 
         public Project ByName(string projectLocatorName)
         {
-            var project = _caller.GetFormat<Project>("/app/rest/projects/name:{0}", projectLocatorName);
-
-            return project;
+            return GetProject(string.Format("name:{0}", projectLocatorName));
         }
 
         public Project ById(string projectLocatorId)
         {
-            var project = _caller.GetFormat<Project>("/app/rest/projects/id:{0}", projectLocatorId);
-
-            return project;
+            return GetProject(projectLocatorId);
         }
 
         public Project Details(Project project)
@@ -43,6 +43,37 @@ namespace TeamCitySharp.ActionTypes
         public Project Create(string projectName)
         {
             return _caller.Post<Project>(projectName, HttpContentTypes.TextPlain, "/app/rest/projects/", HttpContentTypes.ApplicationJson);
+        }
+
+        public bool SetName(string projectCode, string name)
+        {
+            try
+            {
+                var response = _caller.Put(name, HttpContentTypes.TextPlain, string.Format("/app/rest/projects/{0}/name", projectCode), null);
+                return response.StatusCode == HttpStatusCode.OK;
+            }
+            catch (HttpException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return false;
+                }
+
+                throw;
+            }
+        }
+
+        public Project Create(string projectName, string projectId)
+        {
+
+            var content = string.Format
+                (@"<newProjectDescription name='{0}' id='{1}' copyAllAssociatedSettings='true'> </newProjectDescription>"
+                , projectName, projectId);
+            /* extended xml version:
+             * <newProjectDescription name='New Project Name' id='newProjectId' copyAllAssociatedSettings='true'><parentProject locator='id:project1'/><sourceProject locator='id:project2'/></newProjectDescription>
+             * more details could be found in documentation: https://confluence.jetbrains.com/display/TCD9/REST+API#RESTAPI-ProjectSettings
+             */
+            return _caller.Post<Project>(content, HttpContentTypes.ApplicationXml, "/app/rest/projects/", HttpContentTypes.ApplicationJson);
         }
 
         public void Delete(string projectName)
@@ -58,6 +89,24 @@ namespace TeamCitySharp.ActionTypes
         public void SetProjectParameter(string projectName, string settingName, string settingValue)
         {
             _caller.PutFormat(settingValue, "/app/rest/projects/name:{0}/parameters/{1}", projectName, settingName);
+        }
+
+        private Project GetProject(string locator)
+        {
+            try
+            {
+                var project = _caller.GetFormat<Project>("/app/rest/projects/{0}", locator);
+                return project;
+            }
+            catch (HttpException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return null;
+                }
+
+                throw;
+            }
         }
     }
 }

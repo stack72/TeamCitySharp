@@ -4,8 +4,13 @@ using EasyHttp.Http;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
 
+using TeamCitySharp.Locators;
+using TeamCitySharp.Util;
+
 namespace TeamCitySharp.ActionTypes
 {
+    using EasyHttp.Infrastructure;
+
     internal class Users : IUsers
     {
         private readonly TeamCityCaller _caller;
@@ -100,5 +105,31 @@ namespace TeamCitySharp.ActionTypes
             return result;
         }
 
+        public bool AddUserToGroup(string username, string groupKey)
+        {
+            ArgumentUtil.CheckNotNull(() => username, () => groupKey);
+
+            var attributesDictionary = new Dictionary<string, string> { { "key", groupKey } };
+            var payload = XmlUtil.SingleElementDocument("group", attributesDictionary);
+
+            try
+            {
+                var response = _caller.Post(
+                    payload,
+                    HttpContentTypes.ApplicationXml,
+                    string.Format("/app/rest/users/{0}/groups", UserLocator.WithUserName(username)),
+                    null);
+                return response.StatusCode == HttpStatusCode.OK;
+            }
+            catch (HttpException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return false;
+                }
+
+                throw;
+            }
+        }
     }
 }

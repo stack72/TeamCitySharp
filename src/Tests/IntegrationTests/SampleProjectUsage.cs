@@ -97,5 +97,22 @@ namespace TeamCitySharp.IntegrationTests
             Assert.That(project, Is.Not.Null);
             Assert.That(project.Name, Is.EqualTo(projectName));
         }
+
+
+
+        [Test]
+        public void it_returns_project_details_when_creating_project_with_project_id()
+        {
+            var client = new TeamCityClient("localhost:81");
+            client.Connect("admin", "qwerty");
+            var projectName = Guid.NewGuid().ToString("N");
+            var projectId = Guid.NewGuid().ToString("N");
+
+            var project = client.Projects.Create(projectName, projectId);
+
+            Assert.That(project, Is.Not.Null);
+            Assert.That(project.Name, Is.EqualTo(projectName));
+            Assert.That(project.Id, Is.EqualTo(projectId));
+        }
     }
 }

@@ -14,5 +14,6 @@ namespace TeamCitySharp.ActionTypes
         List<Role> AllUserRolesByUserGroup(string userGroupName);
         bool Create(string username, string name, string email, string password);
         bool AddPassword(string username, string password);
+        bool AddUserToGroup(string username, string groupKey);
     }
 }

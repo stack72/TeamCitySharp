@@ -18,5 +18,7 @@ namespace TeamCitySharp.DomainEntities
         }
 
         public Properties Properties { get; set; }
+        public Project Project { get; set; }
+
     }
 }

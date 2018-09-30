@@ -45,6 +45,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -65,10 +66,12 @@
     <Compile Include="ActionTypes\IChanges.cs" />
     <Compile Include="ActionTypes\IProjects.cs" />
     <Compile Include="ActionTypes\IServerInformation.cs" />
+    <Compile Include="ActionTypes\IUserGroups.cs" />
     <Compile Include="ActionTypes\IUsers.cs" />
     <Compile Include="ActionTypes\IVcsRoots.cs" />
     <Compile Include="ActionTypes\Projects.cs" />
     <Compile Include="ActionTypes\ServerInformation.cs" />
+    <Compile Include="ActionTypes\UserGroups.cs" />
     <Compile Include="Connection\ITeamCityCaller.cs" />
     <Compile Include="TeamCityClient.cs" />
     <Compile Include="ActionTypes\Users.cs" />
@@ -123,6 +126,9 @@
     <Compile Include="ITeamCityClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Locators\UserLocator.cs" />
+    <Compile Include="Util\ArgumentUtil.cs" />
+    <Compile Include="Util\ReflectionUtil.cs" />
+    <Compile Include="Util\XmlUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

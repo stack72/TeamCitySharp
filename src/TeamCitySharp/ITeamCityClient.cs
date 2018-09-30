@@ -13,6 +13,7 @@ namespace TeamCitySharp
         IProjects Projects { get; }
         IServerInformation ServerInformation { get; }
         IUsers Users { get; }
+        IUserGroups UserGroups { get; }
         IAgents Agents { get; }
         IVcsRoots VcsRoots { get; }
         IChanges Changes { get; }

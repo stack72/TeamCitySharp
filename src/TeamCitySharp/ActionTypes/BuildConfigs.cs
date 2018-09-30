@@ -66,7 +66,7 @@ namespace TeamCitySharp.ActionTypes
 
         public List<BuildConfig> ByProjectId(string projectId)
         {
-            var buildWrapper = _caller.GetFormat<BuildTypeWrapper>("/app/rest/projects/id:{0}/buildTypes", projectId);
+            var buildWrapper = _caller.GetFormat<BuildTypeWrapper>("/app/rest/projects/{0}/buildTypes", projectId);
 
             if (buildWrapper == null || buildWrapper.BuildType == null) return new List<BuildConfig>();
             return buildWrapper.BuildType;
