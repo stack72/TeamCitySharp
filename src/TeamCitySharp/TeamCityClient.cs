@@ -1,5 +1,8 @@
-﻿using TeamCitySharp.ActionTypes;
+﻿using System;
+using System.IO;
+using TeamCitySharp.ActionTypes;
 using TeamCitySharp.Connection;
+using TeamCitySharp.DomainEntities;
 
 namespace TeamCitySharp
 {
@@ -79,6 +82,15 @@ namespace TeamCitySharp
         public IBuildArtifacts Artifacts
         {
             get { return _artifacts ?? (_artifacts = new BuildArtifacts(_caller)); }
+        }
+
+      /// <summary/>
+      /// <param name="downloadHandler"></param>
+      /// <param name="build"> </param>
+      public void DownloadTestsCsv(Action<string> downloadHandler, Build build)
+        {
+          string uriPart = string.Format("/get/tests/buildId/{0}", build.Id);
+          _caller.GetDownloadFormat(downloadHandler, uriPart);
         }
     }
 }

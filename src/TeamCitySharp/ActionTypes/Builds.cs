@@ -34,7 +34,14 @@ namespace TeamCitySharp.ActionTypes
                                             )).SingleOrDefault();
         }
 
-        public void Add2QueueBuildByBuildConfigId(string buildConfigId)
+      public Build ById(string buildId)
+      {
+        var build = _caller.GetFormat<Build>("/app/rest/builds/id:{0}", buildId);
+
+        return build;
+      }
+
+      public void Add2QueueBuildByBuildConfigId(string buildConfigId)
         {
             _caller.GetFormat("/action.html?add2Queue={0}", buildConfigId);
         }
