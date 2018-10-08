@@ -17,7 +17,8 @@ namespace TeamCitySharp.ActionTypes
         BuildConfig ByProjectIdAndConfigurationId(string projectId, string buildConfigId);
         List<BuildConfig> ByProjectId(string projectId);
         List<BuildConfig> ByProjectName(string projectName);
-        BuildConfig CreateConfiguration(string projectName, string configurationName);
+        BuildConfig CreateConfigurationByName(string projectName, string configurationName);
+        BuildConfig CreateConfigurationById(string projectId, string configurationName);
 
         void SetConfigurationSetting(BuildTypeLocator locator, string settingName, string settingValue);
         bool GetConfigurationPauseStatus(BuildTypeLocator locator);
@@ -88,5 +89,6 @@ namespace TeamCitySharp.ActionTypes
         void PutAllBuildTypeParameters(BuildTypeLocator locator, IDictionary<string, string> parameters);
 
         void DownloadConfiguration(BuildTypeLocator locator, Action<string> downloadHandler);
+
     }
 }
