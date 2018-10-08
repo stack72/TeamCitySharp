@@ -2,6 +2,7 @@
 using System.Linq;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
+using TeamCitySharp.Locators;
 
 namespace TeamCitySharp.ActionTypes
 {
@@ -42,5 +43,18 @@ namespace TeamCitySharp.ActionTypes
             return changes.FirstOrDefault();
         }
 
+        public List<Change> ByBuildLocator(BuildLocator buildLocator)
+        {
+            var changeWrapper = _caller.GetFormat<ChangeWrapper>("/app/rest/changes?build={0}", buildLocator);
+
+            if (changeWrapper.Change == null)
+            {
+                return new List<Change>();
+            }
+
+            return changeWrapper.Change
+                                .Select(c => _caller.GetFormat<Change>("/app/rest/changes/id:{0}", c.Id))
+                                .ToList();
+        }
     }
 }
