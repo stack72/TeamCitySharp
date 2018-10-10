@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Xml;
-using EasyHttp.Http;
 using JsonFx.Json;
 using JsonFx.Json.Resolvers;
 using JsonFx.Serialization;
 using JsonFx.Serialization.Resolvers;
+//using JsonFx.Json;
+//using JsonFx.Json.Resolvers;
+//using JsonFx.Serialization;
+//using JsonFx.Serialization.Resolvers;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
 using TeamCitySharp.Locators;
@@ -125,7 +129,7 @@ namespace TeamCitySharp.ActionTypes
                                              projectId);
     }
 
-    internal HttpResponse CopyBuildConfig(string buildConfigId, string buildConfigName, string destinationProjectId,
+    internal HttpResponseMessage CopyBuildConfig(string buildConfigId, string buildConfigName, string destinationProjectId,
                                           string newBuildTypeId = "")
     {
       string xmlData;
@@ -156,7 +160,7 @@ namespace TeamCitySharp.ActionTypes
         var reader =
           new JsonReader(
             new DataReaderSettings(new ConventionResolverStrategy(ConventionResolverStrategy.WordCasing.Lowercase, "-")));
-        var buildConfig = reader.Read<BuildConfig>(response.RawText);
+        var buildConfig = reader.Read<BuildConfig>(response.RawText());
         return buildConfig;
       }
       return new BuildConfig();
@@ -171,13 +175,13 @@ namespace TeamCitySharp.ActionTypes
         var reader =
           new JsonReader(
             new DataReaderSettings(new ConventionResolverStrategy(ConventionResolverStrategy.WordCasing.Lowercase, "-")));
-        var template = reader.Read<Template>(response.RawText);
+        var template = reader.Read<Template>(response.RawText());
         return template;
       }
       return new Template();
     }
 
-    private HttpResponse CopyTemplateQuery(string templateId, string templateName, string destinationProjectId,
+    private HttpResponseMessage CopyTemplateQuery(string templateId, string templateName, string destinationProjectId,
                                            string newTemplateId)
     {
       var xmlData = newTemplateId != ""

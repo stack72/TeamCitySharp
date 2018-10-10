@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace TeamCitySharp.DomainEntities
 {
@@ -10,6 +11,7 @@ namespace TeamCitySharp.DomainEntities
     }
 
 
+    [JsonProperty("vcs-root-entry")]
     [JsonFx.Json.JsonName("vcs-root-entry")]
     public List<VcsRootEntry> VcsRootEntry { get; set; }
   }

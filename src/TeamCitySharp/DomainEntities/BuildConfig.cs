@@ -1,4 +1,6 @@
-﻿namespace TeamCitySharp.DomainEntities
+﻿using Newtonsoft.Json;
+
+namespace TeamCitySharp.DomainEntities
 {
   public class BuildConfig
   {
@@ -58,18 +60,22 @@
     [JsonFx.Json.JsonName("parameters")]
     public Parameters Parameters { get; set; }
 
+    [JsonProperty("artifact-dependencies")]
     [JsonFx.Json.JsonName("artifact-dependencies")]
     public ArtifactDependencies ArtifactDependencies { get; set; }
 
+    [JsonProperty("snapshot-dependencies")]
     [JsonFx.Json.JsonName("snapshot-dependencies")]
     public SnapshotDependencies SnapshotDependencies { get; set; }
 
+    [JsonProperty("vcs-root-entries")]
     [JsonFx.Json.JsonName("vcs-root-entries")]
     public VcsRootEntries VcsRootEntries { get; set; }
 
     [JsonFx.Json.JsonName("steps")]
     public BuildSteps Steps { get; set; }
 
+    [JsonProperty("agent-requirements")]
     [JsonFx.Json.JsonName("agent-requirements")]
     public AgentRequirements AgentRequirements { get; set; }
 

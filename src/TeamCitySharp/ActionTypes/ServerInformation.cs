@@ -5,12 +5,12 @@
   using Connection;
   using DomainEntities;
 
-  internal class ServerInformation : IServerInformation
+  public class ServerInformation : IServerInformation
   {
     private const string ServerUrlPrefix = "/app/rest/server";
     private readonly ITeamCityCaller m_caller;
 
-    internal ServerInformation(ITeamCityCaller caller)
+    public ServerInformation(ITeamCityCaller caller)
     {
       m_caller = caller;
     }

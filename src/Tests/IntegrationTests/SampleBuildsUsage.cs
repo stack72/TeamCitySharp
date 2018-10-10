@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
 using NUnit.Framework;
 using TeamCitySharp.Fields;
@@ -52,7 +53,7 @@ namespace TeamCitySharp.IntegrationTests
       client.Connect("admin", "qwerty");
 
       const string buildConfigId = "Release Build";
-      Assert.Throws<WebException>(() => client.Builds.SuccessfulBuildsByBuildConfigId(buildConfigId));
+      Assert.Throws<HttpRequestException>(() => client.Builds.SuccessfulBuildsByBuildConfigId(buildConfigId));
 
     }
 

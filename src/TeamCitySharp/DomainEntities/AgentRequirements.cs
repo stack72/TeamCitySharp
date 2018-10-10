@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace TeamCitySharp.DomainEntities
 {
@@ -8,6 +9,8 @@ namespace TeamCitySharp.DomainEntities
     {
       return "agent-requirements";
     }
+
+    [JsonProperty("agent-requirement")]
     [JsonFx.Json.JsonName("agent-requirement")]
     public List<AgentRequirement> AgentRequirement { get; set; }
   }

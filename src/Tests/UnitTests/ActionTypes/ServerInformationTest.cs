@@ -1,4 +1,6 @@
-﻿namespace TeamCitySharp.ActionTypes
+﻿using TeamCitySharp.DomainEntities;
+
+namespace TeamCitySharp.ActionTypes
 {
   using FakeItEasy;
   using FluentAssertions;
@@ -17,6 +19,7 @@
       this.teamCityCaller = A.Fake<ITeamCityCaller>();
       this.testee = new ServerInformation(this.teamCityCaller);
     }
+
 
     [TestCase(true, true, true, true)]
     [TestCase(false, false, false, false)]

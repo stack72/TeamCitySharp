@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
 using System.Text.RegularExpressions;
-using EasyHttp.Http;
 using JsonFx.Json;
 using JsonFx.Json.Resolvers;
 using JsonFx.Serialization;
@@ -74,7 +74,7 @@ namespace TeamCitySharp.ActionTypes
         var reader =
           new JsonReader(
             new DataReaderSettings(new ConventionResolverStrategy(ConventionResolverStrategy.WordCasing.Lowercase, "-")));
-        var project = reader.Read<Project>(response.RawText);
+        var project = reader.Read<Project>(response.RawText());
         return project;
       }
       return new Project();
@@ -90,13 +90,13 @@ namespace TeamCitySharp.ActionTypes
         var reader =
           new JsonReader(
             new DataReaderSettings(new ConventionResolverStrategy(ConventionResolverStrategy.WordCasing.Lowercase, "-")));
-        var project = reader.Read<Project>(response.RawText);
+        var project = reader.Read<Project>(response.RawText());
         return project;
       }
       return new Project();
     }
 
-    internal HttpResponse CopyProject(string projectid, string projectName, string newProjectId,
+    internal HttpResponseMessage CopyProject(string projectid, string projectName, string newProjectId,
                                       string parentProjectId = "")
     {
       var parentString = "";
@@ -117,7 +117,7 @@ namespace TeamCitySharp.ActionTypes
         var reader =
           new JsonReader(
             new DataReaderSettings(new ConventionResolverStrategy(ConventionResolverStrategy.WordCasing.Lowercase, "-")));
-        var project = reader.Read<Project>(response.RawText);
+        var project = reader.Read<Project>(response.RawText());
         return project;
       }
       return new Project();

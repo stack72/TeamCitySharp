@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Net;
-using EasyHttp.Http;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
 

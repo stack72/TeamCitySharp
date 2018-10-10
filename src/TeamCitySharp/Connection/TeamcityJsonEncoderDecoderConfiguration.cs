@@ -1,38 +1,35 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using EasyHttp.Codecs;
-using EasyHttp.Codecs.JsonFXExtensions;
-using EasyHttp.Configuration;
 using JsonFx.Json;
 using JsonFx.Model;
 using JsonFx.Serialization;
 
 namespace TeamCitySharp.Connection
 {
-  public class TeamcityJsonEncoderDecoderConfiguration : IEncoderDecoderConfiguration
-  {
-    public IEncoder GetEncoder()
-    {
-      var jsonWriter =
-        new CamelCaseJsonWriter(new DataWriterSettings(DefaultEncoderDecoderConfiguration.CombinedResolverStrategy()
-                                                       , new TeamCityDateFilter()), "application/.*json", "text/.*json");
+  //public class TeamcityJsonEncoderDecoderConfiguration : IEncoderDecoderConfiguration
+  //{
+  //  public IEncoder GetEncoder()
+  //  {
+  //    var jsonWriter =
+  //      new CamelCaseJsonWriter(new DataWriterSettings(DefaultEncoderDecoderConfiguration.CombinedResolverStrategy()
+  //                                                     , new TeamCityDateFilter()), "application/.*json", "text/.*json");
 
-      var writers = new List<IDataWriter> {jsonWriter};
-      var dataWriterProvider = new RegExBasedDataWriterProvider(new List<IDataWriter> {jsonWriter});
-      return new DefaultEncoder(dataWriterProvider);
-    }
+  //    var writers = new List<IDataWriter> {jsonWriter};
+  //    var dataWriterProvider = new RegExBasedDataWriterProvider(new List<IDataWriter> {jsonWriter});
+  //    return new DefaultEncoder(dataWriterProvider);
+  //  }
 
-    public IDecoder GetDecoder()
-    {
-      var jsonReader =
-        new JsonReader(new DataReaderSettings(DefaultEncoderDecoderConfiguration.CombinedResolverStrategy()
-                                              , new TeamCityDateFilter()), "application/.*json", "text/.*json");
+  //  public IDecoder GetDecoder()
+  //  {
+  //    var jsonReader =
+  //      new JsonReader(new DataReaderSettings(DefaultEncoderDecoderConfiguration.CombinedResolverStrategy()
+  //                                            , new TeamCityDateFilter()), "application/.*json", "text/.*json");
 
-      var readers = new List<IDataReader> {jsonReader};
-      var dataReaderProvider = new RegExBasedDataReaderProvider(readers);
-      return new DefaultDecoder(dataReaderProvider);
-    }
-  }
+  //    var readers = new List<IDataReader> {jsonReader};
+  //    var dataReaderProvider = new RegExBasedDataReaderProvider(readers);
+  //    return new DefaultDecoder(dataReaderProvider);
+  //  }
+  //}
 
   public class CamelCaseJsonWriter : JsonWriter
   {

@@ -4,7 +4,6 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
-using EasyHttp.Http;
 using JsonFx.Json;
 using JsonFx.Json.Resolvers;
 using JsonFx.Serialization;

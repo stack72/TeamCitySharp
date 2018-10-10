@@ -4,6 +4,7 @@ using System.Net;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Net.Http;
 using TeamCitySharp.DomainEntities;
 
 namespace TeamCitySharp.IntegrationTests
@@ -48,7 +49,7 @@ namespace TeamCitySharp.IntegrationTests
       var client = new TeamCityClient("test:81");
       client.Connect("admin", "qwerty");
 
-      Assert.Throws<WebException>(() => client.Changes.All());
+      Assert.Throws<HttpRequestException>(() => client.Changes.All());
 
     }
 

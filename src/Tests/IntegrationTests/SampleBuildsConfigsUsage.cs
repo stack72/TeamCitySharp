@@ -2,6 +2,7 @@ using System;
 using System.Configuration;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using NUnit.Framework;
 using TeamCitySharp.Locators;
 
@@ -48,7 +49,7 @@ namespace TeamCitySharp.IntegrationTests
       var client = new TeamCityClient("test:81");
       client.Connect("teamcitysharpuser", "qwerty");
 
-      Assert.Throws<WebException>(() => client.BuildConfigs.All());
+      Assert.Throws<HttpRequestException>(() => client.BuildConfigs.All());
     }
 
     [Test]
