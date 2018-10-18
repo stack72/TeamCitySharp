@@ -49,8 +49,12 @@ namespace TeamCitySharp.ActionTypes
 
     public VcsRoot AttachVcsRoot(BuildTypeLocator locator, VcsRoot vcsRoot)
     {
-      var xml = $@"<vcs-root-entry><vcs-root id=""{vcsRoot.Id}""/></vcs-root-entry>";
-      return m_caller.PostFormat<VcsRoot>(xml, HttpContentTypes.ApplicationXml, string.Empty,
+      var writer =
+        new JsonWriter(
+          new DataWriterSettings(new JsonResolverStrategy()));
+      var data = writer.Write(new VcsRootEntry{ VcsRoot = new VcsRoot { Id = vcsRoot.Id}});
+
+      return m_caller.PostFormat<VcsRoot>(data, HttpContentTypes.ApplicationJson, HttpContentTypes.ApplicationJson,
                                          "/app/rest/buildTypes/{0}/vcs-root-entries", locator);
     }
 
@@ -85,7 +89,7 @@ namespace TeamCitySharp.ActionTypes
       return m_caller.PostFormat<VcsRoot>(data, HttpContentTypes.ApplicationJson,
           HttpContentTypes.ApplicationJson, "/app/rest/vcs-roots",
           projectId);
-     
+
     }
     public void DeleteVcsRoot(VcsRoot vcsRoot)
     {
