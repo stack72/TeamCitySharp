@@ -243,8 +243,8 @@ namespace TeamCitySharp.Connection
     {
       var protocol = m_configuration.UseSSL ? "https://" : "http://";
       var authType = m_configuration.ActAsGuest ? "/guestAuth" : "/httpAuth";
-
-      return $"{protocol}{m_configuration.HostName}{authType}{urlPart}";
+      var uri = $"{protocol}{m_configuration.HostName}{authType}{urlPart}";
+      return Uri.EscapeUriString(uri).Replace("+", "%2B");
     }
 
     private HttpClient CreateHttpClient(string userName, string password, string accept)
