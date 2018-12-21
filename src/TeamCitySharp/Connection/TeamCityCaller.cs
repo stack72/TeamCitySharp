@@ -242,10 +242,10 @@ namespace TeamCitySharp.Connection
 
         private string CreateUrl(string urlPart)
         {
-            var protocol = credentials.UseSSL ? "https://" : "http://";
-            var authType = credentials.ActAsGuest ? "/guestAuth" : "/httpAuth";
-
-            return $"{protocol}{credentials.HostName}{authType}{urlPart}";
+            var protocol = m_configuration.UseSSL ? "https://" : "http://";
+            var authType = m_configuration.ActAsGuest ? "/guestAuth" : "/httpAuth";
+            var uri = $"{protocol}{m_configuration.HostName}{authType}{urlPart}";
+            return Uri.EscapeUriString(uri).Replace("+", "%2B");
         }
 
         private HttpClient CreateHttpClient(string userName, string password, string accept)
