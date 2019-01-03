@@ -3,9 +3,10 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Net;
-using EasyHttp.Infrastructure;
+using System.Net.Http;
 using NUnit.Framework;
 using TeamCitySharp.DomainEntities;
+using TeamCitySharp.Connection;
 
 namespace TeamCitySharp.IntegrationTests
 {
@@ -46,7 +47,7 @@ namespace TeamCitySharp.IntegrationTests
             var client = new TeamCityClient("test:81");
             client.Connect("admin", "qwerty");
 
-            Assert.Throws<WebException>(() => client.ServerInformation.AllPlugins());
+            Assert.Throws<HttpRequestException>(() => client.ServerInformation.AllPlugins());
         }
 
         [Test]
@@ -84,7 +85,7 @@ namespace TeamCitySharp.IntegrationTests
             }
             catch (HttpException e)
             {
-                Assert.That(e.StatusCode == HttpStatusCode.Forbidden);
+                Assert.That(e.ResponseStatusCode == HttpStatusCode.Forbidden);
             }
             catch (Exception e)
             {

@@ -1,4 +1,6 @@
-﻿namespace TeamCitySharp.ActionTypes
+﻿using TeamCitySharp.DomainEntities;
+
+namespace TeamCitySharp.ActionTypes
 {
   using FakeItEasy;
   using FluentAssertions;

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Net;
+using System.Net.Http;
 using NUnit.Framework;
 using TeamCitySharp.DomainEntities;
 
@@ -44,7 +44,7 @@ namespace TeamCitySharp.IntegrationTests
       var client = new TeamCityClient("teamcity:81");
       client.Connect("teamcitysharpuser", "qwerty");
 
-      Assert.Throws<WebException>(() => client.Agents.All());
+      Assert.Throws<HttpRequestException>(() => client.Agents.All());
     }
 
     [Test]

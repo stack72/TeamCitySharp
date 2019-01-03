@@ -1,4 +1,5 @@
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace TeamCitySharp.DomainEntities
 {
@@ -32,6 +33,7 @@ namespace TeamCitySharp.DomainEntities
     [JsonFx.Json.JsonName("inherited")]
     public bool Inherited { get; set; }
 
+    [JsonProperty("source-buildType")]
     [DataMember(Name = "source-buildType")]
     [JsonFx.Json.JsonName("source-buildType")]
     public BuildConfig SourceBuildType { get; set; }

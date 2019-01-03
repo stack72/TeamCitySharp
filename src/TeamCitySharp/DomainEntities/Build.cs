@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace TeamCitySharp.DomainEntities
 {
@@ -61,12 +62,15 @@ namespace TeamCitySharp.DomainEntities
     [JsonFx.Json.JsonName("properties")]
     public Properties Properties { get; set; }
 
+    [JsonProperty("running-info")]
     [JsonFx.Json.JsonName("running-info")]
     public Running_info Running_info { get; set; }
 
+    [JsonProperty("snapshot-dependencies")]
     [JsonFx.Json.JsonName("snapshot-dependencies")]
     public BuildSnapshotDepencies SnapshotDependencies { get; set; }
 
+    [JsonProperty("artifact-dependencies")]
     [JsonFx.Json.JsonName("artifact-dependencies")]
     public BuildArtifactDependencies ArtifactDependencies { get; set; }
 

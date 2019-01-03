@@ -2,8 +2,9 @@ using System;
 using System.Configuration;
 using System.Linq;
 using System.Net;
-using EasyHttp.Infrastructure;
+using System.Net.Http;
 using NUnit.Framework;
+using TeamCitySharp.Connection;
 using TeamCitySharp.Locators;
 
 namespace TeamCitySharp.IntegrationTests
@@ -49,7 +50,7 @@ namespace TeamCitySharp.IntegrationTests
             var client = new TeamCityClient("test:81");
             client.Connect("teamcitysharpuser", "qwerty");
 
-            Assert.Throws<WebException>(() => client.BuildConfigs.All());
+            Assert.Throws<HttpRequestException>(() => client.BuildConfigs.All());
         }
 
         [Test]
@@ -100,7 +101,7 @@ namespace TeamCitySharp.IntegrationTests
             }
             catch (HttpException e)
             {
-                Assert.That(e.StatusCode == HttpStatusCode.Forbidden);
+                Assert.That(e.ResponseStatusCode == HttpStatusCode.Forbidden);
             }
             catch (Exception e)
             {
@@ -189,7 +190,7 @@ namespace TeamCitySharp.IntegrationTests
             }
             catch (HttpException e)
             {
-                Assert.That(e.StatusCode == HttpStatusCode.Forbidden);
+                Assert.That(e.ResponseStatusCode == HttpStatusCode.Forbidden);
             }
             catch (Exception e)
             {
@@ -207,7 +208,7 @@ namespace TeamCitySharp.IntegrationTests
             }
             catch (HttpException e)
             {
-                Assert.That(e.StatusCode == HttpStatusCode.Forbidden);
+                Assert.That(e.ResponseStatusCode == HttpStatusCode.Forbidden);
             }
             catch (Exception e)
             {
@@ -225,7 +226,7 @@ namespace TeamCitySharp.IntegrationTests
             }
             catch (HttpException e)
             {
-                Assert.That(e.StatusCode == HttpStatusCode.Forbidden);
+                Assert.That(e.ResponseStatusCode == HttpStatusCode.Forbidden);
             }
             catch (Exception e)
             {

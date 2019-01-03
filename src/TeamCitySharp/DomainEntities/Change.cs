@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace TeamCitySharp.DomainEntities
 {
@@ -37,6 +38,7 @@ namespace TeamCitySharp.DomainEntities
     [JsonFx.Json.JsonName("user")]
     public User User { get; set; }
 
+    [JsonProperty("vcs-root-instance")]
     [JsonFx.Json.JsonName("vcs-root-instance")]
     public VcsRoot VcsRootInstance { get; set; }
   }

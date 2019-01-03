@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace TeamCitySharp.DomainEntities
 {
@@ -10,6 +11,7 @@ namespace TeamCitySharp.DomainEntities
     [JsonFx.Json.JsonName("id")]
     public string Id { get; set; }
 
+    [JsonProperty("vcs-root-id")]
     [DataMember(Name = "vcs-root-id")]
     [JsonFx.Json.JsonName("vcs-root-id")]
     public string VcsRootId { get; set; }

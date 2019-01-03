@@ -1,9 +1,9 @@
 ﻿using System;
-using EasyHttp.Http;
+using System.Net.Http;
 
 namespace TeamCitySharp.Connection
 {
-  internal interface ITeamCityCaller
+  public interface ITeamCityCaller
   {
     void Connect(string userName, string password, bool actAsGuest);
 
@@ -31,9 +31,9 @@ namespace TeamCitySharp.Connection
 
     bool Authenticate(string urlPart, bool throwExceptionOnHttpError = true);
 
-    HttpResponse Post(object data, string contenttype, string urlPart, string accept);
+    HttpResponseMessage Post(object data, string contenttype, string urlPart, string accept);
 
-    HttpResponse Put(object data, string contenttype, string urlPart, string accept);
+    HttpResponseMessage Put(object data, string contenttype, string urlPart, string accept);
 
     void Delete(string urlPart);
 

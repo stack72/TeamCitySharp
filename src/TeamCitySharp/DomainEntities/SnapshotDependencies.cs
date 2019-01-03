@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace TeamCitySharp.DomainEntities
 {
@@ -8,6 +9,8 @@ namespace TeamCitySharp.DomainEntities
     {
       return "snapshot-dependencies";
     }
+
+    [JsonProperty("snapshot-dependency")]
     [JsonFx.Json.JsonName("snapshot-dependency")]
     public List<SnapshotDependency> SnapshotDependency { get; set; }
   }

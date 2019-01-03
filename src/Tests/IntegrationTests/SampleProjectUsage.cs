@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Net;
-using EasyHttp.Infrastructure;
+using System.Net.Http;
 using NUnit.Framework;
+using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
 using TeamCitySharp.Fields;
 
@@ -51,7 +52,7 @@ namespace TeamCitySharp.IntegrationTests
             var client = new TeamCityClient("test:81");
             client.Connect("admin", "qwerty");
 
-            Assert.Throws<WebException>(() => client.Projects.All());
+            Assert.Throws<HttpRequestException>(() => client.Projects.All());
         }
 
 
@@ -124,7 +125,7 @@ namespace TeamCitySharp.IntegrationTests
             }
             catch (HttpException e)
             {
-                Assert.That(e.StatusCode == HttpStatusCode.Forbidden);
+                Assert.That(e.ResponseStatusCode == HttpStatusCode.Forbidden);
             }
             catch (Exception e)
             {
@@ -194,7 +195,7 @@ namespace TeamCitySharp.IntegrationTests
             }
             catch (HttpException e)
             {
-                Assert.That(e.StatusCode == HttpStatusCode.Forbidden,
+                Assert.That(e.ResponseStatusCode == HttpStatusCode.Forbidden,
                     "Creating a project feature should fail with unauthorized http exception.");
             }
             catch (Exception e)
@@ -243,7 +244,7 @@ namespace TeamCitySharp.IntegrationTests
             catch (HttpException e)
             {
                 Console.WriteLine(e);
-                Assert.That(e.StatusCode == HttpStatusCode.Forbidden);
+                Assert.That(e.ResponseStatusCode == HttpStatusCode.Forbidden);
             }
             catch (Exception e)
             {

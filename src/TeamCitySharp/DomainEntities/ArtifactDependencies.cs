@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace TeamCitySharp.DomainEntities
 {
@@ -9,6 +10,7 @@ namespace TeamCitySharp.DomainEntities
       return "artifact-dependencies";
     }
 
+    [JsonProperty("artifact-dependency")]
     [JsonFx.Json.JsonName("artifact-dependency")]
     public List<ArtifactDependency> ArtifactDependency { get; set; }
   }

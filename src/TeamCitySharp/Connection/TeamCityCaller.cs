@@ -1,12 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Authentication;
-using EasyHttp.Http;
+using System.Text;
 using TeamCitySharp.DomainEntities;
 using File = System.IO.File;
-using HttpException = EasyHttp.Infrastructure.HttpException;
-using HttpResponse = EasyHttp.Http.HttpResponse;
 
 namespace TeamCitySharp.Connection
 {
@@ -113,7 +113,7 @@ namespace TeamCitySharp.Connection
       ThrowIfHttpError(response, url);
 
       if (response.StatusCode == HttpStatusCode.OK)
-        return response.RawText;
+        return response.RawText();
 
       return string.Empty;
     }
@@ -129,7 +129,7 @@ namespace TeamCitySharp.Connection
       GetResponse(urlPart);
     }
 
-    private HttpResponse GetResponse(string urlPart)
+    private HttpResponseMessage GetResponse(string urlPart)
     {
       if (CheckForUserNameAndPassword())
         throw new ArgumentException("If you are not acting as a guest you must supply userName and password");
@@ -155,10 +155,12 @@ namespace TeamCitySharp.Connection
       try
       {
         var httpClient = CreateHttpClient(credentials.UserName, credentials.Password, HttpContentTypes.TextPlain);
-        httpClient.ThrowExceptionOnHttpError = throwExceptionOnHttpError;
-        httpClient.Get(CreateUrl(urlPart));
+        var response = httpClient.Get(CreateUrl(urlPart));
+        if (response.StatusCode != HttpStatusCode.OK && throwExceptionOnHttpError)
+        {
+            throw new AuthenticationException();
+        }
 
-        var response = httpClient.Response;
         return response.StatusCode == HttpStatusCode.OK;
       }
       catch (HttpException exception)
@@ -167,18 +169,18 @@ namespace TeamCitySharp.Connection
       }
     }
 
-    public HttpResponse Post(object data, string contenttype, string urlPart, string accept)
+    public HttpResponseMessage Post(object data, string contenttype, string urlPart, string accept)
     {
-      var client = MakePostRequest(data, contenttype, urlPart, accept);
+      var response = MakePostRequest(data, contenttype, urlPart, accept);
 
-      return client.Response;
+      return response;
     }
 
-    public HttpResponse Put(object data, string contenttype, string urlPart, string accept)
+    public HttpResponseMessage Put(object data, string contenttype, string urlPart, string accept)
     {
-      var client = MakePutRequest(data, contenttype, urlPart, accept);
+      var response = MakePutRequest(data, contenttype, urlPart, accept);
 
-      return client.Response;
+      return response;
     }
 
     public void Delete(string urlPart)
@@ -189,37 +191,35 @@ namespace TeamCitySharp.Connection
     private void MakeDeleteRequest(string urlPart)
     {
       var client = CreateHttpClient(credentials.UserName, credentials.Password, HttpContentTypes.TextPlain);
-      client.Delete(CreateUrl(urlPart));
-      ThrowIfHttpError(client.Response, client.Request.Uri);
+      var url = CreateUrl(urlPart);
+      var response = client.Delete(url);
+      ThrowIfHttpError(response, url);
     }
 
-    private HttpClient MakePostRequest(object data, string contenttype, string urlPart, string accept)
+    private HttpResponseMessage MakePostRequest(object data, string contenttype, string urlPart, string accept)
     {
       var client = CreateHttpClient(credentials.UserName, credentials.Password,
                                     string.IsNullOrWhiteSpace(accept) ? GetContentType(data.ToString()) : accept);
+     
+      var url = CreateUrl(urlPart);
+      var response = client.Post(url, data, contenttype);
+      ThrowIfHttpError(response, url);
 
-      client.Request.Accept = accept;
-
-      client.Post(CreateUrl(urlPart), data, contenttype);
-      ThrowIfHttpError(client.Response, client.Request.Uri);
-
-      return client;
+      return response;
     }
 
-    private HttpClient MakePutRequest(object data, string contenttype, string urlPart, string accept)
+    private HttpResponseMessage MakePutRequest(object data, string contenttype, string urlPart, string accept)
     {
       var client = CreateHttpClient(credentials.UserName, credentials.Password,
                                     string.IsNullOrWhiteSpace(accept) ? GetContentType(data.ToString()) : accept);
+      var url = CreateUrl(urlPart);
+      var response = client.Put(url, data, contenttype);
+      ThrowIfHttpError(response, url);
 
-      client.Request.Accept = accept;
-
-      client.Put(CreateUrl(urlPart), data, contenttype);
-      ThrowIfHttpError(client.Response, client.Request.Uri);
-
-      return client;
+      return response;
     }
 
-    private static bool IsHttpError(HttpResponse response)
+    private static bool IsHttpError(HttpResponseMessage response)
     {
       var num = (int)response.StatusCode / 100;
 
@@ -232,12 +232,12 @@ namespace TeamCitySharp.Connection
     /// This would often contain a Java exception dump from the TeamCity REST Plugin, which reveals the cause of some cryptic cases otherwise showing just "Bad Request" in the HTTP error.
     /// Also this comes in handy when TeamCity goes into maintenance, and you get back the banner in HTML instead of your data.</para> 
     /// </summary>
-    private static void ThrowIfHttpError(HttpResponse response, string url)
+    private static void ThrowIfHttpError(HttpResponseMessage response, string url)
     {
       if (!IsHttpError(response))
         return;
       throw new HttpException(response.StatusCode,
-        $"Error: {response.StatusDescription}\nHTTP: {response.StatusCode}\nURL: {url}\n{response.RawText}");
+        $"Error: {response.ReasonPhrase}\nHTTP: {response.StatusCode}\nURL: {url}\n{response.RawText()}");
     }
 
     private string CreateUrl(string urlPart)
@@ -250,13 +250,16 @@ namespace TeamCitySharp.Connection
 
     private HttpClient CreateHttpClient(string userName, string password, string accept)
     {
-      var httpClient = new HttpClient(new TeamcityJsonEncoderDecoderConfiguration()) { Request = { Accept = accept } };
+      var httpClient = new HttpClient();
+      httpClient.DefaultRequestHeaders.Accept
+          .Add(new MediaTypeWithQualityHeaderValue(accept));
+
       if (useNoCache)
-        httpClient.Request.SetCacheControlToNoCache();
+        httpClient.DefaultRequestHeaders.CacheControl = new CacheControlHeaderValue{NoCache = true};
       if (!credentials.ActAsGuest)
       {
-        httpClient.Request.SetBasicAuthentication(userName, password);
-        httpClient.Request.ForceBasicAuth = true;
+        var credentials = Encoding.ASCII.GetBytes($"{userName}:{password}");
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(credentials));
       }
 
       return httpClient;
@@ -278,10 +281,10 @@ namespace TeamCitySharp.Connection
       if (IsHttpError(response))
       {
         throw new HttpException(response.StatusCode,
-          $"Error {response.StatusDescription}: Thrown with URL {url}");
+          $"Error {response.ReasonPhrase}: Thrown with URL {url}");
       }
 
-      return response.RawText;
+      return response.RawText();
     }
 
     private bool CheckForUserNameAndPassword()
