@@ -1,11 +1,13 @@
-﻿namespace TeamCitySharp.DomainEntities
+﻿using Newtonsoft.Json;
+
+namespace TeamCitySharp.DomainEntities
 {
   public class InvestigationScope
   {
-    [JsonFx.Json.JsonName("buildTypes")]
+    [JsonProperty("buildTypes")]
     public BuildTypeWrapper BuildTypes { get; set; }
 
-    [JsonFx.Json.JsonName("project")]
+    [JsonProperty("project")]
     public Project Project { get; set; }
   }
 }

@@ -1,11 +1,13 @@
-﻿namespace TeamCitySharp.DomainEntities
+﻿using Newtonsoft.Json;
+
+namespace TeamCitySharp.DomainEntities
 {
   public class Test
   {
-    [JsonFx.Json.JsonName("id")]
+    [JsonProperty("id")]
     public string Id { get; set; }
 
-    [JsonFx.Json.JsonName("name")]
+    [JsonProperty("name")]
     public string Name { get; set; }
   }
 }

@@ -5,82 +5,79 @@ namespace TeamCitySharp.DomainEntities
 {
   public class Build
   {
-    [JsonFx.Json.JsonName("id")]
+    [JsonProperty("id")]
     public string Id { get; set; }
 
-    [JsonFx.Json.JsonName("number")]
+    [JsonProperty("number")]
     public string Number { get; set; }
 
-    [JsonFx.Json.JsonName("status")]
+    [JsonProperty("status")]
     public string Status { get; set; }
 
-    [JsonFx.Json.JsonName("buildTypeId")]
+    [JsonProperty("buildTypeId")]
     public string BuildTypeId { get; set; }
 
-    [JsonFx.Json.JsonName("href")]
+    [JsonProperty("href")]
     public string Href { get; set; }
 
-    [JsonFx.Json.JsonName("webUrl")]
+    [JsonProperty("webUrl")]
     public string WebUrl { get; set; }
 
-    [JsonFx.Json.JsonName("running")]
+    [JsonProperty("running")]
     public bool Running { get; set; }
 
-    [JsonFx.Json.JsonName("personal")]
+    [JsonProperty("personal")]
     public bool Personal { get; set; }
     
-    [JsonFx.Json.JsonName("statusText")]
+    [JsonProperty("statusText")]
     public string StatusText { get; set; }
 
-    [JsonFx.Json.JsonName("state")]
+    [JsonProperty("state")]
     public string State { get; set; }
 
-    [JsonFx.Json.JsonName("startDate")]
+    [JsonProperty("startDate")]
     public DateTime StartDate { get; set; }
 
-    [JsonFx.Json.JsonName("finishDate")]
+    [JsonProperty("finishDate")]
     public DateTime FinishDate { get; set; }
 
-    [JsonFx.Json.JsonName("queuedDate")]
+    [JsonProperty("queuedDate")]
     public DateTime QueuedDate { get; set; }
 
-    [JsonFx.Json.JsonName("buildType")]
+    [JsonProperty("buildType")]
     public BuildConfig BuildType { get; set; }
 
-    [JsonFx.Json.JsonName("buildConfig")]
+    [JsonProperty("buildConfig")]
     public BuildConfig BuildConfig { get; set; }
 
-    [JsonFx.Json.JsonName("agent")]
+    [JsonProperty("agent")]
     public Agent Agent { get; set; }
 
-    [JsonFx.Json.JsonName("tags")]
+    [JsonProperty("tags")]
     public Tags Tags { get; set; }
 
-    [JsonFx.Json.JsonName("changes")]
+    [JsonProperty("changes")]
     public ChangeWrapper Changes { get; set; }
 
-    [JsonFx.Json.JsonName("properties")]
+    [JsonProperty("properties")]
     public Properties Properties { get; set; }
 
     [JsonProperty("running-info")]
-    [JsonFx.Json.JsonName("running-info")]
     public Running_info Running_info { get; set; }
 
     [JsonProperty("snapshot-dependencies")]
-    [JsonFx.Json.JsonName("snapshot-dependencies")]
     public BuildSnapshotDepencies SnapshotDependencies { get; set; }
 
     [JsonProperty("artifact-dependencies")]
-    [JsonFx.Json.JsonName("artifact-dependencies")]
     public BuildArtifactDependencies ArtifactDependencies { get; set; }
 
-    [JsonFx.Json.JsonName("lastChanges")]
+    [JsonProperty("lastChanges")]
     public ChangeWrapper LastChanges { get; set; }
 
-    [JsonFx.Json.JsonName("triggered")]
+    [JsonProperty("triggered")]
     public Triggered Triggered { get; set; }
 
-    [JsonFx.Json.JsonName("revisions")]
+    [JsonProperty("revisions")]
     public Revisions Revisions { get; set; }
 
 

@@ -1,4 +1,6 @@
-﻿namespace TeamCitySharp.DomainEntities
+﻿using Newtonsoft.Json;
+
+namespace TeamCitySharp.DomainEntities
 {
   public class Group
   {
@@ -6,19 +8,19 @@
     {
       return Name;
     }
-    [JsonFx.Json.JsonName("href")]
+    [JsonProperty("href")]
     public string Href { get; set; }
 
-    [JsonFx.Json.JsonName("name")]
+    [JsonProperty("name")]
     public string Name { get; set; }
 
-    [JsonFx.Json.JsonName("key")]
+    [JsonProperty("key")]
     public string Key { get; set; }
 
-    [JsonFx.Json.JsonName("users")]
+    [JsonProperty("users")]
     public UserWrapper Users { get; set; }
 
-    [JsonFx.Json.JsonName("roles")]
+    [JsonProperty("roles")]
     public RoleWrapper Roles { get; set; }
   }
 }

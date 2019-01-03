@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using JsonFx.Json;
-using TeamCitySharp.Locators;
+﻿using Newtonsoft.Json;
 
 namespace TeamCitySharp.DomainEntities
 {
   public class NewProjectDescription
   {
-    [JsonFx.Json.JsonName("name")]
+    [JsonProperty("name")]
     public string Name { get; set; }
 
-    [JsonFx.Json.JsonName("id")]
+    [JsonProperty("id")]
     public string Id { get; set; }
 
-    [JsonFx.Json.JsonName("parentProject")]
+    [JsonProperty("parentProject")]
     public ParentProjectWrapper ParentProject { get; set; }
   }
 }

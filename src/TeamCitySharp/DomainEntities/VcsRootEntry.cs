@@ -10,11 +10,9 @@ namespace TeamCitySharp.DomainEntities
     }
 
     [JsonProperty("vcs-root")]
-    [JsonFx.Json.JsonName("vcs-root")]
     public VcsRoot VcsRoot { get; set; }
 
     [JsonProperty("checkout-rules")]
-    [JsonFx.Json.JsonName("checkout-rules")]
     public string CheckoutRules { get; set; }
   }
 }

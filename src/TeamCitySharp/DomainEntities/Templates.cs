@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace TeamCitySharp.DomainEntities
 {
   public class Templates
   {
-    [JsonFx.Json.JsonName("buildType")]
+    [JsonProperty("buildType")]
     public List<Template> BuildType { get; set; }
   }
 }

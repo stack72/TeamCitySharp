@@ -1,14 +1,16 @@
-﻿namespace TeamCitySharp.DomainEntities
+﻿using Newtonsoft.Json;
+
+namespace TeamCitySharp.DomainEntities
 {
   public class InvestigationAssignment
   {
-    [JsonFx.Json.JsonName("user")]
+    [JsonProperty("user")]
     public User User { get; set; }
 
-    [JsonFx.Json.JsonName("timestamp")]
+    [JsonProperty("timestamp")]
     public string TimeStamp { get; set; }
 
-    [JsonFx.Json.JsonName("text")]
+    [JsonProperty("text")]
     public string Text { get; set; }
   }
 }

@@ -10,9 +10,7 @@ namespace TeamCitySharp.DomainEntities
       return "vcs-root-entries";
     }
 
-
     [JsonProperty("vcs-root-entry")]
-    [JsonFx.Json.JsonName("vcs-root-entry")]
     public List<VcsRootEntry> VcsRootEntry { get; set; }
   }
 }

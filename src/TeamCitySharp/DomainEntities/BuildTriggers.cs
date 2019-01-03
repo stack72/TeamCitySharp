@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace TeamCitySharp.DomainEntities
 {
@@ -8,7 +9,7 @@ namespace TeamCitySharp.DomainEntities
     {
       return "triggers";
     }
-    [JsonFx.Json.JsonName("trigger")]
+    [JsonProperty("trigger")]
     public List<BuildTrigger> Trigger { get; set; }
   }
 }

@@ -1,56 +1,41 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
 namespace TeamCitySharp.DomainEntities
 {
-  [DataContract]
   public class VcsRoot
   {
-    [DataMember(Name = "id")]
-    [JsonFx.Json.JsonName("id")]
+    [JsonProperty("id")]
     public string Id { get; set; }
 
     [JsonProperty("vcs-root-id")]
-    [DataMember(Name = "vcs-root-id")]
-    [JsonFx.Json.JsonName("vcs-root-id")]
     public string VcsRootId { get; set; }
 
-    [DataMember(Name = "vcsName")]
-    [JsonFx.Json.JsonName("vcsName")]
+    [JsonProperty("vcsName")]
     public string VcsName { get; set; }
 
-    [DataMember(Name = "href")]
-    [JsonFx.Json.JsonName("href")]
+    [JsonProperty("href")]
     public string Href { get; set; }
 
-    [DataMember(Name = "name")]
-    [JsonFx.Json.JsonName("name")]
+    [JsonProperty("name")]
     public string Name { get; set; }
 
-    [DataMember(Name = "version")]
-    [JsonFx.Json.JsonName("version")]
+    [JsonProperty("version")]
     public string Version { get; set; }
 
-    [DataMember(Name = "status")]
-    [JsonFx.Json.JsonName("status")]
+    [JsonProperty("status")]
     public string Status { get; set; }
 
-    [DataMember(Name = "lastChecked")]
-    [JsonFx.Json.JsonName("lastChecked")]
+    [JsonProperty("lastChecked")]
     public DateTime LastChecked { get; set; }
 
-    [DataMember(Name = "lastVersion")]
-    [JsonFx.Json.JsonName("lastVersion")]
+    [JsonProperty("lastVersion")]
     public string LastVersion { get; set; }
 
-
-    [DataMember]
-    [JsonFx.Json.JsonName("project")]
+    [JsonProperty("project")]
     public Project Project { get; set; }
 
-    [DataMember]
-    [JsonFx.Json.JsonName("properties")]
+    [JsonProperty("properties")]
     public Properties Properties { get; set; }
 
     public override string ToString()

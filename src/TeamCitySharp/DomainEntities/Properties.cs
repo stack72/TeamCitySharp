@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace TeamCitySharp.DomainEntities
 {
-  [DataContract]
   public class Properties
   {
     public Properties()
@@ -21,8 +20,7 @@ namespace TeamCitySharp.DomainEntities
       return "properties";
     }
 
-    [DataMember]
-    [JsonFx.Json.JsonName("property")]
+    [JsonProperty("property")]
     public List<Property> Property { get; set; }
   }
 }

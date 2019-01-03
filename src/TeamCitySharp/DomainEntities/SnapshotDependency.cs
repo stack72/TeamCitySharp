@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 
 namespace TeamCitySharp.DomainEntities
 {
-  [DataContract]
   public class SnapshotDependency
   {
     public SnapshotDependency()
@@ -17,28 +16,22 @@ namespace TeamCitySharp.DomainEntities
       return Type;
     }
 
-    [DataMember(Name = "id")]
-    [JsonFx.Json.JsonName("id")]
+    [JsonProperty("id")]
     public string Id { get; set; }
 
-    [DataMember]
-    [JsonFx.Json.JsonName("properties")]
+    [JsonProperty("properties")]
     public Properties Properties { get; set; }
 
-    [DataMember(Name = "type")]
-    [JsonFx.Json.JsonName("type")]
+    [JsonProperty("type")]
     public string Type { get; set; }
 
-    [DataMember(Name = "inherited")]
-    [JsonFx.Json.JsonName("inherited")]
+    [JsonProperty("inherited")]
     public bool Inherited { get; set; }
 
     [JsonProperty("source-buildType")]
-    [DataMember(Name = "source-buildType")]
-    [JsonFx.Json.JsonName("source-buildType")]
     public BuildConfig SourceBuildType { get; set; }
 
-    public static SnapshotDependency Default(string dependsOnbuildId)
+    public static SnapshotDependency Default(string dependsOnBuildId)
     {
       var dependency = new SnapshotDependency();
 
@@ -49,7 +42,7 @@ namespace TeamCitySharp.DomainEntities
 
       dependency.SourceBuildType = new BuildConfig
         {
-          Id = dependsOnbuildId
+          Id = dependsOnBuildId
         };
 
       return dependency;

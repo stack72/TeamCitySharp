@@ -12,6 +12,7 @@ namespace TeamCitySharp.IntegrationTests
     private readonly bool m_useSsl;
     private readonly string m_username;
     private readonly string m_password;
+    private readonly string m_goodProjectId;
 
 
     public when_interacting_to_get_build_statistics()
@@ -20,6 +21,7 @@ namespace TeamCitySharp.IntegrationTests
       bool.TryParse(ConfigurationManager.AppSettings["UseSsl"], out m_useSsl);
       m_username = ConfigurationManager.AppSettings["Username"];
       m_password = ConfigurationManager.AppSettings["Password"];
+      m_goodProjectId = ConfigurationManager.AppSettings["GoodProjectId"];
     }
     [SetUp]
     public void SetUp()
@@ -31,7 +33,7 @@ namespace TeamCitySharp.IntegrationTests
     [Test]
     public void it_returns_no_of_tests_from_last_successful_build()
     {
-      var proj = m_client.Projects.ById("AutoFixture");
+      var proj = m_client.Projects.ById(m_goodProjectId);
       var build = m_client.Builds.LastSuccessfulBuildByBuildConfigId(proj.BuildTypes.BuildType[0].Id);
       var stats = m_client.Statistics.GetByBuildId(build.Id);
 

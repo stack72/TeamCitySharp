@@ -1,9 +1,7 @@
-using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
 namespace TeamCitySharp.DomainEntities
 {
-  [DataContract]
   public class ArtifactDependency
   {
     public ArtifactDependency()
@@ -17,28 +15,22 @@ namespace TeamCitySharp.DomainEntities
       return "artifact_dependency";
     }
 
-    [DataMember(Name = "id")]
-    [JsonFx.Json.JsonName("id")]
+    [JsonProperty("id")]
     public string Id { get; set; }
 
-    [DataMember(Name = "type")]
-    [JsonFx.Json.JsonName("type")]
+    [JsonProperty("type")]
     public string Type { get; set; }
 
-    [DataMember(Name = "inherited")]
-    [JsonFx.Json.JsonName("inherited")]
+    [JsonProperty("inherited")]
     public bool Inherited { get; set; }
 
-    [DataMember]
-    [JsonFx.Json.JsonName("properties")]
+    [JsonProperty("properties")]
     public Properties Properties { get; set; }
 
     [JsonProperty("source-buildType")]
-    [DataMember(Name = "source-buildType")]
-    [JsonFx.Json.JsonName("source-buildType")]
     public BuildConfig SourceBuildType { get; set; }
 
-    public static ArtifactDependency Default(string dependsOnbuildId)
+    public static ArtifactDependency Default(string dependsOnBuildId)
     {
       var dependency = new ArtifactDependency();
 
@@ -49,8 +41,8 @@ namespace TeamCitySharp.DomainEntities
 
       dependency.SourceBuildType = new BuildConfig
         {
-          Id = dependsOnbuildId
-        };
+          Id = dependsOnBuildId
+      };
 
       return dependency;
     }

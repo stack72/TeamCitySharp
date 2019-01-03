@@ -1,14 +1,16 @@
-﻿namespace TeamCitySharp.DomainEntities
+﻿using Newtonsoft.Json;
+
+namespace TeamCitySharp.DomainEntities
 {
   public class Plugin
   {
-    [JsonFx.Json.JsonName("name")]
+    [JsonProperty("name")]
     public string Name { get; set; }
 
-    [JsonFx.Json.JsonName("displayName")]
+    [JsonProperty("displayName")]
     public string DisplayName { get; set; }
 
-    [JsonFx.Json.JsonName("version")]
+    [JsonProperty("version")]
     public string Version { get; set; }
 
     public override string ToString()

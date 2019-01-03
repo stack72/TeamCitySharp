@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace TeamCitySharp.DomainEntities
 {
@@ -8,7 +9,7 @@ namespace TeamCitySharp.DomainEntities
     {
       return "parameters";
     }
-    [JsonFx.Json.JsonName("property")]
+    [JsonProperty("property")]
     public List<Property> Property { get; set; }
   }
 }

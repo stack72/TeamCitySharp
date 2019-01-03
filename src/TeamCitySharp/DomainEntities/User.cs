@@ -1,38 +1,39 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace TeamCitySharp.DomainEntities
 {
   public class User
   {
-    [JsonFx.Json.JsonName("username")]
+    [JsonProperty("username")]
     public string Username { get; set; }
 
-    [JsonFx.Json.JsonName("name")]
+    [JsonProperty("name")]
     public string Name { get; set; }
 
-    [JsonFx.Json.JsonName("id")]
+    [JsonProperty("id")]
     public string Id { get; set; }
 
-    [JsonFx.Json.JsonName("href")]
+    [JsonProperty("href")]
     public string Href { get; set; }
 
-    [JsonFx.Json.JsonName("user")]
+    [JsonProperty("email")]
     public string Email { get; set; }
 
-    [JsonFx.Json.JsonName("realm")]
+    [JsonProperty("realm")]
     public string Realm { get; set; }
 
-    [JsonFx.Json.JsonName("lastLogin")]
+    [JsonProperty("lastLogin")]
     public DateTime LastLogin { get; set; }
 
-    [JsonFx.Json.JsonName("properties")]
+    [JsonProperty("properties")]
 
     public Properties Properties { get; set; }
 
-    [JsonFx.Json.JsonName("roles")]
+    [JsonProperty("roles")]
     public RoleWrapper Roles { get; set; }
 
-    [JsonFx.Json.JsonName("groups")]
+    [JsonProperty("groups")]
     public UserGroupWrapper Groups { get; set; }
 
 

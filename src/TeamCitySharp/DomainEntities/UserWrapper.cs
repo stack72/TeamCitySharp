@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace TeamCitySharp.DomainEntities
 {
   public class UserWrapper
   {
-    [JsonFx.Json.JsonName("user")]
+    [JsonProperty("user")]
     public List<User> User { get; set; }
   }
 }

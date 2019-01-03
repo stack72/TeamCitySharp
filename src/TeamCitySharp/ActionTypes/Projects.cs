@@ -2,10 +2,8 @@
 using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
-using JsonFx.Json;
-using JsonFx.Json.Resolvers;
-using JsonFx.Serialization;
-using JsonFx.Serialization.Resolvers;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
 
@@ -71,10 +69,8 @@ namespace TeamCitySharp.ActionTypes
                                   HttpContentTypes.ApplicationJson);
       if (response.StatusCode == HttpStatusCode.OK)
       {
-        var reader =
-          new JsonReader(
-            new DataReaderSettings(new ConventionResolverStrategy(ConventionResolverStrategy.WordCasing.Lowercase, "-")));
-        var project = reader.Read<Project>(response.RawText());
+        var serializer = new JsonSerializer();
+        var project = (Project)serializer.Deserialize(new JTokenReader(response.RawText()), typeof(Project));
         return project;
       }
       return new Project();
@@ -87,10 +83,8 @@ namespace TeamCitySharp.ActionTypes
       var response = m_caller.Put(xmlData, HttpContentTypes.ApplicationXml, url, HttpContentTypes.ApplicationJson);
       if (response.StatusCode == HttpStatusCode.OK)
       {
-        var reader =
-          new JsonReader(
-            new DataReaderSettings(new ConventionResolverStrategy(ConventionResolverStrategy.WordCasing.Lowercase, "-")));
-        var project = reader.Read<Project>(response.RawText());
+        var serializer = new JsonSerializer();
+        var project = (Project)serializer.Deserialize(new JTokenReader(response.RawText()), typeof(Project));
         return project;
       }
       return new Project();
@@ -114,10 +108,8 @@ namespace TeamCitySharp.ActionTypes
       var response = CopyProject(projectid, projectName, newProjectId, parentProjectId);
       if (response.StatusCode == HttpStatusCode.OK)
       {
-        var reader =
-          new JsonReader(
-            new DataReaderSettings(new ConventionResolverStrategy(ConventionResolverStrategy.WordCasing.Lowercase, "-")));
-        var project = reader.Read<Project>(response.RawText());
+        var serializer = new JsonSerializer();
+        var project = (Project)serializer.Deserialize(new JTokenReader(response.RawText()), typeof(Project));
         return project;
       }
       return new Project();
@@ -182,10 +174,7 @@ namespace TeamCitySharp.ActionTypes
     
     public ProjectFeature CreateProjectFeature(string projectId, ProjectFeature projectFeature)
     {
-      var writer =
-        new JsonWriter(
-          new DataWriterSettings(new JsonResolverStrategy()));
-      var data = writer.Write(projectFeature);
+      var data = JsonConvert.SerializeObject(projectFeature);
 
       return m_caller.PostFormat<ProjectFeature>(data, HttpContentTypes.ApplicationJson,
         HttpContentTypes.ApplicationJson, "/app/rest/projects/id:{0}/projectFeatures",

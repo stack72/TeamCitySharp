@@ -1,23 +1,25 @@
-﻿namespace TeamCitySharp.DomainEntities
+﻿using Newtonsoft.Json;
+
+namespace TeamCitySharp.DomainEntities
 {
   public class Running_info
   {
-    [JsonFx.Json.JsonName("percentageComplete")]
+    [JsonProperty("percentageComplete")]
     public int? PercentageComplete { get; set; }
 
-    [JsonFx.Json.JsonName("elapsedSeconds")]
+    [JsonProperty("elapsedSeconds")]
     public int? ElapsedSeconds { get; set; }
 
-    [JsonFx.Json.JsonName("estimatedTotalSeconds")]
+    [JsonProperty("estimatedTotalSeconds")]
     public int? EstimatedTotalSeconds { get; set; }
 
-    [JsonFx.Json.JsonName("currentStageText")]
+    [JsonProperty("currentStageText")]
     public string CurrentStageText { get; set; }
 
-    [JsonFx.Json.JsonName("outdated")]
+    [JsonProperty("outdated")]
     public string Outdated { get; set; }
 
-    [JsonFx.Json.JsonName("probablyHanging")]
+    [JsonProperty("probablyHanging")]
     public string ProbablyHanging { get; set; }
   }
 }

@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace TeamCitySharp.DomainEntities
 {
   public class BuildTrigger
@@ -12,24 +14,24 @@ namespace TeamCitySharp.DomainEntities
       return "trigger";
     }
 
-    [JsonFx.Json.JsonName("id")]
+    [JsonProperty("id")]
     public string Id { get; set; }
 
-    [JsonFx.Json.JsonName("type")]
+    [JsonProperty("type")]
     public string Type { get; set; }
 
-    [JsonFx.Json.JsonName("disabled")]
+    [JsonProperty("disabled")]
     public bool Disabled { get; set; }
 
-    [JsonFx.Json.JsonName("inherited")]
+    [JsonProperty("inherited")]
     public bool Inherited { get; set; }
 
-    [JsonFx.Json.JsonName("properties")]
+    [JsonProperty("properties")]
     public Properties Properties { get; set; }
 
 
 
-    public static BuildTrigger FinishBuildTrigger(string dependsOnbuildId)
+    public static BuildTrigger FinishBuildTrigger(string dependsOnBuildId)
     {
       var trigger = new BuildTrigger
         {
@@ -37,7 +39,7 @@ namespace TeamCitySharp.DomainEntities
         };
 
       trigger.Properties.Add("afterSuccessfulBuildOnly", "true");
-      trigger.Properties.Add("dependsOn", dependsOnbuildId);
+      trigger.Properties.Add("dependsOn", dependsOnBuildId);
 
       return trigger;
     }

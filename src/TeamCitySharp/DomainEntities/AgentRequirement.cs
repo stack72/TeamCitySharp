@@ -1,4 +1,6 @@
-﻿namespace TeamCitySharp.DomainEntities
+﻿using Newtonsoft.Json;
+
+namespace TeamCitySharp.DomainEntities
 {
   public class AgentRequirement
   {
@@ -7,11 +9,11 @@
       return "agent_requirement";
     }
 
-    [JsonFx.Json.JsonName("id")]
+    [JsonProperty("id")]
     public string Id { get; set; }
-    [JsonFx.Json.JsonName("type")]
+    [JsonProperty("type")]
     public string Type { get; set; }
-    [JsonFx.Json.JsonName("properties")]
+    [JsonProperty("properties")]
     public Properties Properties { get; set; }
   }
 }

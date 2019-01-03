@@ -1,4 +1,6 @@
-﻿namespace TeamCitySharp.DomainEntities
+﻿using Newtonsoft.Json;
+
+namespace TeamCitySharp.DomainEntities
 {
   public class Tag
   {
@@ -7,7 +9,7 @@
       return "tag";
     }
 
-    [JsonFx.Json.JsonName("name")]
+    [JsonProperty("name")]
     public string Name { get; set; }
   }
 }

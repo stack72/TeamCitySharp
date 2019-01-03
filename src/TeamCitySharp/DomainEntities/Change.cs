@@ -5,41 +5,40 @@ namespace TeamCitySharp.DomainEntities
 {
   public class Change
   {
-    [JsonFx.Json.JsonName("username")]
+    [JsonProperty("username")]
     public string Username { get; set; }
 
-    [JsonFx.Json.JsonName("webLink")]
+    [JsonProperty("webLink")]
     public string WebLink { get; set; }
 
-    [JsonFx.Json.JsonName("webUrl")]
+    [JsonProperty("webUrl")]
     public string WebUrl { get; set; }
 
-    [JsonFx.Json.JsonName("href")]
+    [JsonProperty("href")]
     public string Href { get; set; }
 
-    [JsonFx.Json.JsonName("id")]
+    [JsonProperty("id")]
     public string Id { get; set; }
 
-    [JsonFx.Json.JsonName("version")]
+    [JsonProperty("version")]
     public string Version { get; set; }
 
-    [JsonFx.Json.JsonName("personal")]
+    [JsonProperty("personal")]
     public bool Personal { get; set; }
 
-    [JsonFx.Json.JsonName("date")]
+    [JsonProperty("date")]
     public DateTime Date { get; set; }
 
-    [JsonFx.Json.JsonName("comment")]
+    [JsonProperty("comment")]
     public string Comment { get; set; }
 
-    [JsonFx.Json.JsonName("files")]
+    [JsonProperty("files")]
     public FileWrapper Files { get; set; }
 
-    [JsonFx.Json.JsonName("user")]
+    [JsonProperty("user")]
     public User User { get; set; }
 
     [JsonProperty("vcs-root-instance")]
-    [JsonFx.Json.JsonName("vcs-root-instance")]
     public VcsRoot VcsRootInstance { get; set; }
   }
 }

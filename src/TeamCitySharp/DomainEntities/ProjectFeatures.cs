@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace TeamCitySharp.DomainEntities
 {
   public class ProjectFeatures
   {
-    [JsonFx.Json.JsonName("projectFeature")]
+    [JsonProperty("projectFeature")]
     public List<ProjectFeature> ProjectFeature { get; set; }
   }
 }

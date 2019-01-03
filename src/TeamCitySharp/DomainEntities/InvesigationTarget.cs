@@ -1,14 +1,16 @@
-﻿namespace TeamCitySharp.DomainEntities
+﻿using Newtonsoft.Json;
+
+namespace TeamCitySharp.DomainEntities
 {
   public class InvesigationTarget
   {
-    [JsonFx.Json.JsonName("tests")]
+    [JsonProperty("tests")]
     public Tests Tests { get; set; }
 
-    [JsonFx.Json.JsonName("anyProblem")]
+    [JsonProperty("anyProblem")]
     public string AnyProblem { get; set; }
 
-    [JsonFx.Json.JsonName("resolution")]
+    [JsonProperty("resolution")]
     public InvesigationResolution Resolution { get; set; }
   }
 }

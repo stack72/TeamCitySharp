@@ -11,7 +11,6 @@ namespace TeamCitySharp.DomainEntities
     }
 
     [JsonProperty("agent-requirement")]
-    [JsonFx.Json.JsonName("agent-requirement")]
     public List<AgentRequirement> AgentRequirement { get; set; }
   }
 }

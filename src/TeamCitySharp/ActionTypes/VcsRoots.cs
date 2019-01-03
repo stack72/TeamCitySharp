@@ -4,10 +4,7 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
-using JsonFx.Json;
-using JsonFx.Json.Resolvers;
-using JsonFx.Serialization;
-using JsonFx.Serialization.Resolvers;
+using Newtonsoft.Json;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
 using TeamCitySharp.Locators;
@@ -48,10 +45,7 @@ namespace TeamCitySharp.ActionTypes
 
     public VcsRoot AttachVcsRoot(BuildTypeLocator locator, VcsRoot vcsRoot)
     {
-      var writer =
-        new JsonWriter(
-          new DataWriterSettings(new JsonResolverStrategy()));
-      var data = writer.Write(new VcsRootEntry{ VcsRoot = new VcsRoot { Id = vcsRoot.Id}});
+      var data = JsonConvert.SerializeObject(new VcsRootEntry{ VcsRoot = new VcsRoot { Id = vcsRoot.Id}});
 
       return m_caller.PostFormat<VcsRoot>(data, HttpContentTypes.ApplicationJson, HttpContentTypes.ApplicationJson,
                                          "/app/rest/buildTypes/{0}/vcs-root-entries", locator);
@@ -80,10 +74,7 @@ namespace TeamCitySharp.ActionTypes
 
     public VcsRoot CreateVcsRoot(VcsRoot vcsRoot, string projectId )
     {
-      var writer =
-        new JsonWriter(
-          new DataWriterSettings(new JsonResolverStrategy()));
-      var data = writer.Write(vcsRoot);
+      var data = JsonConvert.SerializeObject(vcsRoot);
 
       return m_caller.PostFormat<VcsRoot>(data, HttpContentTypes.ApplicationJson,
           HttpContentTypes.ApplicationJson, "/app/rest/vcs-roots",

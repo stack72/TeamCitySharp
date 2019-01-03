@@ -2,7 +2,7 @@
 using System.IO;
 using System.Net.Http;
 using System.Text;
-using JsonFx.Json;
+using Newtonsoft.Json;
 
 namespace TeamCitySharp.Connection
 {
@@ -15,17 +15,13 @@ namespace TeamCitySharp.Connection
 
         public static HttpResponseMessage Post(this HttpClient src, string url, object body, string contentType)
         {
-            var writer = new JsonWriter();
-            var asJson = writer.Write(body);
-            var content = new StringContent(asJson, Encoding.ASCII, contentType);
+            var content = new StringContent(JsonConvert.SerializeObject(body), Encoding.ASCII, contentType);
             return src.PostAsync(url, content).GetAwaiter().GetResult();
         }
         
         public static HttpResponseMessage Put(this HttpClient src, string url, object body, string contentType)
         {
-            var writer = new JsonWriter();
-            var asJson = writer.Write(body);
-            var content = new StringContent(asJson, Encoding.ASCII, contentType);
+            var content = new StringContent(JsonConvert.SerializeObject(body), Encoding.ASCII, contentType);
             return src.PutAsync(url, content).GetAwaiter().GetResult();
         }
 

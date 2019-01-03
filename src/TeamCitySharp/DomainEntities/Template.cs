@@ -1,20 +1,22 @@
-﻿namespace TeamCitySharp.DomainEntities
+﻿using Newtonsoft.Json;
+
+namespace TeamCitySharp.DomainEntities
 {
   public class Template
   {
-    [JsonFx.Json.JsonName("id")]
+    [JsonProperty("id")]
     public string Id { get; set; }
 
-    [JsonFx.Json.JsonName("name")]
+    [JsonProperty("name")]
     public string Name { get; set; }
 
-    [JsonFx.Json.JsonName("href")]
+    [JsonProperty("href")]
     public string Href { get; set; }
 
-    [JsonFx.Json.JsonName("projectId")]
+    [JsonProperty("projectId")]
     public string ProjectId { get; set; }
 
-    [JsonFx.Json.JsonName("projectName")]
+    [JsonProperty("projectName")]
     public string ProjectName { get; set; }
 
     public Template()

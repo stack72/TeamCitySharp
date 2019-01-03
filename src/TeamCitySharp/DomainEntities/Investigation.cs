@@ -1,30 +1,31 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace TeamCitySharp.DomainEntities
 {
   public class Investigation
   {
-    [JsonFx.Json.JsonName("id")]
+    [JsonProperty("id")]
     public string Id { get; set; }
 
-    [JsonFx.Json.JsonName("state")]
+    [JsonProperty("state")]
     public string State { get; set; }
 
-    [JsonFx.Json.JsonName("href")]
+    [JsonProperty("href")]
     public string Href { get; set; }
 
-    [JsonFx.Json.JsonName("assignee")]
+    [JsonProperty("assignee")]
     public User Assignee { get; set; }
 
-    [JsonFx.Json.JsonName("assignment")]
+    [JsonProperty("assignment")]
     public InvestigationAssignment Assignment { get; set; }
 
-    [JsonFx.Json.JsonName("scope")]
+    [JsonProperty("scope")]
     public InvestigationScope Scope { get; set; }
 
-    [JsonFx.Json.JsonName("target")]
+    [JsonProperty("target")]
     public InvesigationTarget Target { get; set; }
   }
 }

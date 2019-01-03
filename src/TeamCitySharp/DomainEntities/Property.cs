@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace TeamCitySharp.DomainEntities
 {
   public class Property
@@ -18,11 +20,11 @@ namespace TeamCitySharp.DomainEntities
       return Name;
     }
 
-    [JsonFx.Json.JsonName("name")]
+    [JsonProperty("name")]
     public string Name { get; set; }
-    [JsonFx.Json.JsonName("value")]
+    [JsonProperty("value")]
     public string Value { get; set; }
-    [JsonFx.Json.JsonName("inherited")]
+    [JsonProperty("inherited")]
     public bool Inherited { get; set; }
   }
 }

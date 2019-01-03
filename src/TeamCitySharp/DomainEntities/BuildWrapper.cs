@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace TeamCitySharp.DomainEntities
 {
   public class BuildWrapper
   {
-    [JsonFx.Json.JsonName("count")]
+    [JsonProperty("count")]
     public string Count { get; set; }
 
-    [JsonFx.Json.JsonName("build")]
+    [JsonProperty("build")]
     public List<Build> Build { get; set; }
   }
 }

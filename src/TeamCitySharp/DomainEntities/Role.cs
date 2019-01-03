@@ -1,14 +1,16 @@
-﻿namespace TeamCitySharp.DomainEntities
+﻿using Newtonsoft.Json;
+
+namespace TeamCitySharp.DomainEntities
 {
   public class Role
   {
-    [JsonFx.Json.JsonName("href")]
+    [JsonProperty("href")]
     public string Href { get; set; }
 
-    [JsonFx.Json.JsonName("scope")]
+    [JsonProperty("scope")]
     public string Scope { get; set; }
 
-    [JsonFx.Json.JsonName("roleId")]
+    [JsonProperty("roleId")]
     public string RoleId { get; set; }
 
     public override string ToString()

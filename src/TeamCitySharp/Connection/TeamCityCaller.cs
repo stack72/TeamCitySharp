@@ -12,34 +12,32 @@ namespace TeamCitySharp.Connection
 {
   internal class TeamCityCaller : ITeamCityCaller
   {
-    private readonly Credentials credentials;
-    private bool useNoCache;
+    private readonly Credentials m_credentials;
+    private bool m_useNoCache;
 
     public TeamCityCaller(string hostName, bool useSsl)
     {
       if (string.IsNullOrEmpty(hostName))
         throw new ArgumentNullException("hostName");
 
-      credentials = new Credentials();
-      credentials.UseSSL = useSsl;
-      credentials.HostName = hostName;
+      m_credentials = new Credentials {UseSSL = useSsl, HostName = hostName};
     }
 
     public void DisableCache()
     {
-      useNoCache = true;
+      m_useNoCache = true;
     }
 
     public void EnableCache()
     {
-      useNoCache = false;
+      m_useNoCache = false;
     }
 
     public void Connect(string userName, string password, bool actAsGuest)
     {
-      credentials.Password = password;
-      credentials.UserName = userName;
-      credentials.ActAsGuest = actAsGuest;
+      m_credentials.Password = password;
+      m_credentials.UserName = userName;
+      m_credentials.ActAsGuest = actAsGuest;
     }
 
     public T GetFormat<T>(string urlPart, params object[] parts)
@@ -52,19 +50,19 @@ namespace TeamCitySharp.Connection
       Get(string.Format(urlPart, parts));
     }
 
-    public T PostFormat<T>(object data, string contenttype, string accept, string urlPart, params object[] parts)
+    public T PostFormat<T>(object data, string contentType, string accept, string urlPart, params object[] parts)
     {
-      return Post<T>(data.ToString(), contenttype, string.Format(urlPart, parts), accept);
+      return Post<T>(data.ToString(), contentType, string.Format(urlPart, parts), accept);
     }
 
-    public void PostFormat(object data, string contenttype, string urlPart, params object[] parts)
+    public void PostFormat(object data, string contentType, string urlPart, params object[] parts)
     {
-      Post(data.ToString(), contenttype, string.Format(urlPart, parts), string.Empty);
+      Post(data.ToString(), contentType, string.Format(urlPart, parts), string.Empty);
     }
 
-    public void PutFormat(object data, string contenttype, string urlPart, params object[] parts)
+    public void PutFormat(object data, string contentType, string urlPart, params object[] parts)
     {
-      Put(data.ToString(), contenttype, string.Format(urlPart, parts), string.Empty);
+      Put(data.ToString(), contentType, string.Format(urlPart, parts), string.Empty);
     }
 
     public void DeleteFormat(string urlPart, params object[] parts)
@@ -77,17 +75,17 @@ namespace TeamCitySharp.Connection
       if (CheckForUserNameAndPassword())
         throw new ArgumentException("If you are not acting as a guest you must supply userName and password");
       if (string.IsNullOrEmpty(urlPart))
-        throw new ArgumentException("Url must be specfied");
+        throw new ArgumentException("Url must be specified");
 
       if (downloadHandler == null)
-        throw new ArgumentException("A download handler must be specfied.");
+        throw new ArgumentException("A download handler must be specified.");
 
       string tempFileName = Path.GetRandomFileName();
       var url = CreateUrl(string.Format(urlPart, parts));
 
       try
       {
-        CreateHttpClient(credentials.UserName, credentials.Password, HttpContentTypes.ApplicationJson)
+        CreateHttpClient(m_credentials.UserName, m_credentials.Password, HttpContentTypes.ApplicationJson)
           .GetAsFile(url, tempFileName);
         downloadHandler.Invoke(tempFileName);
       }
@@ -104,11 +102,11 @@ namespace TeamCitySharp.Connection
         throw new ArgumentException("If you are not acting as a guest you must supply userName and password");
 
       if (string.IsNullOrEmpty(urlPart))
-        throw new ArgumentException("Url must be specfied");
+        throw new ArgumentException("Url must be specified");
 
       var url = CreateUrl(urlPart);
 
-      var httpClient = CreateHttpClient(credentials.UserName, credentials.Password, HttpContentTypes.TextPlain);
+      var httpClient = CreateHttpClient(m_credentials.UserName, m_credentials.Password, HttpContentTypes.TextPlain);
       var response = httpClient.Post(url, null, HttpContentTypes.TextPlain);
       ThrowIfHttpError(response, url);
 
@@ -135,26 +133,26 @@ namespace TeamCitySharp.Connection
         throw new ArgumentException("If you are not acting as a guest you must supply userName and password");
 
       if (string.IsNullOrEmpty(urlPart))
-        throw new ArgumentException("Url must be specfied");
+        throw new ArgumentException("Url must be specified");
 
       var url = CreateUrl(urlPart);
 
       var response =
-        CreateHttpClient(credentials.UserName, credentials.Password, HttpContentTypes.ApplicationJson).Get(url);
+        CreateHttpClient(m_credentials.UserName, m_credentials.Password, HttpContentTypes.ApplicationJson).Get(url);
       ThrowIfHttpError(response, url);
       return response;
     }
 
-    public T Post<T>(object data, string contenttype, string urlPart, string accept)
+    public T Post<T>(object data, string contentType, string urlPart, string accept)
     {
-      return Post(data, contenttype, urlPart, accept).StaticBody<T>();
+      return Post(data, contentType, urlPart, accept).StaticBody<T>();
     }
 
     public bool Authenticate(string urlPart, bool throwExceptionOnHttpError = true)
     {
       try
       {
-        var httpClient = CreateHttpClient(credentials.UserName, credentials.Password, HttpContentTypes.TextPlain);
+        var httpClient = CreateHttpClient(m_credentials.UserName, m_credentials.Password, HttpContentTypes.TextPlain);
         var response = httpClient.Get(CreateUrl(urlPart));
         if (response.StatusCode != HttpStatusCode.OK && throwExceptionOnHttpError)
         {
@@ -169,16 +167,16 @@ namespace TeamCitySharp.Connection
       }
     }
 
-    public HttpResponseMessage Post(object data, string contenttype, string urlPart, string accept)
+    public HttpResponseMessage Post(object data, string contentType, string urlPart, string accept)
     {
-      var response = MakePostRequest(data, contenttype, urlPart, accept);
+      var response = MakePostRequest(data, contentType, urlPart, accept);
 
       return response;
     }
 
-    public HttpResponseMessage Put(object data, string contenttype, string urlPart, string accept)
+    public HttpResponseMessage Put(object data, string contentType, string urlPart, string accept)
     {
-      var response = MakePutRequest(data, contenttype, urlPart, accept);
+      var response = MakePutRequest(data, contentType, urlPart, accept);
 
       return response;
     }
@@ -190,30 +188,30 @@ namespace TeamCitySharp.Connection
 
     private void MakeDeleteRequest(string urlPart)
     {
-      var client = CreateHttpClient(credentials.UserName, credentials.Password, HttpContentTypes.TextPlain);
+      var client = CreateHttpClient(m_credentials.UserName, m_credentials.Password, HttpContentTypes.TextPlain);
       var url = CreateUrl(urlPart);
       var response = client.Delete(url);
       ThrowIfHttpError(response, url);
     }
 
-    private HttpResponseMessage MakePostRequest(object data, string contenttype, string urlPart, string accept)
+    private HttpResponseMessage MakePostRequest(object data, string contentType, string urlPart, string accept)
     {
-      var client = CreateHttpClient(credentials.UserName, credentials.Password,
+      var client = CreateHttpClient(m_credentials.UserName, m_credentials.Password,
                                     string.IsNullOrWhiteSpace(accept) ? GetContentType(data.ToString()) : accept);
      
       var url = CreateUrl(urlPart);
-      var response = client.Post(url, data, contenttype);
+      var response = client.Post(url, data, contentType);
       ThrowIfHttpError(response, url);
 
       return response;
     }
 
-    private HttpResponseMessage MakePutRequest(object data, string contenttype, string urlPart, string accept)
+    private HttpResponseMessage MakePutRequest(object data, string contentType, string urlPart, string accept)
     {
-      var client = CreateHttpClient(credentials.UserName, credentials.Password,
+      var client = CreateHttpClient(m_credentials.UserName, m_credentials.Password,
                                     string.IsNullOrWhiteSpace(accept) ? GetContentType(data.ToString()) : accept);
       var url = CreateUrl(urlPart);
-      var response = client.Put(url, data, contenttype);
+      var response = client.Put(url, data, contentType);
       ThrowIfHttpError(response, url);
 
       return response;
@@ -242,9 +240,9 @@ namespace TeamCitySharp.Connection
 
     private string CreateUrl(string urlPart)
     {
-      var protocol = credentials.UseSSL ? "https://" : "http://";
-      var authType = credentials.ActAsGuest ? "/guestAuth" : "/httpAuth";
-      var uri = $"{protocol}{credentials.HostName}{authType}{urlPart}";
+      var protocol = m_credentials.UseSSL ? "https://" : "http://";
+      var authType = m_credentials.ActAsGuest ? "/guestAuth" : "/httpAuth";
+      var uri = $"{protocol}{m_credentials.HostName}{authType}{urlPart}";
       return Uri.EscapeUriString(uri).Replace("+", "%2B");
     }
 
@@ -254,9 +252,9 @@ namespace TeamCitySharp.Connection
       httpClient.DefaultRequestHeaders.Accept
           .Add(new MediaTypeWithQualityHeaderValue(accept));
 
-      if (useNoCache)
+      if (m_useNoCache)
         httpClient.DefaultRequestHeaders.CacheControl = new CacheControlHeaderValue{NoCache = true};
-      if (!credentials.ActAsGuest)
+      if (!m_credentials.ActAsGuest)
       {
         var credentials = Encoding.ASCII.GetBytes($"{userName}:{password}");
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(credentials));
@@ -272,11 +270,11 @@ namespace TeamCitySharp.Connection
         throw new ArgumentException("If you are not acting as a guest you must supply userName and password");
 
       if (string.IsNullOrEmpty(urlPart))
-        throw new ArgumentException("Url must be specfied");
+        throw new ArgumentException("Url must be specified");
 
       var url = CreateUrl(urlPart);
 
-      var httpClient = CreateHttpClient(credentials.UserName, credentials.Password, HttpContentTypes.TextPlain);
+      var httpClient = CreateHttpClient(m_credentials.UserName, m_credentials.Password, HttpContentTypes.TextPlain);
       var response = httpClient.Get(url);
       if (IsHttpError(response))
       {
@@ -289,8 +287,8 @@ namespace TeamCitySharp.Connection
 
     private bool CheckForUserNameAndPassword()
     {
-      return !credentials.ActAsGuest && string.IsNullOrEmpty(credentials.UserName) &&
-             string.IsNullOrEmpty(credentials.Password);
+      return !m_credentials.ActAsGuest && string.IsNullOrEmpty(m_credentials.UserName) &&
+             string.IsNullOrEmpty(m_credentials.Password);
     }
 
     private string GetContentType(string data)
@@ -302,20 +300,20 @@ namespace TeamCitySharp.Connection
 
     public bool GetBoolean(string urlPart, params object[] parts)
     {
-      var urlfull = string.Format(urlPart, parts);
+      var urlFull = string.Format(urlPart, parts);
 
       try
       {
         if (CheckForUserNameAndPassword())
           throw new ArgumentException("If you are not acting as a guest you must supply userName and password");
 
-        if (string.IsNullOrEmpty(urlfull))
-          throw new ArgumentException("Url must be specfied");
+        if (string.IsNullOrEmpty(urlFull))
+          throw new ArgumentException("Url must be specified");
 
-        var url = CreateUrl(urlfull);
+        var url = CreateUrl(urlFull);
 
         var response =
-          CreateHttpClient(credentials.UserName, credentials.Password, HttpContentTypes.ApplicationJson).Get(url);
+          CreateHttpClient(m_credentials.UserName, m_credentials.Password, HttpContentTypes.ApplicationJson).Get(url);
         return !IsHttpError(response);
       }
       catch (Exception)

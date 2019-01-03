@@ -1,22 +1,23 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace TeamCitySharp.DomainEntities
 {
   public class Triggered
   {
-    [JsonFx.Json.JsonName("type")]
+    [JsonProperty("type")]
     public string Type { get; set; }
 
-    [JsonFx.Json.JsonName("date")]
+    [JsonProperty("date")]
     public DateTime Date { get; set; }
 
-    [JsonFx.Json.JsonName("buildType")]
+    [JsonProperty("buildType")]
     public BuildConfig BuildType { get; set; }
 
-    [JsonFx.Json.JsonName("details")]
+    [JsonProperty("details")]
     public string Details { get; set;  }
 
-    [JsonFx.Json.JsonName("user")]
+    [JsonProperty("user")]
     public User User { get; set; }
   }
 }

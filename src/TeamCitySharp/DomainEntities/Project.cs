@@ -1,4 +1,6 @@
-﻿namespace TeamCitySharp.DomainEntities
+﻿using Newtonsoft.Json;
+
+namespace TeamCitySharp.DomainEntities
 {
   public class Project
   {
@@ -7,30 +9,29 @@
       return Name;
     }
 
-    [JsonFx.Json.JsonName("archived")]
+    [JsonProperty("archived")]
     public bool Archived { get; set; }
-    [JsonFx.Json.JsonName("description")]
+    [JsonProperty("description")]
     public string Description { get; set; }
-    [JsonFx.Json.JsonName("href")]
+    [JsonProperty("href")]
     public string Href { get; set; }
-    [JsonFx.Json.JsonName("id")]
+    [JsonProperty("id")]
     public string Id { get; set; }
-    [JsonFx.Json.JsonName("name")]
+    [JsonProperty("name")]
     public string Name { get; set; }
-    [JsonFx.Json.JsonName("webUrl")]
+    [JsonProperty("webUrl")]
     public string WebUrl { get; set; }
-
-    [JsonFx.Json.JsonName("parentProject")]
+    [JsonProperty("parentProject")]
     public Project ParentProject { get; set; }
-    [JsonFx.Json.JsonName("buildTypes ")]
+    [JsonProperty("buildTypes")]
     public BuildTypeWrapper BuildTypes { get; set; }
-    [JsonFx.Json.JsonName("parameters")]
+    [JsonProperty("parameters")]
     public Parameters Parameters { get; set; }
-    [JsonFx.Json.JsonName("templates")]
+    [JsonProperty("templates")]
     public Templates Templates { get; set; }
-    [JsonFx.Json.JsonName("projects")]
+    [JsonProperty("projects")]
     public ProjectWrapper Projects { get; set; }
-    [JsonFx.Json.JsonName("projectFeatures")]
+    [JsonProperty("projectFeatures")]
     public ProjectFeatures ProjectFeatures { get; set; }
 
   }

@@ -6,10 +6,8 @@ using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Xml;
-using JsonFx.Json;
-using JsonFx.Json.Resolvers;
-using JsonFx.Serialization;
-using JsonFx.Serialization.Resolvers;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
 using TeamCitySharp.Locators;
@@ -153,10 +151,8 @@ namespace TeamCitySharp.ActionTypes
       var response = CopyBuildConfig(buildConfigId, buildConfigName, destinationProjectId, newBuildTypeId);
       if (response.StatusCode == HttpStatusCode.OK)
       {
-        var reader =
-          new JsonReader(
-            new DataReaderSettings(new ConventionResolverStrategy(ConventionResolverStrategy.WordCasing.Lowercase, "-")));
-        var buildConfig = reader.Read<BuildConfig>(response.RawText());
+        var serializer = new JsonSerializer();
+        var buildConfig = (BuildConfig)serializer.Deserialize(new JTokenReader(response.RawText()), typeof(BuildConfig));
         return buildConfig;
       }
       return new BuildConfig();
@@ -168,10 +164,8 @@ namespace TeamCitySharp.ActionTypes
       var response = CopyTemplateQuery(templateId, templateName, destinationProjectId, newTemplateId);
       if (response.StatusCode == HttpStatusCode.OK)
       {
-        var reader =
-          new JsonReader(
-            new DataReaderSettings(new ConventionResolverStrategy(ConventionResolverStrategy.WordCasing.Lowercase, "-")));
-        var template = reader.Read<Template>(response.RawText());
+        var serializer = new JsonSerializer();
+        var template = (Template)serializer.Deserialize(new JTokenReader(response.RawText()), typeof(Template));
         return template;
       }
       return new Template();
@@ -362,12 +356,10 @@ namespace TeamCitySharp.ActionTypes
           if (triggerId != property.Value) continue;
 
           property.Value = newBt;
-          var writer =
-            new JsonWriter(
-              new DataWriterSettings(new JsonResolverStrategy()));
-          var ttt = writer.Write(trigger);
+
+          var tmpTrigger = JsonConvert.SerializeObject(trigger);
           var urlNewTrigger = $"/app/rest/buildTypes/id:{buildTypeId}/triggers";
-          var response = m_caller.Post(ttt, HttpContentTypes.ApplicationJson, urlNewTrigger,
+          var response = m_caller.Post(tmpTrigger, HttpContentTypes.ApplicationJson, urlNewTrigger,
                                       HttpContentTypes.ApplicationJson);
           if (response.StatusCode != HttpStatusCode.OK) continue;
 
@@ -388,11 +380,8 @@ namespace TeamCitySharp.ActionTypes
       snapshot.SourceBuildType.Id = newBt;
 
       var urlNewTrigger = $"/app/rest/buildTypes/id:{buildTypeId}/snapshot-dependencies";
-      var writer =
-        new JsonWriter(
-          new DataWriterSettings(new JsonResolverStrategy()));
 
-      var tmpArtifact = (writer.Write(snapshot));
+      var tmpArtifact = JsonConvert.SerializeObject(snapshot);
       tmpArtifact = Regex.Replace(tmpArtifact, "source-build-type", "source-buildType");
 
 
@@ -416,10 +405,7 @@ namespace TeamCitySharp.ActionTypes
       {
         if (dependencyId != artifact.SourceBuildType.Id) continue;
         artifact.SourceBuildType.Id = newBt;
-        var writer =
-          new JsonWriter(
-            new DataWriterSettings(new JsonResolverStrategy()));
-        var tmpArtifact = writer.Write(artifact);
+        var tmpArtifact = JsonConvert.SerializeObject(artifact);
         tmpArtifact = Regex.Replace(tmpArtifact, "source-build-type", "source-buildType");
 
         var urlNewTrigger = $"/app/rest/buildTypes/id:{buildTypeId}/artifact-dependencies";

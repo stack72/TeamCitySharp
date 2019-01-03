@@ -19,8 +19,8 @@ namespace TeamCitySharp.IntegrationTests
     private readonly bool m_useSsl;
     private readonly string m_username;
     private readonly string m_password;
-    private readonly string m_goodBuildConfigId;
-    private readonly string m_goodProjectId;
+    private readonly string m_queuedBuildConfigId;
+    private readonly string m_queuedProjectId;
 
 
     public when_interacting_to_get_build_queue_info()
@@ -29,8 +29,8 @@ namespace TeamCitySharp.IntegrationTests
       bool.TryParse(ConfigurationManager.AppSettings["UseSsl"], out m_useSsl);
       m_username = ConfigurationManager.AppSettings["Username"];
       m_password = ConfigurationManager.AppSettings["Password"];
-      m_goodBuildConfigId = ConfigurationManager.AppSettings["QueuedBuildConfigId"];
-      m_goodProjectId = ConfigurationManager.AppSettings["QueuedProjectId"];
+      m_queuedBuildConfigId = ConfigurationManager.AppSettings["QueuedBuildConfigId"];
+      m_queuedProjectId = ConfigurationManager.AppSettings["QueuedProjectId"];
     }
 
     [SetUp]
@@ -43,7 +43,7 @@ namespace TeamCitySharp.IntegrationTests
     [Test]
     public void it_returns_the_builds_queued_by_build_config_id()
     {
-      var result = m_client.BuildQueue.ByBuildTypeLocator(BuildTypeLocator.WithId(m_goodBuildConfigId));
+      var result = m_client.BuildQueue.ByBuildTypeLocator(BuildTypeLocator.WithId(m_queuedBuildConfigId));
 
       Assert.IsNotEmpty(result);
     }
@@ -51,7 +51,7 @@ namespace TeamCitySharp.IntegrationTests
     [Test]
     public void it_returns_the_builds_queued_by_project_id()
     {
-      var result = m_client.BuildQueue.ByProjectLocater(ProjectLocator.WithId(m_goodProjectId));
+      var result = m_client.BuildQueue.ByProjectLocater(ProjectLocator.WithId(m_queuedProjectId));
 
       Assert.IsNotEmpty(result);
     }

@@ -9,80 +9,76 @@ namespace TeamCitySharp.DomainEntities
       return Name;
     }
 
-    [JsonFx.Json.JsonName("id")]
+    [JsonProperty("id")]
     public string Id { get; set; }
 
-    [JsonFx.Json.JsonName("name")]
+    [JsonProperty("name")]
     public string Name { get; set; }
 
-    [JsonFx.Json.JsonName("number")]
+    [JsonProperty("number")]
     public string Number { get; set; }
 
-    [JsonFx.Json.JsonName("status")]
+    [JsonProperty("status")]
     public string Status { get; set; }
 
-    [JsonFx.Json.JsonName("href")]
+    [JsonProperty("href")]
     public string Href { get; set; }
 
-    [JsonFx.Json.JsonName("projectId")]
+    [JsonProperty("projectId")]
     public string ProjectId { get; set; }
 
-    [JsonFx.Json.JsonName("projectName")]
+    [JsonProperty("projectName")]
     public string ProjectName { get; set; }
 
-    [JsonFx.Json.JsonName("description")]
+    [JsonProperty("description")]
     public string Description { get; set; }
 
-    [JsonFx.Json.JsonName("webUrl")]
+    [JsonProperty("webUrl")]
     public string WebUrl { get; set; }
 
-    [JsonFx.Json.JsonName("personal")]
+    [JsonProperty("personal")]
     public bool? Personal { get; set; }
 
-    [JsonFx.Json.JsonName("cancelled")]
+    [JsonProperty("cancelled")]
     public bool? Cancelled { get; set; }
 
-    [JsonFx.Json.JsonName("history")]
+    [JsonProperty("history")]
     public bool? History { get; set; }
 
-    [JsonFx.Json.JsonName("pinned")]
+    [JsonProperty("pinned")]
     public bool? Pinned { get; set; }
 
-    [JsonFx.Json.JsonName("running")]
+    [JsonProperty("running")]
     public bool? Running { get; set; }
 
-    [JsonFx.Json.JsonName("project")]
+    [JsonProperty("project")]
     public Project Project { get; set; }
 
-    [JsonFx.Json.JsonName("template")]
+    [JsonProperty("template")]
     public Template Template { get; set; }
 
-    [JsonFx.Json.JsonName("parameters")]
+    [JsonProperty("parameters")]
     public Parameters Parameters { get; set; }
 
     [JsonProperty("artifact-dependencies")]
-    [JsonFx.Json.JsonName("artifact-dependencies")]
     public ArtifactDependencies ArtifactDependencies { get; set; }
 
     [JsonProperty("snapshot-dependencies")]
-    [JsonFx.Json.JsonName("snapshot-dependencies")]
     public SnapshotDependencies SnapshotDependencies { get; set; }
 
     [JsonProperty("vcs-root-entries")]
-    [JsonFx.Json.JsonName("vcs-root-entries")]
     public VcsRootEntries VcsRootEntries { get; set; }
 
-    [JsonFx.Json.JsonName("steps")]
+    [JsonProperty("steps")]
     public BuildSteps Steps { get; set; }
 
     [JsonProperty("agent-requirements")]
-    [JsonFx.Json.JsonName("agent-requirements")]
     public AgentRequirements AgentRequirements { get; set; }
 
-    [JsonFx.Json.JsonName("triggers")]
+    [JsonProperty("triggers")]
     public BuildTriggers Triggers { get; set; }
 
-    [JsonFx.Json.JsonName("settings")]
+    [JsonProperty("settings")]
     public Properties Settings { get; set; }
   }
 }

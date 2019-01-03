@@ -1,22 +1,23 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace TeamCitySharp.DomainEntities
 {
   public class Server
   {
-    [JsonFx.Json.JsonName("versonMajor")]
-    public string VersonMajor { get; set; }
+    [JsonProperty("versionMajor")]
+    public string VersionMajor { get; set; }
 
-    [JsonFx.Json.JsonName("version")]
+    [JsonProperty("version")]
     public string Version { get; set; }
 
-    [JsonFx.Json.JsonName("buildNumber")]
+    [JsonProperty("buildNumber")]
     public string BuildNumber { get; set; }
 
-    [JsonFx.Json.JsonName("currentTime")]
+    [JsonProperty("currentTime")]
     public DateTime CurrentTime { get; set; }
 
-    [JsonFx.Json.JsonName("startTime")]
+    [JsonProperty("startTime")]
     public DateTime StartTime { get; set; }
   }
 }

@@ -11,7 +11,6 @@ namespace TeamCitySharp.DomainEntities
     }
 
     [JsonProperty("snapshot-dependency")]
-    [JsonFx.Json.JsonName("snapshot-dependency")]
     public List<SnapshotDependency> SnapshotDependency { get; set; }
   }
 }

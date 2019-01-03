@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace TeamCitySharp.DomainEntities
 {
   public class InvestigationWrapper
   {
-    [JsonFx.Json.JsonName("investigation")]
+    [JsonProperty("investigation")]
     public List<Investigation> Investigation { get; set; }
   }
 }
