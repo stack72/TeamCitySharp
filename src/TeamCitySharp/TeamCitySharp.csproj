@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+    <Version>2.0.0-beta1</Version>
   </PropertyGroup>
 
   <!-- .NET Standard 2.0 references, compilation flags and build options -->
