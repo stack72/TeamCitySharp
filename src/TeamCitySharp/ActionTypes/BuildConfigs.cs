@@ -11,6 +11,7 @@ using Newtonsoft.Json.Linq;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
 using TeamCitySharp.Locators;
+using static System.Boolean;
 
 namespace TeamCitySharp.ActionTypes
 {
@@ -191,7 +192,9 @@ namespace TeamCitySharp.ActionTypes
 
     public bool GetConfigurationPauseStatus(BuildTypeLocator locator)
     {
-      return m_caller.Get<bool>($"/app/rest/buildTypes/{locator.Name}/paused/");
+      TryParse(
+        m_caller.GetRaw(ActionHelper.CreateFieldUrl($"/app/rest/buildTypes/{locator}/paused/", m_fields)), out var result);
+      return result;
     }
 
     public void SetConfigurationPauseStatus(BuildTypeLocator locator, bool isPaused)
@@ -357,9 +360,8 @@ namespace TeamCitySharp.ActionTypes
 
           property.Value = newBt;
 
-          var tmpTrigger = JsonConvert.SerializeObject(trigger);
           var urlNewTrigger = $"/app/rest/buildTypes/id:{buildTypeId}/triggers";
-          var response = m_caller.Post(tmpTrigger, HttpContentTypes.ApplicationJson, urlNewTrigger,
+          var response = m_caller.Post(trigger, HttpContentTypes.ApplicationJson, urlNewTrigger,
                                       HttpContentTypes.ApplicationJson);
           if (response.StatusCode != HttpStatusCode.OK) continue;
 
@@ -375,17 +377,13 @@ namespace TeamCitySharp.ActionTypes
     public bool ModifSnapshotDependencies(string buildTypeId, string dependencyId, string newBt)
     {
       var urlExtractOld = $"/app/rest/buildTypes/id:{buildTypeId}/snapshot-dependencies/{dependencyId}";
-      var snapshot = m_caller.GetFormat<SnapshotDependency>(urlExtractOld);
+      var snapshot = (CustomSnapshotDependency)m_caller.GetFormat<SnapshotDependency>(urlExtractOld);
       snapshot.Id = newBt;
       snapshot.SourceBuildType.Id = newBt;
 
       var urlNewTrigger = $"/app/rest/buildTypes/id:{buildTypeId}/snapshot-dependencies";
 
-      var tmpArtifact = JsonConvert.SerializeObject(snapshot);
-      tmpArtifact = Regex.Replace(tmpArtifact, "source-build-type", "source-buildType");
-
-
-      var response = m_caller.Post(tmpArtifact, HttpContentTypes.ApplicationJson, urlNewTrigger, HttpContentTypes.ApplicationJson);
+      var response = m_caller.Post(snapshot, HttpContentTypes.ApplicationJson, urlNewTrigger, HttpContentTypes.ApplicationJson);
       if (response.StatusCode == HttpStatusCode.OK)
       {
         var urlDeleteOld = $"/app/rest/buildTypes/id:{buildTypeId}/snapshot-dependencies/{dependencyId}";
@@ -400,21 +398,24 @@ namespace TeamCitySharp.ActionTypes
     public bool ModifArtifactDependencies(string buildTypeId, string dependencyId, string newBt)
     {
       var urlAllExtractOld = $"/app/rest/buildTypes/id:{buildTypeId}/artifact-dependencies";
-      var artifacts = m_caller.GetFormat<ArtifactDependencies>(urlAllExtractOld);
+      var artifacts = (CustomArtifactDependencies)m_caller.GetFormat<ArtifactDependencies>(urlAllExtractOld);
+      
       foreach (var artifact in artifacts.ArtifactDependency.OrderByDescending(m => m.Id))
       {
         if (dependencyId != artifact.SourceBuildType.Id) continue;
+
+        var oldArtifactId = artifact.Id;
         artifact.SourceBuildType.Id = newBt;
-        var tmpArtifact = JsonConvert.SerializeObject(artifact);
-        tmpArtifact = Regex.Replace(tmpArtifact, "source-build-type", "source-buildType");
+        artifact.Id = null;
 
         var urlNewTrigger = $"/app/rest/buildTypes/id:{buildTypeId}/artifact-dependencies";
 
-        var response = m_caller.Post(tmpArtifact, HttpContentTypes.ApplicationJson, urlNewTrigger,
+
+        var response = m_caller.Post(artifact, HttpContentTypes.ApplicationJson, urlNewTrigger,
                                     HttpContentTypes.ApplicationJson);
         if (response.StatusCode == HttpStatusCode.OK)
         {
-          var urlDeleteOld = $"/app/rest/buildTypes/id:{buildTypeId}/artifact-dependencies/{artifact.Id}";
+          var urlDeleteOld = $"/app/rest/buildTypes/id:{buildTypeId}/artifact-dependencies/{oldArtifactId}";
           m_caller.Delete(urlDeleteOld);
           return response.StatusCode == HttpStatusCode.OK;
         }
@@ -464,5 +465,110 @@ namespace TeamCitySharp.ActionTypes
     {
       m_caller.DeleteFormat("/app/rest/buildTypes/{0}/template", locator);
     }
+
+    #region Custom structure for copy
+    internal class CustomSourceBuildType
+    {
+      [JsonProperty("id")]
+      internal string Id { get; set; }
+    }
+
+    #region Artifact
+    internal class CustomArtifactDependencies
+    {
+      [JsonProperty("artifact-dependency")]
+      public List<CustomArtifactDependency> ArtifactDependency { get; set; }
+
+      public static explicit operator CustomArtifactDependencies(ArtifactDependencies artifactDependencies)
+      {
+        var tmpArtifactDependencies = new CustomArtifactDependencies { ArtifactDependency = new List<CustomArtifactDependency>() };
+        foreach (var currentArtifactDependency in artifactDependencies.ArtifactDependency)
+        {
+          tmpArtifactDependencies.ArtifactDependency.Add(new CustomArtifactDependency
+          {
+            Id = currentArtifactDependency.Id,
+            Type = currentArtifactDependency.Type,
+            Properties = currentArtifactDependency.Properties,
+            SourceBuildType = new CustomSourceBuildType { Id = currentArtifactDependency.SourceBuildType.Id }
+          });
+        }
+        return tmpArtifactDependencies;
+      }
+    }
+
+    internal class CustomArtifactDependency
+    {
+
+      [JsonProperty("source-buildType")]
+      internal CustomSourceBuildType SourceBuildType { get; set; }
+
+      [JsonProperty("id")]
+      internal string Id { get; set; }
+
+      [JsonProperty("type")]
+      internal string Type { get; set; }
+
+      [JsonProperty("properties")]
+      internal Properties Properties { get; set; }
+
+      public static explicit operator CustomArtifactDependency(SnapshotDependency v)
+      {
+        throw new NotImplementedException();
+      }
+    }
+    #endregion
+
+    #region Snapshot
+    internal class CustomSnapshotDependencies
+    {
+      [JsonProperty("snapshot-dependency")]
+      public List<CustomSnapshotDependency> SnapshotDependency { get; set; }
+
+      public static explicit operator CustomSnapshotDependencies(SnapshotDependencies snapshotDependencies)
+      {
+        var tmpSnapshotDependencies = new CustomSnapshotDependencies { SnapshotDependency = new List<CustomSnapshotDependency>() };
+        foreach (var currentSnapshotDependency in snapshotDependencies.SnapshotDependency)
+        {
+          tmpSnapshotDependencies.SnapshotDependency.Add(new CustomSnapshotDependency
+          {
+            Id = currentSnapshotDependency.Id,
+            Type = currentSnapshotDependency.Type,
+            Properties = currentSnapshotDependency.Properties,
+            SourceBuildType = new CustomSourceBuildType { Id = currentSnapshotDependency.SourceBuildType.Id }
+          });
+        }
+        return tmpSnapshotDependencies;
+      }
+    }
+
+    internal class CustomSnapshotDependency
+    {
+
+      [JsonProperty("source-buildType")]
+      internal CustomSourceBuildType SourceBuildType { get; set; }
+
+      [JsonProperty("id")]
+      internal string Id { get; set; }
+
+      [JsonProperty("type")]
+      internal string Type { get; set; }
+
+      [JsonProperty("properties")]
+      internal Properties Properties { get; set; }
+
+      public static explicit operator CustomSnapshotDependency(SnapshotDependency snapshotDependency)
+      {
+        return new CustomSnapshotDependency
+        {
+          Id = snapshotDependency.Id,
+          Type = snapshotDependency.Type,
+          Properties = snapshotDependency.Properties,
+          SourceBuildType = new CustomSourceBuildType { Id = snapshotDependency.SourceBuildType.Id }
+        };
+      }
+    }
+    #endregion
+    #endregion
   }
+
 }

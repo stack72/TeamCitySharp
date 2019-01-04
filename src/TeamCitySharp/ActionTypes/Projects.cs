@@ -174,9 +174,7 @@ namespace TeamCitySharp.ActionTypes
     
     public ProjectFeature CreateProjectFeature(string projectId, ProjectFeature projectFeature)
     {
-      var data = JsonConvert.SerializeObject(projectFeature);
-
-      return m_caller.PostFormat<ProjectFeature>(data, HttpContentTypes.ApplicationJson,
+      return m_caller.PostFormat<ProjectFeature>(projectFeature, HttpContentTypes.ApplicationJson,
         HttpContentTypes.ApplicationJson, "/app/rest/projects/id:{0}/projectFeatures",
         projectId);
     }

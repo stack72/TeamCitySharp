@@ -45,7 +45,7 @@ namespace TeamCitySharp.ActionTypes
 
     public VcsRoot AttachVcsRoot(BuildTypeLocator locator, VcsRoot vcsRoot)
     {
-      var data = JsonConvert.SerializeObject(new VcsRootEntry{ VcsRoot = new VcsRoot { Id = vcsRoot.Id}});
+      var data = new VcsRootEntry{ VcsRoot = new VcsRoot { Id = vcsRoot.Id}};
 
       return m_caller.PostFormat<VcsRoot>(data, HttpContentTypes.ApplicationJson, HttpContentTypes.ApplicationJson,
                                          "/app/rest/buildTypes/{0}/vcs-root-entries", locator);
@@ -74,9 +74,7 @@ namespace TeamCitySharp.ActionTypes
 
     public VcsRoot CreateVcsRoot(VcsRoot vcsRoot, string projectId )
     {
-      var data = JsonConvert.SerializeObject(vcsRoot);
-
-      return m_caller.PostFormat<VcsRoot>(data, HttpContentTypes.ApplicationJson,
+      return m_caller.PostFormat<VcsRoot>(vcsRoot, HttpContentTypes.ApplicationJson,
           HttpContentTypes.ApplicationJson, "/app/rest/vcs-roots",
           projectId);
 

@@ -18,7 +18,7 @@ namespace TeamCitySharp.ActionTypes
     BuildConfig ByProjectIdAndConfigurationId(string projectId, string buildConfigId);
     List<BuildConfig> ByProjectId(string projectId);
     List<BuildConfig> ByProjectName(string projectName);
-    bool ModifTrigger(string format, string triggerId, string id);
+    bool ModifTrigger(string buildTypeId, string triggerId, string newBt);
     BuildConfig CreateConfiguration(string projectName, string configurationName);
     BuildConfig CreateConfigurationByProjectId(string projectId, string configurationName);
 
