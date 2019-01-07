@@ -1,4 +1,8 @@
+Current Stable Version:
 [![NuGet version (TeamCitySharp-forked-mavezeau)](https://img.shields.io/nuget/v/TeamCitySharp-forked-mavezeau.svg?style=flat-square)](https://www.nuget.org/packages/TeamCitySharp-forked-mavezeau/)
+
+Latest Version:
+[![NuGet version (TeamCitySharp-forked-mavezeau)](https://img.shields.io/nuget/vpre/TeamCitySharp-forked-mavezeau.svg?style=flat-square)](https://www.nuget.org/packages/TeamCitySharp-forked-mavezeau/)
 
 # TeamCitySharp
 
