@@ -10,6 +10,8 @@ namespace TeamCitySharp.DomainEntities
     [JsonProperty("vcs-root-instance")]
     public VcsRoot VcsRootInstance { get; set; }
 
+    [JsonProperty("vcsBranchName")]
+    public string VcsBranchName { get; set; }
 
     public override string ToString()
     {
