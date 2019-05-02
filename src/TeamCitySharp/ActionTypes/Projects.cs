@@ -3,7 +3,6 @@ using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
 
@@ -69,8 +68,7 @@ namespace TeamCitySharp.ActionTypes
                                   HttpContentTypes.ApplicationJson);
       if (response.StatusCode == HttpStatusCode.OK)
       {
-        var serializer = new JsonSerializer();
-        var project = (Project)serializer.Deserialize(new JTokenReader(response.RawText()), typeof(Project));
+        var project = JsonConvert.DeserializeObject<Project>(response.RawText());
         return project;
       }
       return new Project();
@@ -83,8 +81,7 @@ namespace TeamCitySharp.ActionTypes
       var response = m_caller.Put(xmlData, HttpContentTypes.ApplicationXml, url, HttpContentTypes.ApplicationJson);
       if (response.StatusCode == HttpStatusCode.OK)
       {
-        var serializer = new JsonSerializer();
-        var project = (Project)serializer.Deserialize(new JTokenReader(response.RawText()), typeof(Project));
+        var project = JsonConvert.DeserializeObject<Project>(response.RawText());
         return project;
       }
       return new Project();
@@ -108,8 +105,7 @@ namespace TeamCitySharp.ActionTypes
       var response = CopyProject(projectid, projectName, newProjectId, parentProjectId);
       if (response.StatusCode == HttpStatusCode.OK)
       {
-        var serializer = new JsonSerializer();
-        var project = (Project)serializer.Deserialize(new JTokenReader(response.RawText()), typeof(Project));
+        var project = JsonConvert.DeserializeObject<Project>(response.RawText());
         return project;
       }
       return new Project();

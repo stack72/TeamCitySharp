@@ -152,8 +152,7 @@ namespace TeamCitySharp.ActionTypes
       var response = CopyBuildConfig(buildConfigId, buildConfigName, destinationProjectId, newBuildTypeId);
       if (response.StatusCode == HttpStatusCode.OK)
       {
-        var serializer = new JsonSerializer();
-        var buildConfig = (BuildConfig)serializer.Deserialize(new JTokenReader(response.RawText()), typeof(BuildConfig));
+        var buildConfig = JsonConvert.DeserializeObject<BuildConfig>(response.RawText());
         return buildConfig;
       }
       return new BuildConfig();
@@ -165,8 +164,7 @@ namespace TeamCitySharp.ActionTypes
       var response = CopyTemplateQuery(templateId, templateName, destinationProjectId, newTemplateId);
       if (response.StatusCode == HttpStatusCode.OK)
       {
-        var serializer = new JsonSerializer();
-        var template = (Template)serializer.Deserialize(new JTokenReader(response.RawText()), typeof(Template));
+        var template = JsonConvert.DeserializeObject<Template>(response.RawText());
         return template;
       }
       return new Template();
