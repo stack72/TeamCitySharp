@@ -12,6 +12,7 @@ using System.Xml.Serialization;
 using NUnit.Framework;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
+using TeamCitySharp.Fields;
 using TeamCitySharp.Locators;
 
 namespace TeamCitySharp.IntegrationTests
@@ -421,7 +422,60 @@ namespace TeamCitySharp.IntegrationTests
 
     }
 
+    [Test]
+    public void it_returns_first_build_types_builds_investigations_compatible_agents_no_field()
 
+    {
+      var tempBuildConfig = m_client.BuildConfigs.All().First();
+      var buildConfig = m_client.BuildConfigs.ByConfigurationId(tempBuildConfig.Id);
+      Assert.IsNotNull(buildConfig.Builds, "No builds ");
+      Assert.IsNotNull(buildConfig.Builds.Href, "No builds href");
+      Assert.IsNotNull(buildConfig.Investigations, "No Investigations ");
+      Assert.IsNotNull(buildConfig.Investigations.Href, "No Investigations href");
+      Assert.IsNotNull(buildConfig.CompatibleAgents, "No CompatibleAgents ");
+      Assert.IsNotNull(buildConfig.CompatibleAgents.Href, "No CompatibleAgents href");
+    }
+
+    [Test]
+    public void it_returns_first_build_types_builds_investigations_compatible_agents_field_null()
+
+    {
+      var tempBuildConfig = m_client.BuildConfigs.All().First();
+      // Section 1
+      var buildTypeField = BuildTypeField.WithFields(id:true);
+      var buildConfig = m_client.BuildConfigs.GetFields(buildTypeField.ToString()).ByConfigurationId(tempBuildConfig.Id);
+      Assert.IsNull(buildConfig.Builds, "No builds 1");
+      Assert.IsNull(buildConfig.Investigations, "No Investigations 1");
+      Assert.IsNull(buildConfig.CompatibleAgents, "No CompatibleAgents 1");
+
+      // section 2
+      var buildsField = BuildsField.WithFields(count:true);
+      var investigationsField = InvestigationsField.WithFields();
+      var compatibleAgentsField = CompatibleAgentsField.WithFields();
+      buildTypeField = BuildTypeField.WithFields(id: true, builds: buildsField,investigations: investigationsField, compatibleAgents:compatibleAgentsField);
+      buildConfig = m_client.BuildConfigs.GetFields(buildTypeField.ToString()).ByConfigurationId(tempBuildConfig.Id);
+      Assert.IsNotNull(buildConfig.Builds, "No builds 2");
+      Assert.IsNull(buildConfig.Builds.Href, "No builds href 2");
+      Assert.IsNotNull(buildConfig.Investigations, "No Investigations 2");
+      Assert.IsNotNull(buildConfig.Investigations.Href, "No Investigations href 2");
+      Assert.IsNotNull(buildConfig.CompatibleAgents, "No CompatibleAgents 2");
+      Assert.IsNotNull(buildConfig.CompatibleAgents.Href, "No CompatibleAgents href 2");
+
+      // section 3
+      buildsField = BuildsField.WithFields(count: true,href:true);
+      investigationsField = InvestigationsField.WithFields(href:true);
+      compatibleAgentsField = CompatibleAgentsField.WithFields(href:true);
+      buildTypeField = BuildTypeField.WithFields(id: true, builds: buildsField, investigations: investigationsField, compatibleAgents: compatibleAgentsField);
+      buildConfig = m_client.BuildConfigs.GetFields(buildTypeField.ToString()).ByConfigurationId(tempBuildConfig.Id);
+      Assert.IsNotNull(buildConfig.Builds, "No builds 3");
+      Assert.IsNotNull(buildConfig.Builds.Href, "No builds href 3");
+      Assert.IsNotNull(buildConfig.Investigations, "No Investigations 3");
+      Assert.IsNotNull(buildConfig.Investigations.Href, "No Investigations href 3");
+      Assert.IsNotNull(buildConfig.CompatibleAgents, "No CompatibleAgents 3");
+      Assert.IsNotNull(buildConfig.CompatibleAgents.Href, "No CompatibleAgents href 3");
+    }
+
+    #region private
     private string GetXml(object data)
     {
       XmlSerializer xsSubmit = new XmlSerializer(data.GetType());
@@ -439,6 +493,7 @@ namespace TeamCitySharp.IntegrationTests
         }
       }
     }
-    
+#endregion
+
   }
 }

@@ -80,5 +80,14 @@ namespace TeamCitySharp.DomainEntities
 
     [JsonProperty("settings")]
     public Properties Settings { get; set; }
+
+    [JsonProperty("builds")]
+    public BuildWrapper Builds { get; set; }
+
+    [JsonProperty("investigations")]
+    public InvestigationWrapper Investigations { get; set; }
+
+    [JsonProperty("compatibleAgents")]
+    public CompatibleAgents CompatibleAgents { get; set; }
   }
 }

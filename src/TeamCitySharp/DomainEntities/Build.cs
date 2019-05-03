@@ -80,6 +80,15 @@ namespace TeamCitySharp.DomainEntities
     [JsonProperty("revisions")]
     public Revisions Revisions { get; set; }
 
+    [JsonProperty("artifacts")]
+    public Artifacts Artifacts { get; set; }
+
+    [JsonProperty("relatedIssues")]
+    public RelatedIssues RelatedIssues { get; set; }
+
+    [JsonProperty("statistics")]
+    public Statistics Statistics { get; set; }
+
 
     public override string ToString()
     {

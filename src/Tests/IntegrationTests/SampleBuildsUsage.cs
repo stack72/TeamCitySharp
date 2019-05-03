@@ -270,5 +270,65 @@ namespace TeamCitySharp.IntegrationTests
     {
       m_client.Builds.UnPinBuildByBuildNumber(m_goodBuildConfigId, m_goodNumber);
     }
+
+
+    [Test]
+    public void it_returns_first_build_artifacts_relatedIssues_Statistics_no_field()
+
+    {
+      var tempBuildConfig = m_client.BuildConfigs.All().First();
+      var tempBuild = m_client.Builds.LastBuildByBuildConfigId(tempBuildConfig.Id);
+      var build = m_client.Builds.ById(tempBuild.Id);
+
+      Assert.IsNotNull(build.Artifacts, "No Artifacts ");
+      Assert.IsNotNull(build.Artifacts.Href, "No Artifacts href");
+      Assert.IsNotNull(build.RelatedIssues, "No RelatedIssues ");
+      Assert.IsNotNull(build.RelatedIssues.Href, "No RelatedIssues href");
+      Assert.IsNotNull(build.Statistics, "No Statistics ");
+      Assert.IsNotNull(build.Statistics.Href, "No Statistics href");
+    }
+
+    [Test]
+    public void it_returns_first_build_types_builds_investigations_compatible_agents_field_null()
+
+    {
+      var tempBuildConfig = m_client.BuildConfigs.All().First();
+
+      // Section 1
+      var buildField = BuildField.WithFields(number:true, id:true);
+      var tempBuild = m_client.Builds.LastBuildByBuildConfigId(tempBuildConfig.Id);
+      var build = m_client.Builds.GetFields(buildField.ToString()).ById(tempBuild.Id);
+      Assert.IsNull(build.Artifacts, "No Artifacts 1");
+      Assert.IsNull(build.RelatedIssues, "No RelatedIssues 1");
+      Assert.IsNull(build.Statistics, "No Statistics 1");
+
+      // section 2
+      var artifactsField = ArtifactsField.WithFields();
+      var relatedIssuesField = RelatedIssuesField.WithFields();
+      var statisticsField = StatisticsField.WithFields();
+      buildField = BuildField.WithFields(id: true, artifacts: artifactsField, relatedIssues: relatedIssuesField, statistics: statisticsField);
+      tempBuild = m_client.Builds.LastBuildByBuildConfigId(tempBuildConfig.Id);
+      build = m_client.Builds.GetFields(buildField.ToString()).ById(tempBuild.Id);
+      Assert.IsNotNull(build.Artifacts, "No Artifacts 2");
+      Assert.IsNotNull(build.Artifacts.Href, "No Artifacts href 2");
+      Assert.IsNotNull(build.RelatedIssues, "No RelatedIssues 2");
+      Assert.IsNotNull(build.RelatedIssues.Href, "No RelatedIssues href 2");
+      Assert.IsNotNull(build.Statistics, "No Statistics 2");
+      Assert.IsNull(build.Statistics.Href, "No Statistics href 2");
+
+      // section 3
+      statisticsField = StatisticsField.WithFields(href: true);
+      artifactsField = ArtifactsField.WithFields(href: true);
+      relatedIssuesField = RelatedIssuesField.WithFields(href: true);
+      buildField = BuildField.WithFields(id: true, artifacts: artifactsField, relatedIssues: relatedIssuesField, statistics: statisticsField);
+      tempBuild = m_client.Builds.LastBuildByBuildConfigId(tempBuildConfig.Id);
+      build = m_client.Builds.GetFields(buildField.ToString()).ById(tempBuild.Id);
+      Assert.IsNotNull(build.Artifacts, "No Artifacts 3");
+      Assert.IsNotNull(build.Artifacts.Href, "No Artifacts href 3");
+      Assert.IsNotNull(build.RelatedIssues, "No RelatedIssues 3");
+      Assert.IsNotNull(build.RelatedIssues.Href, "No RelatedIssues href 3");
+      Assert.IsNotNull(build.Statistics, "No Statistics 3");
+      Assert.IsNotNull(build.Statistics.Href, "No Statistics href 3");
+    }
   }
 }

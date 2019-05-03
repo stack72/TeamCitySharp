@@ -29,7 +29,11 @@ namespace TeamCitySharp.Fields
     public VcsRootEntriesField VcsRootEntries { get; set; }
     public ArtifactDependenciesField ArtifactDependencies { get; set; }
     public SnapshotDependenciesField SnapshotDependencies { get; set; }
-   
+    public BuildsField Builds { get; set; }
+    public InvestigationsField Investigations { get; set; }
+    public CompatibleAgentsField CompatibleAgents { get; set; }
+
+
 
     #endregion
 
@@ -56,7 +60,10 @@ namespace TeamCitySharp.Fields
                                             BuildTriggersField triggers = null,
                                             VcsRootEntriesField vcsRootEntries = null,
                                             ArtifactDependenciesField artifactDependencies = null,
-                                            SnapshotDependenciesField snapshotDependencies = null)
+                                            SnapshotDependenciesField snapshotDependencies = null,
+                                            BuildsField builds = null,
+                                            InvestigationsField investigations = null,
+                                            CompatibleAgentsField compatibleAgents = null)
     {
       return new BuildTypeField
         {
@@ -81,7 +88,10 @@ namespace TeamCitySharp.Fields
           Triggers = triggers,
           VcsRootEntries = vcsRootEntries,
           ArtifactDependencies = artifactDependencies,
-          SnapshotDependencies = snapshotDependencies
+          SnapshotDependencies = snapshotDependencies,
+          Builds = builds,
+          Investigations = investigations,
+          CompatibleAgents = compatibleAgents
           
         };
     }
@@ -122,6 +132,9 @@ namespace TeamCitySharp.Fields
       FieldHelper.AddFieldGroup(VcsRootEntries, ref currentFields);
       FieldHelper.AddFieldGroup(ArtifactDependencies, ref currentFields);
       FieldHelper.AddFieldGroup(SnapshotDependencies, ref currentFields);
+      FieldHelper.AddFieldGroup(Builds, ref currentFields);
+      FieldHelper.AddFieldGroup(Investigations, ref currentFields);
+      FieldHelper.AddFieldGroup(CompatibleAgents, ref currentFields);
 
       return currentFields;
     }

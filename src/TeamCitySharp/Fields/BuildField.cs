@@ -29,7 +29,9 @@ namespace TeamCitySharp.Fields
     public BuildArtifactDependenciesField ArtifactDependencies { get; private set; }
     public RevisionsField Revisions { get; private set; }
     public ChangesField Changes { get; private set; }
-
+    public ArtifactsField Artifacts { get; private set; }
+    public RelatedIssuesField RelatedIssues { get; private set; }
+    public StatisticsField Statistics { get; private set; }
     #endregion
 
     #region Public Methods
@@ -55,7 +57,10 @@ namespace TeamCitySharp.Fields
                                         RevisionsField revisions = null,
                                         PropertiesField properties = null,
                                         BuildSnapshotDepenciesField snapshotDepencies = null,
-                                        BuildArtifactDependenciesField artifactDependencies = null)
+                                        BuildArtifactDependenciesField artifactDependencies = null,
+                                        ArtifactsField artifacts = null,
+                                        RelatedIssuesField relatedIssues = null,
+                                        StatisticsField statistics = null)
     {
       return new BuildField
         {
@@ -80,7 +85,10 @@ namespace TeamCitySharp.Fields
           Revisions = revisions,
           Properties = properties,
           SnapshotDependencies = snapshotDepencies,
-          ArtifactDependencies = artifactDependencies
+          ArtifactDependencies = artifactDependencies,
+          Artifacts = artifacts,
+          RelatedIssues = relatedIssues,
+          Statistics = statistics
         };
     }
 
@@ -140,6 +148,12 @@ namespace TeamCitySharp.Fields
       FieldHelper.AddFieldGroup(SnapshotDependencies, ref currentFields);
 
       FieldHelper.AddFieldGroup(ArtifactDependencies, ref currentFields);
+
+      FieldHelper.AddFieldGroup(Artifacts, ref currentFields);
+
+      FieldHelper.AddFieldGroup(RelatedIssues, ref currentFields);
+
+      FieldHelper.AddFieldGroup(Statistics, ref currentFields);
 
       return currentFields;
     }

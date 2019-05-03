@@ -8,18 +8,20 @@ namespace TeamCitySharp.Fields
 
     public PropertiesField PropertiesField { get; private set; }
     public bool Count { get; private set; }
+    public bool Href { get; private set; }
 
     #endregion
 
     #region Public Methods
 
     public static StatisticsField WithFields(PropertiesField propertiesField = null,
-                                             bool count = true)
+                                             bool count = true, bool href = false)
     {
       return new StatisticsField
         {
           PropertiesField = propertiesField,
           Count = count,
+          Href = href
         };
     }
 
@@ -37,6 +39,7 @@ namespace TeamCitySharp.Fields
       var currentFields = String.Empty;
 
       FieldHelper.AddField(Count, ref currentFields, "count");
+      FieldHelper.AddField(Href, ref currentFields, "href");
 
       FieldHelper.AddFieldGroup(PropertiesField, ref currentFields);
 

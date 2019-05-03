@@ -7,5 +7,8 @@ namespace TeamCitySharp.DomainEntities
   {
     [JsonProperty("investigation")]
     public List<Investigation> Investigation { get; set; }
+
+    [JsonProperty("href")]
+    public string Href { get; set; }
   }
 }
