@@ -29,6 +29,10 @@ namespace TeamCitySharp
       m_caller.Connect(userName, password, false);
     }
 
+    public void UseVersion(string version)
+    {
+      m_caller.UseVersion(version);
+    }
     public void EnableCache()
     {
       m_caller.EnableCache();
@@ -46,7 +50,7 @@ namespace TeamCitySharp
 
     public bool Authenticate(bool throwExceptionOnHttpError = true)
     {
-      return m_caller.Authenticate("/app/rest", throwExceptionOnHttpError);
+      return m_caller.Authenticate("", throwExceptionOnHttpError);
     }
 
     public IBuilds Builds

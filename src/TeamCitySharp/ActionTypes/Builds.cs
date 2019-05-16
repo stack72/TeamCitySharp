@@ -37,7 +37,7 @@ namespace TeamCitySharp.ActionTypes
     public List<Build> ByBuildLocator(BuildLocator locator)
     {
       var buildWrapper =
-        m_caller.GetFormat<BuildWrapper>(ActionHelper.CreateFieldUrl("/app/rest/builds?locator={0}", m_fields), locator);
+        m_caller.GetFormat<BuildWrapper>(ActionHelper.CreateFieldUrl("/builds?locator={0}", m_fields), locator);
       return int.Parse(buildWrapper.Count) > 0 ? buildWrapper.Build : new List<Build>();
     }
 
@@ -46,7 +46,7 @@ namespace TeamCitySharp.ActionTypes
       var strParam = GetParamLocator(param);
       var buildWrapper =
         m_caller.Get<BuildWrapper>(
-          ActionHelper.CreateFieldUrl($"/app/rest/builds?locator={locator}{strParam}", m_fields));
+          ActionHelper.CreateFieldUrl($"/builds?locator={locator}{strParam}", m_fields));
 
       return int.Parse(buildWrapper.Count) > 0 ? buildWrapper.Build : new List<Build>();
     }
@@ -126,7 +126,7 @@ namespace TeamCitySharp.ActionTypes
 
     public Build ById(string id)
     {
-      var build = m_caller.GetFormat<Build>(ActionHelper.CreateFieldUrl("/app/rest/builds/id:{0}", m_fields), id);
+      var build = m_caller.GetFormat<Build>(ActionHelper.CreateFieldUrl("/builds/id:{0}", m_fields), id);
 
       return build ?? new Build();
     }
@@ -176,7 +176,7 @@ namespace TeamCitySharp.ActionTypes
     public List<Build> AllRunningBuild()
     {
       var buildWrapper =
-        m_caller.GetFormat<BuildWrapper>(ActionHelper.CreateFieldUrl("/app/rest/builds?locator=running:true", m_fields));
+        m_caller.GetFormat<BuildWrapper>(ActionHelper.CreateFieldUrl("/builds?locator=running:true", m_fields));
       return int.Parse(buildWrapper.Count) > 0 ? buildWrapper.Build : new List<Build>();
     }
 
@@ -204,7 +204,7 @@ namespace TeamCitySharp.ActionTypes
       {
         param = new List<string> { "defaultFilter:false" };
       }
-      return GetBuildListQuery("/app/rest/builds?locator=snapshotDependency:(from:(id:{0}),includeInitial:"+ strIncludeInitial + "){1}", buildId, param);
+      return GetBuildListQuery("/builds?locator=snapshotDependency:(from:(id:{0}),includeInitial:"+ strIncludeInitial + "){1}", buildId, param);
     }
 
     public List<Build> RetrieveEntireBuildChainTo(string buildId, bool includeInitial = true, List<string> param = null)
@@ -214,7 +214,7 @@ namespace TeamCitySharp.ActionTypes
       {
         param = new List<string> { "defaultFilter:false" };
       }
-      return GetBuildListQuery("/app/rest/builds?locator=snapshotDependency:(to:(id:{0}),includeInitial:" + strIncludeInitial + "){1}", buildId, param);
+      return GetBuildListQuery("/builds?locator=snapshotDependency:(to:(id:{0}),includeInitial:" + strIncludeInitial + "){1}", buildId, param);
     }
 
     /// <summary>
@@ -228,7 +228,7 @@ namespace TeamCitySharp.ActionTypes
     /// <returns></returns>
     public List<Build> NextBuilds(string buildId, long count = 100, List<string> param = null)
     {
-      return GetBuildListQuery("/app/rest/builds?locator=sinceBuild:(id:{0}),count(" + count + "){1}",
+      return GetBuildListQuery("/builds?locator=sinceBuild:(id:{0}),count(" + count + "){1}",
         buildId, param);
     }
 
@@ -243,7 +243,7 @@ namespace TeamCitySharp.ActionTypes
     /// <returns></returns>
     public List<Build> AffectedProject(string projectId, long count = 100, List<string> param = null)
     {
-      return GetBuildListQuery("/app/rest/builds?locator=affectedProject:(id:{0}),count(" + count + "){1}",
+      return GetBuildListQuery("/builds?locator=affectedProject:(id:{0}),count(" + count + "){1}",
         projectId, param);   
     }
 
@@ -269,7 +269,7 @@ namespace TeamCitySharp.ActionTypes
     /// <param name="comment"></param>
     public void PinBuildByBuildNumber(string buildConfigId, string buildNumber, string comment)
     {
-      const string urlPart = "/app/rest/builds/buildType:{0},number:{1}/pin/";
+      const string urlPart = "/builds/buildType:{0},number:{1}/pin/";
       m_caller.PutFormat(comment, HttpContentTypes.TextPlain, urlPart, buildConfigId, buildNumber );
     }
 
@@ -280,7 +280,7 @@ namespace TeamCitySharp.ActionTypes
     /// <param name="buildNumber"></param>
     public void UnPinBuildByBuildNumber(string buildConfigId, string buildNumber)
     {
-      var urlPart = $"/app/rest/builds/buildType:{buildConfigId},number:{buildNumber}/pin/";
+      var urlPart = $"/builds/buildType:{buildConfigId},number:{buildNumber}/pin/";
       m_caller.Delete(urlPart);
     }
 

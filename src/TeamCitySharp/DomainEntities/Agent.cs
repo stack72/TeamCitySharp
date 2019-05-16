@@ -14,6 +14,12 @@ namespace TeamCitySharp.DomainEntities
     [JsonProperty("href")]
     public string Href { get; set; }
 
+    [JsonProperty("typeId")]
+    public string TypeId { get; set; }
+
+    [JsonProperty("webUrl")]
+    public string WebUrl { get; set; }
+
 
     public override string ToString()
     {

@@ -7,7 +7,7 @@
 
   public class ServerInformation : IServerInformation
   {
-    private const string ServerUrlPrefix = "/app/rest/server";
+    private const string ServerUrlPrefix = "/server";
     private readonly ITeamCityCaller m_caller;
 
     public ServerInformation(ITeamCityCaller caller)

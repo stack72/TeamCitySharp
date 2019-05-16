@@ -1,38 +1,42 @@
+# TeamCitySharp
+
+* .NET Library to access TeamCity via their REST API.
+
 Current Stable Version:
 [![NuGet version (TeamCitySharp-forked-mavezeau)](https://img.shields.io/nuget/v/TeamCitySharp-forked-mavezeau.svg?style=flat-square)](https://www.nuget.org/packages/TeamCitySharp-forked-mavezeau/)
 
 Latest Version:
 [![NuGet version (TeamCitySharp-forked-mavezeau)](https://img.shields.io/nuget/vpre/TeamCitySharp-forked-mavezeau.svg?style=flat-square)](https://www.nuget.org/packages/TeamCitySharp-forked-mavezeau/)
 
-# TeamCitySharp
-
-* .NET Library to access TeamCity via their REST API.
-
-For more information on TeamCity visit: 
+For more information on TeamCity visit:
 http://www.jetbrains.com/teamcity
 
 ## Releases
+
 Please find the release notes [here](https://github.com/mavezeau/TeamCitySharp/releases)
 
-## License 
+## License
+
 http://stack72.mit-license.org/
 
 ## Installation
+
 There are 2 ways to use TeamCitySharp:
 
 * install-package TeamCitySharp-forked-mavezeau (via Nuget)
 * Download source and compile
 
 ## Build Monitor
+
 * There is a sample build monitor built with TeamCitySharp. It can be found at [TeamCityMonitor](https://github.com/stack72/TeamCityMonitor)
 
 ## Sample Usage
+
 To get a list of projects
 
     var client = new TeamCityClient("localhost:81");
     client.Connect("admin", "qwerty");
     var projects = client.Projects.All();
-
 
 To get a list of running builds
 
@@ -52,6 +56,12 @@ To connect as a Guest:
     var client = new TeamCityClient("localhost:81");
     client.ConnectAsGuest();
 
+To use a previous rest api version:
+
+    var client = new TeamCityClient("localhost:81");
+    client.Connect("admin", "qwerty");
+    client.UseVersion("7.0"); // 6.0, 7.0, 8.1, 9.0, 9.1, 10.0, 2017.1, 2017.2, latest  
+
 Use fields specializations: Extract complex objects for specified Fields
 
     // For each builds get only the Id, Number, Status and StartDate
@@ -60,6 +70,7 @@ Use fields specializations: Extract complex objects for specified Fields
     var currentListBuild = client.Builds.GetFields(buildsFields.ToString()).ByBuildConfigId(currentProjectId);
 
 ## API Interaction Groups
+
 There are many tasks that the TeamCity API can do for us. TeamCitySharp groups these tasks into specialist areas
 
 * Builds
@@ -133,7 +144,7 @@ Each area has its own list of methods available
     void DeleteProjectFeature(string projectId, string projectFeatureId);
 
 ### BuildConfigs
-    
+
     List<BuildConfig> All();
     BuildConfigs GetFields(string fields);
     BuildConfig ByConfigurationName(string buildConfigName);
@@ -148,8 +159,8 @@ Each area has its own list of methods available
     BuildConfig CreateConfiguration(string projectName, string configurationName);
     BuildConfig CreateConfigurationByProjectId(string projectId, string configurationName);
     BuildConfig Copy(string buildConfigId, string buildConfigName, string destinationProjectId, string newBuildTypeId = "");
-    
-    
+
+
     void SetConfigurationSetting(BuildTypeLocator locator, string settingName, string settingValue);
     bool GetConfigurationPauseStatus(BuildTypeLocator locator);
     void SetConfigurationPauseStatus(BuildTypeLocator locator, bool isPaused);
@@ -178,7 +189,7 @@ Each area has its own list of methods available
     SnapshotDependencies GetSnapshotDependencies(string buildTypeId);
     bool ModifArtifactDependencies(string format, string oldDendencyConfigurationId, string id);
     bool ModifSnapshotDependencies(string format, string oldDendencyConfigurationId, string id);
-    
+
 
     /// <since>8.0</since>
     void DeleteAllBuildTypeParameters(BuildTypeLocator locator);
@@ -261,5 +272,4 @@ Thanks to the following contributors:
 * Philipp Dolder
 * Mark deVilliers
 * Marc-Andre Vezeau (@exfo)
-* Bassem Mawassi (@exfo) 
-* 
+* Bassem Mawassi (@exfo)

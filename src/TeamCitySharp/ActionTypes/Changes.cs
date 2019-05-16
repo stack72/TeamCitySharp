@@ -24,14 +24,14 @@ namespace TeamCitySharp.ActionTypes
 
     public List<Change> All()
     {
-      var changeWrapper = m_caller.Get<ChangeWrapper>(ActionHelper.CreateFieldUrl("/app/rest/changes", m_fields));
+      var changeWrapper = m_caller.Get<ChangeWrapper>(ActionHelper.CreateFieldUrl("/changes", m_fields));
 
       return changeWrapper.Change;
     }
 
     public Change ByChangeId(string id)
     {
-      var change = m_caller.GetFormat<Change>(ActionHelper.CreateFieldUrl("/app/rest/changes/id:{0}", m_fields), id);
+      var change = m_caller.GetFormat<Change>(ActionHelper.CreateFieldUrl("/changes/id:{0}", m_fields), id);
 
       return change;
     }
@@ -39,7 +39,7 @@ namespace TeamCitySharp.ActionTypes
     public List<Change> ByBuildConfigId(string buildConfigId)
     {
       var changeWrapper =
-        m_caller.GetFormat<ChangeWrapper>(ActionHelper.CreateFieldUrl("/app/rest/changes?buildType={0}", m_fields),
+        m_caller.GetFormat<ChangeWrapper>(ActionHelper.CreateFieldUrl("/changes?buildType={0}", m_fields),
                                          buildConfigId);
 
       return changeWrapper.Change;

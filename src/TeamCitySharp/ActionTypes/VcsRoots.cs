@@ -30,14 +30,14 @@ namespace TeamCitySharp.ActionTypes
 
     public List<VcsRoot> All()
     {
-      var vcsRootWrapper = m_caller.Get<VcsRootWrapper>(ActionHelper.CreateFieldUrl("/app/rest/vcs-roots", m_fields));
+      var vcsRootWrapper = m_caller.Get<VcsRootWrapper>(ActionHelper.CreateFieldUrl("/vcs-roots", m_fields));
 
       return vcsRootWrapper.VcsRoot;
     }
 
     public VcsRoot ById(string vcsRootId)
     {
-      var vcsRoot = m_caller.GetFormat<VcsRoot>(ActionHelper.CreateFieldUrl("/app/rest/vcs-roots/id:{0}", m_fields),
+      var vcsRoot = m_caller.GetFormat<VcsRoot>(ActionHelper.CreateFieldUrl("/vcs-roots/id:{0}", m_fields),
                                                vcsRootId);
 
       return vcsRoot;
@@ -48,40 +48,40 @@ namespace TeamCitySharp.ActionTypes
       var data = new VcsRootEntry{ VcsRoot = new VcsRoot { Id = vcsRoot.Id}};
 
       return m_caller.PostFormat<VcsRoot>(data, HttpContentTypes.ApplicationJson, HttpContentTypes.ApplicationJson,
-                                         "/app/rest/buildTypes/{0}/vcs-root-entries", locator);
+                                         "/buildTypes/{0}/vcs-root-entries", locator);
     }
 
     public void DetachVcsRoot(BuildTypeLocator locator, string vcsRootId)
     {
-      m_caller.DeleteFormat("/app/rest/buildTypes/{0}/vcs-root-entries/{1}", locator, vcsRootId);
+      m_caller.DeleteFormat("/buildTypes/{0}/vcs-root-entries/{1}", locator, vcsRootId);
     }
 
     public void SetVcsRootValue(VcsRoot vcsRoot, VcsRootValue field, object value)
     {
-      m_caller.PutFormat(value, HttpContentTypes.TextPlain, "/app/rest/vcs-roots/id:{0}/{1}", vcsRoot.Id,
+      m_caller.PutFormat(value, HttpContentTypes.TextPlain, "/vcs-roots/id:{0}/{1}", vcsRoot.Id,
         ToCamelCase(field.ToString()));
     }
 
     public void SetConfigurationProperties(VcsRoot vcsRoot, string key, string value)
     {
-      m_caller.PutFormat(value, HttpContentTypes.TextPlain, "/app/rest/vcs-roots/id:{0}/properties/{1}", vcsRoot.Id, key);
+      m_caller.PutFormat(value, HttpContentTypes.TextPlain, "/vcs-roots/id:{0}/properties/{1}", vcsRoot.Id, key);
     }
 
     public void DeleteProperties(VcsRoot vcsRoot, string parameterName)
     {
-      m_caller.DeleteFormat("/app/rest/vcs-roots/id:{0}/properties/{1}", vcsRoot.Id, parameterName);
+      m_caller.DeleteFormat("/vcs-roots/id:{0}/properties/{1}", vcsRoot.Id, parameterName);
     }
 
     public VcsRoot CreateVcsRoot(VcsRoot vcsRoot, string projectId )
     {
       return m_caller.PostFormat<VcsRoot>(vcsRoot, HttpContentTypes.ApplicationJson,
-          HttpContentTypes.ApplicationJson, "/app/rest/vcs-roots",
+          HttpContentTypes.ApplicationJson, "/vcs-roots",
           projectId);
 
     }
     public void DeleteVcsRoot(VcsRoot vcsRoot)
     {
-      m_caller.DeleteFormat("/app/rest/vcs-roots/id:{0}", vcsRoot.Id);
+      m_caller.DeleteFormat("/vcs-roots/id:{0}", vcsRoot.Id);
     }
 
     private static string ToCamelCase(string s)

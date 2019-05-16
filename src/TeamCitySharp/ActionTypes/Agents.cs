@@ -25,7 +25,7 @@ namespace TeamCitySharp.ActionTypes
     {
       var url =
         string.Format(
-          ActionHelper.CreateFieldUrl("/app/rest/agents?includeDisconnected={0}&includeUnauthorized={1}", m_fields),
+          ActionHelper.CreateFieldUrl("/agents?includeDisconnected={0}&includeUnauthorized={1}", m_fields),
           includeDisconnected.ToString().ToLower(), includeUnauthorized.ToString().ToLower());
 
       var agentWrapper = m_caller.Get<AgentWrapper>(url);

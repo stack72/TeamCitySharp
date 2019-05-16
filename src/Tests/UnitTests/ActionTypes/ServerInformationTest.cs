@@ -42,7 +42,7 @@ namespace TeamCitySharp.ActionTypes
       this.testee.TriggerServerInstanceBackup(backupOptions);
 
       A.CallTo(() => this.teamCityCaller.StartBackup(string.Concat(
-        "/app/rest/server/backup?fileName=",
+        "/server/backup?fileName=",
         Filename,
         "&includeBuildLogs=" + includeBuildLogs,
         "&includeConfigs=" + includeConfigurations,
@@ -56,7 +56,7 @@ namespace TeamCitySharp.ActionTypes
     {
       const string Status = "Idle";
 
-      A.CallTo(() => this.teamCityCaller.GetRaw("/app/rest/server/backup")).Returns(Status);
+      A.CallTo(() => this.teamCityCaller.GetRaw("/server/backup")).Returns(Status);
 
       string status = this.testee.GetBackupStatus();
 

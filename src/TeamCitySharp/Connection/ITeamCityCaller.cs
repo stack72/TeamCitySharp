@@ -44,5 +44,8 @@ namespace TeamCitySharp.Connection
     void DisableCache();
 
     void EnableCache();
+
+    void UseVersion(string version);
+
   }
 }

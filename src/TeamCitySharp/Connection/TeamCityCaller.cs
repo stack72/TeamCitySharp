@@ -14,6 +14,7 @@ namespace TeamCitySharp.Connection
   {
     private readonly Credentials m_credentials;
     private bool m_useNoCache;
+    private string m_version="";
 
     public TeamCityCaller(string hostName, bool useSsl)
     {
@@ -26,6 +27,11 @@ namespace TeamCitySharp.Connection
     public void DisableCache()
     {
       m_useNoCache = true;
+    }
+
+    public void UseVersion(string version)
+    {
+      m_version = version;
     }
 
     public void EnableCache()
@@ -242,7 +248,9 @@ namespace TeamCitySharp.Connection
     {
       var protocol = m_credentials.UseSSL ? "https://" : "http://";
       var authType = m_credentials.ActAsGuest ? "/guestAuth" : "/httpAuth";
-      var uri = $"{protocol}{m_credentials.HostName}{authType}{urlPart}";
+      var restUrl = "/app/rest";
+      var version = m_version == "" ? "" : $"/{m_version}";
+      var uri = $"{protocol}{m_credentials.HostName}{authType}{restUrl}{version}{urlPart}";
       return Uri.EscapeUriString(uri).Replace("+", "%2B");
     }
 

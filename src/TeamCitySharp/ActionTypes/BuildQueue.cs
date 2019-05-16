@@ -16,13 +16,13 @@ namespace TeamCitySharp.ActionTypes
 
     public List<Build> ByBuildTypeLocator(BuildTypeLocator locator)
     {
-      var buildWrapper = m_caller.Get<BuildWrapper>($"/app/rest/buildQueue?locator=buildType:({locator})");
+      var buildWrapper = m_caller.Get<BuildWrapper>($"/buildQueue?locator=buildType:({locator})");
       return int.Parse(buildWrapper.Count) > 0 ? buildWrapper.Build : new List<Build>();
     }
 
     public List<Build> ByProjectLocater(ProjectLocator locator)
     {
-      var buildWrapper = m_caller.Get<BuildWrapper>($"/app/rest/buildQueue?locator=project:({locator})");
+      var buildWrapper = m_caller.Get<BuildWrapper>($"/buildQueue?locator=project:({locator})");
       return int.Parse(buildWrapper.Count) > 0 ? buildWrapper.Build : new List<Build>();
     }
   }

@@ -25,7 +25,7 @@ namespace TeamCitySharp.ActionTypes
 
     public List<Investigation> All()
     {
-      var url = ActionHelper.CreateFieldUrl("/app/rest/investigations", m_fields);
+      var url = ActionHelper.CreateFieldUrl("/investigations", m_fields);
 
       var wrapper = m_caller.Get<InvestigationWrapper>(url);
 

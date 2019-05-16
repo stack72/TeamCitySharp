@@ -9,6 +9,8 @@ namespace TeamCitySharp.Fields
     public bool Id { get; private set; }
     public bool Name { get; private set; }
     public bool Href { get; private set; }
+    public bool TypeId { get; private set; }
+    public bool WebUrl { get; private set; }
 
     #endregion
 
@@ -16,14 +18,18 @@ namespace TeamCitySharp.Fields
 
     public static AgentField WithFields(bool id = false,
                                         bool name = false,
-                                        bool href = false)
+                                        bool href = false, 
+                                        bool typeId = false,
+                                        bool webUrl = false)
     {
       return new AgentField
         {
           Id = id,
           Name = name,
           Href = href,
-        };
+          TypeId = typeId,
+          WebUrl = webUrl
+      };
     }
 
     #endregion
@@ -44,6 +50,10 @@ namespace TeamCitySharp.Fields
       FieldHelper.AddField(Name, ref currentFields, "name");
 
       FieldHelper.AddField(Href, ref currentFields, "href");
+
+      FieldHelper.AddField(TypeId, ref currentFields, "typeId");
+
+      FieldHelper.AddField(WebUrl, ref currentFields, "webUrl");
 
       return currentFields;
     }
