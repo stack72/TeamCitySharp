@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace TeamCitySharp.Connection
@@ -10,7 +11,10 @@ namespace TeamCitySharp.Connection
   {
     public static HttpResponseMessage Get(this HttpClient src, string url)
     {
-      return src.GetAsync(url).GetAwaiter().GetResult();
+        //TODO: quick fix, need to fix soon for a big transaction
+        src.Timeout=TimeSpan.FromHours(1);
+        var content = src.GetAsync(url);
+        return content.GetAwaiter().GetResult();    
     }
 
     public static HttpResponseMessage Post(this HttpClient src, string url, object body, string contentType)
