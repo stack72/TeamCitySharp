@@ -247,6 +247,7 @@ namespace TeamCitySharp.Connection
     private string CreateUrl(string urlPart)
     {
       var protocol = m_credentials.UseSSL ? "https://" : "http://";
+      if(m_credentials.UseSSL) ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
       var authType = m_credentials.ActAsGuest ? "/guestAuth" : "/httpAuth";
       var restUrl = "/app/rest";
       var version = m_version == "" ? "" : $"/{m_version}";

@@ -13,19 +13,20 @@
       }
     }
 
-    public static void AddFieldGroup(IField field, ref string currentFields)
+    public static void AddFieldGroup(IField field, ref string currentFields, string fieldId="")
     {
       if (field != null)
       {
+        var currentFieldId = fieldId == "" ? field.FieldId : fieldId;
         var fieldToStr = field.ToString();
         var commaStr = string.Empty;
         if (currentFields != string.Empty)
           commaStr = ",";
 
         if (fieldToStr != string.Empty)
-          currentFields = currentFields + commaStr + field.FieldId + "(" + field.ToString() + ")";
+          currentFields = currentFields + commaStr + currentFieldId + "(" + field.ToString() + ")";
         else
-          currentFields = currentFields + commaStr + field.FieldId;
+          currentFields = currentFields + commaStr + currentFieldId;
       }
     }
   }

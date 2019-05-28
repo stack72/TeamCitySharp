@@ -5,8 +5,11 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
 using System.Configuration;
+using System.Linq;
 using NUnit.Framework;
+using TeamCitySharp.Fields;
 using TeamCitySharp.Locators;
 
 namespace TeamCitySharp.IntegrationTests
@@ -52,6 +55,18 @@ namespace TeamCitySharp.IntegrationTests
     public void it_returns_the_builds_queued_by_project_id()
     {
       var result = m_client.BuildQueue.ByProjectLocater(ProjectLocator.WithId(m_queuedProjectId));
+
+      Assert.IsNotEmpty(result);
+    }
+
+    [Test]
+    public void it_returns_the_builds_queued_compatible_agents()
+    {
+      AgentField agentField = AgentField.WithFields(id:true);
+      CompatibleAgentsField compatibleAgentsField = CompatibleAgentsField.WithFields(agent: agentField);
+      BuildField buildField = BuildField.WithFields(compatibleAgents: compatibleAgentsField, id:true);
+      BuildsField buildsField = BuildsField.WithFields(buildField: buildField);
+      var result = m_client.BuildQueue.GetFields(buildsField.ToString()).All();
 
       Assert.IsNotEmpty(result);
     }

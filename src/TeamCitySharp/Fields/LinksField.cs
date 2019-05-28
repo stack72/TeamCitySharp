@@ -2,23 +2,23 @@
 
 namespace TeamCitySharp.Fields
 {
-  public class BuildSnapshotDependenciesField : IField
+  public class LinksField : IField
   {
     #region Properties
 
-    public BuildField BuildField { get; private set; }
+    public LinkField Link { get; private set; }
     public bool Count { get; private set; }
 
     #endregion
 
     #region Public Methods
 
-    public static BuildSnapshotDependenciesField WithFields(BuildField buildField = null,
-                                                         bool count = true)
+    public static LinksField WithFields(LinkField link = null,
+                                       bool count = true)
     {
-      return new BuildSnapshotDependenciesField
+      return new LinksField
         {
-          BuildField = buildField,
+          Link = link,
           Count = count,
         };
     }
@@ -29,7 +29,7 @@ namespace TeamCitySharp.Fields
 
     public string FieldId
     {
-      get { return "snapshot-dependencies"; }
+      get { return "links"; }
     }
 
     public override string ToString()
@@ -38,7 +38,7 @@ namespace TeamCitySharp.Fields
 
       FieldHelper.AddField(Count, ref currentFields, "count");
 
-      FieldHelper.AddFieldGroup(BuildField, ref currentFields);
+      FieldHelper.AddFieldGroup(Link, ref currentFields);
 
       return currentFields;
     }

@@ -9,10 +9,12 @@ namespace TeamCitySharp.ActionTypes
     private readonly ITeamCityCaller m_caller;
     private string m_fields;
 
+    #region Constructor
     internal Agents(ITeamCityCaller caller)
     {
       m_caller = caller;
     }
+    #endregion
 
     public Agents GetFields(string fields)
     {

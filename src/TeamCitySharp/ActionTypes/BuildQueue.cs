@@ -8,10 +8,26 @@ namespace TeamCitySharp.ActionTypes
   public class BuildQueue : IBuildQueue
   {
     private readonly ITeamCityCaller m_caller;
+    private string m_fields;
 
     internal BuildQueue(ITeamCityCaller caller)
     {
       m_caller = caller;
+    }
+
+    public BuildQueue GetFields(string fields)
+    {
+      var newInstance = (BuildQueue)MemberwiseClone();
+      newInstance.m_fields = fields;
+      return newInstance;
+    }
+
+    public List<Build> All()
+    {
+      var buildQueue =
+        m_caller.Get<BuildWrapper>(ActionHelper.CreateFieldUrl("/buildQueue", m_fields));
+
+      return buildQueue.Build;
     }
 
     public List<Build> ByBuildTypeLocator(BuildTypeLocator locator)

@@ -23,7 +23,7 @@ namespace TeamCitySharp.DomainEntities
 
     public override string ToString()
     {
-      return Name;
+      return "agent";
     }
   }
 }

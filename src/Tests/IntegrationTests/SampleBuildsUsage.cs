@@ -35,12 +35,12 @@ namespace TeamCitySharp.IntegrationTests
       m_goodNumber = ConfigurationManager.AppSettings["GoodNumber"];
     }
 
-        [SetUp]
-        public void SetUp()
-        {
-            m_client = new TeamCityClient(m_server, m_useSsl);
-            m_client.Connect(m_username, m_password);
-        }
+    [SetUp]
+    public void SetUp()
+    {
+      m_client = new TeamCityClient(m_server, m_useSsl);
+      m_client.Connect(m_username, m_password);
+    }
 
     [Test]
     public void it_throws_exception_when_no_url_passed()
@@ -195,8 +195,8 @@ namespace TeamCitySharp.IntegrationTests
       client.ConnectAsGuest();
 
       var build =
-          client.Builds.ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
-              maxResults: 1));
+        client.Builds.ByBuildLocator(BuildLocator.WithDimensions(BuildTypeLocator.WithId(buildConfigId),
+          maxResults: 1));
       Assert.That(build.Count == 1);
       Assert.IsNull(build[0].StatusText);
     }
@@ -295,7 +295,7 @@ namespace TeamCitySharp.IntegrationTests
       var tempBuildConfig = m_client.BuildConfigs.All().First();
 
       // Section 1
-      var buildField = BuildField.WithFields(number:true, id:true);
+      var buildField = BuildField.WithFields(number: true, id: true);
       var tempBuild = m_client.Builds.LastBuildByBuildConfigId(tempBuildConfig.Id);
       var build = m_client.Builds.GetFields(buildField.ToString()).ById(tempBuild.Id);
       Assert.IsNull(build.Artifacts, "No Artifacts 1");
@@ -306,7 +306,8 @@ namespace TeamCitySharp.IntegrationTests
       var artifactsField = ArtifactsField.WithFields();
       var relatedIssuesField = RelatedIssuesField.WithFields();
       var statisticsField = StatisticsField.WithFields();
-      buildField = BuildField.WithFields(id: true, artifacts: artifactsField, relatedIssues: relatedIssuesField, statistics: statisticsField);
+      buildField = BuildField.WithFields(id: true, artifacts: artifactsField, relatedIssues: relatedIssuesField,
+        statistics: statisticsField);
       tempBuild = m_client.Builds.LastBuildByBuildConfigId(tempBuildConfig.Id);
       build = m_client.Builds.GetFields(buildField.ToString()).ById(tempBuild.Id);
       Assert.IsNotNull(build.Artifacts, "No Artifacts 2");
@@ -320,7 +321,8 @@ namespace TeamCitySharp.IntegrationTests
       statisticsField = StatisticsField.WithFields(href: true);
       artifactsField = ArtifactsField.WithFields(href: true);
       relatedIssuesField = RelatedIssuesField.WithFields(href: true);
-      buildField = BuildField.WithFields(id: true, artifacts: artifactsField, relatedIssues: relatedIssuesField, statistics: statisticsField);
+      buildField = BuildField.WithFields(id: true, artifacts: artifactsField, relatedIssues: relatedIssuesField,
+        statistics: statisticsField);
       tempBuild = m_client.Builds.LastBuildByBuildConfigId(tempBuildConfig.Id);
       build = m_client.Builds.GetFields(buildField.ToString()).ById(tempBuild.Id);
       Assert.IsNotNull(build.Artifacts, "No Artifacts 3");
@@ -329,6 +331,156 @@ namespace TeamCitySharp.IntegrationTests
       Assert.IsNotNull(build.RelatedIssues.Href, "No RelatedIssues href 3");
       Assert.IsNotNull(build.Statistics, "No Statistics 3");
       Assert.IsNotNull(build.Statistics.Href, "No Statistics href 3");
+    }
+
+    [Test]
+    public void it_returns_full_build_field_1()
+    {
+      var tempBuildConfig = m_client.BuildConfigs.All().First();
+
+
+      var buildField = BuildField.WithFields(id: true, taskId: true, buildTypeId: true, buildTypeInternalId: true,
+        number: true, status: true, state: true, running: true, composite: true, failedToStart: true, personal: true,
+        percentageComplete: true,
+        branchName: true, defaultBranch: true, unspecifiedBranch: true, history: true, pinned: true, href: true,
+        webUrl: true, queuePosition: true, limitedChangesCount: true, artifactsDirectory: true, statusText: true,
+        startEstimate: true, waitReason: true,
+        startDate: true, finishDate: true, queuedDate: true, settingsHash: true, currentSettingsHash: true,
+        modificationId: true, chainModificationId: true, usedByOtherBuilds: true);
+      var tempBuild = m_client.Builds.LastBuildByBuildConfigId(tempBuildConfig.Id);
+      var build = m_client.Builds.GetFields(buildField.ToString()).ById(tempBuild.Id);
+      Assert.IsNotNull(build.Id);
+    }
+
+    [Test]
+    public void it_returns_full_build_field_2()
+    {
+      var tempBuildConfig = m_client.BuildConfigs.All().First();
+      ItemsField itemsField = ItemsField.WithFields(item: true);
+      BuildsField buildsField = BuildsField.WithFields();
+      RelatedField relatedField = RelatedField.WithFields(builds: buildsField);
+      RelatedIssuesField relatedIssuesField = RelatedIssuesField.WithFields(href: true);
+      ArtifactDependenciesField artifactDependenciesField = ArtifactDependenciesField.WithFields();
+      BuildArtifactDependenciesField buildArtifactDependenciesField = BuildArtifactDependenciesField.WithFields();
+      BuildSnapshotDependenciesField buildSnapshotDependenciesField = BuildSnapshotDependenciesField.WithFields();
+      DatasField datasField = DatasField.WithFields();
+      StatisticsField statisticsField = StatisticsField.WithFields();
+      EntriesField entriesField = EntriesField.WithFields();
+      PropertiesField propertiesField = PropertiesField.WithFields();
+      ArtifactsField artifactsField = ArtifactsField.WithFields(href: true);
+      ProblemOccurrencesField problemOccurrences = ProblemOccurrencesField.WithFields();
+      TestOccurrencesField testOccurrencesField = TestOccurrencesField.WithFields();
+      AgentField agentField = AgentField.WithFields(id: true);
+      CompatibleAgentsField compatibleAgentsField = CompatibleAgentsField.WithFields(agent: agentField, href: true);
+      BuildField buildField1 = BuildField.WithFields(id: true);
+      BuildChangeField buildChangeField = BuildChangeField.WithFields(nextBuild: buildField1, prevBuild: buildField1);
+      BuildChangesField buildChangesField = BuildChangesField.WithFields(buildChange: buildChangeField);
+      RevisionField revisionField = RevisionField.WithFields(version: true);
+      RevisionsField revisionsField = RevisionsField.WithFields();
+      LastChangesField lastChangesField = LastChangesField.WithFields();
+      ChangesField changesField = ChangesField.WithFields();
+      TriggeredField triggeredField = TriggeredField.WithFields(type: true);
+      ProgressInfoField progressInfoField = ProgressInfoField.WithFields(currentStageText: true);
+      TagsField tagsField = TagsField.WithFields();
+      UserField userField = UserField.WithFields(id: true);
+      CommentField commentField = CommentField.WithFields(text: true);
+      BuildTypeField buildTypeField = BuildTypeField.WithFields(id: true);
+      BuildTypeWrapperField buildTypeWrapperField = BuildTypeWrapperField.WithFields(buildType: buildTypeField);
+      LinkField linkField = LinkField.WithFields(type: true);
+      LinksField linksField = LinksField.WithFields(link: linkField);
+      var buildField = BuildField.WithFields(links: linksField, buildType: buildTypeField, comment: commentField,
+        tags: tagsField, pinInfo: commentField, user: userField, running_info: progressInfoField,
+        canceledInfo: commentField, triggered: triggeredField, lastChanges: lastChangesField, changes: changesField,
+        revisions: revisionsField, versionedSettingsRevision: revisionField,
+        artifactDependencyChanges: buildChangesField, agent: agentField, compatibleAgents: compatibleAgentsField,
+        testOccurrences: testOccurrencesField, problemOccurrences: problemOccurrences, artifacts: artifactsField,
+        properties: propertiesField, resultingProperties: propertiesField, attributes: entriesField,
+        statistics: statisticsField, metadata: datasField, snapshotDependencies: buildSnapshotDependenciesField,
+        artifactDependencies: buildArtifactDependenciesField, customArtifactDependencies: artifactDependenciesField,
+        statusChangeComment: commentField, relatedIssues: relatedIssuesField, replacementIds: itemsField,
+        related: relatedField);
+
+      var tempBuild = m_client.Builds.LastBuildByBuildConfigId(tempBuildConfig.Id);
+      var build = m_client.Builds.GetFields(buildField.ToString()).ById(tempBuild.Id);
+      Assert.IsNotNull(build);
+    }
+
+    [Test]
+    public void it_returns_full_build_field_resultingProperties()
+    {
+      var tempBuildConfig = m_client.BuildConfigs.All().First();
+
+      PropertyField propertyField = PropertyField.WithFields(name:true,value:true);
+      PropertiesField propertiesField = PropertiesField.WithFields(propertyField: propertyField);
+      var buildField = BuildField.WithFields(resultingProperties:propertiesField);
+      var tempBuild = m_client.Builds.LastBuildByBuildConfigId(tempBuildConfig.Id);
+      var build = m_client.Builds.GetFields(buildField.ToString()).ById(tempBuild.Id);
+      Assert.IsNotNull(build);
+    }
+
+    [Test]
+    public void it_returns_full_build_field_attributes()
+    {
+      var tempBuildConfig = m_client.BuildConfigs.All().First();
+
+      EntryField entryField = EntryField.WithFields(name:true,value:true);
+      EntriesField entriesField = EntriesField.WithFields(entry: entryField);
+      var buildField = BuildField.WithFields( attributes: entriesField);
+      var tempBuild = m_client.Builds.LastBuildByBuildConfigId(tempBuildConfig.Id);
+      var build = m_client.Builds.GetFields(buildField.ToString()).ById(tempBuild.Id);
+      Assert.IsNotNull(build);
+    }
+
+    [Test]
+    public void it_returns_full_build_field_trigger()
+    {
+      var tempBuildConfig = m_client.BuildConfigs.All().First();
+
+      UserField userField =UserField.WithFields(id:true);
+      BuildField buildField1 = BuildField.WithFields(id:true);
+      BuildTypeField buildTypeField = BuildTypeField.WithFields(id: true);
+      TriggeredField triggeredField = TriggeredField.WithFields(buildType: buildTypeField,type:true,date:true,details:true,user:userField,displayText:true,rawValue:true, build:buildField1);
+      var buildField = BuildField.WithFields(triggered: triggeredField);
+      var tempBuild = m_client.Builds.LastBuildByBuildConfigId(tempBuildConfig.Id);
+      var build = m_client.Builds.GetFields(buildField.ToString()).ById(tempBuild.Id);
+      Assert.IsNotNull(build);
+    }
+
+    [Test]
+    public void it_returns_full_build_field_BuildChanges()
+    {
+      var tempBuildConfig = m_client.BuildConfigs.All().First();
+
+      BuildField buildField1 = BuildField.WithFields(id: true);
+      BuildChangeField buildChangeField = BuildChangeField.WithFields(nextBuild: buildField1, prevBuild: buildField1);
+      BuildChangesField buildChangesField = BuildChangesField.WithFields(buildChange: buildChangeField);
+      var buildField = BuildField.WithFields(artifactDependencyChanges: buildChangesField);
+      var tempBuild = m_client.Builds.LastBuildByBuildConfigId(tempBuildConfig.Id);
+      var build = m_client.Builds.GetFields(buildField.ToString()).ById(tempBuild.Id);
+      Assert.IsNotNull(build);
+    }
+
+    [Test]
+    public void it_returns_full_build_field_Links()
+    {
+      var tempBuildConfig = m_client.BuildConfigs.All().First();
+      LinkField linkField = LinkField.WithFields(type:true,url:true, relativeUrl: true);
+      LinksField linksField = LinksField.WithFields(link:linkField);
+      var buildField = BuildField.WithFields(links:linksField);
+      var tempBuild = m_client.Builds.LastBuildByBuildConfigId(tempBuildConfig.Id);
+      var build = m_client.Builds.GetFields(buildField.ToString()).ById(tempBuild.Id);
+      Assert.IsNotNull(build);
+    }
+
+    [Test]
+    public void it_returns_full_build_field_versionedSettingsRevision()
+    {
+      var tempBuildConfig = m_client.BuildConfigs.All().First();
+      RevisionField revisionField = RevisionField.WithFields(version: true);
+      var buildField = BuildField.WithFields(versionedSettingsRevision: revisionField);
+      var tempBuild = m_client.Builds.LastBuildByBuildConfigId(tempBuildConfig.Id);
+      var build = m_client.Builds.GetFields(buildField.ToString()).ById(tempBuild.Id);
+      Assert.IsNotNull(build);
     }
   }
 }

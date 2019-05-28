@@ -2,25 +2,24 @@
 
 namespace TeamCitySharp.Fields
 {
-  public class BuildSnapshotDependenciesField : IField
+  public class TestRunMetadataField : IField
   {
     #region Properties
 
-    public BuildField BuildField { get; private set; }
     public bool Count { get; private set; }
+    public TypedValueField TypedValue { get; private set; }
 
     #endregion
 
     #region Public Methods
 
-    public static BuildSnapshotDependenciesField WithFields(BuildField buildField = null,
-                                                         bool count = true)
+    public static TestRunMetadataField WithFields(bool count = true, TypedValueField typedValue = null)
     {
-      return new BuildSnapshotDependenciesField
-        {
-          BuildField = buildField,
+      return new TestRunMetadataField
+      {
           Count = count,
-        };
+          TypedValue = typedValue
+      };
     }
 
     #endregion
@@ -29,7 +28,7 @@ namespace TeamCitySharp.Fields
 
     public string FieldId
     {
-      get { return "snapshot-dependencies"; }
+      get { return "testRunMetadata"; }
     }
 
     public override string ToString()
@@ -37,8 +36,7 @@ namespace TeamCitySharp.Fields
       var currentFields = String.Empty;
 
       FieldHelper.AddField(Count, ref currentFields, "count");
-
-      FieldHelper.AddFieldGroup(BuildField, ref currentFields);
+      FieldHelper.AddFieldGroup(TypedValue, ref currentFields);
 
       return currentFields;
     }

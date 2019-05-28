@@ -7,16 +7,18 @@ namespace TeamCitySharp.Fields
     #region Properties
 
     public bool Href { get; private set; }
+    public AgentField Agent { get; private set; }
 
     #endregion
 
     #region Public Methods
 
-    public static CompatibleAgentsField WithFields(bool href = false)
+    public static CompatibleAgentsField WithFields(bool href = false, AgentField agent = null)
     {
       return new CompatibleAgentsField
       {
-        Href = href
+        Href = href,
+        Agent = agent
       };
     }
 
@@ -34,6 +36,7 @@ namespace TeamCitySharp.Fields
       var currentFields = String.Empty;
 
       FieldHelper.AddField(Href, ref currentFields, "href");
+      FieldHelper.AddFieldGroup(Agent,ref currentFields);
 
       return currentFields;
     }
