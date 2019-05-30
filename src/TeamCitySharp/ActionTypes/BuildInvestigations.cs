@@ -4,7 +4,7 @@ using TeamCitySharp.DomainEntities;
 
 namespace TeamCitySharp.ActionTypes
 {
-  internal class BuildInvestigations : IBuildInvestigations
+  public class BuildInvestigations : IBuildInvestigations
   {
     private readonly ITeamCityCaller m_caller;
     private string m_fields;

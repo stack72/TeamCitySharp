@@ -176,7 +176,7 @@ Each area has its own list of methods available
 ### BuildInvestigation
 
     List<Investigation> All();
-    Investigation GetFields(string fields);
+    BuildInvestigations GetFields(string fields);
     List<Investigation> InvestigationsByBuildTypeId(string buildTypeId);
 
 ### BuildQueue

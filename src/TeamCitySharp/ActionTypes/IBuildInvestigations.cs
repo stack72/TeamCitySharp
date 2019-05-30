@@ -6,7 +6,7 @@ namespace TeamCitySharp.ActionTypes
   public interface IBuildInvestigations
   {
     List<Investigation> All();
-    Investigation GetFields(string fields);
+    BuildInvestigations GetFields(string fields);
     List<Investigation> InvestigationsByBuildTypeId(string buildTypeId);
   }
 }
