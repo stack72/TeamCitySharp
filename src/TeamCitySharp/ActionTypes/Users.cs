@@ -5,13 +5,21 @@ using TeamCitySharp.DomainEntities;
 
 namespace TeamCitySharp.ActionTypes
 {
-  internal class Users : IUsers
+  public class Users : IUsers
   {
     private readonly ITeamCityCaller m_caller;
+    private string m_fields;
 
     internal Users(ITeamCityCaller caller)
     {
       m_caller = caller;
+    }
+
+    public Users GetFields(string fields)
+    {
+      var newInstance = (Users)MemberwiseClone();
+      newInstance.m_fields = fields;
+      return newInstance;
     }
 
     public List<User> All()

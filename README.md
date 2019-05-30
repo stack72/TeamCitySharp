@@ -60,7 +60,7 @@ To use a previous rest api version:
 
     var client = new TeamCityClient("localhost:81");
     client.Connect("admin", "qwerty");
-    client.UseVersion("7.0"); // 6.0, 7.0, 8.1, 9.0, 9.1, 10.0, 2017.1, 2017.2, latest  
+    client.UseVersion("7.0"); // 6.0, 7.0, 8.1, 9.0, 9.1, 10.0, 2017.1, 2017.2, 2018.1, latest
 
 Use fields specializations: Extract complex objects for specified Fields
 
@@ -75,6 +75,8 @@ There are many tasks that the TeamCity API can do for us. TeamCitySharp groups t
 
 * Builds
 * BuildConfigs
+* BuildInvestigations
+* BuildQueue
 * Projects
 * ServerInformation
 * Users
@@ -85,7 +87,6 @@ There are many tasks that the TeamCity API can do for us. TeamCitySharp groups t
 * LastChange
 * BuildArtifacts
 * Statistics
-* Investigations
 
 Each area has its own list of methods available
 
@@ -119,29 +120,6 @@ Each area has its own list of methods available
     List<Build> NextBuilds(string buildid, long count = 100, List<string> param = null);
     List<Build> AffectedProject(string projectId, long count = 100, List<string> param = null);
     void DownloadLogs(string projectId, bool zipped, Action<string> downloadHandler);
-
-### Projects
-
-    List<Project> All();
-    Projects GetFields(string fields);
-    Project ByName(string projectLocatorName);
-    Project ById(string projectLocatorId);
-    Project Details(Project project);
-    Project Create(string projectName);
-    Project Create(string projectName, string sourceId, string projectId = "");
-    Project Move(string projectId, string destinationId);
-    Project Copy(string projectid, string projectName, string newProjectId, string parentProjectId = "");
-    string GenerateID(string projectName);
-    void Delete(string projectName);
-    void DeleteById(string projectId);
-    void DeleteProjectParameter(string projectName, string parameterName);
-    void SetProjectParameter(string projectName, string settingName, string settingValue);
-    bool ModifParameters(string projectId, string mainprojectbranch, string variablePath);
-    bool ModifSettings(string projectId, string description, string fullProjectName);
-    ProjectFeatures GetProjectFeatures(string projectLocatorId);
-    ProjectFeature GetProjectFeatureByProjectFeature(string projectLocatorId, string projectFeatureId);
-    ProjectFeature CreateProjectFeature(string projectId, ProjectFeature projectFeature);
-    void DeleteProjectFeature(string projectId, string projectFeatureId);
 
 ### BuildConfigs
 
@@ -195,10 +173,41 @@ Each area has its own list of methods available
     void DeleteAllBuildTypeParameters(BuildTypeLocator locator);
     void PutAllBuildTypeParameters(BuildTypeLocator locator, IDictionary<string, string> parameters);
 
+### BuildInvestigation
+
+    List<Investigation> All();
+    Investigation GetFields(string fields);
+    List<Investigation> InvestigationsByBuildTypeId(string buildTypeId);
+
 ### BuildQueue
 
+    List<Build> All();
+    BuildQueue GetFields(string fields);
     List<Build> ByBuildTypeLocator(BuildTypeLocator locator);
     List<Build> ByProjectLocater(ProjectLocator projectLocator);
+
+### Projects
+
+    List<Project> All();
+    Projects GetFields(string fields);
+    Project ByName(string projectLocatorName);
+    Project ById(string projectLocatorId);
+    Project Details(Project project);
+    Project Create(string projectName);
+    Project Create(string projectName, string sourceId, string projectId = "");
+    Project Move(string projectId, string destinationId);
+    Project Copy(string projectid, string projectName, string newProjectId, string parentProjectId = "");
+    string GenerateID(string projectName);
+    void Delete(string projectName);
+    void DeleteById(string projectId);
+    void DeleteProjectParameter(string projectName, string parameterName);
+    void SetProjectParameter(string projectName, string settingName, string settingValue);
+    bool ModifParameters(string projectId, string mainprojectbranch, string variablePath);
+    bool ModifSettings(string projectId, string description, string fullProjectName);
+    ProjectFeatures GetProjectFeatures(string projectLocatorId);
+    ProjectFeature GetProjectFeatureByProjectFeature(string projectLocatorId, string projectFeatureId);
+    ProjectFeature CreateProjectFeature(string projectId, ProjectFeature projectFeature);
+    void DeleteProjectFeature(string projectId, string projectFeatureId);
 
 ### ServerInformation
 
@@ -210,6 +219,7 @@ Each area has its own list of methods available
 ### Users
 
     List<User> All();
+    Users GetFields(string fields);
     User Details(string userName);
     List<Role> AllRolesByUserName(string userName);
     List<Group> AllGroupsByUserName(string userName);
@@ -227,6 +237,7 @@ Each area has its own list of methods available
 
 ### VcsRoots
 
+    VcsRoots GetFields(string fields);
     List<VcsRoot> All();
     VcsRoot ById(string vcsRootId);
     VcsRoot AttachVcsRoot(BuildTypeLocator locator, VcsRoot vcsRoot);
@@ -252,11 +263,6 @@ Each area has its own list of methods available
 ### Statistics
 
     List<Property> GetByBuildId(string buildId);
-
-### BuildInvestigations
-
-    List<Investigation> All();
-    List<Investigation> InvestigationsByBuildTypeId(string buildTypeId);
 
 ## Credits
 
