@@ -87,22 +87,22 @@ namespace TeamCitySharp.ActionTypes
       return new Project();
     }
 
-    internal HttpResponseMessage CopyProject(string projectid, string projectName, string newProjectId,
+    internal HttpResponseMessage CopyProject(string sourceProjectId, string newProjectName, string newProjectId,
                                       string parentProjectId = "")
     {
       var parentString = "";
       if (parentProjectId != "")
         parentString = $"<parentProject locator='id:{parentProjectId}'/>";
       var xmlData =
-        $"<newProjectDescription name='{projectName}' id='{newProjectId}' copyAllAssociatedSettings='true'><sourceProject locator='id:{projectid}'/>{parentString}</newProjectDescription>";
+        $"<newProjectDescription name='{newProjectName}' id='{newProjectId}' copyAllAssociatedSettings='true'><sourceProject locator='id:{sourceProjectId}'/>{parentString}</newProjectDescription>";
       var response = m_caller.Post(xmlData, HttpContentTypes.ApplicationXml, "/projects",
                                   HttpContentTypes.ApplicationJson);
       return response;
     }
 
-    public Project Copy(string projectid, string projectName, string newProjectId, string parentProjectId = "")
+    public Project Copy(string sourceProjectId, string newProjectName, string newProjectId, string parentProjectId = "")
     {
-      var response = CopyProject(projectid, projectName, newProjectId, parentProjectId);
+      var response = CopyProject(sourceProjectId, newProjectName, newProjectId, parentProjectId);
       if (response.StatusCode == HttpStatusCode.OK)
       {
         var project = JsonConvert.DeserializeObject<Project>(response.RawText());
