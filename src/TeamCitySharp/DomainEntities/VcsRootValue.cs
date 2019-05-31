@@ -4,6 +4,7 @@ namespace TeamCitySharp.DomainEntities
   {
     Name,
     Shared,
-    ProjectId
+    ProjectId,
+    Id
   }
 }
