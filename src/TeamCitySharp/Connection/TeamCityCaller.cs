@@ -66,6 +66,11 @@ namespace TeamCitySharp.Connection
       Post(data, contentType, string.Format(urlPart, parts), string.Empty);
     }
 
+    public T PutFormat<T>(object data, string contentType, string accept, string urlPart, params object[] parts)
+    {
+      return Put<T>(data, contentType, string.Format(urlPart, parts), accept);
+    }
+
     public void PutFormat(object data, string contentType, string urlPart, params object[] parts)
     {
       Put(data, contentType, string.Format(urlPart, parts), string.Empty);
@@ -152,6 +157,11 @@ namespace TeamCitySharp.Connection
     public T Post<T>(object data, string contentType, string urlPart, string accept)
     {
       return Post(data, contentType, urlPart, accept).StaticBody<T>();
+    }
+
+    public T Put<T>(object data, string contentType, string urlPart, string accept)
+    {
+      return Put(data, contentType, urlPart, accept).StaticBody<T>();
     }
 
     public bool Authenticate(string urlPart, bool throwExceptionOnHttpError = true)
