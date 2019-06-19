@@ -44,12 +44,12 @@ namespace TeamCitySharp.ActionTypes
     void DeleteBuildTrigger(BuildTypeLocator locator, string buildTriggerId);
 
     /// <summary>
+    /// DEPRECATED: After 2017.2 Please use AttachTemplates
     /// Makes a build type inherit a template.
     /// </summary>
     /// <param name="locatorBuildType">Locator for the build type which is to be associated with a template.</param>
     /// <param name="locatorTemplate">Locator for the template.</param>
     void SetBuildTypeTemplate(BuildTypeLocator locatorBuildType, BuildTypeLocator locatorTemplate);
-
 
     /// <summary>
     /// <para>Locates a build type by its locator.</para>
@@ -82,8 +82,25 @@ namespace TeamCitySharp.ActionTypes
     //Template
     Template CopyTemplate(string templateId, string templateName, string destinationProjectId, string newTemplateId = "");
     Template GetTemplate(BuildTypeLocator locator);
+    /// <summary>
+    /// Supports version 2017.2 and higher
+    /// </summary>
+    /// <param name="locator"></param>
+    /// <returns></returns>
+    Templates GetTemplates(BuildTypeLocator locator);
     void AttachTemplate(BuildTypeLocator locator, string templateId);
+    /// <summary>
+    /// Supports version 2017.2 and higher
+    /// </summary>
+    /// <param name="locator"></param>
+    /// <param name="templateList"></param>
+    void AttachTemplates(BuildTypeLocator locator, Templates templateList);
     void DetachTemplate(BuildTypeLocator locator);
+    /// <summary>
+    /// Supports version 2017.2 and higher
+    /// </summary>
+    /// <param name="locator"></param>
+    void DetachTemplates(BuildTypeLocator locator);
 
     // Dependencies
     ArtifactDependencies GetArtifactDependencies(string buildTypeId);

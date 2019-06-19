@@ -27,7 +27,7 @@ namespace TeamCitySharp.IntegrationTests
     private readonly string m_password;
     private readonly string m_goodBuildConfigId;
     private readonly string m_goodProjectId;
-
+    private readonly string m_goodTemplateId;
 
     public when_interations_to_get_build_configuration_details()
     {
@@ -37,6 +37,7 @@ namespace TeamCitySharp.IntegrationTests
       m_password = ConfigurationManager.AppSettings["Password"];
       m_goodBuildConfigId = ConfigurationManager.AppSettings["GoodBuildConfigId"];
       m_goodProjectId = ConfigurationManager.AppSettings["GoodProjectId"];
+      m_goodTemplateId = ConfigurationManager.AppSettings["GoodTemplateId"];
     }
 
     [SetUp]
@@ -473,6 +474,63 @@ namespace TeamCitySharp.IntegrationTests
       Assert.IsNotNull(buildConfig.Investigations.Href, "No Investigations href 3");
       Assert.IsNotNull(buildConfig.CompatibleAgents, "No CompatibleAgents 3");
       Assert.IsNotNull(buildConfig.CompatibleAgents.Href, "No CompatibleAgents href 3");
+    }
+
+    [Test]
+    public void it_returns_build_config_templates()
+    {
+      string buildConfigId = m_goodBuildConfigId;
+      var buildLocator = BuildTypeLocator.WithId(buildConfigId);
+      var templates = m_client.BuildConfigs.GetTemplates(buildLocator);
+      Assert.IsNotNull(templates, "No templates found, invalid templates call.");
+    }
+
+    [Test]
+    public void it_attaches_templates_to_build_config()
+    {
+      string buildConfigId = m_goodBuildConfigId;
+      var buildLocator = BuildTypeLocator.WithId(buildConfigId);
+      var buildConfig = new Template { Id = m_goodTemplateId };
+      var buildConfigList = new List<Template>() { buildConfig };
+      var templates = new Templates { BuildType = buildConfigList };
+      m_client.BuildConfigs.AttachTemplates(buildLocator, templates);
+
+      var templatesReceived = m_client.BuildConfigs.GetTemplates(buildLocator);
+      Assert.That(templatesReceived.BuildType.Any(), "Templates not attached");
+    }
+
+    [Test]
+    public void it_detaches_templates_from_build_config()
+    {
+      string buildConfigId = m_goodBuildConfigId;
+      var buildLocator = BuildTypeLocator.WithId(buildConfigId);
+      var buildConfig = new Template { Id = m_goodTemplateId };
+      var buildConfigList = new List<Template>() { buildConfig };
+      var templates = new Templates { BuildType = buildConfigList };
+      m_client.BuildConfigs.AttachTemplates(buildLocator, templates);
+      var templatesReceived = m_client.BuildConfigs.GetTemplates(buildLocator);
+      Assert.That(templatesReceived.BuildType.Any(), "Templates not attached");
+      m_client.BuildConfigs.DetachTemplates(buildLocator);
+
+      templatesReceived = m_client.BuildConfigs.GetTemplates(buildLocator);
+      Assert.That(!templatesReceived.BuildType.Any(), "Templates not detached");
+
+    }
+
+    [Test]
+    public void it_returns_build_config_templates_property()
+    {
+      string buildConfigId = m_goodBuildConfigId;
+      var buildLocator = BuildTypeLocator.WithId(buildConfigId);
+      var buildConfig = new Template { Id = m_goodTemplateId };
+      var buildConfigList = new List<Template>() { buildConfig };
+      var templates = new Templates { BuildType = buildConfigList };
+      m_client.BuildConfigs.AttachTemplates(buildLocator, templates);
+      var templatesReceived = m_client.BuildConfigs.GetTemplates(buildLocator);
+      Assert.That(templatesReceived.BuildType.Any(), "Templates not attached");
+
+      var templatesField = m_client.BuildConfigs.ByConfigurationId(buildConfigId).Templates;
+      Assert.IsNotNull(templatesField, "Templates property not retrieved correctly");
     }
 
     #region private

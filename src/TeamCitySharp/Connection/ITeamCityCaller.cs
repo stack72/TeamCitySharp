@@ -15,6 +15,8 @@ namespace TeamCitySharp.Connection
 
     void PostFormat(object data, string contenttype, string urlPart, params object[] parts);
 
+    T PutFormat<T>(object data, string contenttype, string accept, string urlPart, params object[] parts);
+
     void PutFormat(object data, string contenttype, string urlPart, params object[] parts);
 
     void DeleteFormat(string urlPart, params object[] parts);
@@ -28,6 +30,8 @@ namespace TeamCitySharp.Connection
     void Get(string urlPart);
 
     T Post<T>(object data, string contenttype, string urlPart, string accept);
+
+    T Put<T>(object data, string contenttype, string urlPart, string accept);
 
     bool Authenticate(string urlPart, bool throwExceptionOnHttpError = true);
 

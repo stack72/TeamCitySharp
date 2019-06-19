@@ -453,15 +453,38 @@ namespace TeamCitySharp.ActionTypes
       }
     }
 
+    public Templates GetTemplates(BuildTypeLocator locator)
+    {
+      try
+      {
+        var templatedWrapper =
+          m_caller.GetFormat<Templates>(ActionHelper.CreateFieldUrl("/buildTypes/{0}/templates", m_fields), locator);
+        return templatedWrapper;
+      }
+      catch
+      {
+        return null;
+      }
+    }
+
     public void AttachTemplate(BuildTypeLocator locator, string templateId)
     {
       m_caller.PutFormat(templateId, HttpContentTypes.TextPlain, "/buildTypes/{0}/template", locator);
     }
 
+    public void AttachTemplates(BuildTypeLocator locator, Templates templateList)
+    {
+      m_caller.PutFormat<Templates>(templateList, HttpContentTypes.ApplicationJson, HttpContentTypes.ApplicationJson, "/buildTypes/{0}/templates", locator);
+    }
 
     public void DetachTemplate(BuildTypeLocator locator)
     {
       m_caller.DeleteFormat("/buildTypes/{0}/template", locator);
+    }
+
+    public void DetachTemplates(BuildTypeLocator locator)
+    {
+      m_caller.DeleteFormat("/buildTypes/{0}/templates", locator);
     }
 
     #region Custom structure for copy

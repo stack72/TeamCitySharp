@@ -57,6 +57,9 @@ namespace TeamCitySharp.DomainEntities
     [JsonProperty("template")]
     public Template Template { get; set; }
 
+    [JsonProperty("templates")]
+    public Templates Templates { get; set; }
+
     [JsonProperty("parameters")]
     public Parameters Parameters { get; set; }
 

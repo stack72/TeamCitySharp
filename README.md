@@ -173,6 +173,11 @@ Each area has its own list of methods available
     void DeleteAllBuildTypeParameters(BuildTypeLocator locator);
     void PutAllBuildTypeParameters(BuildTypeLocator locator, IDictionary<string, string> parameters);
 
+    /// <since>2017.2</since>
+    Templates GetTemplates(BuildTypeLocator locator); 
+    void AttachTemplates(BuildTypeLocator locator, Templates templateList);
+    void DetachTemplates(BuildTypeLocator locator);
+
 ### BuildInvestigation
 
     List<Investigation> All();
