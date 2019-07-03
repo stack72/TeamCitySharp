@@ -69,6 +69,14 @@ Use fields specializations: Extract complex objects for specified Fields
     var buildsFields = BuildsField.WithFields( buildField: buildField);
     var currentListBuild = client.Builds.GetFields(buildsFields.ToString()).ByBuildConfigId(currentProjectId);
 
+Use fields specializations: Extract statistics from a build with one query
+
+    // For a build get Statistics, id and the build number
+    var propertyField = PropertyField.WithFields(name: true, value: true);
+    var statisticsField = StatisticsField.WithFields(propertyField: propertyField,href:true, count:true);
+    var buildField = BuildField.WithFields(id: true,number:true, statistics: statisticsField);
+    var tempBuild = m_client.Builds.LastBuildByBuildConfigId(tempBuildConfig.Id);
+
 ## API Interaction Groups
 
 There are many tasks that the TeamCity API can do for us. TeamCitySharp groups these tasks into specialist areas
@@ -267,7 +275,8 @@ Each area has its own list of methods available
 
 ### Statistics
 
-    List<Property> GetByBuildId(string buildId);
+    Statistics GetFields(string fields);
+    Properties GetByBuildId(string buildId);
 
 ## Credits
 

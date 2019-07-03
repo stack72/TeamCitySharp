@@ -21,9 +21,9 @@ namespace TeamCitySharp.ActionTypes
       return newInstance;
     }
 
-    public List<Property> GetByBuildId(string buildId)
+    public Properties GetByBuildId(string buildId)
     {
-      return m_caller.GetFormat<Properties>("/builds/id:{0}/statistics", buildId).Property;
+      return m_caller.GetFormat<TeamCitySharp.DomainEntities.Properties>(ActionHelper.CreateFieldUrl("/builds/id:{0}/statistics", m_fields), buildId);
     }
   }
 }

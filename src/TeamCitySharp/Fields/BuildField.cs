@@ -348,7 +348,7 @@ namespace TeamCitySharp.Fields
 
       FieldHelper.AddFieldGroup(Attributes, ref currentFields, "attributes");
 
-      FieldHelper.AddFieldGroup(Statistics, ref currentFields);
+      FieldHelper.AddFieldGroup(Statistics, ref currentFields, "statistics");
 
       FieldHelper.AddFieldGroup(Metadata, ref currentFields, "metadata");
 

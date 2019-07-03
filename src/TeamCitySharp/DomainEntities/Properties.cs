@@ -22,5 +22,11 @@ namespace TeamCitySharp.DomainEntities
 
     [JsonProperty("property")]
     public List<Property> Property { get; set; }
+
+    [JsonProperty("count")]
+    public int Count { get; set; }
+
+    [JsonProperty("href")]
+    public string Href { get; set; }
   }
 }

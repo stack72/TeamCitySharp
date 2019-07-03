@@ -6,7 +6,7 @@ namespace TeamCitySharp.Fields
   {
     #region Properties
 
-    public PropertiesField PropertiesField { get; private set; }
+    public PropertyField PropertyField { get; private set; }
     public bool Count { get; private set; }
     public bool Href { get; private set; }
 
@@ -14,12 +14,13 @@ namespace TeamCitySharp.Fields
 
     #region Public Methods
 
-    public static StatisticsField WithFields(PropertiesField propertiesField = null,
-                                             bool count = true, bool href = false)
+    public static StatisticsField WithFields(PropertyField propertyField = null,
+                                             bool count = true,
+                                             bool href= false)
     {
       return new StatisticsField
         {
-          PropertiesField = propertiesField,
+          PropertyField = propertyField,
           Count = count,
           Href = href
         };
@@ -41,7 +42,7 @@ namespace TeamCitySharp.Fields
       FieldHelper.AddField(Count, ref currentFields, "count");
       FieldHelper.AddField(Href, ref currentFields, "href");
 
-      FieldHelper.AddFieldGroup(PropertiesField, ref currentFields);
+      FieldHelper.AddFieldGroup(PropertyField, ref currentFields);
 
       return currentFields;
     }

@@ -482,5 +482,34 @@ namespace TeamCitySharp.IntegrationTests
       var build = m_client.Builds.GetFields(buildField.ToString()).ById(tempBuild.Id);
       Assert.IsNotNull(build);
     }
+
+    [Test]
+    public void it_returns_full_build_field_statistics_with_build()
+    {
+      var tempBuildConfig = m_client.BuildConfigs.All().First();
+      PropertyField propertyField = PropertyField.WithFields(name: true, value: true);
+      StatisticsField statisticsField = StatisticsField.WithFields(propertyField: propertyField,href:true, count:true);
+      BuildField buildField = BuildField.WithFields(statistics: statisticsField);
+      var tempBuild = m_client.Builds.LastBuildByBuildConfigId(tempBuildConfig.Id);
+      var build = m_client.Builds.GetFields(buildField.ToString()).ById(tempBuild.Id);
+      Assert.IsNotNull(build.Statistics.Href);
+      Assert.IsNotNull(build.Statistics.Count);
+      Assert.IsNotNull(build.Statistics.Property);
+    }
+
+    [Test]
+    public void it_returns_full_build_field_statistics_without_build ()
+    {
+      var tempBuildConfig = m_client.BuildConfigs.All().First();
+      var tempBuild = m_client.Builds.LastBuildByBuildConfigId(tempBuildConfig.Id);
+      PropertyField propertyField = PropertyField.WithFields(name: true, value: true);
+      StatisticsField statisticsField = StatisticsField.WithFields(propertyField: propertyField, href: true, count: true);
+      var stats = m_client.Statistics.GetFields(statisticsField.ToString()).GetByBuildId(tempBuild.Id);
+      // By default teamcity return href null
+      Assert.IsNull(stats.Href);
+      Assert.IsNotNull(stats.Count);
+      Assert.IsNotNull(stats.Property);
+
+    }
   }
 }

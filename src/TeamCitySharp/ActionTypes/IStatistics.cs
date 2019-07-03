@@ -5,6 +5,7 @@ namespace TeamCitySharp.ActionTypes
 {
   public interface IStatistics
   {
-    List<Property> GetByBuildId(string buildId);
+    Statistics GetFields(string fields);
+    Properties GetByBuildId(string buildId);
   }
 }

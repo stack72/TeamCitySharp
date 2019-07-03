@@ -6,15 +6,18 @@ namespace TeamCitySharp.Fields
   {
     public PropertyField PropertyField { get; private set; }
     public bool Count { get; private set; }
+    public bool Href { get; private set; }
 
 
     public static PropertiesField WithFields(PropertyField propertyField = null,
-                                             bool count = true)
+                                             bool count = true,
+                                             bool href= false)
     {
       return new PropertiesField
         {
           PropertyField = propertyField,
           Count = count,
+          Href = href
         };
     }
 
@@ -28,6 +31,7 @@ namespace TeamCitySharp.Fields
       var currentFields = String.Empty;
 
       FieldHelper.AddField(Count, ref currentFields, "count");
+      FieldHelper.AddField(Href, ref currentFields, "href");
       FieldHelper.AddFieldGroup(PropertyField, ref currentFields);
 
 

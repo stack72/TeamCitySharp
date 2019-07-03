@@ -37,7 +37,7 @@ namespace TeamCitySharp.IntegrationTests
       var build = m_client.Builds.LastSuccessfulBuildByBuildConfigId(proj.BuildTypes.BuildType[0].Id);
       var stats = m_client.Statistics.GetByBuildId(build.Id);
 
-      Assert.That(stats.Any(property => property.Name.Equals("PassedTestCount")));
+      Assert.That(stats.Property.Any(property => property.Name.Equals("PassedTestCount")));
     }
   }
 }
