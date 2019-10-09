@@ -21,7 +21,7 @@ namespace TeamCitySharp.ActionTypes
 
     public void DownloadArtifactsByBuildId(string buildId, Action<string> downloadHandler)
     {
-      m_caller.GetDownloadFormat(downloadHandler, "/downloadArtifacts.html?buildId={0}", buildId);
+      m_caller.GetDownloadFormat(downloadHandler, "/downloadArtifacts.html?buildId={0}", false, buildId);
     }
 
     public ArtifactWrapper ByBuildConfigId(string buildConfigId)
@@ -64,7 +64,7 @@ namespace TeamCitySharp.ActionTypes
     public ArtifactCollection Specification(string buildSpecification)
     {
       var xml =
-        m_caller.GetRaw($"/repository/download/{m_buildConfigId}/{buildSpecification}/teamcity-ivy.xml");
+        m_caller.GetRaw($"/repository/download/{m_buildConfigId}/{buildSpecification}/teamcity-ivy.xml", false);
 
       var document = new XmlDocument();
       document.LoadXml(xml);
@@ -144,7 +144,7 @@ namespace TeamCitySharp.ActionTypes
           if (overwrite) File.Delete(destination);
           else continue;
         }
-        m_caller.GetDownloadFormat(tempfile => File.Move(tempfile, destination), url);
+        m_caller.GetDownloadFormat(tempfile => File.Move(tempfile, destination), url, false);
       }
       return downloaded;
     }
@@ -207,7 +207,7 @@ namespace TeamCitySharp.ActionTypes
                 if (overwrite) File.Delete(destination);
                 else continue;
               }
-              m_caller.GetDownloadFormat(tempfile => File.Move(tempfile, destination), url);
+              m_caller.GetDownloadFormat(tempfile => File.Move(tempfile, destination), url, false);
               break;
             }
           }

@@ -533,6 +533,18 @@ namespace TeamCitySharp.IntegrationTests
       Assert.IsNotNull(templatesField, "Templates property not retrieved correctly");
     }
 
+    [Test]
+    public void it_downloads_build_configuration()
+    {
+      string buildConfigId = m_goodBuildConfigId;
+      string directory = Directory.GetCurrentDirectory();
+      string destination = Path.Combine(directory, "config.txt");
+      var buildLocator = BuildTypeLocator.WithId(buildConfigId);
+      m_client.BuildConfigs.DownloadConfiguration(buildLocator, tempfile => System.IO.File.Move(tempfile, destination));
+      Assert.IsTrue(System.IO.File.Exists(destination));
+      Assert.IsTrue(new FileInfo(destination).Length > 0);
+    }
+
     #region private
     private string GetXml(object data)
     {
