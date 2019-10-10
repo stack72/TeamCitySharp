@@ -258,7 +258,7 @@ namespace TeamCitySharp.ActionTypes
     public void DownloadLogs(string projectId, bool zipped, Action<string> downloadHandler)
     {
       var url = $"/downloadBuildLog.html?buildId={projectId}&archived={zipped}";
-      m_caller.GetDownloadFormat(downloadHandler, url);
+      m_caller.GetDownloadFormat(downloadHandler, url, false);
     }
 
     /// <summary>

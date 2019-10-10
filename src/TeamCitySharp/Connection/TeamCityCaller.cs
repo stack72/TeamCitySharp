@@ -83,6 +83,11 @@ namespace TeamCitySharp.Connection
 
     public void GetDownloadFormat(Action<string> downloadHandler, string urlPart, params object[] parts)
     {
+      GetDownloadFormat(downloadHandler, urlPart, true, parts);
+    }
+
+    public void GetDownloadFormat(Action<string> downloadHandler, string urlPart, bool rest, params object[] parts)
+    {
       if (CheckForUserNameAndPassword())
         throw new ArgumentException("If you are not acting as a guest you must supply userName and password");
       if (string.IsNullOrEmpty(urlPart))
@@ -92,7 +97,7 @@ namespace TeamCitySharp.Connection
         throw new ArgumentException("A download handler must be specified.");
 
       string tempFileName = Path.GetRandomFileName();
-      var url = CreateUrl(string.Format(urlPart, parts));
+      var url = rest ? CreateUrl(string.Format(urlPart, parts)) : CreateUrl(string.Format(urlPart, parts), false);
 
       try
       {
@@ -256,10 +261,15 @@ namespace TeamCitySharp.Connection
 
     private string CreateUrl(string urlPart)
     {
+      return CreateUrl(urlPart, true);
+    }
+
+    private string CreateUrl(string urlPart, bool rest)
+    {
       var protocol = m_credentials.UseSSL ? "https://" : "http://";
       if(m_credentials.UseSSL) ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
       var authType = m_credentials.ActAsGuest ? "/guestAuth" : "/httpAuth";
-      var restUrl = "/app/rest";
+      var restUrl = rest ? "/app/rest" : "";
       var version = m_version == "" ? "" : $"/{m_version}";
       var uri = $"{protocol}{m_credentials.HostName}{authType}{restUrl}{version}{urlPart}";
       return Uri.EscapeUriString(uri).Replace("+", "%2B");
@@ -285,13 +295,18 @@ namespace TeamCitySharp.Connection
     // only used by the artifact listing methods since i havent found a way to deserialize them into a domain entity
     public string GetRaw(string urlPart)
     {
+      return GetRaw(urlPart, true);
+    }
+
+    public string GetRaw(string urlPart, bool rest)
+    {
       if (CheckForUserNameAndPassword())
         throw new ArgumentException("If you are not acting as a guest you must supply userName and password");
 
       if (string.IsNullOrEmpty(urlPart))
         throw new ArgumentException("Url must be specified");
 
-      var url = CreateUrl(urlPart);
+      var url = rest ? CreateUrl(urlPart) : CreateUrl(urlPart, false);
 
       var httpClient = CreateHttpClient(m_credentials.UserName, m_credentials.Password, HttpContentTypes.TextPlain);
       var response = httpClient.Get(url);

@@ -23,6 +23,8 @@ namespace TeamCitySharp.Connection
 
     void GetDownloadFormat(Action<string> downloadHandler, string urlPart, params object[] parts);
 
+    void GetDownloadFormat(Action<string> downloadHandler, string urlPart, bool rest, params object[] parts);
+
     string StartBackup(string urlPart);
 
     T Get<T>(string urlPart);
@@ -42,6 +44,8 @@ namespace TeamCitySharp.Connection
     void Delete(string urlPart);
 
     string GetRaw(string urlPart);
+
+    string GetRaw(string urlPart, bool rest);
 
     bool GetBoolean(string urlPart, params object[] parts);
 
