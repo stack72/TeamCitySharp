@@ -6,6 +6,6 @@ namespace TeamCitySharp.ActionTypes
   {
     void DownloadArtifactsByBuildId(string buildId, Action<string> downloadHandler);
 
-    ArtifactWrapper ByBuildConfigId(string buildConfigId);
+    ArtifactWrapper ByBuildConfigId(string buildConfigId, string param="");
   }
 }

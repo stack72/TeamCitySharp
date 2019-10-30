@@ -272,7 +272,7 @@ Each area has its own list of methods available
 ### BuildArtifacts
 
     void DownloadArtifactsByBuildId(string buildId, Action<string> downloadHandler);
-    ArtifactWrapper ByBuildConfigId(string buildConfigId);
+    ArtifactWrapper ByBuildConfigId(string buildConfigId, string param="");
 
 ### Statistics
 
@@ -294,3 +294,4 @@ Thanks to the following contributors:
 * Mark deVilliers
 * Marc-Andre Vezeau (@exfo)
 * Bassem Mawassi (@exfo)
+* Tusman Akhter (@exfo)
