@@ -110,6 +110,12 @@ namespace TeamCitySharp.ActionTypes
       return buildWrapper?.BuildType ?? new List<BuildConfig>();
     }
 
+    public BuildConfig CreateConfiguration(BuildConfig buildConfig)
+    {
+      return m_caller.PostFormat<BuildConfig>(buildConfig, HttpContentTypes.ApplicationJson,
+        HttpContentTypes.ApplicationJson, "/buildTypes");
+    }
+
     public BuildConfig CreateConfiguration(string projectName, string configurationName)
     {
       return m_caller.PostFormat<BuildConfig>(configurationName, HttpContentTypes.TextPlain,

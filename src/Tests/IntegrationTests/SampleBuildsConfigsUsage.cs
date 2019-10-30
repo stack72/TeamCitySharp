@@ -545,6 +545,31 @@ namespace TeamCitySharp.IntegrationTests
       Assert.IsTrue(new FileInfo(destination).Length > 0);
     }
 
+    [Test]
+    public void it_creates_build_configuration()
+    {
+      var currentBuildId = "testId";
+      var buildProject = new Project() { Id = m_goodProjectId };
+      var parameters = new Parameters
+        { Property = new List<Property>() { new Property() { Name = "category", Value = "test"} } };
+      var buildConfig = new BuildConfig() { Id = currentBuildId, Name = "testNewConfig", Project = buildProject, Parameters = parameters };
+
+      try
+      {
+        buildConfig = m_client.BuildConfigs.CreateConfiguration(buildConfig);
+
+        Assert.That(buildConfig.Id == currentBuildId);
+      }
+      catch (Exception e)
+      {
+        Assert.Fail($"{e.Message}", e);
+      }
+      finally
+      {
+        m_client.BuildConfigs.DeleteConfiguration(BuildTypeLocator.WithId(currentBuildId));
+      }
+    }
+
     #region private
     private string GetXml(object data)
     {

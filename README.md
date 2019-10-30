@@ -142,6 +142,7 @@ Each area has its own list of methods available
     List<BuildConfig> ByProjectId(string projectId);
     List<BuildConfig> ByProjectName(string projectName);
     bool ModifTrigger(string format, string oldTriggerConfigurationId, string id);
+    BuildConfig CreateConfiguration(BuildConfig buildConfig);
     BuildConfig CreateConfiguration(string projectName, string configurationName);
     BuildConfig CreateConfigurationByProjectId(string projectId, string configurationName);
     BuildConfig Copy(string buildConfigId, string buildConfigName, string destinationProjectId, string newBuildTypeId = "");
