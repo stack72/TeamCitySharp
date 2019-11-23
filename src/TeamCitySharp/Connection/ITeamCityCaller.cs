@@ -48,6 +48,7 @@ namespace TeamCitySharp.Connection
     string GetRaw(string urlPart, bool rest);
 
     bool GetBoolean(string urlPart, params object[] parts);
+    T GetNextHref<T>(string nextHref);
 
     void DisableCache();
 
