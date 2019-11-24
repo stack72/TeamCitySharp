@@ -2,7 +2,7 @@
 
 namespace TeamCitySharp.DomainEntities
 {
-  public class InvesigationResolution
+  public class InvestigationResolution
   {
     [JsonProperty("type")]
     public string Type { get; set; }
