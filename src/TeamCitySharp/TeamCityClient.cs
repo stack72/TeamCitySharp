@@ -18,6 +18,7 @@ namespace TeamCitySharp
     private IBuildArtifacts m_artifacts;
     private IBuildInvestigations m_investigations;
     private IStatistics m_statistics;
+    private ITests m_tests;
 
     public TeamCityClient(string hostName, bool useSsl = false)
     {
@@ -112,5 +113,10 @@ namespace TeamCitySharp
     {
       get { return m_statistics ?? (m_statistics = new Statistics(m_caller)); }
     }
+    public ITests Tests
+    {
+        get { return m_tests ?? (m_tests = new Tests(m_caller)); }
+    }
+
   }
 }

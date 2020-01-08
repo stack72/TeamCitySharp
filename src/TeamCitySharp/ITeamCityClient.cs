@@ -23,5 +23,6 @@ namespace TeamCitySharp
     IBuildArtifacts Artifacts { get; }
     IStatistics Statistics { get; }
     IBuildInvestigations Investigations { get; }
+    ITests Tests { get; }
   }
 }

@@ -355,5 +355,11 @@ namespace TeamCitySharp.Connection
         return false;
       }
     }
+    public T GetNextHref<T>(string nextHref)
+    {
+      var reg = new System.Text.RegularExpressions.Regex(@"\/(guestAuth|httpAuth)(\/app\/rest)?(\/\d+.\d+)?");
+      string urlPart = nextHref.Substring(reg.Match(nextHref).Value.Length);
+      return Get<T>(urlPart);
+    }
   }
 }
