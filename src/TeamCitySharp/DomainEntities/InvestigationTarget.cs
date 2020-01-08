@@ -2,7 +2,7 @@
 
 namespace TeamCitySharp.DomainEntities
 {
-  public class InvesigationTarget
+  public class InvestigationTarget
   {
     [JsonProperty("tests")]
     public Tests Tests { get; set; }
@@ -11,6 +11,6 @@ namespace TeamCitySharp.DomainEntities
     public string AnyProblem { get; set; }
 
     [JsonProperty("resolution")]
-    public InvesigationResolution Resolution { get; set; }
+    public InvestigationResolution Resolution { get; set; }
   }
 }
