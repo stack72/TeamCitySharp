@@ -4,10 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text.RegularExpressions;
 using System.Xml;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
 using TeamCitySharp.Locators;
@@ -426,6 +424,16 @@ namespace TeamCitySharp.ActionTypes
       }
 
       return false;
+    }
+
+    public Branches GetBranchesByBuildConfigurationId(string buildTypeId,BranchLocator locator = null)
+    {
+      var locatorString = (locator!=null)?$"?locator={locator}":"";
+      var branches =
+        m_caller.Get<Branches>(
+          ActionHelper.CreateFieldUrl(
+            $"/buildTypes/id:{buildTypeId}/branches{locatorString}", m_fields));
+      return branches;
     }
 
     public ArtifactDependencies GetArtifactDependencies(string buildTypeId)

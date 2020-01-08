@@ -103,6 +103,9 @@ namespace TeamCitySharp.ActionTypes
     /// <param name="locator"></param>
     void DetachTemplates(BuildTypeLocator locator);
 
+    // Branches
+    Branches GetBranchesByBuildConfigurationId(string buildTypeId, BranchLocator locator = null);
+
     // Dependencies
     ArtifactDependencies GetArtifactDependencies(string buildTypeId);
     SnapshotDependencies GetSnapshotDependencies(string buildTypeId);

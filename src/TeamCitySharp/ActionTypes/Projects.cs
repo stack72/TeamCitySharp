@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
+using TeamCitySharp.Locators;
 
 namespace TeamCitySharp.ActionTypes
 {
@@ -150,6 +151,16 @@ namespace TeamCitySharp.ActionTypes
       var url = $"/projects/{projectId}/{setting}";
       var response = m_caller.Put(value, HttpContentTypes.TextPlain, url, string.Empty);
       return response.StatusCode == HttpStatusCode.OK;
+    }
+
+    public Branches GetBranchesByBuildProjectId(string projectId, BranchLocator locator = null)
+    {
+      var locatorString = (locator!=null)?$"?locator={locator}":"";
+      var branches =
+        m_caller.Get<Branches>(
+          ActionHelper.CreateFieldUrl(
+            $"/projects/id:{projectId}/branches{locatorString}", m_fields));
+      return branches;
     }
 
     public ProjectFeatures GetProjectFeatures(string projectLocatorId)

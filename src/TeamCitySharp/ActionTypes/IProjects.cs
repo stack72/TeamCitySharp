@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TeamCitySharp.DomainEntities;
+using TeamCitySharp.Locators;
 
 namespace TeamCitySharp.ActionTypes
 {
@@ -21,6 +22,7 @@ namespace TeamCitySharp.ActionTypes
     void SetProjectParameter(string projectName, string settingName, string settingValue);
     bool ModifParameters(string projectId, string mainprojectbranch, string variablePath);
     bool ModifSettings(string projectId, string description, string fullProjectName);
+    Branches GetBranchesByBuildProjectId(string projectId, BranchLocator locator = null);
     ProjectFeatures GetProjectFeatures(string projectLocatorId);
     ProjectFeature GetProjectFeatureByProjectFeature(string projectLocatorId, string projectFeatureId);
     ProjectFeature CreateProjectFeature(string projectId, ProjectFeature projectFeature);

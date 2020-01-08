@@ -570,6 +570,46 @@ namespace TeamCitySharp.IntegrationTests
       }
     }
 
+    [Test]
+    public void it_returns_branches()
+    {
+      string buildConfigId = m_goodBuildConfigId;
+      var tempBuild = m_client.BuildConfigs.GetBranchesByBuildConfigurationId(buildConfigId);
+      Assert.IsTrue(tempBuild.Count == 2);
+    }
+
+    [Test]
+    public void it_returns_branches_history()
+    {
+      string buildConfigId = m_goodBuildConfigId;
+      var tempBuild = m_client.BuildConfigs.GetBranchesByBuildConfigurationId(buildConfigId,BranchLocator.WithDimensions(BranchPolicy.ALL_BRANCHES));
+      Assert.IsTrue(tempBuild.Count == 6);
+    }
+
+    [Test]
+    public void it_returns_branches_history_with_field_Default_but_active_not_fetched()
+    {
+      BranchField branchField = BranchField.WithFields(name:true,defaultValue:true);
+      BranchesField branchesField = BranchesField.WithFields(branch: branchField);
+      string buildConfigId = m_goodBuildConfigId;
+      var tempBuild = m_client.BuildConfigs.GetFields(branchesField.ToString()).GetBranchesByBuildConfigurationId(buildConfigId, BranchLocator.WithDimensions(BranchPolicy.ALL_BRANCHES));
+      var checkIfFieldWork = tempBuild.Branch.Single(x => x.Default);
+      Assert.IsTrue(checkIfFieldWork.Active == false);
+
+    }
+
+    [Test]
+    public void it_returns_branches_history_with_field_Default_active_fetched()
+    {
+      BranchField branchField = BranchField.WithFields(name: true, defaultValue: true,active:true);
+      BranchesField branchesField = BranchesField.WithFields(branch: branchField);
+      string buildConfigId = m_goodBuildConfigId;
+      var tempBuild = m_client.BuildConfigs.GetFields(branchesField.ToString()).GetBranchesByBuildConfigurationId(buildConfigId, BranchLocator.WithDimensions(BranchPolicy.ALL_BRANCHES));
+      var checkIfFieldWork = tempBuild.Branch.Single(x => x.Default);
+      Assert.IsTrue(checkIfFieldWork.Active);
+
+    }
+
     #region private
     private string GetXml(object data)
     {

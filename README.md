@@ -177,10 +177,12 @@ Each area has its own list of methods available
     bool ModifArtifactDependencies(string format, string oldDendencyConfigurationId, string id);
     bool ModifSnapshotDependencies(string format, string oldDendencyConfigurationId, string id);
 
-
     /// <since>8.0</since>
     void DeleteAllBuildTypeParameters(BuildTypeLocator locator);
     void PutAllBuildTypeParameters(BuildTypeLocator locator, IDictionary<string, string> parameters);
+
+    // <since>2017.1</since>
+    Branches GetBranchesByBuildConfigurationId(string buildTypeId, BranchLocator locator = null);
 
     /// <since>2017.2</since>
     Templates GetTemplates(BuildTypeLocator locator); 
@@ -222,6 +224,9 @@ Each area has its own list of methods available
     ProjectFeature GetProjectFeatureByProjectFeature(string projectLocatorId, string projectFeatureId);
     ProjectFeature CreateProjectFeature(string projectId, ProjectFeature projectFeature);
     void DeleteProjectFeature(string projectId, string projectFeatureId);
+
+    // <since>2017.1</since>
+    Branches GetBranchesByBuildProjectId(string projectId, BranchLocator locator = null);
 
 ### ServerInformation
 
