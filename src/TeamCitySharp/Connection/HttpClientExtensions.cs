@@ -18,17 +18,25 @@ namespace TeamCitySharp.Connection
 
     public static HttpResponseMessage Post(this HttpClient src, string url, object body, string contentType)
     {
-      var data = contentType == HttpContentTypes.ApplicationJson ? JsonConvert.SerializeObject(body) : body.ToString();
+      StringContent content = null;
+      if(body != null)
+      {
+          var data = contentType == HttpContentTypes.ApplicationJson ? JsonConvert.SerializeObject(body) : body.ToString();
 
-      var content = new StringContent(data, Encoding.ASCII, contentType);
+          content = new StringContent(data, Encoding.ASCII, contentType);
+      }
       return src.PostAsync(url, content).GetAwaiter().GetResult();
     }
 
     public static HttpResponseMessage Put(this HttpClient src, string url, object body, string contentType)
     {
-      var data = contentType == HttpContentTypes.ApplicationJson ? JsonConvert.SerializeObject(body) : body.ToString();
+      StringContent content = null;
+      if(body != null)
+      {
+          var data = contentType == HttpContentTypes.ApplicationJson ? JsonConvert.SerializeObject(body) : body.ToString();
 
-      var content = new StringContent(data, Encoding.ASCII, contentType);
+          content = new StringContent(data, Encoding.ASCII, contentType);
+      }
       return src.PutAsync(url, content).GetAwaiter().GetResult();
     }
 
