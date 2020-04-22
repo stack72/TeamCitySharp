@@ -46,6 +46,13 @@ namespace TeamCitySharp.Connection
       m_credentials.ActAsGuest = actAsGuest;
     }
 
+    public void ConnectWithAccessToken(string token)
+    {
+      m_credentials.Token = token;
+      m_credentials.UseToken = true;
+      m_credentials.ActAsGuest = false;
+    }
+
     public T GetFormat<T>(string urlPart, params object[] parts)
     {
       return Get<T>(string.Format(urlPart, parts));
@@ -268,11 +275,18 @@ namespace TeamCitySharp.Connection
     {
       var protocol = m_credentials.UseSSL ? "https://" : "http://";
       if(m_credentials.UseSSL) ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-      var authType = m_credentials.ActAsGuest ? "/guestAuth" : "/httpAuth";
+      var authType = GetAuthType();
       var restUrl = rest ? "/app/rest" : "";
       var version = m_version == "" ? "" : $"/{m_version}";
       var uri = $"{protocol}{m_credentials.HostName}{authType}{restUrl}{version}{urlPart}";
       return Uri.EscapeUriString(uri).Replace("+", "%2B");
+    }
+
+    private object GetAuthType()
+    {
+      if (m_credentials.ActAsGuest)
+        return "/guestAuth";
+      return m_credentials.UseToken ? string.Empty : "/httpAuth";
     }
 
     private HttpClient CreateHttpClient(string userName, string password, string accept)
@@ -283,11 +297,25 @@ namespace TeamCitySharp.Connection
 
       if (m_useNoCache)
         httpClient.DefaultRequestHeaders.CacheControl = new CacheControlHeaderValue{NoCache = true};
-      if (!m_credentials.ActAsGuest)
+      
+      // return for Guest
+      if (m_credentials.ActAsGuest) return httpClient;
+
+      // With Username & Password
+      if (!m_credentials.UseToken)
       {
         var credentials = Encoding.ASCII.GetBytes($"{userName}:{password}");
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(credentials));
+        httpClient.DefaultRequestHeaders.Authorization =
+          new AuthenticationHeaderValue("Basic", Convert.ToBase64String(credentials));
       }
+
+      // With token
+      if (m_credentials.UseToken)
+      {
+        httpClient.DefaultRequestHeaders.Authorization =
+          new AuthenticationHeaderValue("Bearer", m_credentials.Token);
+      }
+
 
       return httpClient;
     }

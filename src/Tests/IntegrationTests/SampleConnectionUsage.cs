@@ -12,7 +12,7 @@ namespace TeamCitySharp.IntegrationTests
     private readonly bool m_useSsl;
     private readonly string m_username;
     private readonly string m_password;
-
+    private readonly string m_token;
 
     public when_connecting_to_the_teamcity_server()
     {
@@ -20,6 +20,7 @@ namespace TeamCitySharp.IntegrationTests
       bool.TryParse(ConfigurationManager.AppSettings["UseSsl"], out m_useSsl);
       m_username = ConfigurationManager.AppSettings["Username"];
       m_password = ConfigurationManager.AppSettings["Password"];
+      m_token = ConfigurationManager.AppSettings["Token"];
     }
 
     [SetUp]
@@ -59,6 +60,13 @@ namespace TeamCitySharp.IntegrationTests
 
 
       //Assert.Throws Exception
+    }
+
+    [Test, Ignore("You need to specify the token in the app.config before to use this test")]
+    public void it_will_authenticate_a_known_user_with_token()
+    {
+      m_client.ConnectWithAccessToken(m_token);
+      Assert.That(m_client.Authenticate());
     }
   }
 }

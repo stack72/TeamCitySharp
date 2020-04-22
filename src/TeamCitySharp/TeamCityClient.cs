@@ -30,6 +30,11 @@ namespace TeamCitySharp
       m_caller.Connect(userName, password, false);
     }
 
+    public void ConnectWithAccessToken(string token)
+    {
+      m_caller.ConnectWithAccessToken(token);
+    }
+
     public void UseVersion(string version)
     {
       m_caller.UseVersion(version);

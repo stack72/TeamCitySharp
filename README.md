@@ -49,12 +49,20 @@ To get a list of running builds
 To connect as an authenticated user:
 
     var client = new TeamCityClient("localhost:81");
+    // To use a https server
+    // var client = new TeamCityClient("localhost", true);
     client.Connect("username", "password");
 
 To connect as a Guest:
 
     var client = new TeamCityClient("localhost:81");
     client.ConnectAsGuest();
+
+To connect with a access token (Since: 2019.1):
+
+    // see https://www.jetbrains.com/help/teamcity/2019.2/authentication-modules.html#AuthenticationModules-tokenBasedAuth
+    var client = new TeamCityClient("localhost:81");
+    client.ConnectWithAccessToken("Token");
 
 To use a previous rest api version:
 

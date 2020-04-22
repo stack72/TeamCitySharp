@@ -7,5 +7,7 @@
     public string UserName { get; set; }
     public bool UseSSL { get; set; }
     public bool ActAsGuest { get; set; }
+    public string Token { get; set; }
+    public bool UseToken { get; set; }
   }
 }

@@ -7,6 +7,8 @@ namespace TeamCitySharp.Connection
   {
     void Connect(string userName, string password, bool actAsGuest);
 
+    void ConnectWithAccessToken(string token);
+
     T GetFormat<T>(string urlPart, params object[] parts);
 
     void GetFormat(string urlPart, params object[] parts);

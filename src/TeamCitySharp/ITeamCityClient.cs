@@ -5,6 +5,7 @@ namespace TeamCitySharp
   public interface ITeamCityClient
   {
     void Connect(string userName, string password);
+    void ConnectWithAccessToken(string token);
     void UseVersion(string version);
     void ConnectAsGuest();
     void DisableCache();

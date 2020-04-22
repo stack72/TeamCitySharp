@@ -4,5 +4,6 @@
   {
     void Connect(string userName, string password);
     void ConnectAsGuest();
+    void ConnectWithAccessToken(string token);
   }
 }
