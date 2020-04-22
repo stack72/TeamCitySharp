@@ -25,6 +25,7 @@ namespace TeamCitySharp.IntegrationTests
     private readonly bool m_useSsl;
     private readonly string m_username;
     private readonly string m_password;
+    private readonly string m_token;
     private readonly string m_goodBuildConfigId;
     private readonly string m_goodProjectId;
     private readonly string m_goodTemplateId;
@@ -35,6 +36,7 @@ namespace TeamCitySharp.IntegrationTests
       bool.TryParse(ConfigurationManager.AppSettings["UseSsl"], out m_useSsl);
       m_username = ConfigurationManager.AppSettings["Username"];
       m_password = ConfigurationManager.AppSettings["Password"];
+      m_token = ConfigurationManager.AppSettings["Password"];
       m_goodBuildConfigId = ConfigurationManager.AppSettings["GoodBuildConfigId"];
       m_goodProjectId = ConfigurationManager.AppSettings["GoodProjectId"];
       m_goodTemplateId = ConfigurationManager.AppSettings["GoodTemplateId"];
@@ -60,6 +62,14 @@ namespace TeamCitySharp.IntegrationTests
       client.Connect("teamcitysharpuser", "qwerty");
 
       Assert.Throws<HttpRequestException>(() => client.BuildConfigs.All());
+    }
+    [Test, Ignore("We need to configure token before run this test")]
+    public void it_returns_all_build_types_with_access_token()
+    {
+      var client = new TeamCityClient(m_server, m_useSsl);
+      client.ConnectWithAccessToken(m_token);
+      var buildConfigs = client.BuildConfigs.All();
+      Assert.That(buildConfigs.Any(), "No build types were found in this server");
     }
 
     [Test]
@@ -609,6 +619,7 @@ namespace TeamCitySharp.IntegrationTests
       Assert.IsTrue(checkIfFieldWork.Active);
 
     }
+
 
     #region private
     private string GetXml(object data)

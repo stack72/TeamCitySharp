@@ -95,7 +95,7 @@ namespace TeamCitySharp.Connection
 
     public void GetDownloadFormat(Action<string> downloadHandler, string urlPart, bool rest, params object[] parts)
     {
-      if (CheckForUserNameAndPassword())
+      if (CheckForAuthRequest())
         throw new ArgumentException("If you are not acting as a guest you must supply userName and password");
       if (string.IsNullOrEmpty(urlPart))
         throw new ArgumentException("Url must be specified");
@@ -121,7 +121,7 @@ namespace TeamCitySharp.Connection
 
     public string StartBackup(string urlPart)
     {
-      if (CheckForUserNameAndPassword())
+      if (CheckForAuthRequest())
         throw new ArgumentException("If you are not acting as a guest you must supply userName and password");
 
       if (string.IsNullOrEmpty(urlPart))
@@ -152,7 +152,7 @@ namespace TeamCitySharp.Connection
 
     private HttpResponseMessage GetResponse(string urlPart)
     {
-      if (CheckForUserNameAndPassword())
+      if (CheckForAuthRequest())
         throw new ArgumentException("If you are not acting as a guest you must supply userName and password");
 
       if (string.IsNullOrEmpty(urlPart))
@@ -328,7 +328,7 @@ namespace TeamCitySharp.Connection
 
     public string GetRaw(string urlPart, bool rest)
     {
-      if (CheckForUserNameAndPassword())
+      if (CheckForAuthRequest())
         throw new ArgumentException("If you are not acting as a guest you must supply userName and password");
 
       if (string.IsNullOrEmpty(urlPart))
@@ -347,10 +347,16 @@ namespace TeamCitySharp.Connection
       return response.RawText();
     }
 
-    private bool CheckForUserNameAndPassword()
+    private bool CheckForAuthRequest()
     {
-      return !m_credentials.ActAsGuest && string.IsNullOrEmpty(m_credentials.UserName) &&
-             string.IsNullOrEmpty(m_credentials.Password);
+      if (m_credentials.UseToken)
+      {
+        return !m_credentials.ActAsGuest &&
+               string.IsNullOrEmpty(m_credentials.Token);
+      }
+      return (!m_credentials.ActAsGuest && 
+             string.IsNullOrEmpty(m_credentials.UserName) &&
+             string.IsNullOrEmpty(m_credentials.Password));
     }
 
     private string GetContentType(string data)
@@ -366,7 +372,7 @@ namespace TeamCitySharp.Connection
 
       try
       {
-        if (CheckForUserNameAndPassword())
+        if (CheckForAuthRequest())
           throw new ArgumentException("If you are not acting as a guest you must supply userName and password");
 
         if (string.IsNullOrEmpty(urlFull))

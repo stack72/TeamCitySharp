@@ -15,6 +15,7 @@ namespace TeamCitySharp.IntegrationTests
     private readonly bool m_useSsl;
     private readonly string m_username;
     private readonly string m_password;
+    private readonly string m_token;
     private readonly string m_goodBuildConfigId;
 
     public test_build_artifact_download()
@@ -23,6 +24,7 @@ namespace TeamCitySharp.IntegrationTests
       bool.TryParse(ConfigurationManager.AppSettings["UseSsl"], out m_useSsl);
       m_username = ConfigurationManager.AppSettings["Username"];
       m_password = ConfigurationManager.AppSettings["Password"];
+      m_token = ConfigurationManager.AppSettings["Token"];
       m_goodBuildConfigId = ConfigurationManager.AppSettings["GoodBuildConfigId"];
     }
 
@@ -40,6 +42,20 @@ namespace TeamCitySharp.IntegrationTests
       var build = m_client.Builds.LastSuccessfulBuildByBuildConfigId(buildConfigId);
       var directartifact = m_client.Artifacts.ByBuildConfigId(build.BuildTypeId);
       var listFilesDownload = directartifact.Specification(build.Number).Download();
+      Assert.IsNotEmpty(listFilesDownload);
+    }
+
+    [Test, Ignore("You need to configure the token before to run this test")]
+    public void it_downloads_artifact_with_access_token()
+    {
+      var buildConfigId = m_goodBuildConfigId;
+      var token = m_token;
+      var client = new TeamCityClient(m_server, m_useSsl);
+      client.ConnectWithAccessToken(token);
+      
+      var build = client.Builds.LastSuccessfulBuildByBuildConfigId(buildConfigId);
+      var directArtifact = client.Artifacts.ByBuildConfigId(build.BuildTypeId);
+      var listFilesDownload = directArtifact.Specification(build.Number).Download();
       Assert.IsNotEmpty(listFilesDownload);
     }
 
