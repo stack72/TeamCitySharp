@@ -161,6 +161,8 @@ Each area has its own list of methods available
     void SetConfigurationPauseStatus(BuildTypeLocator locator, bool isPaused);
     void PostRawArtifactDependency(BuildTypeLocator locator, string rawXml);
     void PostRawBuildStep(BuildTypeLocator locator, string rawXml);
+    void PutRawBuildStep(BuildTypeLocator locator, string rawXml);
+    BuildSteps GetRawBuildStep(BuildTypeLocator locator);
     void PostRawBuildTrigger(BuildTypeLocator locator, string rawXml);
     void SetConfigurationParameter(BuildTypeLocator locator, string key, string value);
     void PostRawAgentRequirement(BuildTypeLocator locator, string rawXml);

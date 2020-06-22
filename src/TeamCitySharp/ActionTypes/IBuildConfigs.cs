@@ -33,6 +33,8 @@ namespace TeamCitySharp.ActionTypes
 
 
     void PostRawBuildStep(BuildTypeLocator locator, string rawXml);
+    void PutRawBuildStep(BuildTypeLocator locator, string rawXml);
+    BuildSteps GetRawBuildStep(BuildTypeLocator locator);
     void PostRawBuildTrigger(BuildTypeLocator locator, string rawXml);
     void SetTrigger(BuildTypeLocator locator, BuildTrigger trigger);
 

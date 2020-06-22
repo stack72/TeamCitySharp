@@ -216,6 +216,16 @@ namespace TeamCitySharp.ActionTypes
                                       "/buildTypes/{0}/steps", locator);
     }
 
+    public void PutRawBuildStep(BuildTypeLocator locator, string rawXml)
+    {
+      m_caller.PutFormat(rawXml, HttpContentTypes.ApplicationXml, "/buildTypes/{0}/steps", locator);
+    }
+
+    public BuildSteps GetRawBuildStep(BuildTypeLocator locator)
+    {
+      return m_caller.GetFormat<BuildSteps>("/buildTypes/{0}/steps", locator);
+    }
+
     public void PostRawBuildTrigger(BuildTypeLocator locator, string rawXml)
     {
       m_caller.PostFormat(rawXml, HttpContentTypes.ApplicationXml, "/buildTypes/{0}/triggers", locator);

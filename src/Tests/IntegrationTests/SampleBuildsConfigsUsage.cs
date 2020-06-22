@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Xml;
 using System.Xml.Serialization;
 using NUnit.Framework;
+using TeamCitySharp.ActionTypes;
 using TeamCitySharp.Connection;
 using TeamCitySharp.DomainEntities;
 using TeamCitySharp.Fields;
@@ -223,6 +224,117 @@ namespace TeamCitySharp.IntegrationTests
         m_client.BuildConfigs.DeleteConfiguration(BuildTypeLocator.WithId(bt.Id));
       }
     }
+
+    [Test, Ignore("Test user doesn't have the rights to access artifact dependencies of build config.")]
+    public void it_create_build_config_steps()
+    {
+      var bt = new BuildConfig();
+      try
+      {
+        bt = m_client.BuildConfigs.CreateConfigurationByProjectId(m_goodProjectId,
+          "testNewConfig");
+
+
+        const string xml = @"<steps>
+                        <step name=""Test1"" type=""simpleRunner"">
+                        <properties>
+                          <property name=""script.content"" value=""@echo off&#xA;echo Step1&#xA;touch step1.txt"" />
+                          <property name=""teamcity.step.mode"" value=""default"" />
+                          <property name=""use.custom.script"" value=""true"" />
+                        </properties>
+                    </step>
+                    <step name=""Test2"" type=""simpleRunner"">
+                        <properties>
+                          <property name=""script.content"" value=""@echo off&#xA;echo Step1&#xA;touch step2.txt"" />
+                          <property name=""teamcity.step.mode"" value=""default"" />
+                          <property name=""use.custom.script"" value=""true"" />
+                        </properties>
+                    </step>
+                   </steps>";
+        m_client.BuildConfigs.PutRawBuildStep(BuildTypeLocator.WithId(bt.Id), xml);
+        var newBt = m_client.BuildConfigs.ByConfigurationId(bt.Id);
+        var currentStepBuild = newBt.Steps.Step[0];
+        Assert.That(currentStepBuild.Type == "simpleRunner" && currentStepBuild.Name=="Test1" &&
+                    currentStepBuild.Properties.Property.FirstOrDefault(x => x.Name == "script.content").Value ==
+                    "@echo off\necho Step1\ntouch step1.txt" &&
+                    currentStepBuild.Properties.Property.FirstOrDefault(x => x.Name == "teamcity.step.mode").Value ==
+                    "default" &&
+                    currentStepBuild.Properties.Property.FirstOrDefault(x => x.Name == "use.custom.script").Value ==
+                    "true");
+        currentStepBuild = newBt.Steps.Step[1];
+        Assert.That(currentStepBuild.Type == "simpleRunner" && currentStepBuild.Name == "Test2" &&
+                    currentStepBuild.Properties.Property.FirstOrDefault(x => x.Name == "script.content").Value ==
+                    "@echo off\necho Step1\ntouch step2.txt" &&
+                    currentStepBuild.Properties.Property.FirstOrDefault(x => x.Name == "teamcity.step.mode").Value ==
+                    "default" &&
+                    currentStepBuild.Properties.Property.FirstOrDefault(x => x.Name == "use.custom.script").Value ==
+                    "true");
+      }
+      catch (Exception e)
+      {
+        Assert.Fail($"{e.Message}", e);
+      }
+      finally
+      {
+        m_client.BuildConfigs.DeleteConfiguration(BuildTypeLocator.WithId(bt.Id));
+      }
+    }
+
+    [Test, Ignore("Test user doesn't have the rights to access artifact dependencies of build config.")]
+    public void it_getraw_build_config_steps()
+    {
+      var bt = new BuildConfig();
+      try
+      {
+        bt = m_client.BuildConfigs.CreateConfigurationByProjectId(m_goodProjectId,
+          "testNewConfig");
+
+
+        const string xml = @"<steps>
+                        <step name=""Test1"" type=""simpleRunner"">
+                        <properties>
+                          <property name=""script.content"" value=""@echo off&#xA;echo Step1&#xA;touch step1.txt"" />
+                          <property name=""teamcity.step.mode"" value=""default"" />
+                          <property name=""use.custom.script"" value=""true"" />
+                        </properties>
+                    </step>
+                    <step name=""Test2"" type=""simpleRunner"">
+                        <properties>
+                          <property name=""script.content"" value=""@echo off&#xA;echo Step1&#xA;touch step2.txt"" />
+                          <property name=""teamcity.step.mode"" value=""default"" />
+                          <property name=""use.custom.script"" value=""true"" />
+                        </properties>
+                    </step>
+                   </steps>";
+        m_client.BuildConfigs.PutRawBuildStep(BuildTypeLocator.WithId(bt.Id), xml);
+        var newSteps = m_client.BuildConfigs.GetRawBuildStep(BuildTypeLocator.WithId(bt.Id));
+        var currentStepBuild = newSteps.Step[0];
+        Assert.That(currentStepBuild.Type == "simpleRunner" && currentStepBuild.Name == "Test1" &&
+                    currentStepBuild.Properties.Property.FirstOrDefault(x => x.Name == "script.content").Value ==
+                    "@echo off\necho Step1\ntouch step1.txt" &&
+                    currentStepBuild.Properties.Property.FirstOrDefault(x => x.Name == "teamcity.step.mode").Value ==
+                    "default" &&
+                    currentStepBuild.Properties.Property.FirstOrDefault(x => x.Name == "use.custom.script").Value ==
+                    "true");
+        currentStepBuild = newSteps.Step[1];
+        Assert.That(currentStepBuild.Type == "simpleRunner" && currentStepBuild.Name == "Test2" &&
+                    currentStepBuild.Properties.Property.FirstOrDefault(x => x.Name == "script.content").Value ==
+                    "@echo off\necho Step1\ntouch step2.txt" &&
+                    currentStepBuild.Properties.Property.FirstOrDefault(x => x.Name == "teamcity.step.mode").Value ==
+                    "default" &&
+                    currentStepBuild.Properties.Property.FirstOrDefault(x => x.Name == "use.custom.script").Value ==
+                    "true");
+      }
+      catch (Exception e)
+      {
+        Assert.Fail($"{e.Message}", e);
+      }
+      finally
+      {
+        m_client.BuildConfigs.DeleteConfiguration(BuildTypeLocator.WithId(bt.Id));
+      }
+    }
+
 
     [Test]
     public void it_throws_exception_artifact_dependencies_by_build_config_id_forbidden()
