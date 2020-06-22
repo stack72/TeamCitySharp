@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace TeamCitySharp.Connection
@@ -47,10 +48,32 @@ namespace TeamCitySharp.Connection
 
     public static HttpResponseMessage GetAsFile(this HttpClient src, string url, string tempFilename)
     {
-      var response = Get(src, url);
-      var content = response.Content.ReadAsByteArrayAsync().GetAwaiter().GetResult();
-      File.WriteAllBytes(tempFilename, content);
-      return response;
+      using (var response = src.Get(url))
+      {
+        response.EnsureSuccessStatusCode();
+
+        using (Stream contentStream = response.Content.ReadAsStreamAsync().GetAwaiter().GetResult(),
+          fileStream = new FileStream(tempFilename, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true))
+        {
+          var buffer = new byte[8192];
+          var isMoreToRead = true;
+
+          do
+          {
+            var read = contentStream.ReadAsync(buffer, 0, buffer.Length).GetAwaiter().GetResult();
+            if (read == 0)
+            {
+              isMoreToRead = false;
+            }
+            else
+            {
+              fileStream.WriteAsync(buffer, 0, read).GetAwaiter().GetResult();
+            }
+          } while (isMoreToRead);
+
+          return response;
+        }
+      }
     }
   }
 }
