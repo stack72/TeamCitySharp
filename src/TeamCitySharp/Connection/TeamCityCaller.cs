@@ -161,7 +161,7 @@ namespace TeamCitySharp.Connection
       var url = CreateUrl(urlPart);
 
       var response =
-        CreateHttpClient(m_credentials.UserName, m_credentials.Password, HttpContentTypes.ApplicationJson).Get(url);
+        CreateHttpClient(m_credentials.UserName, m_credentials.Password, HttpContentTypes.ApplicationJson).Get(url).Result;
       ThrowIfHttpError(response, url);
       return response;
     }
@@ -181,7 +181,7 @@ namespace TeamCitySharp.Connection
       try
       {
         var httpClient = CreateHttpClient(m_credentials.UserName, m_credentials.Password, HttpContentTypes.TextPlain);
-        var response = httpClient.Get(CreateUrl(urlPart));
+        var response = httpClient.Get(CreateUrl(urlPart)).Result;
         if (response.StatusCode != HttpStatusCode.OK && throwExceptionOnHttpError)
         {
             throw new AuthenticationException();
@@ -337,7 +337,7 @@ namespace TeamCitySharp.Connection
       var url = rest ? CreateUrl(urlPart) : CreateUrl(urlPart, false);
 
       var httpClient = CreateHttpClient(m_credentials.UserName, m_credentials.Password, HttpContentTypes.TextPlain);
-      var response = httpClient.Get(url);
+      var response = httpClient.Get(url).Result;
       if (IsHttpError(response))
       {
         throw new HttpException(response.StatusCode,
@@ -381,7 +381,7 @@ namespace TeamCitySharp.Connection
         var url = CreateUrl(urlFull);
 
         var response =
-          CreateHttpClient(m_credentials.UserName, m_credentials.Password, HttpContentTypes.ApplicationJson).Get(url);
+          CreateHttpClient(m_credentials.UserName, m_credentials.Password, HttpContentTypes.ApplicationJson).Get(url).Result;
         return !IsHttpError(response);
       }
       catch (Exception)
