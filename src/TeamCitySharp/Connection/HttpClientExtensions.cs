@@ -9,12 +9,12 @@ namespace TeamCitySharp.Connection
 {
   public static class HttpClientExtensions
   {
-    public static async Task<HttpResponseMessage> Get(this HttpClient src, string url)
+    public static HttpResponseMessage Get(this HttpClient src, string url)
     {
-        //TODO: quick fix, need to fix soon for a big transaction
-        src.Timeout=TimeSpan.FromHours(1);
-        var content = await src.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
-        return content;
+      //TODO: quick fix, need to fix soon for a big transaction
+      src.Timeout=TimeSpan.FromHours(1);
+      var content = src.GetAsync(url);
+      return content.GetAwaiter().GetResult();
     }
 
     public static HttpResponseMessage Post(this HttpClient src, string url, object body, string contentType)
@@ -50,9 +50,9 @@ namespace TeamCitySharp.Connection
     {
       using (var response = src.Get(url))
       {
-        response.Result.EnsureSuccessStatusCode();
+        response.EnsureSuccessStatusCode();
 
-        using (Stream contentStream = response.Result.Content.ReadAsStreamAsync().GetAwaiter().GetResult(),
+        using (Stream contentStream = response.Content.ReadAsStreamAsync().GetAwaiter().GetResult(),
           fileStream = new FileStream(tempFilename, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true))
         {
           var buffer = new byte[8192];
@@ -71,7 +71,7 @@ namespace TeamCitySharp.Connection
             }
           } while (isMoreToRead);
 
-          return response.Result;
+          return response;
         }
       }
     }
