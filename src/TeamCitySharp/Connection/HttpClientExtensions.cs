@@ -13,8 +13,8 @@ namespace TeamCitySharp.Connection
     {
       //TODO: quick fix, need to fix soon for a big transaction
       src.Timeout=TimeSpan.FromHours(1);
-      var content = src.GetAsync(url);
-      return content.GetAwaiter().GetResult();
+      var request = new HttpRequestMessage(HttpMethod.Get, url);
+      return src.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).Result;
     }
 
     public static HttpResponseMessage Post(this HttpClient src, string url, object body, string contentType)
