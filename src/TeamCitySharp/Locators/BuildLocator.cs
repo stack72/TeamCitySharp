@@ -40,7 +40,8 @@ namespace TeamCitySharp.Locators
                                               BuildLocator sinceBuild = null,
                                               DateTime? sinceDate = null,
                                               string[] tags = null,
-                                              string branch = null
+                                              string branch = null,
+                                              bool? defaultFilter = null
       )
     {
       return new BuildLocator
@@ -58,7 +59,8 @@ namespace TeamCitySharp.Locators
           SinceBuild = sinceBuild,
           SinceDate = sinceDate,
           Tags = tags,
-          Branch = branch
+          Branch = branch,
+          DefaultFilter = defaultFilter
         };
     }
 
@@ -78,6 +80,7 @@ namespace TeamCitySharp.Locators
     public int? StartIndex { get; private set; }
     public DateTime? SinceDate { get; private set; }
     public string Branch { get; private set; }
+    public bool? DefaultFilter { get; private set; }
 
     public override string ToString()
     {
@@ -88,6 +91,9 @@ namespace TeamCitySharp.Locators
         return "number:" + Number;
 
       var locatorFields = new List<string>();
+
+      if(DefaultFilter != null)
+        locatorFields.Add("defaultFilter:" + DefaultFilter.Value.ToString())
 
       if (BuildType != null)
         locatorFields.Add("buildType:(" + BuildType + ")");
