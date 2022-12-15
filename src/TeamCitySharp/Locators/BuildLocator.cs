@@ -40,7 +40,13 @@ namespace TeamCitySharp.Locators
                                               BuildLocator sinceBuild = null,
                                               DateTime? sinceDate = null,
                                               string[] tags = null,
-                                              string branch = null
+                                              string branch = null,
+                                              bool? defaultFilter = null,
+                                              bool? failedToStart = null
+                                              bool? queued = null,
+                                              bool? hanging = null,
+                                              bool? finished = null
+
       )
     {
       return new BuildLocator
@@ -58,7 +64,12 @@ namespace TeamCitySharp.Locators
           SinceBuild = sinceBuild,
           SinceDate = sinceDate,
           Tags = tags,
-          Branch = branch
+          Branch = branch,
+          DefaultFilter = defaultFilter,
+          FailedToStart = failedToStart,
+          Queued = queued,
+          Hanging = hanging,
+          Finished = finished
         };
     }
 
@@ -78,6 +89,11 @@ namespace TeamCitySharp.Locators
     public int? StartIndex { get; private set; }
     public DateTime? SinceDate { get; private set; }
     public string Branch { get; private set; }
+    public bool? DefaultFilter { get; private set; }
+    public bool? FailedToStart { get; private set; }
+    public bool? Queued { get; private set; }
+    public bool? Hanging { get; private set; }
+    public bool? Finished { get; private set; }
 
     public override string ToString()
     {
@@ -88,6 +104,9 @@ namespace TeamCitySharp.Locators
         return "number:" + Number;
 
       var locatorFields = new List<string>();
+
+      if(DefaultFilter != null)
+        locatorFields.Add("defaultFilter:" + DefaultFilter.Value.ToString())
 
       if (BuildType != null)
         locatorFields.Add("buildType:(" + BuildType + ")");
@@ -118,6 +137,18 @@ namespace TeamCitySharp.Locators
 
       if (Pinned.HasValue)
         locatorFields.Add("pinned:" + Pinned.Value.ToString());
+
+      if(FailedToStart != null)
+        locatorFields.Add("failedToStart:" + FailedToStart.Value.ToString())
+
+      if(Queued != null)
+        locatorFields.Add("queued:" + Queued.Value.ToString())
+
+      if(Hanging != null)
+        locatorFields.Add("hanging:" + Hanging.Value.ToString())
+
+      if(Finished != null)
+        locatorFields.Add("finished:" + Finished.Value.ToString())
 
       if (MaxResults.HasValue)
         locatorFields.Add("count:" + MaxResults.Value.ToString());
